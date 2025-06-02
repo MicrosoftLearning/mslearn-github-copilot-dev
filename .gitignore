@@ -35,6 +35,7 @@ x64/
 *.pdb
 *.pgc
 *.pgd
+*.pyc
 *.rsp
 *.sbr
 *.tlb

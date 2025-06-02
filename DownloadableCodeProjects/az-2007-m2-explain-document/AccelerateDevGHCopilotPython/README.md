@@ -1,0 +1,23 @@
+# Python Version of Library Management System
+
+This folder contains a Python implementation of the C# library management system. The structure mirrors the C# solution, using Python best practices. Each major C# project is represented as a Python package:
+
+- `application_core`: Domain models, interfaces, and business logic
+- `infrastructure`: Data access (JSON-based)
+- `console`: Console UI
+- `tests`: Unit tests
+
+To run the app:
+
+```sh
+cd PythonApp/console
+python main.py
+```
+
+To run the tests:
+
+```sh
+cd PythonApp/tests
+python -m unittest
+```
+
