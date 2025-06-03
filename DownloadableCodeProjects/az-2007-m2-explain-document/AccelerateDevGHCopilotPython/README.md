@@ -10,14 +10,14 @@ This folder contains a Python implementation of the C# library management system
 To run the app:
 
 ```sh
-cd PythonApp/console
+cd AccelerateDevGHCopilotPython/console
 python main.py
+# search for "Twenty"
 ```
 
 To run the tests:
 
 ```sh
-cd PythonApp/tests
-python -m unittest
+cd AccelerateDevGHCopilotPython
+python -m unittest discover -s tests
 ```
-

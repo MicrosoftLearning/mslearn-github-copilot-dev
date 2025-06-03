@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from application_core.entities.author import Author
 from application_core.entities.book import Book
@@ -9,8 +10,15 @@ from typing import List, Optional
 from datetime import datetime
 
 class JsonData:
-    def __init__(self, base_path: str = 'console/Json'):
-        self.base_path = Path(base_path)
+    def __init__(self):
+        # Get the absolute path to the project root
+        self.project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.json_dir = os.path.join(self.project_root, "infrastructure", "Json")
+        self.authors_path = os.path.join(self.json_dir, "Authors.json")
+        self.books_path = os.path.join(self.json_dir, "Books.json")
+        self.book_items_path = os.path.join(self.json_dir, "BookItems.json")  # <-- Add this line
+        self.patrons_path = os.path.join(self.json_dir, "Patrons.json")
+        self.loans_path = os.path.join(self.json_dir, "Loans.json")
         self.authors: List[Author] = []
         self.books: List[Book] = []
         self.book_items: List[BookItem] = []
@@ -26,19 +34,19 @@ class JsonData:
 
     def load_data(self) -> None:
         try:
-            with open(self.base_path / 'Authors.json', encoding='utf-8') as f:
+            with open(self.authors_path, encoding='utf-8') as f:
                 authors_data = json.load(f)
                 self.authors = [Author(id=a['Id'], name=a['Name']) for a in authors_data]
-            with open(self.base_path / 'Books.json', encoding='utf-8') as f:
+            with open(self.books_path, encoding='utf-8') as f:
                 books_data = json.load(f)
                 self.books = [Book(id=b['Id'], title=b['Title'], author_id=b['AuthorId'], genre=b['Genre'], image_name=b['ImageName'], isbn=b['ISBN']) for b in books_data]
-            with open(self.base_path / 'BookItems.json', encoding='utf-8') as f:
+            with open(self.book_items_path, encoding='utf-8') as f:  # <-- Fix here
                 items_data = json.load(f)
                 self.book_items = [BookItem(id=bi['Id'], book_id=bi['BookId'], acquisition_date=self._parse_datetime(bi['AcquisitionDate']), condition=bi.get('Condition')) for bi in items_data]
-            with open(self.base_path / 'Patrons.json', encoding='utf-8') as f:
+            with open(self.patrons_path, encoding='utf-8') as f:
                 patrons_data = json.load(f)
                 self.patrons = [Patron(id=p['Id'], name=p['Name'], membership_end=self._parse_datetime(p['MembershipEnd']), membership_start=self._parse_datetime(p['MembershipStart']), image_name=p.get('ImageName')) for p in patrons_data]
-            with open(self.base_path / 'Loans.json', encoding='utf-8') as f:
+            with open(self.loans_path, encoding='utf-8') as f:
                 loans_data = json.load(f)
                 self.loans = [Loan(id=l['Id'], book_item_id=l['BookItemId'], patron_id=l['PatronId'], loan_date=self._parse_datetime(l['LoanDate']), due_date=self._parse_datetime(l['DueDate']), return_date=self._parse_datetime(l['ReturnDate'])) for l in loans_data]
             self._loaded = True
@@ -48,7 +56,7 @@ class JsonData:
 
     def save_loans(self, loans: List[Loan]) -> None:
         try:
-            with open(self.base_path / 'Loans.json', 'w', encoding='utf-8') as f:
+            with open(self.loans_path, 'w', encoding='utf-8') as f:
                 json.dump([
                     {
                         'Id': l.id,
@@ -64,7 +72,7 @@ class JsonData:
 
     def save_patrons(self, patrons: List[Patron]) -> None:
         try:
-            with open(self.base_path / 'Patrons.json', 'w', encoding='utf-8') as f:
+            with open(self.patrons_path, 'w', encoding='utf-8') as f:
                 json.dump([
                     {
                         'Id': p.id,
