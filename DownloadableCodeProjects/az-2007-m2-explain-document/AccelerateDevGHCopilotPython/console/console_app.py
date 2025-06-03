@@ -6,8 +6,14 @@ from application_core.interfaces.iloan_service import ILoanService
 from application_core.interfaces.ipatron_service import IPatronService
 
 class ConsoleApp:
-    def __init__(self, loan_service: ILoanService, patron_service: IPatronService, patron_repository: IPatronRepository, loan_repository: ILoanRepository):
-        self._current_state = ConsoleState.PATRON_SEARCH
+    def __init__(
+        self,
+        loan_service: ILoanService,
+        patron_service: IPatronService,
+        patron_repository: IPatronRepository,
+        loan_repository: ILoanRepository
+    ):
+        self._current_state: ConsoleState = ConsoleState.PATRON_SEARCH
         self.matching_patrons = []
         self.selected_patron_details = None
         self.selected_loan_details = None
@@ -16,19 +22,41 @@ class ConsoleApp:
         self._loan_service = loan_service
         self._patron_service = patron_service
 
-    def run(self):
+    def run(self) -> None:
         while True:
             if self._current_state == ConsoleState.PATRON_SEARCH:
-                # Implement patron search logic
-                pass
+                self._current_state = self.patron_search()
             elif self._current_state == ConsoleState.PATRON_SEARCH_RESULTS:
-                # Implement search results logic
-                pass
+                self._current_state = self.patron_search_results()
             elif self._current_state == ConsoleState.PATRON_DETAILS:
-                # Implement patron details logic
-                pass
+                self._current_state = self.patron_details()
             elif self._current_state == ConsoleState.LOAN_DETAILS:
-                # Implement loan details logic
-                pass
+                self._current_state = self.loan_details()
             elif self._current_state == ConsoleState.QUIT:
                 break
+
+    def patron_search(self) -> ConsoleState:
+        search_input = input("Enter a string to search for patrons by name: ").strip()
+        if not search_input:
+            print("No input provided. Please try again.")
+            return ConsoleState.PATRON_SEARCH
+        self.matching_patrons = self._patron_repository.search_patrons(search_input)
+        if not self.matching_patrons:
+            print("No matching patrons found.")
+            return ConsoleState.PATRON_SEARCH
+        print("Matching Patrons:")
+        for idx, patron in enumerate(self.matching_patrons, 1):
+            print(f"{idx}) {patron.name}")
+        return ConsoleState.PATRON_SEARCH_RESULTS
+
+    def patron_search_results(self) -> ConsoleState:
+        # ...implement logic...
+        return ConsoleState.PATRON_DETAILS
+
+    def patron_details(self) -> ConsoleState:
+        # ...implement logic...
+        return ConsoleState.LOAN_DETAILS
+
+    def loan_details(self) -> ConsoleState:
+        # ...implement logic...
+        return ConsoleState.QUIT
