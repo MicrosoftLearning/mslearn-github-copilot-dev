@@ -1,0 +1,402 @@
+[
+  {
+    "Id": 1,
+    "BookItemId": 17,
+    "PatronId": 22,
+    "LoanDate": "2023-12-08T00:40:43.180886",
+    "DueDate": "2023-12-22T00:40:43.180886",
+    "ReturnDate": null
+  },
+  {
+    "Id": 2,
+    "BookItemId": 6,
+    "PatronId": 28,
+    "LoanDate": "2023-12-17T00:40:43.180924",
+    "DueDate": "2023-12-31T00:40:43.180924",
+    "ReturnDate": null
+  },
+  {
+    "Id": 3,
+    "BookItemId": 16,
+    "PatronId": 4,
+    "LoanDate": "2023-12-23T00:40:43.180928",
+    "DueDate": "2024-01-06T00:40:43.180928",
+    "ReturnDate": null
+  },
+  {
+    "Id": 4,
+    "BookItemId": 17,
+    "PatronId": 14,
+    "LoanDate": "2023-12-22T00:40:43.180929",
+    "DueDate": "2024-01-05T00:40:43.180929",
+    "ReturnDate": null
+  },
+  {
+    "Id": 5,
+    "BookItemId": 6,
+    "PatronId": 9,
+    "LoanDate": "2023-12-09T00:40:43.180929",
+    "DueDate": "2023-12-23T00:40:43.180929",
+    "ReturnDate": null
+  },
+  {
+    "Id": 6,
+    "BookItemId": 14,
+    "PatronId": 25,
+    "LoanDate": "2023-12-27T00:40:43.180930",
+    "DueDate": "2024-01-10T00:40:43.180930",
+    "ReturnDate": null
+  },
+  {
+    "Id": 7,
+    "BookItemId": 12,
+    "PatronId": 50,
+    "LoanDate": "2023-12-27T00:40:43.180930",
+    "DueDate": "2024-01-10T00:40:43.180930",
+    "ReturnDate": null
+  },
+  {
+    "Id": 8,
+    "BookItemId": 18,
+    "PatronId": 28,
+    "LoanDate": "2023-12-26T00:40:43.180930",
+    "DueDate": "2024-01-09T00:40:43.180930",
+    "ReturnDate": null
+  },
+  {
+    "Id": 9,
+    "BookItemId": 8,
+    "PatronId": 9,
+    "LoanDate": "2023-12-10T00:40:43.180930",
+    "DueDate": "2023-12-24T00:40:43.180930",
+    "ReturnDate": null
+  },
+  {
+    "Id": 10,
+    "BookItemId": 16,
+    "PatronId": 3,
+    "LoanDate": "2023-12-26T00:40:43.180931",
+    "DueDate": "2024-01-09T00:40:43.180931",
+    "ReturnDate": null
+  },
+  {
+    "Id": 11,
+    "BookItemId": 4,
+    "PatronId": 42,
+    "LoanDate": "2023-12-15T00:40:43.180931",
+    "DueDate": "2023-12-29T00:40:43.180931",
+    "ReturnDate": null
+  },
+  {
+    "Id": 12,
+    "BookItemId": 17,
+    "PatronId": 7,
+    "LoanDate": "2023-12-23T00:40:43.180933",
+    "DueDate": "2024-01-06T00:40:43.180933",
+    "ReturnDate": null
+  },
+  {
+    "Id": 13,
+    "BookItemId": 12,
+    "PatronId": 5,
+    "LoanDate": "2023-12-27T00:40:43.180933",
+    "DueDate": "2024-01-10T00:40:43.180933",
+    "ReturnDate": null
+  },
+  {
+    "Id": 14,
+    "BookItemId": 4,
+    "PatronId": 9,
+    "LoanDate": "2023-12-10T00:40:43.180933",
+    "DueDate": "2023-12-24T00:40:43.180933",
+    "ReturnDate": null
+  },
+  {
+    "Id": 15,
+    "BookItemId": 7,
+    "PatronId": 28,
+    "LoanDate": "2023-12-23T00:40:43.180933",
+    "DueDate": "2024-01-06T00:40:43.180933",
+    "ReturnDate": null
+  },
+  {
+    "Id": 16,
+    "BookItemId": 14,
+    "PatronId": 3,
+    "LoanDate": "2023-12-08T00:40:43.180934",
+    "DueDate": "2023-12-22T00:40:43.180934",
+    "ReturnDate": null
+  },
+  {
+    "Id": 17,
+    "BookItemId": 5,
+    "PatronId": 48,
+    "LoanDate": "2023-12-16T00:40:43.180934",
+    "DueDate": "2023-12-30T00:40:43.180934",
+    "ReturnDate": null
+  },
+  {
+    "Id": 18,
+    "BookItemId": 4,
+    "PatronId": 49,
+    "LoanDate": "2023-12-19T00:40:43.180934",
+    "DueDate": "2024-01-02T00:40:43.180934",
+    "ReturnDate": null
+  },
+  {
+    "Id": 19,
+    "BookItemId": 13,
+    "PatronId": 33,
+    "LoanDate": "2023-12-28T00:40:43.180935",
+    "DueDate": "2024-01-11T00:40:43.180935",
+    "ReturnDate": null
+  },
+  {
+    "Id": 20,
+    "BookItemId": 14,
+    "PatronId": 48,
+    "LoanDate": "2023-12-27T00:40:43.180935",
+    "DueDate": "2024-01-10T00:40:43.180935",
+    "ReturnDate": null
+  },
+  {
+    "Id": 21,
+    "BookItemId": 15,
+    "PatronId": 29,
+    "LoanDate": "2023-12-29T00:40:43.180935",
+    "DueDate": "2024-01-12T00:40:43.180935",
+    "ReturnDate": null
+  },
+  {
+    "Id": 22,
+    "BookItemId": 7,
+    "PatronId": 30,
+    "LoanDate": "2023-12-30T00:40:43.180935",
+    "DueDate": "2024-01-13T00:40:43.180935",
+    "ReturnDate": null
+  },
+  {
+    "Id": 23,
+    "BookItemId": 18,
+    "PatronId": 31,
+    "LoanDate": "2023-12-31T00:40:43.180936",
+    "DueDate": "2024-01-14T00:40:43.180936",
+    "ReturnDate": null
+  },
+  {
+    "Id": 24,
+    "BookItemId": 8,
+    "PatronId": 32,
+    "LoanDate": "2023-12-29T00:40:43.180936",
+    "DueDate": "2024-01-12T00:40:43.180936",
+    "ReturnDate": null
+  },
+  {
+    "Id": 25,
+    "BookItemId": 16,
+    "PatronId": 33,
+    "LoanDate": "2023-12-30T00:40:43.180936",
+    "DueDate": "2024-01-13T00:40:43.180936",
+    "ReturnDate": null
+  },
+  {
+    "Id": 26,
+    "BookItemId": 5,
+    "PatronId": 34,
+    "LoanDate": "2023-12-31T00:40:43.180936",
+    "DueDate": "2024-01-14T00:40:43.180936",
+    "ReturnDate": null
+  },
+  {
+    "Id": 27,
+    "BookItemId": 15,
+    "PatronId": 35,
+    "LoanDate": "2023-12-30T00:40:43.180937",
+    "DueDate": "2024-01-13T00:40:43.180937",
+    "ReturnDate": null
+  },
+  {
+    "Id": 28,
+    "BookItemId": 7,
+    "PatronId": 36,
+    "LoanDate": "2023-12-31T00:40:43.180937",
+    "DueDate": "2024-01-14T00:40:43.180937",
+    "ReturnDate": null
+  },
+  {
+    "Id": 29,
+    "BookItemId": 18,
+    "PatronId": 37,
+    "LoanDate": "2023-12-29T00:40:43.180937",
+    "DueDate": "2024-01-12T00:40:43.180937",
+    "ReturnDate": null
+  },
+  {
+    "Id": 30,
+    "BookItemId": 8,
+    "PatronId": 38,
+    "LoanDate": "2023-12-30T00:40:43.180937",
+    "DueDate": "2024-01-13T00:40:43.180937",
+    "ReturnDate": null
+  },
+  {
+    "Id": 31,
+    "BookItemId": 16,
+    "PatronId": 39,
+    "LoanDate": "2023-12-31T00:40:43.180938",
+    "DueDate": "2024-01-14T00:40:43.180938",
+    "ReturnDate": null
+  },
+  {
+    "Id": 32,
+    "BookItemId": 5,
+    "PatronId": 40,
+    "LoanDate": "2023-12-29T00:40:43.180938",
+    "DueDate": "2024-01-12T00:40:43.180938",
+    "ReturnDate": null
+  },
+  {
+    "Id": 33,
+    "BookItemId": 15,
+    "PatronId": 41,
+    "LoanDate": "2023-12-30T00:40:43.180938",
+    "DueDate": "2024-01-13T00:40:43.180938",
+    "ReturnDate": null
+  },
+  {
+    "Id": 34,
+    "BookItemId": 7,
+    "PatronId": 42,
+    "LoanDate": "2023-12-31T00:40:43.180938",
+    "DueDate": "2024-01-14T00:40:43.180938",
+    "ReturnDate": "2025-06-04T15:40:27.824911"
+  },
+  {
+    "Id": 35,
+    "BookItemId": 18,
+    "PatronId": 43,
+    "LoanDate": "2023-12-29T00:40:43.180939",
+    "DueDate": "2024-01-12T00:40:43.180939",
+    "ReturnDate": null
+  },
+  {
+    "Id": 36,
+    "BookItemId": 8,
+    "PatronId": 44,
+    "LoanDate": "2023-12-30T00:40:43.180939",
+    "DueDate": "2024-01-13T00:40:43.180939",
+    "ReturnDate": null
+  },
+  {
+    "Id": 37,
+    "BookItemId": 16,
+    "PatronId": 45,
+    "LoanDate": "2023-12-31T00:40:43.180939",
+    "DueDate": "2024-01-14T00:40:43.180939",
+    "ReturnDate": null
+  },
+  {
+    "Id": 38,
+    "BookItemId": 5,
+    "PatronId": 46,
+    "LoanDate": "2023-12-29T00:40:43.180940",
+    "DueDate": "2024-01-12T00:40:43.180940",
+    "ReturnDate": null
+  },
+  {
+    "Id": 39,
+    "BookItemId": 15,
+    "PatronId": 47,
+    "LoanDate": "2023-12-30T00:40:43.180940",
+    "DueDate": "2024-01-13T00:40:43.180940",
+    "ReturnDate": null
+  },
+  {
+    "Id": 40,
+    "BookItemId": 7,
+    "PatronId": 48,
+    "LoanDate": "2023-12-31T00:40:43.180940",
+    "DueDate": "2024-01-14T00:40:43.180940",
+    "ReturnDate": null
+  },
+  {
+    "Id": 41,
+    "BookItemId": 18,
+    "PatronId": 49,
+    "LoanDate": "2023-12-29T00:40:43.180940",
+    "DueDate": "2024-01-12T00:40:43.180940",
+    "ReturnDate": null
+  },
+  {
+    "Id": 42,
+    "BookItemId": 8,
+    "PatronId": 50,
+    "LoanDate": "2023-12-30T00:40:43.180941",
+    "DueDate": "2024-01-13T00:40:43.180941",
+    "ReturnDate": null
+  },
+  {
+    "Id": 43,
+    "BookItemId": 16,
+    "PatronId": 1,
+    "LoanDate": "2023-12-31T00:40:43.180941",
+    "DueDate": "2024-01-14T00:40:43.180941",
+    "ReturnDate": "2025-06-04T12:09:31.031029"
+  },
+  {
+    "Id": 44,
+    "BookItemId": 5,
+    "PatronId": 2,
+    "LoanDate": "2023-12-29T00:40:43.180941",
+    "DueDate": "2024-01-12T00:40:43.180941",
+    "ReturnDate": null
+  },
+  {
+    "Id": 45,
+    "BookItemId": 15,
+    "PatronId": 3,
+    "LoanDate": "2023-12-30T00:40:43.180942",
+    "DueDate": "2024-01-13T00:40:43.180942",
+    "ReturnDate": "2025-06-04T15:10:11.703073"
+  },
+  {
+    "Id": 46,
+    "BookItemId": 7,
+    "PatronId": 4,
+    "LoanDate": "2023-12-31T00:40:43.180942",
+    "DueDate": "2024-01-14T00:40:43.180942",
+    "ReturnDate": null
+  },
+  {
+    "Id": 47,
+    "BookItemId": 18,
+    "PatronId": 5,
+    "LoanDate": "2023-12-29T00:40:43.180942",
+    "DueDate": "2024-01-12T00:40:43.180942",
+    "ReturnDate": null
+  },
+  {
+    "Id": 48,
+    "BookItemId": 8,
+    "PatronId": 6,
+    "LoanDate": "2023-12-30T00:40:43.180942",
+    "DueDate": "2024-01-13T00:40:43.180942",
+    "ReturnDate": null
+  },
+  {
+    "Id": 49,
+    "BookItemId": 16,
+    "PatronId": 7,
+    "LoanDate": "2023-12-31T00:40:43.180943",
+    "DueDate": "2024-01-14T00:40:43.180943",
+    "ReturnDate": null
+  },
+  {
+    "Id": 50,
+    "BookItemId": 5,
+    "PatronId": 8,
+    "LoanDate": "2023-12-29T00:40:43.180943",
+    "DueDate": "2024-01-12T00:40:43.180943",
+    "ReturnDate": null
+  }
+]
