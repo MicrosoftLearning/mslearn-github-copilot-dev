@@ -88,6 +88,10 @@ Use the following steps to set up the library application:
         ├── infrastructure
         └── tests
 
+<!--
+
+    MAYBE JUST DELETE THIS SECTION?
+
 1. Ensure that the application runs successfully.
 
     For example, open a terminal in Visual Studio Code, navigate to the **AccelerateDevGHCopilotPython/library** directory, and run the following command:
@@ -96,7 +100,21 @@ Use the following steps to set up the library application:
     python -m unittest discover tests
     ```
 
-    You'll see some Warnings, but there shouldn't be any Errors.
+    The command runs the unit tests in the **tests** folder, which verifies that the application is working correctly.
+
+    > **NOTE**: If you see any errors, ensure that you have Python 3.8 or later installed and that Visual Studio Code is configured to use the correct version of Python.
+
+    You'll see some Warnings, but there shouldn't be any Errors. 
+
+
+    ALTERNATIVELY, USE SOMETHING LIKE ...
+
+    python -m compileall console
+    
+    This command compiles all of the Python files in the **console** folder to bytecode and reports any syntax errors, but it won't run the program.
+
+    ```
+-->
 
 ## Use GitHub Copilot to explain the library application codebase
 
@@ -147,7 +165,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Locate and then open the **console_app.py** file.
 
-    The **console_app.py** file is located in the **application _core\console** folder.
+    The **console_app.py** file is located in the **library\console** folder.
 
 1. Take a moment to review the code file.
 
@@ -167,7 +185,7 @@ Use the following steps to complete this section of the exercise:
 
     You should see a response that the describes where the **ConsoleApp** class is defined and how it's used in the codebase. The **console_app.py** and **main.py** files are referenced in the response, along with line numbers
 
-1. Open the **main.py** file from the root of the **application _core\console** folder and examine the code.
+1. Open the **main.py** file from the root of the **library\console** folder and examine the code.
 
 1. Enter a prompt in the Chat view that generates an explanation of the **main.py** file.
 
@@ -213,7 +231,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Take a couple minutes to read through the response.
 
-    You should see a response that describes each of the data access classes (**json_data.py**, **json_loan_repository.py**, and **json_patron_repository.py**) and how they work together to manage data access in the application. Key methods, such as **load_data**, **save_loans**, and **save_patrons**, should be mentioned in the response.
+    You should see a response that describes each of the data access classes (**json_data.py**, **json_loan_repository.py**, and **json_patron_repository.py**) and how they work together to manage data access in the application. Key methods, such as **save_patrons**, **get_patron**, and **get_loan** should be mentioned in the response.
 
 1. Take a minute to examine the JSON data files that are used to simulate library records.
 
@@ -231,11 +249,17 @@ Use the following steps to complete this section of the exercise:
 
 1. Ensure that you have the **Explorer** view open.
 
-    The Solution Explorer view is not the same as the Explorer view. The Solution Explorer view uses project and solution files as "directory" nodes to display the structure of the solution.
+1. Open **console/main.py** so it displays in the editor window.
 
-1. To run the application, open **console/main.py** so it desplays in the editor window, select the key comination  **CTRL+Shift+D**, and then select **Python Debugger** if needed and start debugging (**F5**).
+1. To run the application, use one of the following methods:
 
-    The following steps guide you through a simple use case.
+    - In the top menu, select **Run** > **Run Without Debugging**.
+    - At the top right of the editor, click the "Run Python File" button (▶️).
+    - Right-click in the editor, select **Run Python**,  and then select **Run Python File in Terminal**.
+
+    The app will start in the integrated terminal, and you can interact with it there.
+
+    > **NOTE**: The following steps guide you through a simple use case.
 
 1. When prompted for a patron name, type **One** and then press Enter.
 
