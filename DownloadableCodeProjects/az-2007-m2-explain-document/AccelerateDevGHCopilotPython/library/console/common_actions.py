@@ -8,4 +8,3 @@ class CommonActions(Flag):
     RENEW_PATRON_MEMBERSHIP = auto()
     RETURN_LOANED_BOOK = auto()
     EXTEND_LOANED_BOOK = auto()
-    SEARCH_BOOKS = auto()
