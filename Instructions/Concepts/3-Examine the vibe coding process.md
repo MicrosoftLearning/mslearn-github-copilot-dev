@@ -33,17 +33,17 @@
         - Supporting Documentation
         - Sign-Off
 
-    - Create low-fidelity wireframe diagrams that show the user interface and user experience:
+    - Create low-fidelity wireframe diagrams that show the user interface and help explain the user experience:
 
-        Give the AI tool your PRD and a prompt to create wireframes for the application. The AI tool will generate a low-fidelity wireframe diagram that shows the user interface and user experience.
+        Give the AI tool your PRD and a prompt to create wireframe diagrams for the application. The AI tool will generate low-fidelity wireframe diagrams (text-based layouts) that represent the user interface and help to define the user experience.
 
-        - You can use M365 Copilot to create wireframes
-        - Here is a GitHub Copilot Agent project for wireframes: (https://github.com/agoldbe/wireframer)
-        - You can use a tool like Figma, Miro, or draw.io to create wireframes
+        - You can use M365 Copilot to create images of wireframe diagrams
+        - Here is a GitHub Copilot Agent project for wireframe diagrams: (https://github.com/agoldbe/wireframer)
+        - You can use a tool like Figma to create high-fidelity wireframe diagrams, or you can use tools like Miro or draw.io to create medium-fidelity wireframe diagrams.
 
-1. Agent uses the PRD and wireframes to develop a prototype
+1. Agent uses the PRD and wireframe diagrams to develop a prototype
 
-    The AI tool will use the PRD and wireframes to develop a prototype of the application.
+    The AI tool will use the PRD and wireframe diagrams to develop a prototype of the application.
 
     The GitHub Copilot Agent will:
 
@@ -57,7 +57,7 @@
     - Navigation between pages
     - Stub data for testing
 
-    You can have the Agent help with the following:
+    You can also have the Agent help with the following:
 
     - Configure your IDE or code editor
     - Set up version control (e.g., Git)
