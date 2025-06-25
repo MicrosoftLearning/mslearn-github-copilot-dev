@@ -38,7 +38,7 @@
         Give the AI tool your PRD and a prompt to create wireframe diagrams for the application. The AI tool will generate low-fidelity wireframe diagrams (text-based layouts) that represent the user interface and help to define the user experience.
 
         - You can use M365 Copilot to create images of wireframe diagrams
-        - Here is a GitHub Copilot Agent project for wireframe diagrams: (https://github.com/agoldbe/wireframer)
+        - Here is a GitHub Copilot Agent project for wireframe diagrams: [https://github.com/agoldbe/wireframer](https://github.com/agoldbe/wireframer)
         - You can use a tool like Figma to create high-fidelity wireframe diagrams, or you can use tools like Miro or draw.io to create medium-fidelity wireframe diagrams.
 
 1. Agent uses the PRD and wireframe diagrams to develop a prototype

@@ -9,7 +9,7 @@ lab:
 
 Vibe coding is an approach to programming that uses AI tools, such as GitHub Copilot Agent, to generate software. Instead of manually writing code, a user provides a natural language description of their intended app, and the AI generates the corresponding code. This shifts the programmer's role from traditional coding to guiding, testing, and refining the AI-generated output.
 
-In this exercise, you use a vide coding process and GitHub Copilot Agent to create a prototype version of an online shopping app. Your prototype app includes the following pages: products, product details, shopping cart, and checkout. The app includes basic navigation between pages and a limited dataset that helps to demonstrate app features. The prototype doesn't include any backend functionality, such as user authentication, payment processing, or database integration.
+In this exercise, you use a vibe coding process and GitHub Copilot Agent to create a prototype version of an online shopping app. Your prototype app includes the following pages: products, product details, shopping cart, and checkout. The app includes basic navigation between pages and a limited dataset that helps to demonstrate app features. The prototype doesn't include any backend functionality, such as user authentication, payment processing, or database integration.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -17,41 +17,17 @@ This exercise should take approximately **30** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following: Visual Studio Code and access to a GitHub account with GitHub Copilot enabled.
 
-If you're using a local PC as a lab environment for this exercise:
+If you're using a local PC as your lab environment for this exercise:
 
-- For help configuring your local PC as your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320147" target="_blank">Configure your lab environment resources</a>.
+- If you need to install Visual Studio Code, you can download it using the following URL: <a href="https://code.visualstudio.com/download" target="_blank">Download Visual Studio Code</a>.
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-If you're using a hosted lab environment for this exercise:
+If you're using a hosted lab environment that supports this exercise:
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
-
-- Open a command terminal and then run the following commands:
-
-    To ensure that Visual Studio Code is configured to use the correct version of .NET, run the following command:
-
-    ```bash
-
-    dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
-
-    ```
-
-    To ensure that Git is configured to use your name and email address, update the following commands with your information, and then run the commands:
-
-    ```bash
-
-    git config --global user.name "John Doe"
-
-    ```
-
-    ```bash
-
-    git config --global user.email johndoe@example.com
-
-    ```
 
 ## Exercise scenario
 
@@ -75,11 +51,11 @@ This exercise includes the following tasks:
 
 ## Define product requirements
 
-For an AI agent to develop your envisioned app, it needs to understand your product requirements and the intended user experience. You can communicate your intensions to the GitHub Copilot Agent using either of the following processes:
+For an AI agent to develop your envisioned app, it needs to understand your product requirements and the intended user experience. You can communicate your intentions to the GitHub Copilot Agent using either of the following processes:
 
-- Code first and iterate to define requirements. This approach starts the coding process using only high-level base specifications. You then begin an iterative development process where your products evolves toward you intended/envisioned product requirements and end user experience. This approach risks deviating from your original vision, for better or for worse, as you explore features implemented by the AI. The iterating-to-define-requirements process can be time-consuming and may not yield the desired results. This is especially true when the initial specifications vague or open-ended.
+- Code first and iterate to define requirements. This approach starts the coding process using only high-level base specifications. You then begin an iterative development process where your app evolves toward your intended/envisioned product requirements and end user experience. This approach risks deviating from your original vision, for better or for worse, as you explore features implemented by the AI. The iterating-to-define-requirements process can be time-consuming and may not yield the desired results. This is especially true when the initial specifications are vague or open-ended.
 
-- Explore requirements before coding. This approach involves working with the AI to create a Product Requirements Document (PRD) that contains a detailed description of the app you want to create before coding starts. A PRD includes information about the app's purpose, target audience, features, and technical requirements. By defining the requirements upfront, you can ensure that the AI agent has a clear understanding of your vision for the app.
+- Explore requirements before coding. This approach involves working with the AI to create a Product Requirements Document (PRD) that contains a detailed description of the app you want to create before any code is written. A PRD includes information about the app's purpose, target audience, features, and technical requirements. By defining the requirements upfront, you can ensure that the AI agent has a clear understanding of your vision for the app.
 
 In this task, you use GitHub Copilot to review your base specifications and create a product requirements document for your prototype app.
 
@@ -89,7 +65,7 @@ Use the following steps to complete this section of the exercise:
 
 1. On the File menu, select **Add folder to Workspace**.
 
-1. In the **Add Folder to Workspace** dialog, navigate to an easy to find folder location, create a new folder named **VibeCoding-PrototypeApp**, and then select select **Add**.
+1. In the **Add Folder to Workspace** dialog, navigate to an easy-to-find folder location, create a new folder named **VibeCoding-PrototypeApp**, and then select **Add**.
 
     The folder location should be outside of any existing Git repository and should be easy to find. After completing this lab exercise, you may want to archive or delete the project.
 
@@ -103,7 +79,7 @@ Use the following steps to complete this section of the exercise:
 
     The Set Mode dropdown menu is located in the bottom-left corner of the Chat view.
 
-    Although their capabilities overlap, each of the chat modes is optimized for a specific purpose:
+    Although their capabilities overlap, each of the chat modes (ask, Edit, and Agent) is optimized for a specific purpose:
 
     - **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can use Ask mode to explain code, suggest changes, or provide information about the codebase.
     - **Edit**: Use this mode to edit specific code files in your workspace. You can use Edit mode to refactor code, add comments, implement tests, or add new features to your apps.
@@ -166,7 +142,7 @@ Use the following steps to complete this section of the exercise:
 
     A well-defined PRD helps ensure that GitHub Copilot Agent has a clear understanding of your vision for the app. The PRD should provide enough detail to enable the Agent to create a prototype app that meets your requirements and intended user experience. Your PRD should build upon the base specifications listed earlier in the exercise.
 
-    If you're not sure about what information to include in a specific section, you can ask GitHub Copilot Agent to help you generate the content for that section. For example, you can ask GitHub Copilot Agent to help you define the target audience, core features, or technical requirements for your app.
+    If you're not sure about what information to include in a specific section, you can ask GitHub Copilot Agent to help you generate the content for that section. For example, you can ask GitHub Copilot for ideas about what to include in the 'Core Features' or 'Use Cases' sections.
 
     > **Tip**: You can provide a natural language description of your app's requirements and have GitHub Copilot format that information as a PRD. You can also use GitHub Copilot to help you review and update the PRD, and to ensure that it provides the level of detail required for GitHub Copilot Agent to create the prototype.
 
@@ -182,7 +158,7 @@ Use the following steps to complete this section of the exercise:
     - A navigation menu on the left side of the screen that allows users to navigate between the Products, ProductDetails, ShoppingCart, and Checkout pages.
     - Basic styling that makes the user interface visually appealing, but it doesn't need to be fully responsive or polished.
 
-    The prototype app won't include any backend functionality, such as user authentication, payment processing, or database integration. It will be a static prototype that demonstrates the basic concepts of an eCommerce app.
+    The prototype app won't include any backend functionality, such as user authentication, payment processing, or database integration. It will be a static prototype that demonstrates the basic concepts.
 
     Here's a description of the user interface:
 
@@ -353,7 +329,7 @@ Use the following steps to complete this section of the exercise:
 
     Adding these files to the chat context tells GitHub Copilot Agent to reference them when generating a response.
 
-    You can add files to the chat context by dragging and dropping them from the EXPLORER view onto the Chat view, or by using the **Add Context** button located in the bottom'left area of the Chat view.
+    You can add files to the chat context by dragging and dropping them from the EXPLORER view onto the Chat view, or by using the **Add Context** button located in the bottom-left area of the Chat view.
 
 1. In the EXPLORER view, select the **ShoppingApp** folder.
 
@@ -426,7 +402,7 @@ Use the following steps to complete this section of the exercise:
 
 ## Update the prototype app
 
-Your initial prototype app should already provide a basic implementation of the product requirements. However, it can probably be refined and improved, and it may not fully achieve the intended user experience and functionality.
+Your initial prototype app should already provide a basic implementation of the product requirements. However, it can probably be refined and improved, and it may not fully achieve the intended user experience.
 
 In this task, you use GitHub Copilot Agent to refine the features and behavior of your prototype app.
 
@@ -464,7 +440,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Review the response from GitHub Copilot Agent.
 
-    Identify three or more suggested improvements that you'ld like to implement.
+    Identify three or more suggested improvements that you'd like to implement.
 
 1. Create a prompt that describes the improvements that you want to implement.
 
@@ -477,7 +453,7 @@ Use the following steps to complete this section of the exercise:
     - Add a confirmation/thank you message after processing an order.
     - Add a visual indicator (badge) for the number of items in the cart on the nav bar.
 
-    Ensure that the copilot-instructions.md file is updated to reflect any changes to the product features, technical requirements, user experience, or other measurable characteristic.
+    Ensure that the copilot-instructions.md file is updated to reflect any changes to the product features, technical requirements, user experience, or other measurable characteristics.
 
     ```
 
@@ -489,4 +465,4 @@ In this exercise, you learned how to use GitHub Copilot Agent to create a protot
 
 ## Clean up
 
-Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them now. If you're using a local PC as your lab environment, you can archive or delete the prototype app folder that you created for this exercise.
+Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them as needed. If you're using a local PC as your lab environment, you can archive or delete the prototype app folder that you created for this exercise.
