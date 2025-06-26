@@ -17,17 +17,20 @@ This exercise should take approximately **30** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Visual Studio Code and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following:
+
+- Visual Studio Code.
+- Access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as your lab environment for this exercise:
 
-- If you need to install Visual Studio Code, you can download it using the following URL: <a href="https://code.visualstudio.com/download" target="_blank">Download Visual Studio Code</a>.
+- You can download the Visual Studio Code installer file from the following URL: <a href="https://code.visualstudio.com/download" target="_blank">Download Visual Studio Code</a>.
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 If you're using a hosted lab environment that supports this exercise:
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help enabling your GitHub Copilot subscription in Visual Studio Code, open a browser and paste the following URL into the site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 ## Exercise scenario
 
@@ -35,17 +38,17 @@ You're an entrepreneur who wants to use a vibe coding process to create a protot
 
 You identify the following base specifications to begin your development process:
 
-1. Create a client-side web app using HTML, CSS, and JavaScript.
+1. Use HTML, CSS, and JavaScript to create a client-side web app.
 2. Include the following web pages: Products, ProductDetails, ShoppingCart, and Checkout.
 3. Enable navigation between pages.
 
 This exercise includes the following tasks:
 
-1. Define product requirements. Use GitHub Copilot to help transition your base specifications into more detailed product requirements.
+1. **Define product requirements**: Use GitHub Copilot to help transition your base specifications into more detailed product requirements.
 
-1. Create an initial prototype app. Use GitHub Copilot Agent and your product requirements to create an initial prototype app.
+1. **Create an initial prototype app**: Use GitHub Copilot Agent and your product requirements to create an initial prototype app.
 
-1. Refine your prototype app. Use GitHub Copilot Agent to complete a series of iterative updates that refine the user experience and ensure your app satisfies the intended requirements.
+1. **Refine your prototype app**: Use GitHub Copilot Agent to complete a series of iterative updates that refine the user experience and ensure your app satisfies the intended requirements.
 
 > **NOTE**: A prototype app is an early, interactive model of an application that demonstrates its visual design and user experience. In this exercise, your prototype app should implement basic features and satisfy a small number of high-level use cases.
 
@@ -53,11 +56,11 @@ This exercise includes the following tasks:
 
 For an AI agent to develop your envisioned app, it needs to understand your product requirements and the intended user experience. You can communicate your intentions to the GitHub Copilot Agent using either of the following processes:
 
-- Code first and iterate to define requirements. This approach starts the coding process using only high-level base specifications. You then begin an iterative development process where your app evolves toward your intended/envisioned product requirements and end user experience. This approach risks deviating from your original vision, for better or for worse, as you explore features implemented by the AI. The iterating-to-define-requirements process can be time-consuming and may not yield the desired results. This is especially true when the initial specifications are vague or open-ended.
+- **Code first and iterate to define requirements**: This approach begins with minimal base specifications and jumps straight into coding. As development progresses, the app evolves organically through iterative cycles, gradually shaping the product’s features and user experience. This approach risks deviating from your original vision, for better or for worse, as you explore features implemented by the AI. An AI-led process can become unexpectedly time-consuming and may not yield the desired results, especially when the initial specifications are vague or open-ended.
 
-- Explore requirements before coding. This approach involves working with the AI to create a Product Requirements Document (PRD) that contains a detailed description of the app you want to create before any code is written. A PRD includes information about the app's purpose, target audience, features, and technical requirements. By defining the requirements upfront, you can ensure that the AI agent has a clear understanding of your vision for the app.
+- **Explore requirements before coding**: This approach emphasizes clarity from the start. You collaborate with the AI to draft a detailed Product Requirements Document (PRD) before writing any code. The PRD outlines the app’s purpose, target users, key features, and technical constraints. By establishing a clear vision upfront, you give the AI a solid foundation to generate code that aligns with your goals—reducing ambiguity and improving the chances of building the app you actually intended.
 
-In this task, you use GitHub Copilot to review your base specifications and create a product requirements document for your prototype app.
+In this task, you use GitHub Copilot to evaluate your base specifications and develop product requirements for your prototype app.
 
 Use the following steps to complete this section of the exercise:
 
@@ -71,7 +74,7 @@ Use the following steps to complete this section of the exercise:
 
     For example, if you're using a Windows PC, you can create a new folder named **VibeCoding-PrototypeApp** on your **Desktop** or in your **Documents** directory.
 
-1. Open the Chat view.
+1. Open GitHub Copilot's Chat view.
 
     The Chat view can be opened by selecting the GitHub Copilot icon located near the top-center of the Visual Studio Code window, just to the right of the search textbox.
 
@@ -79,7 +82,7 @@ Use the following steps to complete this section of the exercise:
 
     The Set Mode dropdown menu is located in the bottom-left corner of the Chat view.
 
-    Although their capabilities overlap, each of the chat modes (ask, Edit, and Agent) is optimized for a specific purpose:
+    Although their capabilities overlap, each of the chat modes (Ask, Edit, and Agent) is optimized for a specific purpose:
 
     - **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can use Ask mode to explain code, suggest changes, or provide information about the codebase.
     - **Edit**: Use this mode to edit specific code files in your workspace. You can use Edit mode to refactor code, add comments, implement tests, or add new features to your apps.
@@ -89,7 +92,7 @@ Use the following steps to complete this section of the exercise:
 
     ```plaintext
 
-    I want to create a product requirements document (PRD) for an app that I'll develop using a vibe coding process. I want the PRD to include information about the app's purpose, target audience, features, and technical requirements. I've defined the following high-level parameters for my app: 1 - Create a client-side web app using HTML, CSS, and JavaScript. 2 - Include the following web pages: Products, ProductDetails, ShoppingCart, and Checkout. 3 - Enable navigation between pages. I want the prototype app to implement basic features and satisfy a small number of high-level use cases. The prototype should implement the following: basic use case functionality, simple navigation, a sample dataset, and basic styling. I'll be adding the PRD to the chat context, then asking GitHub Copilot Agent to create the prototype app. What sections should I include in the PRD to enable GitHub Copilot Agent to create my envisioned prototype?
+    I want to create a product requirements document (PRD) for an app that I'll develop using a vibe coding process. I want the PRD to include information about the app's purpose, target audience, features, and technical requirements. I've defined the following high-level parameters for my app: 1 - Use HTML, CSS, and JavaScript to create a client-side web app. 2 - Include the following web pages: Products, ProductDetails, ShoppingCart, and Checkout. 3 - Enable navigation between pages. I want the prototype app to implement basic features and satisfy a small number of high-level use cases. The prototype should implement the following: basic use case functionality, simple navigation, a sample dataset, and basic styling. I'll be adding the PRD to the chat context, then asking GitHub Copilot Agent to create the prototype app. What sections should I include in the PRD to enable GitHub Copilot Agent to create my envisioned prototype?
 
     ```
 
@@ -144,12 +147,12 @@ Use the following steps to complete this section of the exercise:
 
     If you're not sure about what information to include in a specific section, you can ask GitHub Copilot Agent to help you generate the content for that section. For example, you can ask GitHub Copilot for ideas about what to include in the 'Core Features' or 'Use Cases' sections.
 
-    > **Tip**: You can provide a natural language description of your app's requirements and have GitHub Copilot format that information as a PRD. You can also use GitHub Copilot to help you review and update the PRD, and to ensure that it provides the level of detail required for GitHub Copilot Agent to create the prototype.
+    > **Tip**: You can provide natural language text that describes your app's requirements and have GitHub Copilot format that information as a PRD. You can also use GitHub Copilot to help you review and update the PRD, and to ensure that it provides the level of detail required for GitHub Copilot Agent to create the prototype.
 
 1. In the Chat view, enter the following prompt:
 
     ```markdown
-    The suggested sections look good. Here's some information that should help you construct the PRD:
+    The PRD sections that you suggested look good. Here's some information that should help you construct the PRD:
 
     My prototype app targets online shoppers interested in ordering my products. The prototype should include the following:
 
@@ -162,7 +165,7 @@ Use the following steps to complete this section of the exercise:
 
     Here's a description of the user interface:
 
-    - The Products page should display a list of products with basic information such as product name, price per unit, and image (an emoji). The Products page should also provide a way to select a desired quantity of a product and an option to add selected items to the shopping cart.
+    - The Products page should display a list of products with basic information such as product name, price per unit, and an image (an emoji). The Products page should also provide a way to select a desired quantity of a product and an option to add selected items to the shopping cart.
     - The ProductDetails page should display detailed information about a product when the product is selected from the Products page. The ProductDetails page should display the product name, a description of the product, the price per unit, and an image (an emoji) representing the product. The ProductDetails page should also provide a way to navigate back to the Products page.
     - The ShoppingCart page should display the list of products added to the cart. The list should include the product name, quantity, and total price for that product. The ShoppingCart page should also provide a way to update the quantity of each product that's in the cart, and an option to remove products from the cart.
     - The Checkout page should display a summary of the products being purchased, including product name, quantity, and price. The total price should be clearly displayed along with the option to "Process Order".
@@ -173,6 +176,8 @@ Use the following steps to complete this section of the exercise:
     GitHub Copilot should generate a response that includes a suggested PRD based on the information you provided. The response should include the sections that you reviewed earlier, and it should include content for each section based on the information you provided.
 
 1. In the Chat view, select the **Agent** mode.
+
+    The Set Mode dropdown menu is located in the bottom-left corner of the Chat view.
 
 1. In the Chat view, enter the following prompt:
 
@@ -186,13 +191,15 @@ Use the following steps to complete this section of the exercise:
 
     The suggested PRD file should be sufficient for this exercise. However, if you see any gaps or discrepancies, or if you want to add more information, you can edit the file directly in Visual Studio Code. You can also ask GitHub Copilot to help you refine the PRD by generating additional information or implementing clarifications.
 
+1. Open Visual Studio Code's EXPLORER view.
+
 1. In the Chat view, enter the following prompt:
 
     ```markdown
-    Can you create or propose low-fidelity wireframe diagrams (or text-based layouts) that show the user interface for my prototype app? Use the PRD that I've provided as a reference.
+    Can you create low-fidelity wireframe diagrams (or text-based layouts) that represent the web pages and navigation bar (expanded and collapsed) for my prototype app? Use the PRD that I've provided as a reference.
     ```
 
-    GitHub Copilot Agent should generate low-fidelity text-based layouts that represent the user interface for your prototype app. These "wireframe diagrams" should help you visualize the user interface and how users will interact with the app.
+    GitHub Copilot Agent should generate low-fidelity text-based layouts that represent the user interface for your prototype app. These "wireframe diagrams" should help define the user interface and how users will interact with the app.
 
     For example, the response may look similar to the following:
 
@@ -276,12 +283,12 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    > **NOTE**: There are many other ways to create wireframe diagrams. For an AI-based, vibe coding type of approach, you can use Microsoft's M365 Copilot. Just provide M365 Copilot with a description of your app (the contents of your PRD) and ask the AI to create images of low-fidelity wireframe diagrams. For high-fidelity wireframe diagrams that you create manually, you can use a UI/UX design tool such as Figma.
+    > **NOTE**: There are many other ways to create wireframe diagrams. For an AI-based approach that aligns with your vibe coding process, you can use Microsoft's M365 Copilot. Just provide M365 Copilot with a description of your app (the contents of your PRD) and ask the AI to create images of low-fidelity wireframe diagrams. For high-fidelity wireframe diagrams that you create manually, you can use a UI/UX design tool such as Figma.
 
 1. In the Chat view, enter the following prompt:
 
     ```markdown
-    Save the low-fidelity wireframe diagrams as text files.
+    Save the low-fidelity wireframe diagrams as text files, one file for each web page and one for navigation.
     ```
 
 1. Monitor the Chat view to ensure that all of the files are saved, and then select **Keep**.
@@ -327,7 +334,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Add the PRD and wireframe diagrams to the chat context.
 
-    Adding these files to the chat context tells GitHub Copilot Agent to reference them when generating a response.
+    Adding these files to the chat context tells GitHub Copilot Agent to reference the files when generating a response.
 
     You can add files to the chat context by dragging and dropping them from the EXPLORER view onto the Chat view, or by using the **Add Context** button located in the bottom-left area of the Chat view.
 
@@ -336,13 +343,19 @@ Use the following steps to complete this section of the exercise:
 1. In the Chat view, enter the following prompt:
 
     ```markdown
-    I want you to create a prototype shopping app using the information in my PRD and wireframe diagrams. Create my prototype app in the selected 'ShoppingApp' folder. Add a '.github/copilot-instructions.md' file to the workspace. Add the contents of the PRD and wireframe files to the 'copilot-instructions.md' file. Use the information in 'copilot-instructions.md' to create a prototype shopping app. The prototype should implement the following: basic use case functionality, simple navigation, a sample dataset, and basic styling.
+    I want you to create a prototype shopping app using the information in my PRD and wireframe diagrams. Create the prototype app in the selected 'ShoppingApp' folder. The prototype should implement the following: basic use case functionality, simple navigation, a sample dataset, and basic styling. After creating the prototype app, add a '.github/copilot-instructions.md' file to the workspace. Add the contents of the PRD and wireframe files to the 'copilot-instructions.md' file.
     ```
 
     GitHub Copilot Agent uses this prompt to generate an initial prototype app based on the requirements that you've defined.
 
-    - The agent creates a copilot-instructions.md file that contains your product requirements and wireframe diagrams. Visual Studio Code automatically includes the instructions from the .github/copilot-instructions.md file in every chat request and applies them for generating code.
-    - The agent uses the copilot-instructions.md file to create an HTML file, a CSS file, and a JavaScript file in the **ShoppingApp** folder.
+    - The agent checks the **ShoppingApp** folder to ensure that it's empty and ready to use as a workspace.
+    - The agent uses the PRD and wireframe diagrams to create the prototype app files. The agent generates the following files in the **ShoppingApp** folder:
+
+        - **app.js**: Contains the JavaScript code that implements the app's functionality, such as managing the product catalog, shopping cart, and navigation.
+        - **index.html**: Serves as the entry point for the web application, setting up the basic structure and linking the styles and scripts.
+        - **styles.css**: Provides the visual layout and responsive design for the prototype web app.
+
+    - The agent creates a **.github/copilot-instructions.md** file in the workspace and adds the contents of the PRD and wireframe files to the **copilot-instructions.md** file.
 
     > **TIP**: You can store custom instructions in your workspace or repository in a .github/copilot-instructions.md file. Custom instructions enable you to describe common guidelines or rules to get responses that match your specific coding practices and tech stack. Instead of manually including this context in every chat query, custom instructions automatically incorporate this information with every chat request. These instructions only apply to the workspace where the file is located.
 
@@ -371,9 +384,13 @@ Use the following steps to complete this section of the exercise:
 
     If time permits, consider asking GitHub Copilot to generate a detailed explanation of each file.
 
-1. Use Windows File Explorer to open the **index.html** file in a browser.
+1. Open the **index.html** file in the Visual Studio Code editor.
 
-    You can double-click the **index.html** file from the Windows File Explorer to open it in your default web browser. Alternatively, you can right-click the file and select **Open with** to choose a specific browser.
+1. On the **Run** menu, select **Run Without Debugging**.
+
+    If prompted, select your choice of browser to run the app.
+
+    You can also double-click the **index.html** file from the Windows File Explorer to open it in your default web browser.
 
 1. With your prototype app open in the browser, test the use cases you listed in your product requirements and verify that your prototype app delivers the expected functionality.
 
@@ -400,7 +417,9 @@ Use the following steps to complete this section of the exercise:
 
     If you want, take notes during your testing. You can use your notes during the next task to help refine your prototype app.
 
-## Update the prototype app
+1. Close the browser window or stop the app in Visual Studio Code.
+
+## Refine your prototype app
 
 Your initial prototype app should already provide a basic implementation of the product requirements. However, it can probably be refined and improved, and it may not fully achieve the intended user experience.
 
@@ -414,23 +433,33 @@ Use the following steps to complete this section of the exercise:
     #codebase Refactor the prototype app to use a higher breakpoint for the collapsed navigation bar. Change from 300 to 600px. Update the copilot-instructions.md file to explain the updated 600px requirement.
     ```
 
-1. In the Chat view, select **Keep** to save the updated prototype app files.
-
-1. Open the **index.html** file in the browser, and then ensure that the navigation menu collapses when the width is below 600 pixels.
-
-1. Switch back to Visual Studio Code.
-
-1. In the Chat view, enter the following prompt:
+    If the agent implemented a navigation bar that changes orientation, switches from vertical to horizontal, when the screen narrows, use the following command to update the navigation bar's behavior:
 
     ```markdown
-    #codebase Update the prototype app to display an emoji in the nav bar for each of the web pages. Ensure that the icon is centered horizontally in the nav bar when the nav bar is collapsed. Update the copilot-instructions.md file to include this product requirement.
+    #codebase Refactor the code to ensure that the navigation bar stays on the left-side of the app for all devices types and sizes. The navigation bar should be responsive and maintain its position, in either an expanded or collapsed mode.
     ```
 
 1. In the Chat view, select **Keep** to save the updated prototype app files.
 
-1. Open the **index.html** file in the browser and test the updated navigation bar.
+1. Run the application again, and ensure that the navigation menu collapses when the width is below 600 pixels.
 
-1. Switch back to Visual Studio Code.
+1. Close the browser window or stop the app in Visual Studio Code.
+
+1. In the Chat view, enter the following prompt:
+
+    ```markdown
+    #codebase Update the prototype app to display an emoji in the nav bar for each of the web pages. Ensure that the emoji is centered horizontally in the nav bar when the nav bar is collapsed. Update the copilot-instructions.md file to include this product requirement.
+    ```
+
+1. In the Chat view, monitor the agent's progress, and then select **Keep** to save the updated prototype app files.
+
+1. Run the application again and verify the updates.
+
+    The navigation bar should display an emoji that represents each web page. The emoji should be centered horizontally in the nav bar when collapsed.
+
+    If you see any additional issues with the navigation bar, you can ask GitHub Copilot Agent to help you refine the navigation bar's behavior. For example, you can ask the agent to "#codebase Refactor the code to ensure that the navigation bar is always visible and has only two stages, expanded or collapsed."
+
+1. Close the browser window or stop the app in Visual Studio Code.
 
 1. In the Chat view, to identify additional opportunities for improvements, enter the following prompt:
 
@@ -457,7 +486,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    > **TIP**: You can copy information from GitHub Copilot's response to build your new prompt. You can also refer to sections of the response in your prompt.
+    > **TIP**: You can copy information from GitHub Copilot's response to help construct your new prompt. You can also refer to sections of the previous response in your prompt.
 
 ## Summary
 
