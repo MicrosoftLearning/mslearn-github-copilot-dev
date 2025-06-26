@@ -2,7 +2,6 @@
 lab:
     title: 'Exercise - Get started with vibe coding using GitHub Copilot Agent'
     description: 'Learn how to create a prototype app using a vibe coding process and GitHub Copilot Agent.'
-
 ---
 
 # Get started with vibe coding using GitHub Copilot Agent
