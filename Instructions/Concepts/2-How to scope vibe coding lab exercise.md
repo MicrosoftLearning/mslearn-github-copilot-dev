@@ -1,6 +1,6 @@
+# How to scope vibe coding lab exercise
 
-
-
+Vibe coding lab exercises should be scoped to focus on specific tasks and outcomes, ensuring that participants can effectively learn and apply the concepts within a limited timeframe. 
 
 ## Vibe coding project types
 

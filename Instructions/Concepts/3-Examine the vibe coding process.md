@@ -1,5 +1,8 @@
+# Examine the Vibe Coding process
 
-## Examine the Vibe Coding process
+Vibe coding is a collaborative process between developers and AI tools, enabling rapid prototyping and iterative development.
+
+The vibe coding process typically involves the following steps:
 
 1. Envision and plan your project
 
