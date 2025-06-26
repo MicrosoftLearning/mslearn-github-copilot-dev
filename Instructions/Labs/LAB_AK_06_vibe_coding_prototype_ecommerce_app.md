@@ -488,6 +488,12 @@ Use the following steps to complete this section of the exercise:
 
     > **TIP**: You can copy information from GitHub Copilot's response to help construct your new prompt. You can also refer to sections of the previous response in your prompt.
 
+1. On the File menu, select **Save Workspace As...**.
+
+1. To save the workspace configuration file (VibeCoding-PrototypeApp.code-workspace) in the **VibeCoding-PrototypeApp** folder, select **Save**.
+
+    This file allows you to save and reopen your workspace with the same folder structure and settings.
+
 ## Summary
 
 In this exercise, you learned how to use GitHub Copilot Agent to create a prototype app using a vibe coding process. You defined product requirements, created an initial prototype app, and refined the prototype app to better meet the intended user experience and functionality.
