@@ -79,13 +79,17 @@ Use the following steps to complete this section of the exercise:
 
 1. Ensure that the chat mode is set to **Ask** and the **GPT-4.1** model is selected.
 
-    The Set Mode dropdown menu is located in the bottom-left corner of the Chat view.
+    The *Set Mode* and *Pick Model* dropdown menus are located in the bottom-left corner of the Chat view.
 
-    Although their capabilities overlap, each of the chat modes (Ask, Edit, and Agent) is optimized for a specific purpose:
+    **GitHub Copilot modes**: Although their capabilities overlap, each of the chat modes (Ask, Edit, and Agent) are optimized for a specific purpose:
 
     - **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can use Ask mode to explain code, suggest changes, or provide information about the codebase.
     - **Edit**: Use this mode to edit specific code files in your workspace. You can use Edit mode to refactor code, add comments, implement tests, or add new features to your apps.
     - **Agent**: Use this mode to run GitHub Copilot as an agent. You can use Agent mode to perform coding tasks autonomously.
+
+    **Supported Models**: GitHub Copilot supports multiple models, each with different strengths. Some models prioritize speed and cost-efficiency, while others are optimized for accuracy, reasoning, or working with multimodal inputs (like images and code together). GitHub Copilot's free plan currently supports GPT-4.1, GPT-4o, o3-mini, Claude Sonnet 3.5, and Gemini 2.0 Flash. The GPT-4.1 model is a good choice for this exercise because it generates fast, accurate code completions and explanations, supports visual input, and handles complex tasks effectively.
+
+    > **NOTE**: Choosing a different model will affect the responses that you receive from GitHub Copilot. The GPT-4.1 model is recommended for this exercise, but you can repeat the exercise using other models if you want to see how they respond to your prompts.
 
 1. In the Chat view, enter the following prompt:
 
@@ -339,13 +343,13 @@ Use the following steps to complete this section of the exercise:
     GitHub Copilot Agent uses this prompt to generate an initial prototype app based on the requirements that you've defined.
 
     - The agent checks the **ShoppingApp** folder to ensure that it's empty and ready to use as a workspace.
-    - The agent uses the PRD and wireframe diagrams to create the prototype app files. The agent generates the following files in the **ShoppingApp** folder:
+    - The agent uses the PRD and wireframe diagrams to create the prototype app files. The following files are created in the **ShoppingApp** folder:
 
         - **app.js**: Contains the JavaScript code that implements the app's functionality, such as managing the product catalog, shopping cart, and navigation.
         - **index.html**: Serves as the entry point for the web application, setting up the basic structure and linking the styles and scripts.
         - **styles.css**: Provides the visual layout and responsive design for the prototype web app.
 
-    - The agent creates a **.github/copilot-instructions.md** file in the workspace and adds the contents of the PRD and wireframe files to the **copilot-instructions.md** file.
+    - The agent adds a **.github/copilot-instructions.md** file to the workspace, and then adds the contents of the PRD and wireframe files to the **copilot-instructions.md** file.
 
     > **TIP**: You can store custom instructions in your workspace or repository in a .github/copilot-instructions.md file. Custom instructions enable you to describe common guidelines or rules to get responses that match your specific coding practices and tech stack. Instead of manually including this context in every chat query, custom instructions automatically incorporate this information with every chat request. These instructions only apply to the workspace where the file is located.
 
@@ -382,11 +386,9 @@ Use the following steps to complete this section of the exercise:
 
     If prompted, select your choice of browser to run the app.
 
-    You can also double-click the **index.html** file from the Windows File Explorer to open it in your default web browser.
+1. With your prototype app open in the browser, test the use cases you listed in your PRD and verify that your prototype app delivers the expected functionality.
 
-1. With your prototype app open in the browser, test the use cases you listed in your product requirements and verify that your prototype app delivers the expected functionality.
-
-    The uses cases should describe basic functionality that your prototype app should implement. For example:
+    The use cases describe basic functionality that your prototype app should implement. For example:
 
     - As a user, I can browse a list of fruit products.
     - As a user, I can view detailed information about a selected product.
@@ -399,9 +401,9 @@ Use the following steps to complete this section of the exercise:
 
     The prototype app should have a dynamic user interface that automatically scales to accommodate viewing on desktop and phone devices.
 
-1. Try to test the collapsed navigation menu.
+1. Try to test the collapsed navigation bar.
 
-    You specified that the navigation menu should collapse when the page width drops below 300 pixels. The collapsed navigation menu should display one or two letters to represent each of the web pages in the app.
+    You specified that the navigation bar should collapse when the page width drops below 300 pixels. When collapsed, the navigation bar should display one or two letters to represent each of the web pages in the app.
 
     > **NOTE**: Most desktop browsers (including Microsoft Edge) enforce a minimum window width that's greater than 300px (often around 320–400px). This means you may not be able to manually resize the browser window small enough to trigger the collapse of the navigation bar.
 
@@ -425,29 +427,33 @@ Use the following steps to complete this section of the exercise:
     #codebase Refactor the prototype app to use a higher breakpoint for the collapsed navigation bar. Change from 300 to 600px. Update the copilot-instructions.md file to explain the updated 600px requirement.
     ```
 
-    If the agent implemented a navigation bar that changes orientation, switches from vertical to horizontal, when the screen narrows, use the following command to update the navigation bar's behavior:
+    If the agent implemented a navigation bar that changes orientation when the screen narrows (switches from vertical to horizontal), use the following command to update the navigation bar's behavior:
 
     ```md
     #codebase Refactor the code to ensure that the navigation bar stays on the left-side of the app for all devices types and sizes. The navigation bar should be responsive and maintain its position, in either an expanded or collapsed mode.
     ```
 
+1. Take a minute to review the code updates that GitHub Copilot Agent generates in response to your prompt.
+
 1. In the Chat view, select **Keep** to save the updated prototype app files.
 
-1. Run the application again, and ensure that the navigation menu collapses when the width is below 600 pixels.
+1. Run the application again, and ensure that the navigation bar collapses when the width is below 600 pixels.
 
 1. Close the browser window or stop the app in Visual Studio Code.
 
-1. In the Chat view, enter the following prompt:
+1. In the Chat view, enter the following prompt, and then monitor the agent's progress:
 
     ```md
     #codebase Update the prototype app to display an emoji in the nav bar for each of the web pages. Ensure that the emoji is centered horizontally in the nav bar when the nav bar is collapsed. Update the copilot-instructions.md file to include this product requirement.
     ```
 
-1. In the Chat view, monitor the agent's progress, and then select **Keep** to save the updated prototype app files.
+1. Take a minute to review the code updates.
 
-1. Run the application again and verify the updates.
+1. In the Chat view, to save the updated prototype app files, select **Keep**.
 
-    The navigation bar should display an emoji that represents each web page. The emoji should be centered horizontally in the nav bar when collapsed.
+1. Run the application again and verify that emojis are displayed correctly in the navigation bar.
+
+    The navigation bar should display an emoji that represents each web page. The emoji should be centered horizontally in the navigation bar when it's collapsed.
 
     If you see any additional issues with the navigation bar, you can ask GitHub Copilot Agent to help you refine the navigation bar's behavior. For example, you can ask the agent to "#codebase Refactor the code to ensure that the navigation bar is always visible and has only two stages, expanded or collapsed."
 
@@ -478,6 +484,8 @@ Use the following steps to complete this section of the exercise:
     ```
 
     > **TIP**: You can copy information from GitHub Copilot's response to help construct your new prompt. You can also refer to sections of the previous response in your prompt.
+
+1. If time permits, continue refining your app using GitHub Copilot's suggestions and your own ideas.
 
 1. On the File menu, select **Save Workspace As...**.
 
