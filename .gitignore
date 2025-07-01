@@ -114,7 +114,54 @@ ClientBin
 Generated_Code #added for RIA/Silverlight projects
 
 # Backup & report files from converting an old project file to a newer
-# Visual Studio version. Backup files are not needed, because we have git ;-)
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Python virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+ENV*/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test output (pytest, unittest, coverage, etc.)
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+test-results/
+junit-*.xml
+
+# IPython/Jupyter
+.ipynb_checkpoints/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pyright type checker
+.pyrightcache/
