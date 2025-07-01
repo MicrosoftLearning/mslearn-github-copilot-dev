@@ -14,7 +14,15 @@ This exercise should take approximately **25** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following:
+
+- Git 2.48 or later
+- Either .NET or Python:
+
+    -  **.NET SDK 9.0** or later with Visual Studio Code with the **C# Dev Kit** extension.
+    - **Python 3.10** or later with Visual Studio Code with the **Python** extension
+
+- Access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -28,12 +36,20 @@ If you're using a hosted lab environment for this exercise:
 
 - Open a command terminal and then run the following commands:
 
-    To ensure that Visual Studio Code is configured to use the correct version of .NET, run the following command:
+    To ensure that Visual Studio Code is configured to use the correct version of **.NET**, run the following command:
 
     ```bash
 
     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 
+    ```
+    
+    or
+
+    To ensure that Visual Studio Code is configured to use the correct version of Python, verify your Python installation is version 3.10 or later:
+
+    ```bash
+    python --version
     ```
 
 ## Exercise scenario
@@ -199,8 +215,16 @@ Use the following steps to complete this section of the exercise:
 
 1. Use the Ask Copilot textbox to enter the following prompt, and then submit the prompt:
 
+    **For C#:**
+
     ```text
     Create a C# console app that prints Hello World to the console.
+    ```
+
+    **Or for Python:**
+
+    ```text
+    Create a Python console app that prints Hello World to the console.
     ```
 
 1. Notice that GitHub Copilot's response includes an interactive list of files and a **Create Workspace** button.
@@ -215,8 +239,16 @@ Use the following steps to complete this section of the exercise:
 
     More advanced prompts can be used to create a workspace with multiple files or to create different project types. For example, you can use the following prompt specify additional conditions for the console app project:
 
+    **For C#:**
+
     ```text
     Create a C# console app that prints Hello World to the console. Include a .gitignore file.
+    ```
+
+    **Or for Python:**
+
+    ```text
+    Create a Python console app that prints Hello World to the console. Include a .gitignore file.
     ```
 
 ### Explore the Quick Chat features
