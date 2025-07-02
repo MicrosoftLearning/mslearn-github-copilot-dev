@@ -68,23 +68,23 @@ Use the following steps to set up the library application:
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - refactor existing code](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM5.zip)
+1. To download a zip file containing the library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - refactor existing code](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM5Python.zip)
 
-    The zip file is named **AZ2007LabAppM5.zip**.
+    The zip file is named **AZ2007LabAppM5Python.zip**.
 
-1. Extract the files from the **AZ2007LabAppM5.zip** file.
+1. Extract the files from the **AZ2007LabAppM5Python.zip** file.
 
     For example:
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click **AZ2007LabAppM5.zip**, and then select **Extract all**.
+    1. Right-click **AZ2007LabAppM5Python.zip**, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 
-1. Open the extracted files folder, then copy the **AccelerateDevGHCopilotPython** folder to a location that's easy to access, such as your Windows Desktop folder.
+1. Open the extracted files folder, then copy the **AccelerateDevGHCopilot** folder to a location that's easy to access, such as your Windows Desktop folder.
 
-1. Open the **AccelerateDevGHCopilotPython** folder in Visual Studio Code.
+1. Open the **AccelerateDevGHCopilot** folder in Visual Studio Code.
 
     For example:
 
@@ -92,11 +92,11 @@ Use the following steps to set up the library application:
 
     1. In Visual Studio Code, on the **File** menu, select **Open Folder**.
 
-    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilotPython** and then select **Select Folder**.
+    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilot** and then select **Select Folder**.
 
 1. In the Visual Studio Code EXPLORER view, verify the following project structure:
 
-    - AccelerateDevGHCopilotPython/library
+    - AccelerateDevGHCopilot/library
         ├── application_core
         ├── console
         ├── infrastructure

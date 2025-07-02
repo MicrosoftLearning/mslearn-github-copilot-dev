@@ -68,23 +68,23 @@ Use the following steps to set up the library application:
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - Analyze and document code](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM2.zip)
+1. To download a zip file containing the library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - Analyze and document code](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM2Python.zip)
 
-    The zip file named AZ2007LabAppM2.zip will be downloaded to your lab environment.
+    The zip file named AZ2007LabAppM2Python.zip will be downloaded to your lab environment.
 
-1. Extract the files from the **AZ2007LabAppM2.zip** file.
+1. Extract the files from the **AZ2007LabAppM2Python.zip** file.
 
     For example:
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click **AZ2007LabAppM2.zip**, and then select **Extract all**.
+    1. Right-click **AZ2007LabAppM2Python.zip**, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 
-1. Open the extracted files folder, then copy the **AccelerateDevGHCopilotPython** folder to a location that's easy to access, such as your Windows Desktop folder.
+1. Open the extracted files folder, then copy the **AccelerateDevGHCopilot** folder to a location that's easy to access, such as your Windows Desktop folder.
 
-1. Open the **AccelerateDevGHCopilotPython** folder in Visual Studio Code.
+1. Open the **AccelerateDevGHCopilot** folder in Visual Studio Code.
 
     For example:
 
@@ -92,11 +92,11 @@ Use the following steps to set up the library application:
 
     1. In Visual Studio Code, on the **File** menu, select **Open Folder**.
 
-    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilotPython** and then select **Select Folder**.
+    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilot** and then select **Select Folder**.
 
 1. In the Visual Studio Code EXPLORER view, verify the following project structure:
 
-    - AccelerateDevGHCopilotPython/library
+    - AccelerateDevGHCopilot/library
         ├── application_core
         ├── console
         ├── infrastructure
@@ -104,7 +104,7 @@ Use the following steps to set up the library application:
 
 1. Ensure that the application runs successfully.
 
-    For example, open a terminal in Visual Studio Code, navigate to the **AccelerateDevGHCopilotPython/library** directory, and run the following command:
+    For example, open a terminal in Visual Studio Code, navigate to the **AccelerateDevGHCopilot/library** directory, and run the following command:
 
     ```bash
     python -m unittest discover tests
@@ -126,7 +126,7 @@ GitHub Copilot's Chat view includes a chat-based interface that allows you to in
 
 Use the following steps to complete this section of the exercise:
 
-1. Ensure that the AccelerateDevGHCopilotPython/library project is open in Visual Studio Code.
+1. Ensure that the AccelerateDevGHCopilot/library project is open in Visual Studio Code.
 
 1. Open GitHub Copilot's Chat view.
 
@@ -304,7 +304,7 @@ In this section of the exercise, you'll use GitHub Copilot to create project doc
 
 Use the following steps to complete this section of the exercise:
 
-1. Add a new file named **README.md** to the root folder of the **AccelerateDevGHCopilotPython** project.
+1. Add a new file named **README.md** to the root folder of the **AccelerateDevGHCopilot** project.
 
 1. Open the Chat view.
 
