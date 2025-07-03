@@ -85,23 +85,23 @@ Use the following steps to set up the Library application:
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the Library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM3.zip)
+1. To download a zip file containing the Library application, paste the following URL into your browser's address bar: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/AZ2007LabAppM3Python.zip)
 
-    The zip file is named **AZ2007LabAppM3.zip**.
+    The zip file is named **AZ2007LabAppM3Python.zip**.
 
-1. Extract the files from the **AZ2007LabAppM3.zip** file.
+1. Extract the files from the **AZ2007LabAppM3Python.zip** file.
 
     For example:
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click **AZ2007LabAppM3.zip**, and then select **Extract all**.
+    1. Right-click **AZ2007LabAppM3Python.zip**, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 
-1. Open the extracted files folder, then copy the **AccelerateDevGHCopilotPython** folder to a location that's easy to access, such as your Windows Desktop folder.
+1. Open the extracted files folder, then copy the **AccelerateDevGHCopilot** folder to a location that's easy to access, such as your Windows Desktop folder.
 
-1. Open the **AccelerateDevGHCopilotPython** folder in Visual Studio Code.
+1. Open the **AccelerateDevGHCopilot** folder in Visual Studio Code.
 
     For example:
 
@@ -109,11 +109,11 @@ Use the following steps to set up the Library application:
 
     1. In Visual Studio Code, on the **File** menu, select **Open Folder**.
 
-    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilotPython** and then select **Select Folder**.
+    1. Navigate to the Windows Desktop folder, select **AccelerateDevGHCopilot** and then select **Select Folder**.
 
 1. In the Visual Studio Code EXPLORER view, verify the following project structure:
 
-    - AccelerateDevGHCopilotPython/library
+    - AccelerateDevGHCopilot/library
         ├── application_core
         ├── console
         ├── infrastructure
@@ -122,7 +122,7 @@ Use the following steps to set up the Library application:
 
 1. Ensure that the application runs successfully.
 
-    For example, open a terminal in Visual Studio Code, navigate to the **AccelerateDevGHCopilotPython/library** directory, and run the following command:
+    For example, open a terminal in Visual Studio Code, navigate to the **AccelerateDevGHCopilot/library** directory, and run the following command:
 
     ```bash
     python -m unittest discover -v tests
@@ -152,7 +152,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Select **Publish to GitHub**.
 
-1. Name for the repository **AccelerateDevGHCopilotPython**.
+1. Name for the repository **AccelerateDevGHCopilot**.
 
     > **NOTE**: If you're not signed in to GitHub in Visual Studio Code, you'll be prompted to sign in. Once you're signed in, authorize Visual Studio Code with the requested permissions.
 
@@ -164,9 +164,9 @@ Use the following steps to complete this section of the exercise:
 
 1. Switch to the browser window for your GitHub account.
 
-1. Open the new AccelerateDevGHCopilotPython repository in your GitHub account.
+1. Open the new AccelerateDevGHCopilot repository in your GitHub account.
 
-    If you don't see your AccelerateDevGHCopilotPython repository, refresh the page. If you still don't see the repository, try the following steps:
+    If you don't see your AccelerateDevGHCopilot repository, refresh the page. If you still don't see the repository, try the following steps:
 
     1. Switch to Visual Studio Code.
     1. Open your notifications (a notification was generated when the new repository was published).
@@ -178,7 +178,7 @@ Before you start developing the new "book availability" feature, you need to cre
 
 Use the following steps to complete this section of the exercise:
 
-1. Ensure that you have the AccelerateDevGHCopilotPython project open in Visual Studio Code.
+1. Ensure that you have the AccelerateDevGHCopilot project open in Visual Studio Code.
 
 1. Select the Source Control view and ensure that the local repository is synchronized with the remote repository (Pull or Sync).
 
@@ -809,7 +809,7 @@ Use the following steps to complete this section of the exercise:
 
     You may see warning messages, but there shouldn't be any errors.
 
-    To run the tests, open a terminal in Visual Studio Code, navigate to the AccelerateDevGHCopilotPython/library directory, and run:
+    To run the tests, open a terminal in Visual Studio Code, navigate to the AccelerateDevGHCopilot/library directory, and run:
 
     ```bash
     python -m unittest discover tests
@@ -831,7 +831,7 @@ Manual testing can be used to verify that the new feature works as expected. Usi
 
 Use the following steps to complete this section of the exercise:
 
-1. To run the application, open a terminal in Visual Studio Code, navigate to the `AccelerateDevGHCopilotPython/library` directory, and run:
+1. To run the application, open a terminal in Visual Studio Code, navigate to the `AccelerateDevGHCopilot/library` directory, and run:
 
 ```bash
 python console/main.py
