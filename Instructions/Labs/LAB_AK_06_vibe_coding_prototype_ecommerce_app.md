@@ -8,7 +8,7 @@ lab:
 
 Vibe coding is an approach to programming that uses AI tools, such as GitHub Copilot Agent, to generate software. Instead of manually writing code, a user provides a natural language description of their intended app, and the AI generates the corresponding code. This shifts the programmer's role from traditional coding to guiding, testing, and refining the AI-generated output.
 
-In this exercise, you use a vibe coding process and GitHub Copilot Agent to create a prototype version of an online shopping app. Your prototype app includes the following pages: products, product details, shopping cart, and checkout. The app includes basic navigation between pages and a limited dataset that helps to demonstrate app features. The prototype doesn't include any backend functionality, such as user authentication, payment processing, or database integration.
+In this exercise, you use a vibe coding process and GitHub Copilot Agent to create a prototype version of an online shopping app. Your prototype app includes the following pages: products, product details, shopping cart, and check out. The app includes basic navigation between pages and a limited dataset that helps to demonstrate app features. The prototype doesn't include any backend functionality, such as user authentication, payment processing, or database integration.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -25,11 +25,11 @@ If you're using a local PC as your lab environment for this exercise:
 
 - You can download the Visual Studio Code installer file from the following URL: <a href="https://code.visualstudio.com/download" target="_blank">Download Visual Studio Code</a>.
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 If you're using a hosted lab environment that supports this exercise:
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, open a browser and paste the following URL into the site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, open a browser and paste the following URL into the site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 ## Exercise scenario
 
@@ -81,7 +81,7 @@ Use the following steps to complete this section of the exercise:
 
     The *Set Mode* and *Pick Model* dropdown menus are located in the bottom-left corner of the Chat view.
 
-    **GitHub Copilot modes**: Although their capabilities overlap, each of the chat modes (Ask, Edit, and Agent) are optimized for a specific purpose:
+    **GitHub Copilot modes**: Although their capabilities overlap, each of the chat modes (Ask, Edit, and Agent) is optimized for a specific purpose:
 
     - **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can use Ask mode to explain code, suggest changes, or provide information about the codebase.
     - **Edit**: Use this mode to edit specific code files in your workspace. You can use Edit mode to refactor code, add comments, implement tests, or add new features to your apps.
@@ -310,7 +310,7 @@ Use the following steps to complete this section of the exercise:
 
 1. In Visual Studio Code, create a new folder named **ShoppingApp** in the VibeCoding-PrototypeApp folder.
 
-    GitHub Copilot Agent needs an empty folder to use as a workspace for the new the app files.
+    GitHub Copilot Agent needs an empty folder to use as a workspace for the new app files.
 
     The EXPLORER view in Visual Studio Code should look similar to the following:
 
