@@ -64,9 +64,39 @@ namespace ECommercePricing
 
     public class PricingEngine
     {
+        // Security: Constants for validation bounds
+        private const decimal MAX_DISCOUNT_PERCENT = 95m; // Maximum 95% discount
+        private const decimal MIN_FINAL_PRICE = 0.01m; // Minimum $0.01 final price
+        private const decimal MAX_ORDER_VALUE = 1_000_000m; // Maximum $1M order value
+
         public static void CalculateFinalPrice(User user, Order order)
         {
+            // Security: Input validation to prevent null reference attacks
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "User cannot be null");
+            }
+
+            if (order == null)
+            {
+                throw new ArgumentNullException(nameof(order), "Order cannot be null");
+            }
+
+            if (!IsValidOrder(order))
+            {
+                Console.WriteLine("Error: Invalid order data detected. Pricing calculation aborted.");
+                return;
+            }
+
             decimal baseTotal = order.GetSubtotal();
+            
+            // Security: Validate base total is within reasonable bounds
+            if (baseTotal <= 0 || baseTotal > MAX_ORDER_VALUE)
+            {
+                Console.WriteLine($"Error: Order total ${baseTotal:F2} is outside valid range ($0.01 - ${MAX_ORDER_VALUE:N0})");
+                return;
+            }
+
             decimal discountPercent = 0m;
             decimal shippingCost = CalculateBaseShipping(order);
             var appliedDiscounts = new List<string>();
@@ -74,50 +104,42 @@ namespace ECommercePricing
             // 1. Membership-based discounts: Primary customer tier evaluation
             if (user.Membership == MembershipLevel.Premium)
             {
-                discountPercent += 15; // Premium base discount
-                appliedDiscounts.Add("Premium membership (15%)");
+                discountPercent = SafeAddDiscount(discountPercent, 15, "Premium membership (15%)", appliedDiscounts);
                 
                 // 2. Premium high-value threshold: Escalating discounts for premium members
                 if (baseTotal > 10000)
                 {
-                    discountPercent += 10; // Ultra high-value bonus
-                    appliedDiscounts.Add("Ultra high-value bonus (10%)");
+                    discountPercent = SafeAddDiscount(discountPercent, 10, "Ultra high-value bonus (10%)", appliedDiscounts);
                     
                     // 3. Seasonal event multiplier: Premium seasonal benefits
                     if (order.ActiveEvent == SeasonalEvent.BlackFriday || order.ActiveEvent == SeasonalEvent.CyberMonday)
                     {
-                        discountPercent += 8; // Premium seasonal bonus
-                        appliedDiscounts.Add("Premium seasonal bonus (8%)");
+                        discountPercent = SafeAddDiscount(discountPercent, 8, "Premium seasonal bonus (8%)", appliedDiscounts);
                         
                         // 4. Corporate account benefits: B2B premium advantages
                         if (user.IsCorporateAccount)
                         {
-                            discountPercent += 5; // Corporate account bonus
-                            appliedDiscounts.Add("Corporate account bonus (5%)");
+                            discountPercent = SafeAddDiscount(discountPercent, 5, "Corporate account bonus (5%)", appliedDiscounts);
                             
                             // 5. Subscription service benefits: Recurring revenue incentives
                             if (user.HasActiveSubscription)
                             {
-                                discountPercent += 3; // Subscription service bonus
-                                appliedDiscounts.Add("Subscription service bonus (3%)");
+                                discountPercent = SafeAddDiscount(discountPercent, 3, "Subscription service bonus (3%)", appliedDiscounts);
                                 
                                 // 6. Loyalty tenure reward: Long-term premium customer benefits
                                 if (user.YearsAsMember >= 5)
                                 {
-                                    discountPercent += 5; // Veteran premium member
-                                    appliedDiscounts.Add("Veteran premium member (5%)");
+                                    discountPercent = SafeAddDiscount(discountPercent, 5, "Veteran premium member (5%)", appliedDiscounts);
                                     
                                     // 7. Lifetime spending tier: Ultimate premium benefits
                                     if (user.LifetimeSpent > 50000)
                                     {
-                                        discountPercent += 7; // VIP status
-                                        appliedDiscounts.Add("VIP status (7%)");
+                                        discountPercent = SafeAddDiscount(discountPercent, 7, "VIP status (7%)", appliedDiscounts);
                                         
                                         // 8. Express shipping optimization: Premium logistics benefits
                                         if (order.HasExpressShipping)
                                         {
-                                            discountPercent += 2; // Express shipping loyalty bonus
-                                            appliedDiscounts.Add("Express shipping loyalty bonus (2%)");
+                                            discountPercent = SafeAddDiscount(discountPercent, 2, "Express shipping loyalty bonus (2%)", appliedDiscounts);
                                         }
                                     }
                                 }
@@ -127,50 +149,42 @@ namespace ECommercePricing
                 }
                 else if (baseTotal > 5000)
                 {
-                    discountPercent += 5; // Standard high-value bonus
-                    appliedDiscounts.Add("High-value bonus (5%)");
+                    discountPercent = SafeAddDiscount(discountPercent, 5, "High-value bonus (5%)", appliedDiscounts);
                 }
             }
             else if (user.Membership == MembershipLevel.Gold)
             {
-                discountPercent += 12; // Gold base discount
-                appliedDiscounts.Add("Gold membership (12%)");
+                discountPercent = SafeAddDiscount(discountPercent, 12, "Gold membership (12%)", appliedDiscounts);
                 
                 // 2. Gold seasonal benefits: Mid-tier seasonal advantages
                 if (order.ActiveEvent != SeasonalEvent.None)
                 {
-                    discountPercent += 6; // Gold seasonal bonus
-                    appliedDiscounts.Add("Gold seasonal bonus (6%)");
+                    discountPercent = SafeAddDiscount(discountPercent, 6, "Gold seasonal bonus (6%)", appliedDiscounts);
                     
                     // 3. Gold volume threshold: Quantity-based gold benefits
                     if (order.Items.Count >= 15)
                     {
-                        discountPercent += 4; // Gold bulk bonus
-                        appliedDiscounts.Add("Gold bulk bonus (4%)");
+                        discountPercent = SafeAddDiscount(discountPercent, 4, "Gold bulk bonus (4%)", appliedDiscounts);
                         
                         // 4. Category diversity bonus: Multi-category gold rewards
                         if (order.HasMixedCategories())
                         {
-                            discountPercent += 3; // Category diversity bonus
-                            appliedDiscounts.Add("Category diversity bonus (3%)");
+                            discountPercent = SafeAddDiscount(discountPercent, 3, "Category diversity bonus (3%)", appliedDiscounts);
                             
                             // 5. Employee discount stacking: Staff gold benefits
                             if (user.IsEmployee)
                             {
-                                discountPercent += 10; // Employee gold discount
-                                appliedDiscounts.Add("Employee gold discount (10%)");
+                                discountPercent = SafeAddDiscount(discountPercent, 10, "Employee gold discount (10%)", appliedDiscounts);
                                 
                                 // 6. Pre-order benefits: Early access inventory rewards
                                 if (order.IsPreOrder)
                                 {
-                                    discountPercent += 5; // Pre-order employee bonus
-                                    appliedDiscounts.Add("Pre-order employee bonus (5%)");
+                                    discountPercent = SafeAddDiscount(discountPercent, 5, "Pre-order employee bonus (5%)", appliedDiscounts);
                                     
                                     // 7. Payment method optimization: Financial processing benefits
                                     if (order.PaymentMethod == PaymentMethod.BankTransfer || order.PaymentMethod == PaymentMethod.Cryptocurrency)
                                     {
-                                        discountPercent += 3; // Alternative payment bonus
-                                        appliedDiscounts.Add("Alternative payment bonus (3%)");
+                                        discountPercent = SafeAddDiscount(discountPercent, 3, "Alternative payment bonus (3%)", appliedDiscounts);
                                     }
                                 }
                             }
@@ -180,44 +194,37 @@ namespace ECommercePricing
             }
             else if (user.Membership == MembershipLevel.Silver)
             {
-                discountPercent += 8; // Silver base discount
-                appliedDiscounts.Add("Silver membership (8%)");
+                discountPercent = SafeAddDiscount(discountPercent, 8, "Silver membership (8%)", appliedDiscounts);
                 
                 // 2. Silver student benefits: Educational discounts
                 if (user.IsStudent)
                 {
-                    discountPercent += 5; // Student silver bonus
-                    appliedDiscounts.Add("Student silver bonus (5%)");
+                    discountPercent = SafeAddDiscount(discountPercent, 5, "Student silver bonus (5%)", appliedDiscounts);
                     
                     // 3. Back-to-school special: Seasonal student benefits
                     if (order.ActiveEvent == SeasonalEvent.BackToSchool)
                     {
-                        discountPercent += 7; // Back-to-school bonus
-                        appliedDiscounts.Add("Back-to-school bonus (7%)");
+                        discountPercent = SafeAddDiscount(discountPercent, 7, "Back-to-school bonus (7%)", appliedDiscounts);
                         
                         // 4. Student bulk purchase: Educational volume discounts
                         if (order.Items.Count >= 8)
                         {
-                            discountPercent += 4; // Student bulk discount
-                            appliedDiscounts.Add("Student bulk discount (4%)");
+                            discountPercent = SafeAddDiscount(discountPercent, 4, "Student bulk discount (4%)", appliedDiscounts);
                             
                             // 5. Student electronics focus: Technology education discounts
-                            if (order.GetSubtotalForCategory("Electronics") > order.GetSubtotal() * 0.6m)
+                            if (SafeGetCategoryPercentage(order, "Electronics") > 0.6m)
                             {
-                                discountPercent += 6; // Student tech focus bonus
-                                appliedDiscounts.Add("Student tech focus bonus (6%)");
+                                discountPercent = SafeAddDiscount(discountPercent, 6, "Student tech focus bonus (6%)", appliedDiscounts);
                                 
                                 // 6. Gift wrap service: Student presentation benefits
                                 if (order.HasGiftWrap)
                                 {
-                                    discountPercent += 2; // Gift presentation bonus
-                                    appliedDiscounts.Add("Gift presentation bonus (2%)");
+                                    discountPercent = SafeAddDiscount(discountPercent, 2, "Gift presentation bonus (2%)", appliedDiscounts);
                                     
                                     // 7. Express delivery educational: Time-sensitive learning benefits
                                     if (order.HasExpressShipping)
                                     {
-                                        discountPercent += 3; // Express education bonus
-                                        appliedDiscounts.Add("Express education bonus (3%)");
+                                        discountPercent = SafeAddDiscount(discountPercent, 3, "Express education bonus (3%)", appliedDiscounts);
                                     }
                                 }
                             }
@@ -227,44 +234,37 @@ namespace ECommercePricing
             }
             else if (user.IsFirstTimeBuyer)
             {
-                discountPercent += 10; // Enhanced first-time buyer incentive
-                appliedDiscounts.Add("First-time buyer (10%)");
+                discountPercent = SafeAddDiscount(discountPercent, 10, "First-time buyer (10%)", appliedDiscounts);
                 
                 // 2. New customer seasonal welcome: Event-based new customer benefits
                 if (order.ActiveEvent != SeasonalEvent.None)
                 {
-                    discountPercent += 5; // Seasonal welcome bonus
-                    appliedDiscounts.Add("Seasonal welcome bonus (5%)");
+                    discountPercent = SafeAddDiscount(discountPercent, 5, "Seasonal welcome bonus (5%)", appliedDiscounts);
                     
                     // 3. New customer volume commitment: Encouraging larger first orders
                     if (order.Items.Count >= 5)
                     {
-                        discountPercent += 4; // First-order volume bonus
-                        appliedDiscounts.Add("First-order volume bonus (4%)");
+                        discountPercent = SafeAddDiscount(discountPercent, 4, "First-order volume bonus (4%)", appliedDiscounts);
                         
                         // 4. Premium payment method: Financial service onboarding
                         if (order.PaymentMethod == PaymentMethod.PayPal || order.PaymentMethod == PaymentMethod.CreditCard)
                         {
-                            discountPercent += 3; // Premium payment newcomer bonus
-                            appliedDiscounts.Add("Premium payment newcomer bonus (3%)");
+                            discountPercent = SafeAddDiscount(discountPercent, 3, "Premium payment newcomer bonus (3%)", appliedDiscounts);
                             
                             // 5. High-value first purchase: Premium new customer treatment
                             if (order.IsHighValueOrder())
                             {
-                                discountPercent += 6; // High-value newcomer bonus
-                                appliedDiscounts.Add("High-value newcomer bonus (6%)");
+                                discountPercent = SafeAddDiscount(discountPercent, 6, "High-value newcomer bonus (6%)", appliedDiscounts);
                                 
                                 // 6. Premium zone shipping: Geographic expansion incentives
                                 if (order.ShippingRegion == RegionType.PremiumZone)
                                 {
-                                    discountPercent += 4; // Premium zone newcomer bonus
-                                    appliedDiscounts.Add("Premium zone newcomer bonus (4%)");
+                                    discountPercent = SafeAddDiscount(discountPercent, 4, "Premium zone newcomer bonus (4%)", appliedDiscounts);
                                     
                                     // 7. Express shipping trial: Premium service introduction
                                     if (order.HasExpressShipping)
                                     {
-                                        discountPercent += 3; // Express shipping trial bonus
-                                        appliedDiscounts.Add("Express shipping trial bonus (3%)");
+                                        discountPercent = SafeAddDiscount(discountPercent, 3, "Express shipping trial bonus (3%)", appliedDiscounts);
                                     }
                                 }
                             }
@@ -282,30 +282,30 @@ namespace ECommercePricing
                     // 3. Percentage discount coupon: Membership-enhanced coupon benefits
                     if (order.Coupon.Type == "percent")
                     {
-                        decimal couponValue = order.Coupon.Value;
+                        decimal couponValue = Math.Max(0, Math.Min(50, order.Coupon.Value)); // Security: Cap coupon at 50%
                         
                         // 4. Membership coupon enhancement: Tier-based coupon boosts
                         if (user.Membership == MembershipLevel.Premium)
                         {
-                            couponValue *= 1.3m; // 30% coupon boost for Premium
+                            couponValue = Math.Min(50, couponValue * 1.3m); // 30% coupon boost for Premium, capped at 50%
                             appliedDiscounts.Add($"Premium-enhanced coupon {order.Coupon.Code} ({couponValue:F1}%)");
                             
                             // 5. Seasonal coupon stacking: Event-based premium coupon benefits
                             if (order.ActiveEvent == SeasonalEvent.BlackFriday)
                             {
-                                couponValue += 5; // Black Friday premium coupon boost
+                                couponValue = Math.Min(55, couponValue + 5); // Black Friday premium coupon boost, capped at 55%
                                 appliedDiscounts.Add("Black Friday premium coupon boost (5%)");
                                 
                                 // 6. Corporate payment optimization: B2B financial processing benefits
                                 if (user.IsCorporateAccount && order.PaymentMethod == PaymentMethod.BankTransfer)
                                 {
-                                    couponValue *= 1.15m; // 15% corporate payment multiplier
+                                    couponValue = Math.Min(60, couponValue * 1.15m); // 15% corporate payment multiplier, capped at 60%
                                     appliedDiscounts.Add($"Corporate payment multiplier (total: {couponValue:F1}%)");
                                     
                                     // 7. Bulk order corporate: Large-scale business benefits
                                     if (order.IsBulkOrder)
                                     {
-                                        couponValue += 2; // Bulk corporate bonus
+                                        couponValue = Math.Min(65, couponValue + 2); // Bulk corporate bonus, capped at 65%
                                         appliedDiscounts.Add("Bulk corporate bonus (2%)");
                                     }
                                 }
@@ -313,7 +313,7 @@ namespace ECommercePricing
                         }
                         else if (user.Membership == MembershipLevel.Gold)
                         {
-                            couponValue *= 1.2m; // 20% coupon boost for Gold
+                            couponValue = Math.Min(40, couponValue * 1.2m); // 20% coupon boost for Gold, capped at 40%
                             appliedDiscounts.Add($"Gold-enhanced coupon {order.Coupon.Code} ({couponValue:F1}%)");
                         }
                         else
@@ -321,7 +321,7 @@ namespace ECommercePricing
                             appliedDiscounts.Add($"Coupon {order.Coupon.Code} ({couponValue}%)");
                         }
                         
-                        discountPercent += couponValue;
+                        discountPercent = SafeAddDiscount(discountPercent, couponValue, "", appliedDiscounts, false);
                     }
                     // 3. Free shipping coupon: Enhanced shipping benefits
                     else if (order.Coupon.Type == "shipping")
@@ -344,18 +344,19 @@ namespace ECommercePricing
             // 1. Bulk purchase incentive: Volume-based discount with category considerations
             if (order.Items.Count >= 20)
             {
-                discountPercent += 8; // Major bulk discount
-                appliedDiscounts.Add("Major bulk purchase (8%)");
+                discountPercent = SafeAddDiscount(discountPercent, 8, "Major bulk purchase (8%)", appliedDiscounts);
             }
             else if (order.Items.Count >= 10)
             {
-                discountPercent += 5; // Standard bulk discount
-                appliedDiscounts.Add("Bulk purchase (5%)");
+                discountPercent = SafeAddDiscount(discountPercent, 5, "Bulk purchase (5%)", appliedDiscounts);
             }
+
+            // Security: Final discount validation
+            discountPercent = Math.Min(discountPercent, MAX_DISCOUNT_PERCENT);
 
             // Apply final calculations with category-specific rules
             var finalCalculation = ApplyCategorySpecificDiscounts(baseTotal, discountPercent, order);
-            decimal finalPrice = finalCalculation.finalPrice + shippingCost;
+            decimal finalPrice = Math.Max(MIN_FINAL_PRICE, finalCalculation.finalPrice + shippingCost);
 
             // Display results
             Console.WriteLine($"Base Total: ${baseTotal:F2}");
@@ -363,6 +364,58 @@ namespace ECommercePricing
             Console.WriteLine($"Total Discount: {discountPercent:F1}% (Electronics capped at 15%)");
             Console.WriteLine($"Shipping Cost: ${shippingCost:F2}");
             Console.WriteLine($"Final Price: ${finalPrice:F2}");
+        }
+
+        /// <summary>
+        /// Security: Safe discount addition with bounds checking
+        /// </summary>
+        private static decimal SafeAddDiscount(decimal currentDiscount, decimal additionalDiscount, 
+            string description, List<string> appliedDiscounts, bool addDescription = true)
+        {
+            if (additionalDiscount <= 0) return currentDiscount;
+            
+            decimal newTotal = currentDiscount + additionalDiscount;
+            if (newTotal > MAX_DISCOUNT_PERCENT)
+            {
+                additionalDiscount = MAX_DISCOUNT_PERCENT - currentDiscount;
+                newTotal = MAX_DISCOUNT_PERCENT;
+            }
+
+            if (addDescription && !string.IsNullOrEmpty(description))
+            {
+                appliedDiscounts.Add(description);
+            }
+
+            return newTotal;
+        }
+
+        /// <summary>
+        /// Security: Safe category percentage calculation with division by zero protection
+        /// </summary>
+        private static decimal SafeGetCategoryPercentage(Order order, string category)
+        {
+            decimal total = order.GetSubtotal();
+            if (total <= 0) return 0;
+            
+            return order.GetSubtotalForCategory(category) / total;
+        }
+
+        /// <summary>
+        /// Security: Validates order data to prevent malicious inputs
+        /// </summary>
+        private static bool IsValidOrder(Order order)
+        {
+            if (order.Items == null || order.Items.Count == 0)
+                return false;
+
+            foreach (var item in order.Items)
+            {
+                if (item == null || string.IsNullOrWhiteSpace(item.Name) || 
+                    string.IsNullOrWhiteSpace(item.Category) || item.Price < 0 || item.Price > 100000)
+                    return false;
+            }
+
+            return true;
         }
 
         private static decimal CalculateBaseShipping(Order order)
@@ -415,6 +468,9 @@ namespace ECommercePricing
 
             // Test different pricing scenarios
             TestPricingScenarios(users, coupons, orders);
+
+            // Run security tests to demonstrate security measures
+            SecurityTest.RunSecurityTests();
         }
 
         static List<User> CreateTestUsers()
