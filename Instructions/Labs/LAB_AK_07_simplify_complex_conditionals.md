@@ -6,7 +6,10 @@
 
 # Simplify complex conditionals using GitHub Copilot
 
-This lab exercise guides you through examining and refactoring two complex C# codebases using GitHub Copilot tools: an E-commerce Pricing Engine and a Loan Approval Workflow. Both scenarios feature deeply nested conditional logic that mirrors real-world business rules. The E-commerce scenario focuses on dynamic pricing, discounts, and shipping rules, while the Loan Approval scenario models financial eligibility and fallback loan offers. You will use GitHub Copilot to analyze, explain, and simplify these conditionals into more maintainable structures.
+In this exercise, you use GitHub Copilot to analyze and simplify deeply nested conditional logic that mirrors real-world business rules. You'll work with two sample applications that reflect real-world scenarios:
+
+1. E-commerce pricing engine.
+2. Loan approval workflow.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -52,7 +55,10 @@ If you're using a hosted lab environment for this exercise:
 
 ## Exercise scenario
 
-You're a software development engineer working for a consulting agency. Your clients have complex C# codebases that require refactoring to improve maintainability and readability. The first codebase is an E-commerce Pricing Engine that calculates dynamic pricing based on various business rules, including membership levels, order values, coupon codes, product categories, and shipping rules. The second codebase is a Loan Approval Workflow that evaluates loan applications based on credit scores, income, employment status, debt ratios, collateral, criminal records, and residency.
+You're a software developer working for a consulting agency. New clients need help refactoring conditional logic to improve code maintainability and readability.
+
+- E-commerce pricing demo: The first app is an E-commerce Pricing Engine that calculates dynamic pricing based on various business rules. Conditionals include membership levels, order values, coupon codes, product categories, and shipping rules.
+- Loan approval demo: The second app is a Loan Approval Workflow that evaluates loan applications based on various factors. Conditionals include income, employment status, debt ratios, collateral, and credit history.
 
 This exercise includes the following tasks:
 
@@ -70,9 +76,50 @@ Part 2: Loan approval workflow
 1. Refactor the loan approval code with GitHub Copilot.
 1. Test the refactored loan approval code.
 
+## Download sample projects
+
+Use the following steps to download the sample projects and open them in Visual Studio Code:
+
+1. Open a browser window in your lab environment.
+
+1. To download a zip file containing the sample app projects, paste the following URL into your browser's address bar: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
+
+    The zip file is named **GHCopilotEx7LabApps.zip**.
+
+1. Extract the files from the **GHCopilotEx7LabApps.zip** file.
+
+    For example:
+
+    1. Navigate to the downloads folder in your lab environment.
+
+    1. Right-click *GHCopilotEx7LabApps.zip*, and then select **Extract all**.
+
+    1. Select **Show extracted files when complete**, and then select **Extract**.
+
+1. Open the extracted files folder, then copy the **ECommercePricingEngine** folder to a location that's easy to access, such as your Windows Desktop folder.
+
+1. Open the **ECommercePricingEngine** folder in Visual Studio Code.
+
+    For example:
+
+    1. Open Visual Studio Code in your lab environment.
+
+    1. In Visual Studio Code, on the **File** menu, select **Open Folder**.
+
+    1. Navigate to the Windows Desktop folder, select **ECommercePricingEngine** and then select **Select Folder**.
+
+1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following solution structure:
+
+    - ECommercePricingEngine\
+        - ECommercePricingDemo.cs
+
+1. Ensure that the solution builds successfully.
+
+    For example, in the SOLUTION EXPLORER view, right-click **ECommercePricingEngine**, and then select **Build**.
+
 ## Part 1: E-commerce pricing engine
 
-In this section, you will examine the E-commerce Pricing Engine code and use GitHub Copilot to refactor it.
+In this section, you examine the E-commerce Pricing Engine sample app and use GitHub Copilot to refactor the conditional logic.
 
 ### Task 1: Review the E-commerce pricing code
 
@@ -225,7 +272,7 @@ Use the following steps to complete this task:
 
 ## Part 2: Loan approval workflow
 
-In this section, you will examine the Loan Approval Workflow code and use GitHub Copilot to refactor it.
+In this section, you examine the Loan Approval Workflow sample app and use GitHub Copilot to refactor the conditional logic.
 
 ### Task 1: Review the loan approval code
 
