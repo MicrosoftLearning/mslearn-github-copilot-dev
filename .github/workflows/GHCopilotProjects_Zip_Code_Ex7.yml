@@ -49,9 +49,29 @@ jobs:
       uses: actions/checkout@v4
     - name: Create GHCopilotEx7 SampleApps zip
       run: | 
+        # Ensure Downloads directory exists
+        mkdir -p ./DownloadableCodeProjects/Downloads
+        
+        # Change to source directory
         cd ./DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals
+        
+        # Check if there are any git-tracked files to zip
+        if [ -z "$(git ls-files)" ]; then
+          echo "No git-tracked files found in the source directory"
+          exit 1
+        fi
+        
+        # Remove existing zip file and create new one
         rm -f ../../Downloads/GHCopilotEx7LabApps.zip
         zip -r -q ../../Downloads/GHCopilotEx7LabApps.zip $(git ls-files)
+        
+        # Verify zip file was created
+        if [ ! -f ../../Downloads/GHCopilotEx7LabApps.zip ]; then
+          echo "Failed to create zip file"
+          exit 1
+        fi
+        
+        echo "Successfully created GHCopilotEx7LabApps.zip"
     - name: Commit and push
       uses: Endbug/add-and-commit@v7
       with:
