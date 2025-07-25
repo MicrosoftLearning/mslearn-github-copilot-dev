@@ -112,6 +112,12 @@ Use the following steps to download the sample projects and open them in Visual 
 
     - ECommercePricingEngine\
         - ECommercePricingDemo.cs
+        - ECommercePricingEngine.csproj
+        - SecurityTest.cs
+    - LoanApprovalWorkflow\
+        - LoanApprovalDemo.cs
+        - LoanApprovalWorkflow.csproj
+        - SecurityTest.cs
 
 1. Ensure that the solution builds successfully.
 

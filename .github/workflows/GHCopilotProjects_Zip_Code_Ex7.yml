@@ -39,7 +39,7 @@ on:
 
 defaults:
   run:
-    shell: pwsh
+    shell: bash
 
 jobs:
   create_zip:
@@ -50,8 +50,8 @@ jobs:
     - name: Create GHCopilotEx7 SampleApps zip
       run: | 
         cd ./DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals
-        rm -f ../Downloads/GHCopilotEx7LabApps.zip
-        zip -r -q ../Downloads/GHCopilotEx7LabApps.zip $(git ls-files)
+        rm -f ../../Downloads/GHCopilotEx7LabApps.zip
+        zip -r -q ../../Downloads/GHCopilotEx7LabApps.zip $(git ls-files)
     - name: Commit and push
       uses: Endbug/add-and-commit@v7
       with:
