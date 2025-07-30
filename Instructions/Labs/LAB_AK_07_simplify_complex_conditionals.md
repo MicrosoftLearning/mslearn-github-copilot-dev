@@ -6,10 +6,9 @@
 
 # Simplify complex conditionals using GitHub Copilot
 
-In this exercise, you use GitHub Copilot to analyze and simplify deeply nested conditional logic that mirrors real-world business rules. You'll work with two sample applications that reflect real-world scenarios:
+Conditional logic is often complex in business applications, especially in domains like e-commerce pricing and financial services. Deeply nested and complex conditionals can make code difficult to read, maintain, and test.
 
-1. E-commerce pricing engine.
-2. Loan approval workflow.
+In this exercise, you use GitHub Copilot to analyze code that contains deeply nested conditional logic, refactor the code logic, and then test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of the code and explore options simplifying the logic. You use GitHub Copilot in Agent mode to refactor the code by extracting complex conditional logic into smaller, focused helper methods. By breaking down complex conditionals into smaller methods, you improve the maintainability and readability of the code.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -18,6 +17,8 @@ This exercise should take approximately **30** minutes to complete.
 ## Before you start
 
 Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+
+### Configure your lab environment
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -53,30 +54,7 @@ If you're using a hosted lab environment for this exercise:
 
     ```
 
-## Exercise scenario
-
-You're a software developer working for a consulting agency. New clients need help refactoring conditional logic to improve code maintainability and readability.
-
-- E-commerce pricing demo: The first app is an E-commerce Pricing Engine that calculates dynamic pricing based on various business rules. Conditionals include membership levels, order values, coupon codes, product categories, and shipping rules.
-- Loan approval demo: The second app is a Loan Approval Workflow that evaluates loan applications based on various factors. Conditionals include income, employment status, debt ratios, collateral, and credit history.
-
-This exercise includes the following tasks:
-
-Part 1: E-commerce pricing engine
-
-1. Review the E-commerce pricing engine codebase.
-1. Identify refactoring opportunities in the E-commerce pricing code.
-1. Refactor the E-commerce pricing code with GitHub Copilot.
-1. Test the refactored E-commerce pricing code.
-
-Part 2: Loan approval workflow
-
-1. Review the Loan Approval Workflow codebase.
-1. Identify refactoring opportunities in the loan approval code.
-1. Refactor the loan approval code with GitHub Copilot.
-1. Test the refactored loan approval code.
-
-## Download sample projects
+### Download sample code projects
 
 Use the following steps to download the sample projects and open them in Visual Studio Code:
 
@@ -120,40 +98,76 @@ Use the following steps to download the sample projects and open them in Visual 
             - LoanApprovalDemo.cs
             - SecurityTest.cs
 
-1. Ensure that the two code projects build successfully.
+## Exercise scenario
 
-    For example, in the SOLUTION EXPLORER view, right-click **ECommercePricingEngine**, and then select **Build**.
+You're a software developer working for a consulting firm. New clients need help refactoring conditional logic to improve code maintainability and readability.
 
-    You'll see warnings "Cannot convert null literal to non-nullable reference type." when you build the ECommercePricingEngine project. You can ignore these warnings for the purposes of this exercise.
+- E-commerce pricing demo: The first app is an E-commerce Pricing Engine that calculates dynamic pricing based on various business rules. Conditionals include membership levels, order values, coupon codes, product categories, and shipping rules.
+- Loan approval demo: The second app is a Loan Approval Workflow that evaluates loan applications based on various factors. Conditionals include income, employment status, debt ratios, collateral, and credit history.
+
+This exercise includes the following tasks:
+
+Part 1: E-commerce pricing engine
+
+1. Review the E-commerce pricing engine codebase.
+1. Identify refactoring opportunities in the E-commerce pricing code.
+1. Refactor the E-commerce pricing code with GitHub Copilot.
+1. Test the refactored E-commerce pricing code.
+
+Part 2: Loan approval workflow
+
+1. Review the Loan Approval Workflow codebase.
+1. Identify refactoring opportunities in the loan approval code.
+1. Refactor the loan approval code with GitHub Copilot.
+1. Test the refactored loan approval code.
 
 ## Part 1: E-commerce pricing engine
 
-In this section, you examine the E-commerce Pricing Engine sample app and use GitHub Copilot to refactor the conditional logic.
+In this part of the exercise, you examine the E-commerce Pricing Engine sample app and use GitHub Copilot to refactor the conditional logic.
 
-### Task 1: Review the E-commerce pricing code
+### Review the E-commerce pricing code
 
-The first step in any refactoring effort is to understand the existing codebase. You'll open the E-commerce pricing engine project and use GitHub Copilot to help analyze the complex conditional logic.
+The first step in any refactoring effort is to ensure that you understand the existing codebase.
+
+In this task, you'll open the E-commerce pricing engine project and use GitHub Copilot to help analyze the complex conditional logic.
 
 Use the following steps to complete this task:
 
 1. Ensure that you have the GHCopilotEx7LabApps folder open in Visual Studio Code.
 
+    Refer to the **Before you start** section if you haven't downloaded the sample code projects.
+
+1. Verify that the **ECommercePricingEngine** code project builds successfully.
+
+    For example, in the SOLUTION EXPLORER view, right-click **ECommercePricingEngine**, and then select **Build**.
+
+    You'll see warnings "Cannot convert null literal to non-nullable reference type." when you build the project, but there shouldn't be any errors. You can ignore the warnings for the purposes of this exercise.
+
 1. Open the GitHub Copilot Chat view.
 
-    If the Chat view is not already open, you can open it by selecting the **Chat** icon at the top of the Visual Studio Code window, just to the right of the Search textbox.
+    If the Chat view isn't already open, you can open it by selecting the **Chat** icon at the top of the Visual Studio Code window, just to the right of the Search textbox.
 
 1. In the Chat view, ensure that the chat mode is set to **Ask** and the model is set to **GPT-4.1**.
 
-    The Ask mode allows you to interact with GitHub Copilot to ask questions and get explanations about the code. The GPT-4.1 model, which is included with the GitHub Copilot Free plan, provides advanced capabilities for understanding and generating code.
+    Both settings are available in the bottom-left corner of the Chat view. The Ask mode allows you to interact with GitHub Copilot to ask questions and get explanations about the code. The GPT-4.1 model, which is included with the GitHub Copilot Free plan, provides advanced capabilities for understanding and generating code.
 
-    You will be using Agent mode later in this exercise to perform more complex tasks, but for now, Ask mode is sufficient for code analysis and explanations.
+    You'll be using Agent mode later in this exercise to perform more complex tasks, but for now, Ask mode is sufficient for code analysis and explanations.
 
     > [!NOTE]
-    > The selected model can affect the responses generated by GitHub Copilot. After completing the lab exercise using the recommended settings, you may want to repeat the exercise using different models to compare the results.
+    > Some models are better suited for specific tasks than others. The model that you select can affect the responses generated by GitHub Copilot. After completing the lab exercise using the recommended settings, you may want to repeat the exercise using different models and compare the results.
 
 1. In Visual Studio Code, open the **ECommercePricingDemo.cs** file.
 
-    This file contains the complex pricing logic that you'll be refactoring. Notice the deeply nested conditional statements in the CalculateFinalPrice method.
+    This file includes the following classes:
+
+    - User: Represents a customer, with properties for membership level, purchase history, and special statuses (student, employee, corporate, etc.). Used to determine eligibility for various discounts and benefits.
+    - Coupon: Represents a discount or shipping coupon, with properties for code, validity, type (percent or shipping), and value. Used in pricing calculations to apply additional discounts or free shipping.
+    - Item: Represents a product in an order, with name, category, and price. Used to build up orders and calculate subtotals and category-specific discounts.
+    - Order: Represents a customer’s order, containing a list of items, shipping region, coupon, event, payment method, and other order-specific flags. Provides methods to calculate subtotals, check for category presence, and determine order characteristics (e.g., high value, mixed categories).
+    - PricingEngine: Contains the main logic for calculating the final price of an order. Applies discounts based on user status, order details, coupons, and category-specific rules. Handles security checks and ensures discounts and prices stay within safe bounds.
+    - Program: The entry point. Creates test users, coupons, and orders, then runs a series of complex pricing scenarios using the above classes. Demonstrates how the pricing engine applies its logic in different situations.
+
+    Each class models a real-world entity or process in an e-commerce pricing system, and they interact in the Program class to simulate and test pricing calculations. For example, User, Order, and Coupon instances are passed to PricingEngine.CalculateFinalPrice to compute and display the final price with all applicable discounts.
 
 1. Locate the **PricingEngine** class, and then select the entire **CalculateFinalPrice** method.
 
@@ -161,7 +175,7 @@ Use the following steps to complete this task:
 
 1. Right-click the selected code, and then select **Copilot** > **Explain**.
 
-    GitHub Copilot will analyze the complex conditional logic and provide an explanation of what the code does, helping you understand the business rules before refactoring.
+    GitHub Copilot will analyze the complex conditional logic and provide an explanation of what the code does, helping you understand the business rules before you investigate refactoring the code.
 
 1. Take a few minutes to review GitHub Copilot's explanation.
 
@@ -169,28 +183,54 @@ Use the following steps to complete this task:
 
     Understanding these business domains is crucial for creating effective helper methods to simplify the logic.
 
-1. If time permits, in the Chat view, enter the following prompt to get a deeper analysis:
+1. In the Chat view, to get a deeper analysis of the calculation workflow, enter the following prompt:
 
     ```plaintext
     @workspace Explain the business logic flow in the CalculateFinalPrice method. What are the different discount paths and how do they interact with each other? What are the key business rules that govern pricing calculations?
     ```
 
-    This will help you understand how the different discount categories interact and what business rules are applied at each step of the pricing calculation.
+    This analysis should help you understand how the different discount categories interact and what business rules are applied at each step of the pricing calculation.
 
-### Task 2: Identify refactoring opportunities in the E-commerce pricing code
+1. Take a few minutes to review the discount paths and other information listed in GitHub Copilot's explanation.
 
-Now that you understand the code structure, you'll use GitHub Copilot to identify specific refactoring opportunities and suggest helper methods that can simplify the complex nested conditions.
+    The explanation should cover the main discount paths, such as:
+
+    - **Membership Discounts**: How different membership levels (Premium, Gold, Silver) apply discounts and how first-time buyers are treated.
+    - **Coupon Processing**: How coupons are validated, applied, and how they interact with membership discounts.
+    - **Bulk Discounts**: How volume-based discounts are applied based on item counts.
+
+    Understanding the discount paths is essential for identifying refactoring opportunities.
+
+### Identify refactoring opportunities in the E-commerce pricing code
+
+GitHub Copilot is a great tool for analyzing complex code and identifying refactoring opportunities.
+
+In this task, you'll use GitHub Copilot to identify specific refactoring opportunities and suggest helper methods that can simplify the complex nested conditions. You'll use the discount paths identified in the previous task to help construct a prompt for GitHub Copilot.
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view.
+1. Ensure you have the GitHub Copilot Chat view open with **Ask** mode and the **GPT-4.1** model selected.
+
+1. Construct a prompt that asks GitHub Copilot to evaluate refactoring opportunities using the discount paths identified in the previous task.
+
+    Consider the following items when constructing your prompt:
+
+    - Focus on the **CalculateFinalPrice** method and its nested conditionals.
+    - Ask GitHub Copilot to suggest helper methods that can extract the complex logic into more manageable, single-responsibility methods.
+    - List the discount paths that should be considered for extraction.
+    - Emphasize the importance of maintaining the business logic while simplifying the code structure.
+    - It's often beneficial to have GitHub Copilot consider code interactions when analyzing your code. You can use the **@workspace** or **#codebase** tag to tell GitHub Copilot to include your codebase in its analysis.
 
 1. Add the **ECommercePricingDemo.cs** file to the Chat context using drag-and-drop.
 
-1. Enter the following prompt in the Chat view:
+    Although ECommercePricingDemo.cs is already open in the Visual Studio Code editor, adding it to the Chat context encourages GitHub Copilot to analyze the code file, which can result in more accurate suggestions. Adding relevant files to the Chat context is a best practice when using GitHub Copilot, even when you include the **@workspace** or **#codebase** tags in your prompt.
+
+1. Enter your constructed prompt in the Chat view:
+
+    For example:
 
     ```plaintext
-    @workspace Analyze the CalculateFinalPrice method and identify refactoring opportunities. Suggest helper methods that could extract the nested conditional logic into more manageable, single-responsibility methods. Focus on membership discounts, coupon processing, bulk discounts, and shipping calculations.
+    @workspace Analyze the CalculateFinalPrice method and suggest refactoring opportunities. Suggest helper methods that could extract the nested conditional logic into more manageable, single-responsibility methods. Focus on membership discounts, coupon processing, bulk discounts, and shipping calculations. Maintain the business logic while simplifying the code structure.
     ```
 
     GitHub Copilot will analyze the method and suggest specific refactoring opportunities, identifying patterns in the nested conditionals that can be extracted into helper methods.
@@ -198,71 +238,136 @@ Use the following steps to complete this task:
 1. Review GitHub Copilot's suggestions.
 
     The response should identify several refactoring opportunities such as:
+
     - **ApplyMembershipDiscount**: Extract membership-level discount logic
     - **ApplyCouponDiscount**: Handle coupon validation and application
     - **ApplyBulkDiscount**: Manage volume-based discounts
     - **CalculateShippingCost**: Separate shipping cost calculations
-    - **ApplyCategorySpecificRules**: Handle category-based discount limitations
 
-1. Enter the following prompt to get more specific guidance:
+1. To generate specific guidance on how to implement these helper methods, enter the following prompt:
 
     ```plaintext
     For each suggested helper method, explain what specific conditional logic should be extracted and how it would simplify the main method. Include the method signatures and return types that would be most appropriate.
     ```
 
-    This will provide you with a detailed refactoring plan that you can follow in the next task.
+1. Take a minute to review GitHub Copilot's detailed refactoring plan.
 
-### Task 3: Refactor the E-commerce pricing code with GitHub Copilot
+    The response should outline the specific logic to be extracted for each helper method, along with suggested method signatures and return types. Review the plan to ensure it aligns with the business logic and maintains the intended functionality.
 
-You'll now implement the refactoring by creating helper methods and replacing the nested conditional logic with method calls. This approach follows the Single Responsibility Principle and makes the code more maintainable.
+### Refactor the E-commerce pricing code with GitHub Copilot Agent
+
+GitHub Copilot has three modes, **Ask**, **Edit**, and **Agent**. When running in Agent mode, GitHub Copilot works as an autonomous AI agent.
+
+In Agent mode:
+
+- Your prompt specifies the task to be performed, and GitHub Copilot determines the best way to accomplish that task.
+- GitHub Copilot reviews the codebase to determine the relevant files and context.
+- GitHub Copilot uses the Chat view to inform you of its plans and to keep you informed as changes are being made. It may also provide explanations or justifications for the changes being made.
+- GitHub Copilot can invoke tools to accomplish the task you requested.
+- GitHub Copilot may pause during the task and ask you for assistance or clarification. Monitor the chat and respond to these prompts to assist the autonomous agent.
+- GitHub Copilot updates your code file in the editor. Once the task is complete, you can review the changes made by GitHub Copilot before applying them to your codebase (individually or collectively).
+
+In this section of the exercise, you'll use GitHub Copilot Agent to refactor the code by creating helper methods and replacing the nested conditional logic with method calls. You'll create helper methods for each identified area of complexity, starting with the membership discount logic, then moving on to coupon processing, bulk discounts, and finally shipping calculations. This approach follows the Single Responsibility Principle and makes the code more maintainable. Refactoring the complex conditional logic makes it more modular, maintainable, and easier to read.
 
 Use the following steps to complete this task:
 
-1. Select the entire `CalculateFinalPrice` method in the **ECommercePricingDemo.cs** file.
+1. Ensure that the GitHub Copilot Chat view is open in Visual Studio Code.
 
-1. In the Chat view, enter the following prompt:
+1. In the chat view, select the **Agent** mode.
+
+1. Take a minute to plan your code refactoring tasks.
+
+    You need to write one or more tasks that can be assigned to GitHub Copilot Agent. These tasks will be used to refactor the **CalculateFinalPrice** method by extracting complex conditional logic into smaller, focused helper methods. Each helper method will handle a specific aspect of the pricing calculation, making the main method much more readable and maintainable.
+
+    To keep the refactoring process manageable, you can construct a series of tasks that focus on one area of complexity at a time.
+
+    The four main areas of complexity identified by GitHub Copilot in the previous task (the example response) are:
+
+    - **Membership Discounts**: Extract the membership-level discount logic into a helper method named **ApplyMembershipDiscount**.
+    - **Coupon Processing**: Extract the coupon validation and application logic into a helper method named **ApplyCouponDiscount**.
+    - **Bulk Discounts**: Extract the bulk discount calculation logic into a helper method named **ApplyBulkDiscount**.
+    - **Shipping Calculations**: Extract the shipping cost calculation logic into a helper method named **CalculateShippingCost**.
+
+    Each task that you create should include the following elements:
+
+    - Natural language text that provides high-level context for the task. For example, a description of the code that's being refactored and the area of complexity that's being extracted into a helper method.
+    - Specific details about the helper method that's being created. For example, the method name, parameters, and return type.
+
+    For example, the first refactoring task could be similar to the following:
 
     ```plaintext
     Refactor the selected CalculateFinalPrice method by extracting the membership discount logic into a new helper method called ApplyMembershipDiscount. This method should take User, Order, and current discount percentage as parameters and return the updated discount percentage with a list of applied discounts.
     ```
 
-    This prompt focuses on extracting one specific area of complexity first, making the refactoring more manageable.
+    This task prompt clearly states the action to be taken (refactoring the method) and specifies the new helper method to be created, along with its parameters and return type.
 
-1. Review the suggested refactoring and apply the changes to your code.
+1. Select the entire **CalculateFinalPrice** method.
 
-    The suggested refactoring should create a new `ApplyMembershipDiscount` method that handles all the membership-level logic (Premium, Gold, Silver, and first-time buyer discounts) and simplifies the main method.
+1. In the Chat view, submit a refactoring task to extract the membership discount logic:
 
-1. Next, enter the following prompt to extract coupon logic:
+    For example:
+
+    ```plaintext
+    Refactor the selected CalculateFinalPrice method by extracting the membership discount logic into a new helper method called ApplyMembershipDiscount. This method should take User, Order, and current discount percentage as parameters and return the updated discount percentage with a list of applied discounts.
+    ```
+
+1. Review the suggested updates in the Visual Studio Code editor.
+
+    The suggested refactoring should create a new **ApplyMembershipDiscount** method that handles all the membership-level logic (Premium, Gold, Silver, and first-time buyer discounts) and simplifies the main method.
+
+1. To accept the changes, select **Keep**.
+
+    You should always review the changes suggested by GitHub Copilot before accepting them. This ensures that the updates align with your intended business logic, app functionality, and coding standards.
+
+    You can reject the suggested changes if they don't meet your expectations. You can also accept a subset of the changes and reject others.
+
+    If you accept GitHub Copilot's suggested updates, and then realize that the suggestions introduced issues that are difficult to resolve moving forward, you can revert the changes by selecting **Undo Last Request** in the Chat view or by using Visual Studio Code's undo functionality.
+
+1. In the Chat view, submit a refactoring task to extract the coupon logic:
+
+    For example:
 
     ```plaintext
     Now extract the coupon validation and application logic into a helper method called ApplyCouponDiscount. This method should handle coupon validation, membership-enhanced coupons, and both percentage and shipping coupons.
     ```
 
-1. Apply the suggested changes for the coupon discount method.
+1. Review the suggested updates in the Visual Studio Code editor.
 
     This refactoring should extract all coupon-related conditional logic into a separate method, making the coupon processing logic reusable and easier to test.
 
-1. Continue with the bulk discount extraction:
+1. To accept the changes, select **Keep**.
+
+1. In the Chat view, submit a refactoring task to extract the bulk discount logic:
 
     ```plaintext
     Extract the bulk purchase logic into a helper method called ApplyBulkDiscount that handles volume-based discounts based on item count.
     ```
 
-1. Finally, extract the shipping calculation logic:
+1. Review the suggested updates and then select **Keep** to accept the changes.
+
+    This refactoring should create a new method that encapsulates the bulk discount logic.
+
+1. Finally, submit a refactoring task to extract the shipping calculation logic:
 
     ```plaintext
     Create a CalculateShippingCost helper method that handles shipping cost calculations based on order properties and user membership level.
     ```
 
-1. After implementing all the helper methods, verify that the main `CalculateFinalPrice` method is now much shorter and more readable.
+1. Review the suggested updates and then select **Keep** to accept the changes.
+
+1. Take a minute to verify that the main `CalculateFinalPrice` method is now much shorter and more readable.
 
     The refactored main method should primarily consist of method calls to the helper functions, making the business logic flow much clearer and easier to understand.
 
-### Task 4: Test the refactored E-commerce pricing code
+### Test the refactored E-commerce pricing code
 
 Testing is crucial to ensure that your refactoring doesn't change the business logic behavior. You'll run the code with various scenarios to verify that the calculations remain consistent.
 
 Use the following steps to complete this task:
+
+1. Open Visual Studio Code's **TERMINAL** view.
+
+    You can open the built-in terminal by selecting the **Terminal** menu and then selecting **New Terminal**.
 
 1. In the TERMINAL view, navigate to the ECommercePricingEngine project directory.
 
