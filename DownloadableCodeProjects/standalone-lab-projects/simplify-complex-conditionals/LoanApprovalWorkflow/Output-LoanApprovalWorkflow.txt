@@ -1,0 +1,226 @@
+=== Loan Approval Workflow Test Results ===
+
+Applicant 1:
+  Credit Score: 780
+  Annual Income: $120,000
+  Verified Income: $118,000
+  Employment: Salaried (8 years)
+  Debt-to-Income Ratio: 25.0%
+  Requested Amount: $400,000
+  Property Value: $500,000
+  Down Payment: $100,000
+  Liquid Assets: $25,000
+  Credit History: 12 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: False
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: Approved
+  Interest Rate: 3.25%
+  Approved Amount: $400,000
+  Notes: Prime borrower approved at best available rate.
+------------------------------------------------------------
+
+Applicant 2:
+  Credit Score: 760
+  Annual Income: $150,000
+  Verified Income: $145,000
+  Employment: Salaried (6 years)
+  Debt-to-Income Ratio: 32.0%
+  Requested Amount: $320,000
+  Property Value: $400,000
+  Down Payment: $80,000
+  Liquid Assets: $15,000
+  Credit History: 10 years
+  Loan Purpose: HomePurchase
+  Property Type: SecondHome
+  Veteran: False
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: Approved
+  Interest Rate: 3.75%
+  Approved Amount: $320,000
+  Notes: Approved for second home with rate premium.
+------------------------------------------------------------
+
+Applicant 3:
+  Credit Score: 680
+  Annual Income: $75,000
+  Verified Income: $73,000
+  Employment: Salaried (4 years)
+  Debt-to-Income Ratio: 38.0%
+  Requested Amount: $280,000
+  Property Value: $280,000
+  Down Payment: $0
+  Liquid Assets: $12,000
+  Credit History: 8 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: True
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: Approved
+  Interest Rate: 3.5%
+  Approved Amount: $280,000
+  Notes: VA loan approved with government backing.
+------------------------------------------------------------
+
+Applicant 4:
+  Credit Score: 750
+  Annual Income: $95,000
+  Verified Income: $85,000
+  Employment: SelfEmployed (3 years)
+  Debt-to-Income Ratio: 30.0%
+  Requested Amount: $350,000
+  Property Value: $450,000
+  Down Payment: $100,000
+  Liquid Assets: $20,000
+  Credit History: 9 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: False
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: ConditionallyApproved
+  Interest Rate: 4.5%
+  Approved Amount: $340,000
+  Notes: Conditional approval pending income re-verification.
+------------------------------------------------------------
+
+Applicant 5:
+  Credit Score: 640
+  Annual Income: $65,000
+  Verified Income: $64,000
+  Employment: Salaried (3 years)
+  Debt-to-Income Ratio: 40.0%
+  Requested Amount: $240,000
+  Property Value: $250,000
+  Down Payment: $10,000
+  Liquid Assets: $8,000
+  Credit History: 6 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: False
+  First-Time Homebuyer: True
+
+  RESULT:
+  Status: Approved
+  Interest Rate: 4%
+  Approved Amount: $240,000
+  Notes: FHA loan approved for first-time homebuyer.
+------------------------------------------------------------
+
+Applicant 6:
+  Credit Score: 650
+  Annual Income: $80,000
+  Verified Income: $79,000
+  Employment: Salaried (5 years)
+  Debt-to-Income Ratio: 35.0%
+  Requested Amount: $200,000
+  Property Value: $250,000
+  Down Payment: $50,000
+  Liquid Assets: $15,000
+  Credit History: 4 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: True
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: Approved
+  Interest Rate: 5%
+  Approved Amount: $180,000
+  Notes: Approved with rate premium due to bankruptcy history.
+------------------------------------------------------------
+
+Applicant 7:
+  Credit Score: 720
+  Annual Income: $90,000
+  Verified Income: $88,000
+  Employment: Salaried (4 years)
+  Debt-to-Income Ratio: 48.0%
+  Requested Amount: $300,000
+  Property Value: $380,000
+  Down Payment: $80,000
+  Liquid Assets: $12,000
+  Credit History: 8 years
+  Loan Purpose: Refinance
+  Property Type: PrimaryResidence
+  Veteran: False
+  First-Time Homebuyer: False
+
+  RESULT:
+  Status: Declined
+  Interest Rate: 0%
+  Approved Amount: $0
+  Notes: Declined due to credit score and debt ratio combination.
+------------------------------------------------------------
+
+Applicant 8:
+  Credit Score: 580
+  Annual Income: $55,000
+  Verified Income: $54,000
+  Employment: Salaried (2 years)
+  Debt-to-Income Ratio: 42.0%
+  Requested Amount: $180,000
+  Property Value: $200,000
+  Down Payment: $20,000
+  Liquid Assets: $5,000
+  Credit History: 3 years
+  Loan Purpose: HomePurchase
+  Property Type: PrimaryResidence
+  Veteran: False
+  First-Time Homebuyer: True
+
+  RESULT:
+  Status: Declined
+  Interest Rate: 0%
+  Approved Amount: $0
+  Notes: Declined due to credit score below minimum lending standards.
+------------------------------------------------------------
+
+
+=== LOAN APPROVAL SECURITY TESTING ===
+
+--- Test 1: Null Applicant Protection ---
+√ Security measure working: Applicant cannot be null (Parameter 'applicant')
+
+--- Test 2: Invalid Credit Score Bounds ---
+Testing with credit score of 900 (above valid range)...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 3: Negative Financial Values ---
+Testing with negative annual income...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 4: Extreme Loan Amount ---
+Testing with $100M loan request (above reasonable limits)...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 5: Invalid Debt-to-Income Ratio ---
+Testing with 150% debt-to-income ratio...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 6: Down Payment Exceeding Property Value ---
+Testing with down payment exceeding property value...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 7: Extreme Employment Years ---
+Testing with 75 years of employment...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+--- Test 8: Valid Applicant (Security Baseline) ---
+Testing with valid applicant data...
+Result: Declined - Rate: 0% - Amount: $0
+Notes: Declined due to credit score and debt ratio combination.
+
+--- Test 9: Zero Property Value (Division Protection) ---
+Testing with zero property value (tests safe division)...
+Result: Declined - Application declined due to invalid or incomplete financial data
+
+=== LOAN APPROVAL SECURITY TESTING COMPLETE ===

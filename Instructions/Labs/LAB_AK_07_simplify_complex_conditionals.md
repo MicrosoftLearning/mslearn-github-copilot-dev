@@ -92,10 +92,12 @@ Use the following steps to download the sample projects and open them in Visual 
         - ECommercePricingEngine\
             - Dependencies\
             - ECommercePricingDemo.cs
+            - Output-ECommercePricingEngine.txt
             - SecurityTest.cs
         - LoanApprovalWorkflow\
             - Dependencies\
             - LoanApprovalDemo.cs
+            - Output-LoanApprovalWorkflow.txt
             - SecurityTest.cs
 
 ## Exercise scenario
@@ -201,7 +203,14 @@ Use the following steps to complete this task:
     - **Coupon Discounts**: How coupons are validated, applied, and how they interact with membership discounts.
     - **Bulk Discounts**: How volume-based discounts are applied based on item counts.
 
-    Understanding the discount paths is essential for identifying refactoring opportunities.
+1. Run the ECommercePricingEngine project and review the output.
+
+    If you have the ECommercePricingDemo.cs file open in the Visual Studio Code editor, you can run the project by selecting the run button (Run project associated with this file) that's located above the top-right corner of the editor pane. To run the project from the SOLUTION EXPLORER view, right-click **ECommercePricingEngine**, select **Debug**, and then select **Start New Instance**.
+
+    The output should show the final prices calculated for various orders based on the complex conditional logic in the **CalculateFinalPrice** method.
+
+    > [!NOTE]
+    > A copy of the output can be found in the **Output-ECommercePricingEngine.txt** file that's included in the ECommercePricingEngine folder. You can create your own output file if you want to compare results or if you modify sample data. When you reach the end of this exercise, you'll use the output file to ensure that your refactored code produces the same results as the original code.
 
 ### Identify refactoring opportunities in the E-commerce pricing code
 
@@ -231,40 +240,30 @@ Use the following steps to complete this task:
     For example:
 
     ```plaintext
-    @workspace Analyze the CalculateFinalPrice method and suggest refactoring opportunities. Suggest options that move the nested conditional logic into more manageable, single-responsibility helper methods. Focus on the main discount paths: membership discounts, coupon discounts, and bulk discounts. Maintain the business logic while simplifying the code structure.
+    @workspace Analyze the CalculateFinalPrice method and suggest refactoring opportunities. Include options that move the nested conditional logic into more manageable, single-responsibility helper methods. Focus on the main discount paths: membership discounts, coupon discounts, and bulk discounts. Maintain the business logic while simplifying the code structure.
     ```
 
     GitHub Copilot will analyze the method and suggest specific refactoring opportunities, identifying patterns in the nested conditionals that can be extracted into helper methods.
 
 1. Take a couple minutes to review GitHub Copilot's suggestions.
 
-    The response should identify several refactoring opportunities such as:
+    The response should identify opportunities that improve code manageability and modularity. For example:
 
-    - **CalculateMembershipDiscount**: Extract membership-level discount logic
-    - **CalculateCouponDiscount**: Handle coupon validation and application
-    - **CalculateBulkDiscount**: Manage volume-based discounts
-
-1. To generate specific guidance on how to implement these helper methods, enter the following prompt:
-
-    ```plaintext
-    For each suggested helper method, explain what specific conditional logic should be extracted and how it would simplify the main method. Include the method signatures and return types that would be most appropriate.
-    ```
-
-1. Take a minute to review GitHub Copilot's detailed refactoring plan.
-
-    The response should outline the specific logic to be extracted for each helper method, along with suggested method signatures and return types. Review the plan to ensure it aligns with the business logic and maintains the intended functionality.
+    - Extract membership-level discount logic to create the **CalculateMembershipDiscount** helper method.
+    - Extract coupon validation and application logic to create the **CalculateCouponDiscount** helper method.
+    - Extract volume-based discount logic to create the **CalculateBulkDiscount** helper method.
 
 1. Submit a prompt that asks GitHub Copilot how to simplify complex conditional logic and reduce nesting levels in the CalculateFinalPrice method.
 
     For example:
 
     ```plaintext
-    How can I simplify the complex conditional logic and reduce nesting levels in the CalculateFinalPrice method? For example, the method has multiple nested conditionals that apply different membership discounts based on user status and order details. What are some best practices for reducing nesting levels and improving readability? Explain the benefit of each approach when applied to this method.
+    How can I simplify the complex conditional logic and reduce nesting levels in the CalculateFinalPrice method? For example, the method has multiple nested conditionals that apply different membership discounts based on user status and order details. What are some best practices for reducing nesting levels and improving readability? Explain the benefit of each approach when applied to the CalculateFinalPrice method.
     ```
 
 1. Take a minute to review GitHub Copilot's suggestions for simplifying the conditional logic and reducing nesting levels.
 
-    GitHub Copilot will provide suggestions for simplifying the conditional logic, such as:
+    GitHub Copilot should provide a list of suggestions for simplifying the conditional logic and reducing nesting levels. For example, it might suggest:
 
     - Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow.
     - Use local helper functions to remove duplication and clarify intent.
@@ -272,21 +271,24 @@ Use the following steps to complete this task:
     - Use smaller methods per membership to modularize logic and make it easier to test and update.
     - Use Boolean variables for conditions to improve readability of complex checks.
 
+> [!NOTE]
+> You'll use the results of this analysis to help construct the task assigned to GitHub Copilot Agent in the next section of the exercise.
+
 ### Refactor the E-commerce pricing code with GitHub Copilot Agent
 
 GitHub Copilot has three modes, **Ask**, **Edit**, and **Agent**. When running in Agent mode, GitHub Copilot works as an autonomous AI agent.
 
 In Agent mode:
 
-- Your prompt specifies the task to be performed.
-- GitHub Copilot reviews the task and your codebase to determine the relevant files and establish context.
-- GitHub Copilot formulates a process that it can use to accomplish the task. Processes implement an iterative approach and use code reviews to help ensure the task is completed successfully.
-- GitHub Copilot uses the Chat view to keep you informed as it works through the assigned task. It may also provide explanations or justifications for the changes being made.
+- Your prompt specifies the task assigned to GitHub Copilot Agent.
+- GitHub Copilot uses the task information and your codebase to identify the relevant code files and establish the context for the task.
+- GitHub Copilot formulates a process that it can use to accomplish the task. The agent uses an iterative approach and code reviews to help ensure the task is completed successfully.
+- GitHub Copilot uses the Chat view to keep you informed as it works on the assigned task. It may also provide explanations or justifications for the changes being made.
 - GitHub Copilot can invoke tools to help it accomplish the task or to verify that code changes are working correctly.
 - GitHub Copilot may pause during the task and ask you for assistance or clarification. It's important to monitor the chat and respond when prompted to assist the autonomous agent.
 - GitHub Copilot updates your code file in the Visual Studio Code editor. Once the task is complete, you should review the changes made by GitHub Copilot before applying them to your codebase (individually or collectively).
 
-In this section of the exercise, you'll use GitHub Copilot Agent to refactor the PricingEngine class and simplify the complex conditional logic in the CalculateFinalPrice method. The task that you assign to GitHub Copilot Agent will combine the suggestions provided by GitHub Copilot in the analysis section of the previous task. Your task will focus on extracting complex conditional logic into smaller, focused helper methods and reducing nesting levels using the approaches suggested by GitHub Copilot.
+In this section of the exercise, you'll use GitHub Copilot Agent to refactor the PricingEngine class and simplify the complex conditional logic in the CalculateFinalPrice method. The task that you assign to GitHub Copilot Agent will be based on the suggestions provided by GitHub Copilot during your code analysis (the previous task).
 
 Use the following steps to complete this task:
 
@@ -294,39 +296,58 @@ Use the following steps to complete this task:
 
 1. In the chat view, select the **Agent** mode.
 
-1. Evaluate the required code refactoring task.
+    The **Set Mode** dropdown is located in the bottom-left corner of the Chat view. When you select **Agent**, GitHub Copilot will switch to Agent mode, which allows it to autonomously work on tasks that you assign.
 
-    You need to write a task for GitHub Copilot Agent that describes how to refactor the **CalculateFinalPrice** method. Your goal is to simplify the complex conditional logic and reduce nesting levels, making the code more maintainable and readable. In the previous task, you asked GitHub Copilot to analyze the code and identify refactoring opportunities. Now, you'll use that analysis to create a task for GitHub Copilot Agent.
+1. Take a minute to identify the requirements for the task that you'll assign to GitHub Copilot Agent.
 
-    Your task should include natural language text that communicates the following information:
-    - Explain the overall goal of the task.
-    - Identify the primary code sections that can be extracted to improve modularity.
-    - Describe the specific approaches to reduce nesting levels and improve readability.
-    - Describe the expected outcome of the refactoring process.
+    You need to write a task that explains your goal and describes the steps that GitHub Copilot Agent can use to achieve that goal.
 
+    In this case, your goal includes the following items:
 
+    - Simplify the complex conditional logic and reduce nesting levels.
+    - Improve code maintainability and readability.
+    - Preserve existing functionality and ensure that the refactored code produces the same output as the original code.
 
+    In the previous task, you asked GitHub Copilot to analyze the code and identify refactoring opportunities. Your generated two sets of suggestions, one for extracting complex logic into helper methods and another for simplifying the conditional logic and reducing nesting levels.
+
+    For example, the refactoring opportunities identified in the previous task may include:
+
+    - Extract membership-level discount logic to create the **CalculateMembershipDiscount** helper method.
+    - Extract coupon validation and application logic to create the **CalculateCouponDiscount** helper method.
+    - Extract volume-based discount logic to create the **CalculateBulkDiscount** helper method.
+    - Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow.
+    - Use local helper functions to remove duplication and clarify intent.
+    - Use switch expressions or pattern matching to make membership logic explicit and maintainable.
+    - Use smaller methods per membership to modularize logic and make it easier to test and update.
+    - Use Boolean variables for conditions to improve readability of complex checks.
+
+    You can use your goal and the suggestions that you generated to construct a detailed task for GitHub Copilot Agent. The task you create should implement the following organizational structure:
+
+    1. Goal statement: Explain the overall goal of the task.
+    1. Major code modularity updates: Identify any large code sections that can be extracted to improve modularity.
+    1. Small or detailed code improvements: Describe the specific approaches to reduce nesting levels and improve readability.
+    1. Outcome: Describe the expected outcome of the refactoring process.
+
+1. Construct a task that meets your requirements.
+
+    Your task should include your goal and the suggested refactoring opportunities arranged using the suggested organizational structure.
+
+    For example:
 
     ```plaintext
-   I need to simplify the complex conditional logic and reduce nesting levels in the CalculateFinalPrice method. The main areas of complexity are associated with membership discounts, coupon processing, and bulk discounts. Each of these areas could be moved into separate helper methods that are called from CalculateFinalPrice. There are several options to reduce nesting levels in the helper methods. Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow. Use local helper functions to remove duplication and clarify intent. Use switch expressions or pattern matching to make membership logic explicit and maintainable. Use smaller methods per membership to modularize logic and make it easier to test and update. Use Boolean variables for conditions to improve readability of complex checks. The goal is to improve code maintainability and readability while preserving the existing functionality and generated output
+    I need to simplify the complex conditional logic and reduce nesting levels in the CalculateFinalPrice method. The main areas of complexity are associated with membership discounts, coupon processing, and bulk discounts. Each of these areas could be moved into separate helper methods that are called from CalculateFinalPrice. There are several options to reduce nesting levels in the helper methods. Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow. Use local helper functions to remove duplication and clarify intent. Use switch expressions or pattern matching to make membership logic explicit and maintainable. Use smaller methods per membership to modularize logic and make it easier to test and update. Use Boolean variables for conditions to improve readability of complex checks. The goal is to improve code maintainability and readability while preserving the existing functionality and generated output.
     ```
 
+    This task uses natural language text to describe the goal, major restructuring opportunities, and specific approaches to reduce nesting levels and improve readability. The task also describes the expected outcome of the refactoring process.
 
-
-
-
-
-1. Ask GitHub Copilot Agent to extract the membership discount logic from the CalculateFinalPrice method and place it in a helper method.
-
-    For example, you can submit the following task in the Chat view:
-
-    ```plaintext
-    I need to refactor the PricingEngine class by extracting the membership discount logic from the CalculateFinalPrice method and placing it into a new helper method named CalculateMembershipDiscount. The output generated by running the app (using the built-in sample data) should not be affected by the refactoring process. Start by creating the CalculateMembershipDiscount method inside the PricingEngine class and directly below the CalculateFinalPrice method. Extract all the deeply nested conditional logic from the CalculateFinalPrice method that applies discounts based on user.Membership, baseTotal, and various user/order attributes. The CalculateMembershipDiscount helper method should take User, Order, baseTotal, and a list of applied discounts as parameters, and it should return the total membership-based discount percent to be applied.
-    ```
-
-    This task includes natural language text that explains the task and provides specifics about the new helper method to be created, including parameters and the return type. Task details are composed using information from GitHub Copilot's analysis in the previous task.
+1. Use the Chat view to assign your task to GitHub Copilot Agent.
 
     GitHub Copilot Agent will evaluate the task and the codebase to develop an approach for refactoring CalculateFinalPrice and extracting the membership discount logic into a new helper method. The agent will test the code updates at various stages to ensure that the refactoring is successful and that the business logic remains intact.
+
+    After submitting the task, GitHub Copilot Agent will start working on the task. You can monitor its progress in the Chat view.
+
+    > [!NOTE]
+    > If you need to make changes to the task, you can edit the text in the Chat view and resubmit it. GitHub Copilot Agent will re-evaluate the task and continue working on it.
 
 1. Monitor the Chat view as GitHub Copilot Agent works on the task.
 
@@ -336,194 +357,64 @@ Use the following steps to complete this task:
 
     Always review the changes suggested by GitHub Copilot before accepting them. Verify that the updates align with your intended business logic, app functionality, and coding standards.
 
-    The refactored code should include a new **CalculateMembershipDiscount** method that handles all the membership-level logic (Premium, Gold, Silver, and first-time buyer discounts). The CalculateMembershipDiscount method should be called from the CalculateFinalPrice method.
+    The refactored code should include a greatly simplified **CalculateFinalPrice** method that primarily consists of method calls to helper methods that manage membership discounts, coupon discounts, and bulk discounts. The complexity of the original method should be significantly reduced, making it easier to read and maintain.
+
+    The membership discounts helper method should also be refactored to handle the complex logic around membership levels, with an additional helper method for each level (Premium, Gold, Silver, and first-time buyers).
+
+1. In the Chat view, to accept all edits, select **Keep**.
 
     You can reject the suggested changes if they don't meet your expectations, or you can accept a subset of the changes and reject others. Working with GitHub Copilot to refactor your code is often an iterative process that includes refining your prompts to achieve the intended results.
 
     If you accept GitHub Copilot's suggested updates, and then realize that the suggestions introduced issues that may be difficult to resolve moving forward, you can revert the changes by selecting **Undo Last Request** in the Chat view, or by using Visual Studio Code's undo functionality.
 
-1. In the Chat view, to accept all edits, select **Keep**.
-
-
-
-
-
-
-
-
-1. Select the new **CalculateMembershipDiscount** method.
-
-    The method should contain the extracted membership discount logic. Notice that the deep nesting levels still exist.
-
-1. Ask GitHub Copilot how to simplify complex conditional logic and reduce nesting levels in the CalculateMembershipDiscount method.
+1. Ask GitHub Copilot to explain the code refactoring updates that it implemented.
 
     For example:
 
     ```plaintext
-    How can I simplify the complex conditional logic in the CalculateMembershipDiscount method? The method has multiple nested conditionals that apply different membership discounts based on user status and order details. What are some best practices for reducing nesting levels and improving readability? Explain the benefit of each approach when applied to this method.
+    Explain the refactoring updates that you implemented to simplify the complex conditional logic, reduce nesting levels, and improve code maintainability and readability.
     ```
 
-1. Take a minute to review GitHub Copilot's suggestions for simplifying the conditional logic.
-
-    GitHub Copilot will provide suggestions for simplifying the conditional logic, such as:
-
-    - Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow.
-    - Use local helper functions to remove duplication and clarify intent.
-    - Use switch expressions or pattern matching to make membership logic explicit and maintainable.
-    - Use smaller methods per membership to modularize logic and make it easier to test and update.
-    - Use Boolean variables for conditions to improve readability of complex checks.
-
-1. Ask GitHub Copilot to simplify complex conditional logic and reduce nesting levels in the CalculateMembershipDiscount method.
+    GitHub Copilot will provide an explanation of the changes it made, including how the complex conditional logic was simplified and how the code structure was improved.
 
     For example:
 
-    ```plaintext
-   I need to simplify the complex conditional logic and reduce nesting levels in the CalculateMembershipDiscount method. Use early returns or guard clauses to flatten logic, reduce indentation, and clarify flow. Use local helper functions to remove duplication and clarify intent. Use switch expressions or pattern matching to make membership logic explicit and maintainable. Use smaller methods per membership to modularize logic and make it easier to test and update. Use Boolean variables for conditions to improve readability of complex checks. The goal is to improve readability while maintaining the same business logic. Apply these changes directly to the CalculateMembershipDiscount method.
+    ```md
+
+    Here’s a summary of the refactoring updates made to simplify the complex conditional logic, reduce nesting, and improve maintainability and readability in the `CalculateFinalPrice` method and related logic:
+    
+    ### 1. Extraction of Complex Logic into Helper Methods
+    - The main areas of complexity—membership discounts, coupon processing, and bulk discounts—were each moved into their own private static helper methods:
+      - `ApplyMembershipDiscounts`
+      - `ApplyCouponDiscounts`
+      - `ApplyBulkDiscounts`
+    - This keeps the main `CalculateFinalPrice` method concise and focused on orchestration, not business rules.
+    
+    ### 2. Flattened Logic with Guard Clauses
+    - Deeply nested `if` statements were replaced with early returns (guard clauses) in the helper methods.
+    - For example, in `ApplyPremiumDiscounts`, after each check, if a condition is not met, the method returns immediately, reducing indentation and making the flow clear.
+    
+    ### 3. Use of Switch Expressions and Boolean Variables
+    - Membership logic is handled with a `switch` statement in `ApplyMembershipDiscounts`, making it explicit and easy to extend.
+    - Boolean variables (e.g., `isBlackFridayOrCyberMonday`, `isAltPayment`, `isPremiumPayment`) are used to clarify intent and improve readability of complex checks.
+    
+    ### 4. Modularization by Membership Type
+    - Each membership type (Premium, Gold, Silver, FirstTimeBuyer) has its own method, making the logic for each tier isolated and easier to test or update.
+    
+    ### 5. Removal of Duplication and Improved Intent
+    - Local helper functions and clear method names remove duplication and clarify the purpose of each block.
+    - The same business rules are preserved, but the code is now much easier to follow.
+    
+    ### 6. Improved Maintainability
+    - The code is now easier to extend (e.g., adding a new membership tier or discount rule).
+    - Each helper method is small and focused, making unit testing and debugging simpler.
+    
+    **Result:**  
+    The refactored code is flatter, more modular, and much easier to read and maintain, while preserving all original business logic and security checks.
+    
     ```
 
-1. Take a minute to review GitHub Copilot's suggestions.
-
-1. To accept the changes, select **Keep**.
-
-    The refactored **CalculateMembershipDiscount** method should now have reduced nesting levels and improved readability while maintaining the same business logic.
-
-
-
-
-
-
-
-1. Select the updated **CalculateFinalPrice** method.
-
-    The method should now call the new **CalculateMembershipDiscount** method, which encapsulates the membership discount logic.
-
-1. In the Chat view, submit a refactoring task to extract the coupon logic.
-
-    For example:
-
-    ```plaintext
-    I need to refactor the PricingEngine class by extracting the "coupon validation and application" conditional logic from the CalculateFinalPrice method and placing it into a new helper method named CalculateCouponDiscount. The output generated by running the app (using the built-in sample data) should not be affected by the refactoring process. Start by creating the CalculateCouponDiscount method inside the PricingEngine class and directly below the CalculateFinalPrice method. Extract all logic related to validating and applying coupon discounts, including all valid and expired coupon conditionals. The CalculateCouponDiscount helper method should take User, Order, discountPercent, the appliedDiscounts list, and the shipping cost as parameters, and it should return a tuple containing the coupon discount percent to add, and the possibly updated shipping cost.
-    ```
-
-
-
-
-
-
-    ```plaintext
-    Now extract the coupon validation and application logic into a new helper method named CalculateCouponDiscount. This method should handle coupon validation, membership-enhanced coupons, and both percentage and shipping coupons.
-    ```
-
-
-
-
-1. Review the suggested updates in the Visual Studio Code editor.
-
-    This refactoring should extract all coupon-related conditional logic into a separate method, making the coupon processing logic reusable and easier to test.
-
-1. To accept the changes, select **Keep**.
-
-1. In the Chat view, submit a refactoring task to extract the bulk discount logic.
-
-    ```plaintext
-    Extract the bulk purchase logic into a helper method called CalculateBulkDiscount that handles volume-based discounts based on item count.
-    ```
-
-
-
-
-
-
-
-3. Bulk Discount Helper
-What to extract:
-The logic that applies additional discounts for orders with 10+ or 20+ items.
-
-Signature:
-
-Return:
-The bulk discount percent to add.
-
-How it helps:
-The main method will call this once, removing the bulk discount if/else block from the main body.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1. Review the suggested updates and then select **Keep** to accept the changes.
-
-    This refactoring should create a new method that encapsulates the bulk discount logic.
-
-1. Finally, submit a refactoring task to extract the shipping calculation logic.
-
-    ```plaintext
-    Create a ApplyShippingDiscount helper method that handles shipping cost calculations based on order properties and user membership level.
-    ```
-
-
-
-
-
-
-4. Shipping Calculation Helper
-What to extract:
-The base shipping calculation is already in CalculateBaseShipping.
-However, ensure that all shipping logic (including coupon effects) is handled in the coupon helper, so the main method only needs to call CalculateBaseShipping and then possibly update the value from the coupon helper.
-
-Signature:
-
-Return:
-The base shipping cost.
-
-How it helps:
-Keeps shipping logic modular and ensures the main method only needs to call this once.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1. Review the suggested updates and then select **Keep** to accept the changes.
-
-1. Take a minute to verify that the main `CalculateFinalPrice` method is now much shorter and more readable.
-
-    The refactored main method should primarily consist of method calls to the helper functions, making the business logic flow much clearer and easier to understand.
+1. Take a minute to review the refactored code in the PricingEngine class.
 
 ### Test the refactored E-commerce pricing code
 
