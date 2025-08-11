@@ -64,7 +64,7 @@ public class OrderProcessor
         }
     }
 
-    // Duplicate Logic Start - This validation logic is duplicated in ReturnProcessor
+    // Validation logic
     private bool Validate(string id)
     {
         Console.WriteLine($"Validating order ID: {id}");
@@ -122,7 +122,6 @@ public class OrderProcessor
         Console.WriteLine($"Shipping calculation: Base=${AppConfig.BaseShippingRate:F2}, Weight({totalWeight}lbs)=${totalWeight * AppConfig.WeightBasedRatePerPound:F2}, Total=${shippingCost:F2}");
         return shippingCost;
     }
-    // Duplicate Logic End
 
     private Order GetOrderDetails(string orderId)
     {
