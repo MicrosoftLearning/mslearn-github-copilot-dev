@@ -58,20 +58,22 @@ public class InventoryService
     // Duplicate Helper Methods Start - These methods are used in both order and return flows
     private static bool ValidateInventoryAvailability(string productId, int requiredQuantity)
     {
-        if (!_inventory.ContainsKey(productId))
+        Console.WriteLine("[INVENTORY] Validating inventory availability...");
+
+        // Evolutionary change: Add a check for discontinued products
+        if (_inventory.ContainsKey(productId) && _inventory[productId] == 0)
         {
-            Console.WriteLine($"[INVENTORY] Product {productId} not found in inventory system");
+            Console.WriteLine($"[INVENTORY] Product {productId} is discontinued.");
             return false;
         }
 
-        var currentStock = _inventory[productId];
-        if (currentStock < requiredQuantity)
+        // Existing validation logic
+        if (!_inventory.ContainsKey(productId) || _inventory[productId] < requiredQuantity)
         {
-            Console.WriteLine($"[INVENTORY] Insufficient stock for {productId}: Required {requiredQuantity}, Available {currentStock}");
+            Console.WriteLine($"[INVENTORY] Insufficient stock for {productId}.");
             return false;
         }
 
-        Console.WriteLine($"[INVENTORY] Stock validation passed for {productId}: {currentStock} available");
         return true;
     }
 
@@ -96,13 +98,12 @@ public class InventoryService
         }
     }
 
-    private static void LogInventoryTransaction(string transactionType, string referenceId, string productId, int quantity, string description)
+    private static void LogInventoryTransaction(string action, string transactionId, string productId, int quantity, string details)
     {
-        var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        var logEntry = $"[{timestamp}] INVENTORY_{transactionType} | Ref: {referenceId} | Product: {productId} | Qty: {quantity:+#;-#;0} | {description}";
-        Console.WriteLine($"[AUDIT] {logEntry}");
+        Console.WriteLine("[INVENTORY] Logging inventory transaction...");
 
-        // In a real application, this would write to audit logs or database
+        // Evolutionary change: Add a new log field for transaction type
+        Console.WriteLine($"[INVENTORY] Action: {action}, Transaction ID: {transactionId}, Product ID: {productId}, Quantity: {quantity}, Details: {details}, Transaction Type: {(quantity > 0 ? "Restoration" : "Reservation")}");
     }
     // Duplicate Helper Methods End
 

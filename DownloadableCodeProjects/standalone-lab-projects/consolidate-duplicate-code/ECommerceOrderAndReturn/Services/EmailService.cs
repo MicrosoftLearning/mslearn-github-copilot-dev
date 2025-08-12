@@ -40,8 +40,14 @@ public class EmailService
     private static string BuildEmailTemplate(string type, string transactionId, string customerId)
     {
         var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+        // Evolutionary change: Add a personalized greeting
+        var greeting = type == "order" ? "Thank you for your purchase!" : "We appreciate your return!";
+
         return $"""
                 Dear Customer {customerId},
+                
+                {greeting}
                 
                 Your {type} with ID {transactionId} has been received and is being processed.
                 
@@ -59,7 +65,8 @@ public class EmailService
 
     private static string FormatEmailSubject(string actionType, string transactionId)
     {
-        return $"{actionType} - #{transactionId} - ECommerce Store";
+        // Evolutionary change: Add a prefix to the subject line
+        return $"[E-Commerce] {actionType} - Transaction ID: {transactionId}";
     }
 
     private static void SendEmail(string customerId, string subject, string content)

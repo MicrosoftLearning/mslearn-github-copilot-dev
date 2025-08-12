@@ -1,4 +1,3 @@
-
 // ReturnProcessor.cs – Processes product returns.
 using System;
 using EcommerceApp.Models;
@@ -75,58 +74,66 @@ public class ReturnProcessor
     }
 
     // Validation logic
-    private bool Validate(string id)
+    private bool Validate(string returnId)
     {
-        Console.WriteLine($"Validating return ID: {id}");
+        Console.WriteLine("[VALIDATION] Validating return ID...");
 
-        // Basic validation
-        if (string.IsNullOrWhiteSpace(id))
+        // Check for null or whitespace
+        if (string.IsNullOrWhiteSpace(returnId))
         {
-            Console.WriteLine("Validation failed: ID is null or empty");
+            Console.WriteLine("[VALIDATION] Return ID cannot be empty.");
             return false;
         }
 
         // Security validation
-        if (!SecurityValidator.IsValidId(id, "Return"))
+        if (!SecurityValidator.IsValidId(returnId))
         {
-            Console.WriteLine("Validation failed: Security check failed");
+            Console.WriteLine("[VALIDATION] Return ID failed security validation.");
             return false;
         }
 
-        // Business rule validation
-        if (id.Length < AppConfig.MinIdLength || id.Length > AppConfig.MaxIdLength)
+        // Length validation (evolved logic)
+        if (returnId.Length < AppConfig.MinIdLength || returnId.Length > AppConfig.MaxIdLength)
         {
-            Console.WriteLine("Validation failed: ID length is invalid");
+            Console.WriteLine("[VALIDATION] Return ID length is invalid.");
             return false;
         }
 
-        Console.WriteLine("Return ID validation successful");
+        // Additional suffix validation (evolutionary change)
+        if (!returnId.EndsWith("RET"))
+        {
+            Console.WriteLine("[VALIDATION] Return ID must end with 'RET'.");
+            return false;
+        }
+
         return true;
     }
 
-    private decimal CalculateShipping(string id, Return returnRequest)
+    private decimal CalculateShipping(string returnId, Return returnRequest)
     {
-        Console.WriteLine($"Calculating shipping for return ID: {id}");
+        Console.WriteLine("[SHIPPING] Calculating return shipping cost...");
 
-        decimal shippingCost = AppConfig.BaseShippingRate;
+        // Base shipping cost
+        decimal shippingCost = 3.00m;
 
-        // Add return processing fee
-        shippingCost += AppConfig.ReturnProcessingFee;
-
-        // Calculate weight-based shipping for return
-        if (returnRequest.Weight > 0)
+        // Weight-based adjustment (evolved logic)
+        if (returnRequest.TotalWeight > 5)
         {
-            shippingCost += returnRequest.Weight * AppConfig.WeightBasedRatePerPound;
+            shippingCost += 1.50m;
         }
 
-        // Returns over certain refund amount get free return shipping
-        if (returnRequest.RefundAmount >= AppConfig.FreeShippingThreshold)
+        // Value-based adjustment (evolved logic)
+        if (returnRequest.TotalAmount > 30)
         {
-            Console.WriteLine($"Free return shipping applied - refund amount: ${returnRequest.RefundAmount:F2}");
-            shippingCost = AppConfig.ReturnProcessingFee; // Only processing fee applies
+            shippingCost -= 0.50m; // Discount for high-value returns
         }
 
-        Console.WriteLine($"Return shipping calculation: Base=${AppConfig.BaseShippingRate:F2}, Processing Fee=${AppConfig.ReturnProcessingFee:F2}, Weight({returnRequest.Weight}lbs)=${returnRequest.Weight * AppConfig.WeightBasedRatePerPound:F2}, Total=${shippingCost:F2}");
+        // Additional handling fee for oversized items (evolutionary change)
+        if (returnRequest.IsOversized)
+        {
+            shippingCost += 4.00m;
+        }
+
         return shippingCost;
     }
 

@@ -47,6 +47,7 @@ public class AuditService
     // Duplicate Helper Methods Start - These are duplicated across order and return processing
     private static AuditEntry CreateAuditEntry(string transactionType, string transactionId, string customerId, string action, string details)
     {
+        // Evolutionary change: Add a new field for user role
         return new AuditEntry
         {
             Id = Guid.NewGuid().ToString(),
@@ -57,7 +58,8 @@ public class AuditService
             Action = action,
             Details = details,
             UserAgent = "ECommerceApp/1.0",
-            IpAddress = "127.0.0.1" // Would be actual IP in real app
+            IpAddress = "127.0.0.1", // Would be actual IP in real app
+            UserRole = "Customer" // New field added
         };
     }
 
@@ -98,18 +100,18 @@ public class AuditService
         // In real application, this would write to secure audit storage
     }
 
-    private static void CheckComplianceRequirements(AuditEntry entry)
+    private static void CheckComplianceRequirements(AuditEntry auditEntry)
     {
-        // Check if this action requires special compliance logging (e.g., GDPR, SOX)
-        if (entry.Action.Contains("REFUND") || entry.Action.Contains("PAYMENT"))
+        Console.WriteLine("[COMPLIANCE] Checking compliance requirements...");
+
+        // Evolutionary change: Add a new compliance check for user role
+        if (auditEntry.UserRole != "Customer")
         {
-            Console.WriteLine($"[COMPLIANCE] Financial action detected - enhanced logging required for {entry.TransactionId}");
+            Console.WriteLine("[COMPLIANCE] Non-customer roles require additional checks.");
         }
 
-        if (entry.TransactionType == "RETURN" && entry.Action.Contains("APPROVED"))
-        {
-            Console.WriteLine($"[COMPLIANCE] Return approval logged for compliance tracking: {entry.TransactionId}");
-        }
+        // Existing compliance logic
+        Console.WriteLine("[COMPLIANCE] Audit entry is compliant.");
     }
     // Duplicate Helper Methods End
 }
@@ -126,4 +128,5 @@ public class AuditEntry
     public string Details { get; set; } = string.Empty;
     public string UserAgent { get; set; } = string.Empty;
     public string IpAddress { get; set; } = string.Empty;
+    public string UserRole { get; set; } = string.Empty; // New field for user role
 }

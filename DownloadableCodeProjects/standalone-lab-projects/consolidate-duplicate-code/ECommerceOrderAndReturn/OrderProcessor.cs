@@ -65,61 +65,66 @@ public class OrderProcessor
     }
 
     // Validation logic
-    private bool Validate(string id)
+    private bool Validate(string orderId)
     {
-        Console.WriteLine($"Validating order ID: {id}");
-        
-        // Basic validation
-        if (string.IsNullOrWhiteSpace(id))
+        Console.WriteLine("[VALIDATION] Validating order ID...");
+
+        // Check for null or whitespace
+        if (string.IsNullOrWhiteSpace(orderId))
         {
-            Console.WriteLine("Validation failed: ID is null or empty");
+            Console.WriteLine("[VALIDATION] Order ID cannot be empty.");
             return false;
         }
 
         // Security validation
-        if (!SecurityValidator.IsValidId(id, "Order"))
+        if (!SecurityValidator.IsValidId(orderId))
         {
-            Console.WriteLine("Validation failed: Security check failed");
+            Console.WriteLine("[VALIDATION] Order ID failed security validation.");
             return false;
         }
 
-        // Business rule validation
-        if (id.Length < AppConfig.MinIdLength || id.Length > AppConfig.MaxIdLength)
+        // Length validation (evolved logic)
+        if (orderId.Length < AppConfig.MinIdLength || orderId.Length > AppConfig.MaxIdLength)
         {
-            Console.WriteLine("Validation failed: ID length is invalid");
+            Console.WriteLine("[VALIDATION] Order ID length is invalid.");
             return false;
         }
 
-        Console.WriteLine("Order ID validation successful");
+        // Additional prefix validation (evolutionary change)
+        if (!orderId.StartsWith("ORD"))
+        {
+            Console.WriteLine("[VALIDATION] Order ID must start with 'ORD'.");
+            return false;
+        }
+
         return true;
     }
 
-    private decimal CalculateShipping(string id, Order order)
+    private decimal CalculateShipping(string orderId, Order order)
     {
-        Console.WriteLine($"Calculating shipping for order ID: {id}");
-        
-        decimal shippingCost = AppConfig.BaseShippingRate;
-        
-        // Calculate weight-based shipping
-        decimal totalWeight = 0;
-        foreach (var item in order.Items)
+        Console.WriteLine("[SHIPPING] Calculating shipping cost...");
+
+        // Base shipping cost
+        decimal shippingCost = 5.00m;
+
+        // Weight-based adjustment (evolved logic)
+        if (order.TotalWeight > 10)
         {
-            totalWeight += item.Weight * item.Quantity;
+            shippingCost += 2.00m;
         }
-        
-        if (totalWeight > 0)
+
+        // Value-based adjustment (evolved logic)
+        if (order.TotalAmount > 50)
         {
-            shippingCost += totalWeight * AppConfig.WeightBasedRatePerPound;
+            shippingCost -= 1.00m; // Discount for high-value orders
         }
-        
-        // Free shipping for orders over threshold
-        if (order.TotalAmount >= AppConfig.FreeShippingThreshold)
+
+        // Additional handling fee for fragile items (evolutionary change)
+        if (order.ContainsFragileItems)
         {
-            Console.WriteLine($"Free shipping applied - order total: ${order.TotalAmount:F2}");
-            shippingCost = 0;
+            shippingCost += 3.00m;
         }
-        
-        Console.WriteLine($"Shipping calculation: Base=${AppConfig.BaseShippingRate:F2}, Weight({totalWeight}lbs)=${totalWeight * AppConfig.WeightBasedRatePerPound:F2}, Total=${shippingCost:F2}");
+
         return shippingCost;
     }
 
