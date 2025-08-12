@@ -185,7 +185,7 @@ Use the following steps to complete this task:
 
 1. Open the GitHub Copilot Chat view and set it to Ask mode.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using an appropriate model like **GPT-4o** or **GPT-4.1**.
+    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using an appropriate model like **GPT-4o** or **GPT-4**.
 
 1. Add the main processor files to the Chat context.
 
