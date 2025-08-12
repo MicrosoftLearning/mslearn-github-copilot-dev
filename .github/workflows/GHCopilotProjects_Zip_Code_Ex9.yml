@@ -28,14 +28,14 @@
 # This workflow is useful for automatically packaging and versioning sample applications whenever changes 
 # are made to them.
 #
-name: CreateGHCopilotEx8SamplesZip
+name: CreateGHCopilotEx9SamplesZip
 on:
   workflow_dispatch:
   push:
     branches:
       - 'main'
     paths:
-      - DownloadableCodeProjects/standalone-lab-projects/consolidate-duplicate-code/**
+      - DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals/**
 
 defaults:
   run:
@@ -47,13 +47,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Create GHCopilotEx8 SampleApps zip
+    - name: Create GHCopilotEx9 SampleApps zip
       run: | 
         # Ensure Downloads directory exists
         mkdir -p ./DownloadableCodeProjects/Downloads
         
         # Change to source directory
-        cd ./DownloadableCodeProjects/standalone-lab-projects/consolidate-duplicate-code
+        cd ./DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals
         
         # Check if there are any git-tracked files to zip
         if [ -z "$(git ls-files)" ]; then
@@ -62,19 +62,19 @@ jobs:
         fi
         
         # Remove existing zip file and create new one
-        rm -f ../../Downloads/GHCopilotEx8LabApps.zip
-        zip -r -q ../../Downloads/GHCopilotEx8LabApps.zip $(git ls-files)
+        rm -f ../../Downloads/GHCopilotEx9LabApps.zip
+        zip -r -q ../../Downloads/GHCopilotEx9LabApps.zip $(git ls-files)
         
         # Verify zip file was created
-        if [ ! -f ../../Downloads/GHCopilotEx8LabApps.zip ]; then
+        if [ ! -f ../../Downloads/GHCopilotEx9LabApps.zip ]; then
           echo "Failed to create zip file"
           exit 1
         fi
-
-        echo "Successfully created GHCopilotEx8LabApps.zip"
+        
+        echo "Successfully created GHCopilotEx9LabApps.zip"
     - name: Commit and push
       uses: Endbug/add-and-commit@v7
       with:
-        add: '["DownloadableCodeProjects/Downloads/GHCopilotEx8LabApps.zip"]'
+        add: '["DownloadableCodeProjects/Downloads/GHCopilotEx9LabApps.zip"]'
         message: 'Updating Zip with sample app source files'
         push: true

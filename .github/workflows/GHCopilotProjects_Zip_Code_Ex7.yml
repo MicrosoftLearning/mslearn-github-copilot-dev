@@ -28,14 +28,14 @@
 # This workflow is useful for automatically packaging and versioning sample applications whenever changes 
 # are made to them.
 #
-name: CreateGHCopilotEx7SamplesZip
+name: CreateGHCopilotEx8SamplesZip
 on:
   workflow_dispatch:
   push:
     branches:
       - 'main'
     paths:
-      - DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals/**
+      - DownloadableCodeProjects/standalone-lab-projects/consolidate-duplicate-code/**
 
 defaults:
   run:
@@ -53,7 +53,7 @@ jobs:
         mkdir -p ./DownloadableCodeProjects/Downloads
         
         # Change to source directory
-        cd ./DownloadableCodeProjects/standalone-lab-projects/simplify-complex-conditionals
+        cd ./DownloadableCodeProjects/standalone-lab-projects/consolidate-duplicate-code
         
         # Check if there are any git-tracked files to zip
         if [ -z "$(git ls-files)" ]; then
@@ -70,7 +70,7 @@ jobs:
           echo "Failed to create zip file"
           exit 1
         fi
-        
+
         echo "Successfully created GHCopilotEx7LabApps.zip"
     - name: Commit and push
       uses: Endbug/add-and-commit@v7

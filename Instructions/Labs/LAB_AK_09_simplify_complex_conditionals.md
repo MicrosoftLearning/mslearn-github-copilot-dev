@@ -60,23 +60,23 @@ Use the following steps to download the sample projects and open them in Visual 
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the sample app projects, open the following URL in your browser: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
+1. To download a zip file containing the sample app projects, open the following URL in your browser: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx9LabApps.zip)
 
-    The zip file is named **GHCopilotEx7LabApps.zip**.
+    The zip file is named **GHCopilotEx9LabApps.zip**.
 
-1. Extract the files from the **GHCopilotEx7LabApps.zip** file.
+1. Extract the files from the **GHCopilotEx9LabApps.zip** file.
 
     For example:
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click *GHCopilotEx7LabApps.zip*, and then select **Extract all**.
+    1. Right-click *GHCopilotEx9LabApps.zip*, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 
-1. Copy the **GHCopilotEx7LabApps** folder to a location that's easy to access, such as your Windows Desktop folder.
+1. Copy the **GHCopilotEx9LabApps** folder to a location that's easy to access, such as your Windows Desktop folder.
 
-1. Open the **GHCopilotEx7LabApps** folder in Visual Studio Code.
+1. Open the **GHCopilotEx9LabApps** folder in Visual Studio Code.
 
     For example:
 
@@ -84,11 +84,11 @@ Use the following steps to download the sample projects and open them in Visual 
 
     1. In Visual Studio Code, on the **File** menu, select **Open Folder**.
 
-    1. Navigate to the Windows Desktop folder, select **GHCopilotEx7LabApps** and then select **Select Folder**.
+    1. Navigate to the Windows Desktop folder, select **GHCopilotEx9LabApps** and then select **Select Folder**.
 
 1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following solution structure:
 
-    - GHCopilotEx7LabApps\
+    - GHCopilotEx9LabApps\
         - ECommercePricingEngine\
             - Dependencies\
             - ECommercePricingDemo.cs
@@ -123,7 +123,7 @@ In this task, you'll open the E-commerce pricing engine project and use GitHub C
 
 Use the following steps to complete this task:
 
-1. Ensure that you have the GHCopilotEx7LabApps folder open in Visual Studio Code.
+1. Ensure that you have the GHCopilotEx9LabApps folder open in Visual Studio Code.
 
     Refer to the **Before you start** section if you haven't downloaded the sample code projects.
 
