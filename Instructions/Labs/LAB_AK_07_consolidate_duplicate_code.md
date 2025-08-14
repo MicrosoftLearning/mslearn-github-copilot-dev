@@ -60,7 +60,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the sample app project, open the following URL in your browser: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
+1. To download a zip file containing the sample app project, open the following URL in your browser: [GitHub Copilot lab - consolidate duplicate code](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
 
     The zip file is named **GHCopilotEx7LabApps.zip**.
 
@@ -90,11 +90,13 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     - GHCopilotEx7LabApps\
         - ECommerceOrderAndReturn\
+            - bin\
             - Configuration\
                 - AppConfig.cs
             - Models\
                 - Order.cs
                 - Return.cs
+            - obj\
             - Security\
                 - SecurityValidator.cs
             - Services\
@@ -107,7 +109,6 @@ Use the following steps to download the sample project and open it in Visual Stu
             - OrderProcessor.cs
             - Program.cs
             - README.md
-            - REFACTORING_HINT.md
             - ReturnProcessor.cs
 
 ## Exercise scenario
@@ -437,3 +438,75 @@ Key accomplishments include:
 The consolidation process transformed the codebase from having duplicate implementations scattered across multiple files to a maintainable architecture where business rules are implemented in single locations. This improvement significantly reduces the risk of inconsistent behavior when business requirements change and makes the code easier to test, debug, and extend.
 
 GitHub Copilot's dual approach of Ask mode for analysis and Agent mode for implementation provides a powerful framework for tackling complex refactoring challenges that would be time-consuming and error-prone to handle manually.
+
+## Duplicate Code Summary
+
+The E-Commerce Order and Return Processing System has been significantly enhanced to include **5 different types of duplicate code patterns** that are commonly found in real-world e-commerce applications.
+
+## Duplicate Code Patterns Implemented
+
+### 1. Core Business Logic Duplication (Original)
+
+**Location**: `OrderProcessor.cs` and `ReturnProcessor.cs`
+
+- `Validate(string id)` - Identical validation logic
+- `CalculateShipping()` - Similar shipping calculation patterns
+
+### 2. Email Communication Duplication (Very Common)
+
+**Location**: `Services/EmailService.cs`
+
+- `BuildEmailTemplate()` - Template building for orders vs returns
+- `FormatEmailSubject()` - Subject line formatting
+- `SendEmail()` - Email sending mechanism
+- `LogEmailActivity()` - Email audit logging
+
+**Why this is realistic**: Email notifications are frequently copy-pasted between different business processes in e-commerce systems.
+
+### 3. Audit and Logging Duplication (Extremely Common)
+
+**Location**: `Services/AuditService.cs`
+
+- `CreateAuditEntry()` - Audit entry creation pattern
+- `ValidateAuditEntry()` - Entry validation logic
+- `StoreAuditEntry()` - Storage mechanism
+- `CheckComplianceRequirements()` - Compliance checking
+
+**Why this is realistic**: Audit logging is one of the most frequently duplicated patterns in enterprise applications, often copy-pasted for different transaction types.
+
+### 4. Inventory Management Duplication (Common)
+
+**Location**: `Services/InventoryService.cs`
+
+- `ValidateInventoryAvailability()` - Stock validation
+- `UpdateInventoryLevel()` - Inventory updates (+ for returns, - for orders)
+- `LogInventoryTransaction()` - Transaction logging
+
+### 5. Cross-Cutting Concerns Duplication (Hidden)
+
+**Throughout the application**:
+
+- Payment processing with audit logging (in both processors)
+- Status updates with logging
+- Error handling patterns
+
+## Expected Refactoring Outcomes
+
+Learners should be able to:
+
+1. **Identify** 5+ distinct duplicate code patterns
+2. **Prioritize** which duplications to address first
+3. **Choose** appropriate refactoring strategies for each pattern
+4. **Implement** consolidated solutions using GitHub Copilot
+5. **Verify** that functionality remains unchanged
+
+## Real-World Application
+
+These patterns directly translate to:
+
+- **E-commerce platforms** (order/return/exchange processing)
+- **Financial systems** (transaction processing with audit trails)
+- **Healthcare systems** (patient record management with compliance)
+- **Supply chain systems** (inventory and logistics management)
+
+The enhanced codebase now provides a much more comprehensive and realistic foundation for learning code consolidation techniques with GitHub Copilot.

@@ -30,41 +30,6 @@ This is a sample e-commerce application designed for a GitHub Copilot training c
 └── Program.cs             # Main application with test scenarios
 ```
 
-## Duplicate Code to Consolidate
-
-The following methods are intentionally duplicated to represent common real-world duplicate code patterns:
-
-### Primary Duplications (Original Lab Focus)
-
-1. **`Validate(string id)`** in OrderProcessor and ReturnProcessor:
-   - Null/empty checks
-   - Security pattern validation
-   - Business rule validation
-
-2. **`CalculateShipping()`** in OrderProcessor and ReturnProcessor:
-   - Base shipping rates
-   - Weight-based calculations
-   - Free shipping thresholds
-
-### Advanced Duplications (Real-World Examples)
-
-1. **Email Template Logic** in EmailService:
-   - `BuildEmailTemplate()` - Duplicated between order and return confirmations
-   - `FormatEmailSubject()` - Same pattern for both transaction types
-   - `SendEmail()` and `LogEmailActivity()` - Identical sending and logging logic
-
-2. **Audit Entry Management** in AuditService:
-   - `CreateAuditEntry()` - Same audit entry creation pattern
-   - `ValidateAuditEntry()` - Identical validation logic
-   - `StoreAuditEntry()` and `CheckComplianceRequirements()` - Duplicated storage and compliance checks
-
-3. **Inventory Operations** in InventoryService:
-   - `ValidateInventoryAvailability()` - Same validation pattern for orders and returns
-   - `UpdateInventoryLevel()` - Identical update logic with different directions
-   - `LogInventoryTransaction()` - Duplicated transaction logging
-
-These duplications represent the most common patterns found in real e-commerce applications where similar functionality is copy-pasted between different business processes.
-
 ## Features
 
 - **Order Processing**: Complete order workflow with payment and inventory
