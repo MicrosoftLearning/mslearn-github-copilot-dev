@@ -16,6 +16,9 @@ public class Return
     public string Reason { get; set; } = string.Empty;
     public ReturnStatus Status { get; set; }
     public decimal Weight { get; set; } // in pounds, for return shipping calculation
+    public double TotalWeight { get; set; }
+    public decimal TotalAmount { get; set; }
+    public bool IsOversized { get; set; }
 }
 
 public enum ReturnStatus

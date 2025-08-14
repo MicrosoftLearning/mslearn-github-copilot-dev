@@ -13,6 +13,8 @@ public class Order
     public decimal TotalAmount { get; set; }
     public string ShippingAddress { get; set; } = string.Empty;
     public OrderStatus Status { get; set; }
+    public double TotalWeight { get; set; }
+    public bool ContainsFragileItems { get; set; }
 }
 
 public class OrderItem

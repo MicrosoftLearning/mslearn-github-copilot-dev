@@ -86,7 +86,7 @@ public class ReturnProcessor
         }
 
         // Security validation
-        if (!SecurityValidator.IsValidId(returnId))
+        if (!SecurityValidator.IsValidId(returnId, "Return"))
         {
             Console.WriteLine("[VALIDATION] Return ID failed security validation.");
             return false;

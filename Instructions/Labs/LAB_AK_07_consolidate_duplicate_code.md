@@ -6,9 +6,9 @@ lab:
 
 # Consolidate duplicate code using GitHub Copilot
 
-Duplicate code logic In this exercise, you used GitHub Copilot to identify and consolidate duplicate code patterns in an e-commerce application. You learned how to use Ask mode to systematically analyze complex codebases for subtle duplications, and Agent mode to implement comprehensive refactoring strategies across multiple files and architectural layers.s often introduced when different individuals or teams extend a code project with new features over several years. A rushed schedule, poor documentation, and a lack of proper code reviews can exacerbate the issue. In some cases, code from one section may be copied and pasted into another section to quickly implement a feature. Unfortunately, duplicated logic can evolve separately, implementing different variable names and control flow structures that mask the duplication. In the end, duplicated logic makes the code difficult to maintain, debug, and test.
+Duplicate code logic can be introduced by individuals or teams when working rapidly to create (or extend) a codebase that includes similar or related features. In some cases, it can be as simple as copying code from one file or class into another to quickly prototype a new feature. To further complicate matters, duplicated logic can evolve differently based on the surrounding code, masking the duplicated logic. This can include changes to variable names, control flow structures, etc. A rushed schedule, poor documentation, and a lack of proper code reviews can exacerbate the issue. In the end, duplicated logic makes the code difficult to maintain, debug, and test.
 
-In this exercise, you use GitHub Copilot to analyze code that contains duplicate logic, consolidate the duplicated code logic by extracting it into shared methods or functions, and then test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of the code and explore options for consolidating the logic. You use GitHub Copilot in Agent mode to refactor the code by combining duplicate logic into shared methods or functions. Consolidating duplicate code makes it easier to read, maintain, and test your code.
+In this exercise, you review an existing project that contains duplicated code logic, analyze your options for consolidation, consolidate the duplicated code logic, and test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and explore options for consolidating the logic. You use GitHub Copilot in Agent mode to refactor the code by combining duplicate logic into shared methods or functions. You test the original and refactored code to ensure the consolidated logic works as intended.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -54,13 +54,13 @@ If you're using a hosted lab environment for this exercise:
 
     ```
 
-### Download sample code projects
+### Download sample code project
 
-Use the following steps to download the sample projects and open them in Visual Studio Code:
+Use the following steps to download the sample project and open it in Visual Studio Code:
 
 1. Open a browser window in your lab environment.
 
-1. To download a zip file containing the sample app projects, open the following URL in your browser: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
+1. To download a zip file containing the sample app project, open the following URL in your browser: [GitHub Copilot lab - develop code features](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHCopilotEx7LabApps.zip)
 
     The zip file is named **GHCopilotEx7LabApps.zip**.
 
@@ -114,26 +114,26 @@ Use the following steps to download the sample projects and open them in Visual 
 
 You're a software developer working for a consulting firm. Your clients need help consolidating duplicate code logic. Your goal is to improve code maintainability while preserving the existing functionality. You're assigned to the following app:
 
-- E-commerce orders and returns: This app is an E-commerce Orders and Returns system that processes customer orders and handles product returns. Duplicate code is present in order validation, shipping calculation, and error handling.
+- E-commerce orders and returns: This app is an E-commerce orders and returns system that processes customer orders and handles product returns.
 
 This exercise includes the following tasks:
 
 1. Review the E-commerce orders and returns codebase.
-1. Identify duplicate code using GitHub Copilot Chat (Ask Mode).
-1. Consolidate duplicate logic using GitHub Copilot Chat (Agent Mode).
+1. Identify duplicate code using GitHub Copilot Chat (Ask mode).
+1. Consolidate duplicate logic using GitHub Copilot Chat (Agent mode).
 1. Test the refactored E-commerce orders and returns code.
 
 ### Review the E-commerce orders and returns codebase
 
-The first step in any refactoring effort is to ensure that you understand the existing codebase and the types of duplicate code that need to be consolidated.
+The first step in any refactoring effort is to ensure that you understand the existing codebase. It's important to understand the code structure, the business logic, and the results generated when the code runs.
 
-In this task, you'll open the E-commerce order and return processing project and analyze the various duplicate code patterns that exist across multiple files and architectural layers.
+In this task, you'll open the E-commerce order and return processing project, scan for duplicate code patterns, and test the code.
 
 Use the following steps to complete this task:
 
 1. Open the ECommerceOrderAndReturn project folder in Visual Studio Code.
 
-    Take a moment to explore the project structure. Notice that the codebase has been enhanced to represent a more realistic e-commerce application with multiple architectural layers including Models, Services, Security, and Configuration.
+    Take a moment to explore the project structure. Notice that the codebase includes multiple architectural layers including Models, Services, Security, and Configuration.
 
 1. Examine the main processing classes.
 
@@ -143,13 +143,11 @@ Use the following steps to complete this task:
 
 1. Review the Services layer.
 
-    Navigate to the **Services** folder and examine **EmailService.cs**, **AuditService.cs**, and **InventoryService.cs**. These service classes contain duplicate logic patterns that are common in real-world e-commerce applications.
-
-    Notice how each service has methods that follow similar patterns but are duplicated for different business processes (orders vs returns).
+    Navigate to the **Services** folder and examine **EmailService.cs**, **AuditService.cs**, and **InventoryService.cs**.
 
 1. Run the application to understand its behavior.
 
-    Open a terminal in Visual Studio Code and execute `dotnet run` from the **ECommerceOrderAndReturn** project directory.
+    For example, open a terminal in Visual Studio Code and execute `dotnet run` from the **ECommerceOrderAndReturn** project directory.
 
     Observe the comprehensive console output that shows:
     - Initial inventory levels
@@ -160,76 +158,89 @@ Use the following steps to complete this task:
 
     The application runs 5 test scenarios to demonstrate both successful processing and security validation failures.
 
-1. Identify the duplicate code patterns.
+1. Scan the code for duplicate code patterns.
 
-    From your code review and the application output, note the following types of duplication:
+    Look for the following types of duplication:
 
-    **Core Business Logic Duplication**: Both OrderProcessor and ReturnProcessor have identical `Validate()` and similar `CalculateShipping()` methods.
+    **Core Business Logic Duplication**: Notice that OrderProcessor and ReturnProcessor have identical `Validate()` and similar `CalculateShipping()` methods.
 
-    **Service Layer Duplication**:
-    - EmailService has duplicate template building, formatting, and sending logic for orders and returns
-    - AuditService has duplicate entry creation, validation, and storage logic
-    - InventoryService has duplicate validation and transaction logging patterns
+    **Service Layer Duplication**: Notice how each service has methods that follow similar patterns but are duplicated for different business processes (orders vs returns).
 
-    **Cross-cutting Concerns**: Payment processing, status updates, and error handling patterns are repeated across both processors.
+    **Cross-cutting Concerns**: Notice that payment processing, status updates, and error handling patterns are repeated across both processors.
 
-At this stage, it's important to understand the existing functionality before making changes. By running the code and reviewing the output, you establish a baseline that you can use to verify that your refactoring doesn't break existing functionality. The enhanced codebase demonstrates real-world duplicate code patterns that go beyond simple method duplication to include service-layer and architectural duplications commonly found in enterprise applications.
+It's important to understand the existing functionality before making changes. By running the code and reviewing the output, you establish a baseline that you can use to verify that your refactoring doesn't break existing functionality.
 
-### Identify duplicate code using GitHub Copilot Chat (Ask Mode)
+### Identify duplicate code using GitHub Copilot Chat (Ask mode)
 
-GitHub Copilot Chat's Ask Mode is excellent for analyzing complex codebases and identifying subtle duplication patterns that might not be immediately obvious. In Ask mode, Copilot acts as an intelligent code reviewer that can analyze multiple files simultaneously and identify both obvious and hidden duplications.
+GitHub Copilot Chat's Ask mode is a great tool for analyzing complex codebases and identifying subtle duplication patterns that might not be immediately obvious. In Ask mode, Copilot acts as an intelligent code reviewer that can analyze multiple files simultaneously and identify both obvious and hidden (code logic) duplications.
 
 In this task, you'll use GitHub Copilot to systematically identify the various types of duplicate code patterns in the enhanced e-commerce application.
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view and set it to Ask mode.
+1. Open the GitHub Copilot Chat view, and then configure Ask mode and the GPT-4.1 model.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using an appropriate model like **GPT-4o** or **GPT-4.1**.
+    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using the **GPT-4.1** model.
 
-1. Add the main processor files to the Chat context.
+    The GPT-4.1 model is available with the GitHub Copilot Free plan, is designed to handle complex tasks, and provides intelligent code analysis/suggestions.
 
-    Open **OrderProcessor.cs** and **ReturnProcessor.cs** in the editor. You can also drag these files directly into the Chat view to ensure GitHub Copilot has full context of both files.
+1. Add the OrderProcessor and ReturnProcessor files to the Chat context.
+
+    Open **OrderProcessor.cs** and **ReturnProcessor.cs** in the editor. You can also drag these files directly into the Chat view to ensure GitHub Copilot reviews the full context of both files.
 
 1. Ask GitHub Copilot to identify the primary duplicate code patterns.
 
-    Submit the following prompt to analyze the core duplication:
+    For example, submit the following prompt to analyze the core duplication:
 
     ```text
-    What duplicate code exists between OrderProcessor.cs and ReturnProcessor.cs? Please identify specific methods and logic that are duplicated between these classes.
+    What duplicate code exists between OrderProcessor.cs and ReturnProcessor.cs? Please identify specific methods and logic that are duplicated between these classes. Describe opportunities to consolidate this code.
     ```
+
+1. Take a minute to review GitHub Copilot's response.
 
     GitHub Copilot should identify the `Validate()` method duplication and the similar patterns in `CalculateShipping()` methods. It may also note the similar audit logging and error handling patterns.
 
-1. Analyze service-layer duplications.
+1. Add the **EmailService.cs** file to the Chat context.
 
-    Add the **EmailService.cs** file to the Chat context by dragging it into the chat or opening it in the editor. Then ask:
+    Add the **EmailService.cs** file to the Chat context by dragging it into the chat. You can also open it in the editor.
+
+1. Ask GitHub Copilot to identify duplications in the EmailService class.
+
+    For example:
 
     ```text
-    Analyze the EmailService class. What duplicate logic exists within this service for handling order confirmations versus return confirmations?
+    Analyze the EmailService class. What duplicate logic exists within this service for handling order confirmations versus return confirmations? Describe opportunities to consolidate this code.
     ```
+
+1. Take a minute to review GitHub Copilot's response.
 
     GitHub Copilot should identify the duplicate template building, subject formatting, email sending, and logging methods that are used by both `SendOrderConfirmation` and `SendReturnConfirmation`.
 
-1. Examine audit and inventory service duplications.
+1. Add the **AuditService.cs** and **InventoryService.cs** files to the Chat context.
 
-    Add **AuditService.cs** and **InventoryService.cs** to the context and ask:
+1. Ask GitHub Copilot to identify duplications in the audit and inventory service files.
+
+    For example:
 
     ```text
-    In the AuditService and InventoryService classes, what methods contain duplicate logic patterns that could be consolidated?
+    Analyze the AuditService and InventoryService classes. Identify the methods that contain duplicate logic patterns that could be consolidated? Describe opportunities to consolidate this code.
     ```
+
+1. Take a minute to review GitHub Copilot's response.
 
     GitHub Copilot should identify patterns like audit entry creation/validation/storage in AuditService, and inventory validation/updating/logging in InventoryService.
 
-1. Get a comprehensive duplication analysis.
+1. Ask GitHub Copilot to perform a comprehensive duplication analysis.
 
     For a broader view, ask GitHub Copilot to analyze the entire codebase:
 
     ```text
-    @workspace Analyze the entire ECommerceOrderAndReturn codebase and identify all forms of code duplication, including method-level, service-level, and architectural pattern duplications. Prioritize the duplications by impact and refactoring difficulty.
+    @workspace Analyze the entire ECommerceOrderAndReturn codebase and identify all forms of code duplication, including method-level, service-level, and architectural pattern duplications. Prioritize the duplications by impact and refactoring difficulty. Describe an approach for consolidating this code.
     ```
 
-    This should provide a comprehensive analysis of all duplication patterns and suggest which ones should be addressed first.
+1. Take a minute to review GitHub Copilot's response.
+
+    The response should provide a comprehensive analysis of all duplication patterns and suggest which ones should be addressed first.
 
 1. Verify GitHub Copilot's analysis with manual code review.
 
@@ -237,9 +248,9 @@ Use the following steps to complete this task:
 
 GitHub Copilot's Ask mode is particularly powerful for identifying subtle duplications that go beyond simple copy-paste scenarios. It can recognize similar logical patterns, equivalent business rules implemented differently, and architectural duplications that span multiple files. The analysis from this task will inform the refactoring strategy you'll implement in the next section.
 
-### Consolidate duplicate logic using GitHub Copilot Chat (Agent Mode)
+### Consolidate duplicate logic using GitHub Copilot Chat (Agent mode)
 
-GitHub Copilot's Agent Mode enables you to assign complex, multi-step refactoring tasks that span multiple files and architectural layers. The agent can autonomously create new files, modify existing code, and implement comprehensive refactoring strategies while keeping you informed of its progress.
+GitHub Copilot's Agent mode enables you to assign complex, multi-step refactoring tasks that span multiple files and architectural layers. The agent can autonomously create new files, modify existing code, and implement comprehensive refactoring strategies while keeping you informed of its progress.
 
 In this task, you'll use GitHub Copilot Agent to systematically eliminate the duplicate code patterns identified in the previous task, starting with the most straightforward duplications and progressing to more complex service-layer consolidations.
 
@@ -252,21 +263,25 @@ Use the following steps to complete this task:
 1. Plan the refactoring strategy.
 
     Before assigning tasks to the agent, consider the logical order for refactoring:
+
     - **Phase 1**: Core business logic duplication (validation and shipping calculation)
     - **Phase 2**: Service-layer duplications (email, audit, inventory services)
     - **Phase 3**: Cross-cutting concerns and architectural improvements
 
     This phased approach ensures that changes are manageable and can be tested incrementally.
 
-1. Assign the first refactoring task for core business logic.
+1. Ask GitHub Copilot Agent to consolidate the validation logic in the OrderProcessor and ReturnProcessor classes.
 
-    Submit the following task to GitHub Copilot Agent:
+    For example, submit the following task to GitHub Copilot Agent:
 
     ```text
     Create a shared ValidationService class that consolidates the duplicate Validate() method logic from OrderProcessor and ReturnProcessor. The service should handle ID validation for both orders and returns while maintaining all existing security checks, business rules, and logging. Update both processor classes to use the new shared service and remove the duplicate private methods.
     ```
 
-    Monitor the agent's progress in the Chat view. It should:
+1. Monitor the agent's progress in the Chat view.
+
+    The agent's progress should be visible in the chat as it completes the assigned task. The agent will:
+
     - Create a new **ValidationService.cs** file in the Services folder
     - Extract the validation logic into a reusable method
     - Update both processor classes to use the new service
@@ -276,9 +291,12 @@ Use the following steps to complete this task:
 
     Examine the changes proposed by the agent. The new validation service should maintain all the existing validation logic while providing a single, reusable implementation. If the changes look correct, accept them.
 
-1. Consolidate shipping calculation logic.
+    > [!NOTE]
+    > When you're working on production code, it's good practice to perform incremental testing after significant refactoring operations. Build and test the application to verify that the output remains consistent with the original behavior. If any issues arise, work with GitHub Copilot to resolve them before proceeding to the next refactoring phase.
 
-    Assign the next task for shipping calculations:
+1. Ask GitHub Copilot Agent to consolidate shipping calculation logic.
+
+    For example, use the following task to consolidate shipping calculations:
 
     ```text
     Create a shared ShippingCalculationService that consolidates the similar CalculateShipping() logic from OrderProcessor and ReturnProcessor. The service should handle both order shipping (with free shipping thresholds) and return shipping (with processing fees) while maintaining the different business rules for each type. Update both processor classes to use the new shared service.
@@ -286,44 +304,40 @@ Use the following steps to complete this task:
 
     The agent should create a shipping service that handles both scenarios while preserving the different business rules for orders versus returns.
 
-1. Refactor the EmailService duplications.
+1. Review and accept the changes.
 
-    Assign a task to consolidate the email service duplications:
+1. Ask GitHub Copilot Agent to refactor the EmailService duplications.
+
+    For example, use the following task to consolidate the email service duplications:
 
     ```text
     Refactor the EmailService class to eliminate duplicate logic in the helper methods. Create a unified approach for template building, subject formatting, email sending, and activity logging that can handle both order and return confirmations. The public methods SendOrderConfirmation and SendReturnConfirmation should remain, but they should use shared private helper methods.
     ```
 
-1. Consolidate AuditService duplications.
+1. Review and accept the changes.
 
-    Address the audit service duplications:
+1. Ask GitHub Copilot Agent to consolidate AuditService duplications.
+
+    For example, use the following task to consolidate the audit service duplications:
 
     ```text
     Refactor the AuditService class to consolidate the duplicate logic in LogOrderActivity and LogReturnActivity. Create shared helper methods for audit entry creation, validation, storage, and compliance checking. The public methods should remain but use common underlying logic.
     ```
 
-1. Address InventoryService duplications.
+1. Review and accept the changes.
 
-    Handle the inventory service duplications:
+1. Ask GitHub Copilot Agent to address InventoryService duplications.
+
+    For example, use the following task to handle the inventory service duplications:
 
     ```text
     Refactor the InventoryService class to eliminate duplicate logic between ReserveOrderInventory and RestoreReturnInventory. Create shared helper methods for inventory validation, level updates, and transaction logging while maintaining the different business logic for reservations versus restorations.
     ```
 
-1. Perform incremental testing after each major change.
-
-    After each refactoring phase, build and test the application:
-    
-    ```bash
-    dotnet build
-    dotnet run
-    ```
-
-    Verify that the output remains consistent with the original behavior. If any issues arise, work with GitHub Copilot to resolve them before proceeding to the next refactoring phase.
-
 1. Review the final architecture.
 
     Once all refactoring tasks are complete, review the updated codebase structure. You should now have:
+
     - Consolidated validation and shipping services
     - Refactored service classes with eliminated duplications
     - Maintained business logic and functionality
@@ -358,6 +372,7 @@ Use the following steps to complete this task:
     ```
 
     The application should run all 5 test scenarios exactly as before:
+
     - Initial inventory display
     - Valid order processing with complete workflow
     - Valid return processing with complete workflow
@@ -367,6 +382,7 @@ Use the following steps to complete this task:
 1. Compare the refactored output with the original behavior.
 
     The output should be identical to the pre-refactoring version, confirming that:
+
     - All validation logic still works correctly
     - Shipping calculations produce the same results
     - Email notifications are still sent
@@ -389,6 +405,7 @@ Use the following steps to complete this task:
 1. Test edge cases and error scenarios.
 
     Although the current test scenarios cover basic functionality, consider testing additional scenarios to ensure robustness:
+
     - Very long IDs (to test length validation)
     - Special characters in IDs (to test security validation)
     - Different order amounts (to test shipping calculations)
@@ -398,6 +415,7 @@ Use the following steps to complete this task:
 1. Perform a final code review.
 
     Review the refactored codebase to ensure:
+
     - **Code Quality**: Methods are well-named and follow consistent patterns
     - **Maintainability**: Changes to business rules now require updates in only one location
     - **Readability**: The code structure is clear and logical

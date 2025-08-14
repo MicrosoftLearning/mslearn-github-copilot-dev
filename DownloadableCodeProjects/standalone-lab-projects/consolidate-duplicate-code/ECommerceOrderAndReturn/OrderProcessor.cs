@@ -77,7 +77,7 @@ public class OrderProcessor
         }
 
         // Security validation
-        if (!SecurityValidator.IsValidId(orderId))
+        if (!SecurityValidator.IsValidId(orderId, "Order"))
         {
             Console.WriteLine("[VALIDATION] Order ID failed security validation.");
             return false;
