@@ -6,9 +6,9 @@ lab:
 
 # Consolidate duplicate code using GitHub Copilot
 
-Duplicate code logic can be introduced by individuals or teams when working rapidly to create (or extend) a codebase that includes similar or related features. In some cases, it can be as simple as copying code from one file or class into another to quickly prototype a new feature. To further complicate matters, duplicated logic can evolve differently based on the surrounding code, masking the duplicated logic. This can include changes to variable names, control flow structures, etc. A rushed schedule, poor documentation, and a lack of proper code reviews can exacerbate the issue. In the end, duplicated logic makes the code difficult to maintain, debug, and test.
+Duplicate code logic is often introduced when developing/extending a codebase that includes similar or related features. It may not be intentional, and it can be as simple as reusing code to prototype a new feature. If duplicated logic evolves to match the surrounding code over time, the issue can become more complicated. Changes to variable names, function names, and code structures in one location (but not the another) can mask duplicated logic. A rushed schedule, poor documentation, and a lack of proper code reviews can exacerbate the issue. In the end, duplicated logic makes the code difficult to read, maintain, debug, and test.
 
-In this exercise, you review an existing project that contains duplicated code logic, analyze your options for consolidation, consolidate the duplicated code logic, and test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and explore options for consolidating the logic. You use GitHub Copilot in Agent mode to refactor the code by combining duplicate logic into shared methods or functions. You test the original and refactored code to ensure the consolidated logic works as intended.
+In this exercise, you review an existing project that contains duplicated code logic, analyze your options for consolidation, consolidate the duplicated code logic, and test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and explore options for consolidating the logic. You use GitHub Copilot in Agent mode to refactor the code by combining duplicate logic into shared helper methods. You test the original and refactored code to ensure the consolidated logic works as intended.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -125,7 +125,7 @@ This exercise includes the following tasks:
 
 The first step in any refactoring effort is to ensure that you understand the existing codebase. It's important to understand the code structure, the business logic, and the results generated when the code runs.
 
-In this task, you'll open the E-commerce order and return processing project, quickly review the main components, scan for duplicate code patterns, and test the code.
+In this task, you'll review the main components of the E-commerce order and return processing project, scan the code for duplicate code patterns, and test the code.
 
 Use the following steps to complete this task:
 
@@ -137,7 +137,7 @@ Use the following steps to complete this task:
 
     Open **OrderProcessor.cs** and **ReturnProcessor.cs** side by side. These classes represent the core business logic for processing customer orders and product returns respectively.
 
-    Notice that both classes have similar method signatures and processing patterns. This is the most obvious type of duplication, but there are additional, more subtle duplications throughout the codebase.
+    Notice that the two classes have similar method signatures and processing patterns. This is the most obvious type of duplication, but there are additional, more subtle duplications throughout the codebase.
 
 1. Review the Services layer.
 
@@ -146,6 +146,10 @@ Use the following steps to complete this task:
     You may notice that these services implement similar patterns for handling email notifications, audit logging, and inventory management. Each service has methods that follow similar structures but are duplicated for different business processes (orders vs returns).
 
 1. Run the application and review the console output.
+
+    > **NOTE**: A copy of the console output is stored in the EXPECTED_OUTPUT.md file that's included in the project directory. You'll use this file to verify that the application behavior hasn't changed after consolidating the duplicate code.
+
+    You can run the application from the SOLUTION EXPLORER view by right-clicking **ECommerceOrdersAndReturns**, selecting **Debug**, and then selecting **Start New Instance**.
 
     The console output includes:
 
@@ -157,15 +161,13 @@ Use the following steps to complete this task:
 
     The application runs 5 test scenarios to demonstrate both successful processing and security validation failures.
 
-    > **NOTE**: A copy of the console output is stored in the EXPECTED_OUTPUT.md file that's included in the project directory. You'll use this file to ensure consistent application behavior (after consolidating the duplicate code).
-
 1. Take a minute to categorize any duplicate code patterns that you observed.
 
     For example:
 
-    **Core Business Logic Duplication**: OrderProcessor and ReturnProcessor have identical `Validate()` and similar `CalculateShipping()` methods.
+    **Duplicated Methods**: OrderProcessor and ReturnProcessor have identical `Validate()` and similar `CalculateShipping()` methods.
 
-    **Service Layer Duplication**: Each service has methods that follow similar patterns but are duplicated for different business processes (orders vs returns).
+    **Similar Patterns in the Service Layer**: Each service has methods that follow similar patterns but are duplicated for different business processes (orders vs returns).
 
     **Cross-cutting Concerns**: Payment processing, status updates, and error handling patterns are repeated across both processors.
 

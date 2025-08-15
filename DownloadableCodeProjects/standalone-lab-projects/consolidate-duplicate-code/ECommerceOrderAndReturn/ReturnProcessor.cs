@@ -99,10 +99,10 @@ public class ReturnProcessor
             return false;
         }
 
-        // Additional suffix validation (evolutionary change)
-        if (!returnId.EndsWith("RET"))
+        // Additional prefix validation (evolutionary change)
+        if (!returnId.StartsWith("RET"))
         {
-            Console.WriteLine("[VALIDATION] Return ID must end with 'RET'.");
+            Console.WriteLine("[VALIDATION] Return ID must start with 'RET'.");
             return false;
         }
 
