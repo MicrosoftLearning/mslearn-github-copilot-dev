@@ -21,7 +21,7 @@ Security check: Validating Order ID: ORD*****
 Security check passed: Order ID is valid
 [AUDIT] Logging order activity: PROCESSING_STARTED
 [AUDIT] Audit entry validation passed
-[AUDIT] Storing: 2025-08-15 21:34:26 | ORDER | ORD12345 | PROCESSING_STARTED
+[AUDIT] Storing: 2025-08-15 22:03:17 | ORDER | ORD12345 | PROCESSING_STARTED
 [AUDIT] Details: Order validation passed
 [COMPLIANCE] Checking compliance requirements...
 [COMPLIANCE] Audit entry is compliant.
@@ -31,14 +31,14 @@ Order ORD12345 status updated to: Processing
 Processing payment for order ORD12345, amount: $75.50
 [AUDIT] Logging order activity: PAYMENT_STARTED
 [AUDIT] Audit entry validation passed
-[AUDIT] Storing: 2025-08-15 21:34:26 | ORDER | ORD12345 | PAYMENT_STARTED
+[AUDIT] Storing: 2025-08-15 22:03:17 | ORDER | ORD12345 | PAYMENT_STARTED
 [AUDIT] Details: Amount: $75.50
 [COMPLIANCE] Checking compliance requirements...
 [COMPLIANCE] Audit entry is compliant.
 Payment processed successfully
 [AUDIT] Logging order activity: PAYMENT_COMPLETED
 [AUDIT] Audit entry validation passed
-[AUDIT] Storing: 2025-08-15 21:34:26 | ORDER | ORD12345 | PAYMENT_COMPLETED
+[AUDIT] Storing: 2025-08-15 22:03:17 | ORDER | ORD12345 | PAYMENT_COMPLETED
 [AUDIT] Details: Payment successful
 [COMPLIANCE] Checking compliance requirements...
 [COMPLIANCE] Audit entry is compliant.
@@ -57,10 +57,10 @@ Payment processed successfully
 
 Thank you for your purchas...
 [EMAIL] Successfully sent!
-[AUDIT] [2025-08-15 14:34:26] EMAIL_SENT | Type: OrderConfirmation | Customer: CUST001 | Transaction: ORD12345
+[AUDIT] [2025-08-15 15:03:17] EMAIL_SENT | Type: OrderConfirmation | Customer: CUST001 | Transaction: ORD12345
 [AUDIT] Logging order activity: PROCESSING_COMPLETED
 [AUDIT] Audit entry validation passed
-[AUDIT] Storing: 2025-08-15 21:34:26 | ORDER | ORD12345 | PROCESSING_COMPLETED
+[AUDIT] Storing: 2025-08-15 22:03:17 | ORDER | ORD12345 | PROCESSING_COMPLETED
 [AUDIT] Details: Total amount: $75.50, Shipping: $4.00
 [COMPLIANCE] Checking compliance requirements...
 [COMPLIANCE] Audit entry is compliant.
@@ -73,14 +73,55 @@ Processing return: RET98765
 [VALIDATION] Validating return ID...
 Security check: Validating Return ID: RET*****
 Security check passed: Return ID is valid
-[VALIDATION] Return ID must end with 'RET'.
-Return RET98765 is invalid and cannot be processed.
-Error processing return RET98765: Invalid return ID: RET98765
+[AUDIT] Logging return activity: PROCESSING_STARTED
+[AUDIT] Audit entry validation passed
+[AUDIT] Storing: 2025-08-15 22:03:17 | RETURN | RET98765 | PROCESSING_STARTED
+[AUDIT] Details: Return validation passed
+[COMPLIANCE] Checking compliance requirements...
+[COMPLIANCE] Audit entry is compliant.
+Validating return eligibility for RET98765
+Return eligibility validated successfully
+[SHIPPING] Calculating return shipping cost...
+Return RET98765 shipping cost: $3.00
+Return RET98765 status updated to: Approved
+Processing refund for return RET98765, amount: $699.99
+[AUDIT] Logging return activity: REFUND_STARTED
+[AUDIT] Audit entry validation passed
+[AUDIT] Storing: 2025-08-15 22:03:17 | RETURN | RET98765 | REFUND_STARTED
+[AUDIT] Details: Amount: $699.99
+[COMPLIANCE] Checking compliance requirements...
+[COMPLIANCE] Audit entry is compliant.
+Refund processed successfully
+[AUDIT] Logging return activity: REFUND_COMPLETED
+[AUDIT] Audit entry validation passed
+[AUDIT] Storing: 2025-08-15 22:03:18 | RETURN | RET98765 | REFUND_COMPLETED
+[AUDIT] Details: Refund successful
+[COMPLIANCE] Checking compliance requirements...
+[COMPLIANCE] Audit entry is compliant.
+[INVENTORY] Processing inventory restoration for return RET98765
+[INVENTORY] Validating inventory availability...
+[INVENTORY] Updated PROD001: 49 → 50 (Change: +1, Reason: RESTORED)
+[INVENTORY] Logging inventory transaction...
+[INVENTORY] Action: RESTORE, Transaction ID: RET98765, Product ID: PROD001, Quantity: 1, Details: Return processing, Transaction Type: Restoration
+[EMAIL] Preparing return confirmation email for CUST001
+[EMAIL] Sending to customer CUST001: [E-Commerce] Return Confirmation - Transaction ID: RET98765
+[EMAIL] Content preview: Dear Customer CUST001,
+
+We appreciate your return!...
+[EMAIL] Successfully sent!
+[AUDIT] [2025-08-15 15:03:18] EMAIL_SENT | Type: ReturnConfirmation | Customer: CUST001 | Transaction: RET98765
+[AUDIT] Logging return activity: PROCESSING_COMPLETED
+[AUDIT] Audit entry validation passed
+[AUDIT] Storing: 2025-08-15 22:03:18 | RETURN | RET98765 | PROCESSING_COMPLETED
+[AUDIT] Details: Refund amount: $699.99, Shipping: $3.00
+[COMPLIANCE] Checking compliance requirements...
+[COMPLIANCE] Audit entry is compliant.
+Return RET98765 processed successfully!
 === Return Processing Complete ===
 
 INVENTORY STATUS AFTER PROCESSING:
 [INVENTORY] Current Stock Levels:
-  PROD001: 49 units
+  PROD001: 50 units
   PROD002: 98 units
   PROD003: 25 units
   PROD004: 75 units
@@ -93,6 +134,7 @@ Security check: Validating Order ID: INV*****
 Security check failed: Order ID format is invalid
 [VALIDATION] Order ID failed security validation.
 Order INVALID123 is invalid and cannot be processed.
+Exception thrown: 'System.ArgumentException' in ECommerceOrderAndReturn.dll
 Error processing order INVALID123: Invalid order ID: INVALID123
 === Order Processing Complete ===
 
@@ -104,16 +146,18 @@ Security check: Validating Return ID: <sc*****
 Security check failed: Return ID exceeds maximum length
 [VALIDATION] Return ID failed security validation.
 Return <script>alert('xss')</script> is invalid and cannot be processed.
+Exception thrown: 'System.ArgumentException' in ECommerceOrderAndReturn.dll
 Error processing return <script>alert('xss')</script>: Invalid return ID: <script>alert('xss')</script>
 === Return Processing Complete ===
 
 TEST 5: Processing with empty ID
 === Starting Order Processing ===
-Processing order:
+Processing order: 
 [VALIDATION] Validating order ID...
 [VALIDATION] Order ID cannot be empty.
 Order  is invalid and cannot be processed.
-Error processing order : Invalid order ID:
+Exception thrown: 'System.ArgumentException' in ECommerceOrderAndReturn.dll
+Error processing order : Invalid order ID: 
 === Order Processing Complete ===
 
 

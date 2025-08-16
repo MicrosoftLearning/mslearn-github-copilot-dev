@@ -1,8 +1,8 @@
-<!-- ---
+---
 lab:
     title: 'Exercise - Consolidate duplicate code using GitHub Copilot'
-    description: 'Learn how to consolidate code that implements duplicate logic (either duplicated code or code that's similar and used to implement the same business logic) across multiple files using GitHub Copilot tools.'
---- -->
+    description: 'Learn how to analyze a complex codebase and consolidate duplicated code logic using GitHub Copilot tools.'
+---
 
 # Consolidate duplicate code using GitHub Copilot
 
@@ -169,15 +169,13 @@ Use the following steps to complete this task:
 
     **Similar Patterns in the Service Layer**: Each service has methods that follow similar patterns but are duplicated for different business processes (orders vs returns).
 
-    **Cross-cutting Concerns**: Payment processing, status updates, and error handling patterns are repeated across both processors.
-
 It's important to understand the existing functionality before making changes. By running the code and reviewing the output, you establish a baseline that you can use to verify that your refactoring doesn't break existing functionality.
 
 ### Identify duplicate code using GitHub Copilot Chat (Ask mode)
 
 GitHub Copilot Chat's Ask mode is a great tool for analyzing complex codebases and identifying subtle duplication patterns that might not be immediately obvious. In Ask mode, Copilot acts as an intelligent code reviewer that can analyze multiple files simultaneously and identify both obvious and hidden (code logic) duplications.
 
-In this task, you'll use GitHub Copilot to systematically identify the various types of duplicate code patterns in the enhanced e-commerce application.
+In this task, you'll use GitHub Copilot to systematically identify the various types of duplicate code patterns in the e-commerce application.
 
 Use the following steps to complete this task:
 
@@ -187,11 +185,17 @@ Use the following steps to complete this task:
 
     The GPT-4.1 model is available with the GitHub Copilot Free plan, is designed to handle complex tasks, and provides intelligent code analysis/suggestions.
 
-1. Close any open files in the editor to reduce noise in the analysis.
+1. Close any files that are open in the editor.
+
+    GitHub Copilot uses files that are open in the editor to establish context. Closing unwanted file tabs helps to reduce noise in the analysis.
 
 1. Add the OrderProcessor and ReturnProcessor files to the Chat context.
 
-    Open **OrderProcessor.cs** and **ReturnProcessor.cs** in the editor. You can also drag these files directly into the Chat view to ensure GitHub Copilot reviews the full context of both files.
+    Use a drag-and-drop operation to add the **OrderProcessor.cs** and **ReturnProcessor.cs** files from the SOLUTION EXPLORER to the Chat context.
+
+    Adding a file to the chat context tells GitHub Copilot to include that file in context when analyzing your prompt.
+
+    If you're using the default folder view rather than SOLUTION EXPLORER, you can right-click a file and then select **Add File to Chat**. You can also open a file in the code editor to help establish context.
 
 1. Ask GitHub Copilot to identify duplicate code patterns in the selected files.
 
@@ -389,7 +393,7 @@ Use the following steps to complete this task:
     Analyze the entire ECommerceOrderAndReturn codebase and identify any remaining duplicate code patterns that should be consolidated. Focus on cross-cutting concerns like payment processing, status updates, and error handling. Create shared services or helper methods as needed to eliminate these duplications while maintaining existing functionality. Build and test the code to ensure the functionality remains intact. Continue working until all identified duplications are fully integrated.
     ```
 
-    This type of "catch any remaining issues" analysis should be considered as an optional step at the end of the refactoring process. Attempting this type of broad stroke analysis too early can lead to unwanted and unnecessary changes. It's best to create a planned approach and address revisions on a priority basis.
+    Assigning tasks like this "catch any remaining issues" to GitHub Copilot Agent should only be done at the end of the refactoring process, and should only be used when necessary. Attempting this type of broad stroke analysis too early can produce unexpected results or task failures that need to be rolled back. It's best to create a planned approach and address revisions on a priority basis using a staged process.
 
     > **Note:** Even after GitHub Copilot "consolidates the remaining duplicated code patterns", there may be opportunities for further consolidation. However, the planned approach that you implemented should consolidate all major duplications in the codebase. If you have concerns, you can repeat the analysis and refactoring process. Remember that GitHub Copilot should not be used as a substitute for a formal code review process.
 
@@ -405,21 +409,9 @@ Use the following steps to complete this task:
 
 1. Build the refactored project to check for compilation errors.
 
-    Open a terminal in the **ECommerceOrderAndReturn** project directory and run:
-
-    ```bash
-    dotnet build
-    ```
-
     If there are any compilation errors, review the refactored code and resolve issues. You can use GitHub Copilot to help diagnose and fix any problems that arise from the refactoring process.
 
 1. Run the refactored application and capture the output.
-
-    Execute the application and carefully observe the console output:
-
-    ```bash
-    dotnet run
-    ```
 
     The application should run all 5 test scenarios exactly as before:
 
@@ -430,6 +422,12 @@ Use the following steps to complete this task:
     - Security validation tests with invalid inputs
 
 1. Ask GitHub Copilot to compare the output generated by the refactored code with the original output.
+
+    For example:
+
+    ```text
+    Run the app and compare the generated output with the contents of the EXPECTED_OUTPUT.md file. Does the current output match the stored output? Explain any differences.
+    ```
 
     The original output, **EXPECTED_OUTPUT.md**, is included in the ECommerceOrderAndReturn folder.
 
@@ -447,91 +445,12 @@ Use the following steps to complete this task:
     - **Reusability**: Shared services can be easily extended for future requirements
     - **Extensibility**: New features can be added with minimal impact on existing code
 
-Manual testing verifies that your consolidation efforts have achieved the intended goal: eliminating duplicate code while maintaining system functionality. The enhanced architecture now provides a more maintainable foundation for future development, where business rule changes can be implemented in a single location rather than requiring updates across multiple duplicate implementations.
+Manual testing verifies that your consolidation efforts have achieved the intended goal: eliminating duplicate code while maintaining system functionality. The architecture now provides a more maintainable foundation for future development, where business rule changes can be implemented in a single location rather than requiring updates across multiple duplicate implementations.
 
 ## Summary
 
-In this exercise, you used GitHub Copilot to identify and consolidate duplicate code patterns in an e-commerce application. You learned how to use Ask mode to systematically analyze complex codebases for subtle duplications, and Agent mode to implement comprehensive refactoring strategies across multiple files and architectural layers.
+In this exercise, you learned how to use GitHub Copilot to consolidate duplicate code in an application. You explored the E-commerce Order and Return Processing System, identified duplicate code patterns, and used GitHub Copilot to refactor the codebase for improved maintainability and readability.
 
-Key accomplishments include:
+## Clean up
 
-- **Systematic Analysis**: Used GitHub Copilot's Ask mode to identify various types of duplicate code patterns, from obvious method duplications to subtle service-layer patterns
-- **Strategic Refactoring**: Applied Agent mode to implement multi-phase consolidation strategies that maintain business logic while improving code quality
-- **Enterprise Patterns**: Worked with realistic duplicate code scenarios common in enterprise applications, including service-layer duplications and cross-cutting concerns
-- **Quality Assurance**: Validated that refactoring maintained system functionality through comprehensive testing and behavioral verification
-
-The consolidation process transformed the codebase from having duplicate implementations scattered across multiple files to a maintainable architecture where business rules are implemented in single locations. This improvement significantly reduces the risk of inconsistent behavior when business requirements change and makes the code easier to test, debug, and extend.
-
-GitHub Copilot's dual approach of Ask mode for analysis and Agent mode for implementation provides a powerful framework for tackling complex refactoring challenges that would be time-consuming and error-prone to handle manually.
-
-## Duplicate Code Summary
-
-The E-Commerce Order and Return Processing System has been significantly enhanced to include **5 different types of duplicate code patterns** that are commonly found in real-world e-commerce applications.
-
-## Duplicate Code Patterns Implemented
-
-### 1. Core Business Logic Duplication (Original)
-
-**Location**: `OrderProcessor.cs` and `ReturnProcessor.cs`
-
-- `Validate(string id)` - Identical validation logic
-- `CalculateShipping()` - Similar shipping calculation patterns
-
-### 2. Email Communication Duplication (Very Common)
-
-**Location**: `Services/EmailService.cs`
-
-- `BuildEmailTemplate()` - Template building for orders vs returns
-- `FormatEmailSubject()` - Subject line formatting
-- `SendEmail()` - Email sending mechanism
-- `LogEmailActivity()` - Email audit logging
-
-**Why this is realistic**: Email notifications are frequently copy-pasted between different business processes in e-commerce systems.
-
-### 3. Audit and Logging Duplication (Extremely Common)
-
-**Location**: `Services/AuditService.cs`
-
-- `CreateAuditEntry()` - Audit entry creation pattern
-- `ValidateAuditEntry()` - Entry validation logic
-- `StoreAuditEntry()` - Storage mechanism
-- `CheckComplianceRequirements()` - Compliance checking
-
-**Why this is realistic**: Audit logging is one of the most frequently duplicated patterns in enterprise applications, often copy-pasted for different transaction types.
-
-### 4. Inventory Management Duplication (Common)
-
-**Location**: `Services/InventoryService.cs`
-
-- `ValidateInventoryAvailability()` - Stock validation
-- `UpdateInventoryLevel()` - Inventory updates (+ for returns, - for orders)
-- `LogInventoryTransaction()` - Transaction logging
-
-### 5. Cross-Cutting Concerns Duplication (Hidden)
-
-**Throughout the application**:
-
-- Payment processing with audit logging (in both processors)
-- Status updates with logging
-- Error handling patterns
-
-## Expected Refactoring Outcomes
-
-Learners should be able to:
-
-1. **Identify** 5+ distinct duplicate code patterns
-2. **Prioritize** which duplications to address first
-3. **Choose** appropriate refactoring strategies for each pattern
-4. **Implement** consolidated solutions using GitHub Copilot
-5. **Verify** that functionality remains unchanged
-
-## Real-World Application
-
-These patterns directly translate to:
-
-- **E-commerce platforms** (order/return/exchange processing)
-- **Financial systems** (transaction processing with audit trails)
-- **Healthcare systems** (patient record management with compliance)
-- **Supply chain systems** (inventory and logistics management)
-
-The enhanced codebase now provides a much more comprehensive and realistic foundation for learning code consolidation techniques with GitHub Copilot.
+Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them as needed. If you're using a local PC as your lab environment, you can archive or delete the sample projects folder that you created for this exercise.
