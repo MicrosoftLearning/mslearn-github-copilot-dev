@@ -105,8 +105,8 @@ You're a software developer working for a consulting firm. Your clients need hel
 This exercise includes the following tasks:
 
 1. Review the e-commerce order processing codebase manually.
-1. Identify large functions and refactoring opportunities using GitHub Copilot Chat (Ask mode).
-1. Refactor large functions into smaller, more manageable functions using GitHub Copilot Chat (Agent mode).
+1. Identify refactoring opportunities using GitHub Copilot Chat (Ask mode).
+1. Refactor a large function into smaller, more manageable functions using GitHub Copilot Chat (Agent mode).
 1. Test the refactored e-commerce order processing code.
 
 ### Review the e-commerce order processing codebase manually
@@ -207,7 +207,7 @@ Use the following steps to complete this task:
 
 Understanding the existing functionality and identifying these opportunities will help you create a refactoring strategy that maintains business logic while improving code structure. The layered architecture already provides good separation of concerns at the project level, but the large method needs similar attention at the function level.
 
-### Identify large functions using GitHub Copilot Chat (Ask mode)
+### Identify refactoring opportunities using GitHub Copilot Chat (Ask mode)
 
 GitHub Copilot Chat's Ask mode is a powerful tool for analyzing complex code and identifying opportunities for refactoring large functions. In Ask mode, Copilot can analyze your code structure and suggest ways to break down monolithic methods into smaller, more focused functions.
 
