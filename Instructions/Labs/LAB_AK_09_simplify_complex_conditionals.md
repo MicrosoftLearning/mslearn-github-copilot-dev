@@ -86,7 +86,7 @@ Use the following steps to download the sample projects and open them in Visual 
 
     1. Navigate to the Windows Desktop folder, select **GHCopilotEx9LabApps** and then select **Select Folder**.
 
-1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following solution structure:
+1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following project structure:
 
     - GHCopilotEx9LabApps\
         - ECommercePricingEngine\

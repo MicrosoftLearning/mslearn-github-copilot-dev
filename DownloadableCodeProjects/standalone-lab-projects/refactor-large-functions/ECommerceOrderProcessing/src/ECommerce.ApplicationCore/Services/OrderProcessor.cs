@@ -4,7 +4,7 @@ using ECommerce.ApplicationCore.Interfaces;
 namespace ECommerce.ApplicationCore.Services;
 
 /// <summary>
-/// Main order processing service containing the large method that needs refactoring
+/// Main order processing service
 /// </summary>
 public class OrderProcessor
 {
@@ -32,9 +32,6 @@ public class OrderProcessor
     }
 
     /// <summary>
-    /// LARGE METHOD INTENTIONALLY KEPT FOR REFACTORING DEMONSTRATION
-    /// This method contains multiple responsibilities and should be refactored into smaller methods
-    /// 
     /// Responsibilities include:
     /// 1. Input Validation & Security Checks
     /// 2. Inventory Management
@@ -52,7 +49,7 @@ public class OrderProcessor
 
         try
         {
-            // Step 1: Comprehensive Input Validation and Security Checks
+            // Comprehensive Input Validation and Security Checks
             if (order == null)
             {
                 _auditLogger.LogSecurityEvent("NULL_ORDER_ATTEMPT", "Attempted to process null order");
@@ -104,7 +101,7 @@ public class OrderProcessor
             Console.WriteLine($"Processing Order {order.Id} for {_securityValidator.MaskEmail(order.CustomerEmail)}...");
             Console.WriteLine($"Order contains {order.Items.Count} items, Total: ${order.TotalAmount:F2}");
 
-            // Step 2: Inventory Management - Check Stock Availability and Reserve Items
+            // Inventory Management - Check Stock Availability and Reserve Items
             Console.WriteLine("Checking inventory availability...");
             foreach (OrderItem item in order.Items)
             {
@@ -135,7 +132,7 @@ public class OrderProcessor
             Console.WriteLine("Inventory reserved successfully.");
             _auditLogger.LogInventoryReserved(order.Id, order.Items.Count);
 
-            // Step 3: Payment Processing with Enhanced Security
+            // Payment Processing with Enhanced Security
             Console.WriteLine("Processing payment...");
             try
             {
@@ -162,7 +159,7 @@ public class OrderProcessor
                 return OrderResult.Failure("Payment processing failed: " + ex.Message);
             }
 
-            // Step 4: Shipping and Logistics Management
+            // Shipping and Logistics Management
             Console.WriteLine("Scheduling shipping...");
             try
             {
@@ -186,7 +183,7 @@ public class OrderProcessor
                 return OrderResult.Failure("Shipping scheduling failed: " + ex.Message);
             }
 
-            // Step 5: Customer Communication and Notifications
+            // Customer Communication and Notifications
             Console.WriteLine("Sending notifications...");
             try
             {
@@ -209,7 +206,7 @@ public class OrderProcessor
                 Console.WriteLine($"Warning: failed to send notification: {ex.Message}");
             }
 
-            // Step 6: Order Finalization and Data Recording
+            // Order Finalization and Data Recording
             Console.WriteLine("Finalizing order...");
             order.Status = OrderStatus.Completed;
             order.CompletionDate = DateTime.UtcNow;

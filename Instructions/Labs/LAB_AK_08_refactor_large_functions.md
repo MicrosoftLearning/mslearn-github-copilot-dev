@@ -86,15 +86,21 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     1. Navigate to the Windows Desktop folder, select **GHCopilotEx8LabApps** and then select **Select Folder**.
 
-1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following solution structure:
+1. In the Visual Studio Code SOLUTION EXPLORER view, verify the following project structure:
 
     - GHCopilotEx8LabApps\
         - ECommerceOrderProcessing\
             - src\
                 - ECommerce.ApplicationCore\
-                - ECommerce.Infrastructure\
+                    - Entities\
+                    - Interfaces\
+                    - Services\
                 - ECommerce.Console\
-            - ECommerceOrderProcessing.sln
+                    - order_audit_log.txt
+                    - Program.cs
+                - ECommerce.Infrastructure\
+                    - Services\
+        - ServerLogAnalysisUtility\
 
 ## Exercise scenario
 
@@ -125,17 +131,11 @@ Use the following steps to complete this task:
 
     The codebase follows a layered architecture pattern with three main projects:
 
-    - **ECommerce.ApplicationCore**: Contains domain entities, business logic interfaces, and the main `OrderProcessor` service
-    - **ECommerce.Infrastructure**: Contains service implementations for external integrations (payment, shipping, inventory, etc.)
+    - **ECommerce.ApplicationCore**: Contains domain entities, business logic interfaces, and the main `OrderProcessor` service.
     - **ECommerce.Console**: Contains the console application entry point and dependency injection setup
+    - **ECommerce.Infrastructure**: Contains service implementations for external integrations (payment, shipping, inventory, etc.).
 
     This structure represents a real-world .NET application using Clean Architecture principles, where business logic is separated from infrastructure concerns.
-
-1. Verify that the **ECommerceOrderProcessing** solution builds successfully.
-
-    For example, in the SOLUTION EXPLORER view, right-click **ECommerceOrderProcessing.sln**, and then select **Build**.
-
-    You should see a successful build with no errors. This confirms that all project dependencies are properly configured.
 
 1. Open the GitHub Copilot Chat view.
 
@@ -149,19 +149,13 @@ Use the following steps to complete this task:
 
 1. In Visual Studio Code, navigate to **src/ECommerce.ApplicationCore/Services/OrderProcessor.cs**.
 
-    This file contains the `OrderProcessor` class with the large `ProcessOrder` method that you'll be refactoring. The method is over 200 lines long and handles multiple responsibilities including validation, security checks, inventory management, payment processing, shipping, notifications, and order finalization.
+1. Open the OrderProcessor.cs file in the code editor.
 
-1. Locate the **ProcessOrder** method in the **OrderProcessor** class.
+    The OrderProcessor.cs file provides the main order processing service for the app.
 
-    The `ProcessOrder` method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations:
+1. Take a minute to review the **OrderProcessor** class.
 
-    - **Input validation and security checks**: Email validation, address validation, payment info validation, risk assessment
-    - **Inventory management**: Stock checking and reservation with rollback on failures
-    - **Payment processing**: Secure payment validation and processing with fraud detection
-    - **Shipping coordination**: Shipment scheduling and tracking number generation  
-    - **Customer notifications**: Email confirmations and high-value order alerts
-    - **Order finalization**: Status updates, completion tracking, and audit logging
-    - **Error handling**: Comprehensive exception management with cleanup procedures
+    Notice the ProcessOrder method. This method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations.
 
     The method is intentionally large and complex to demonstrate real-world scenarios where business logic has accumulated over time, making it difficult to read, test, and maintain.
 
@@ -175,7 +169,11 @@ Use the following steps to complete this task:
 
 1. Run the application to understand its current behavior.
 
-    Navigate to the **src/ECommerce.Console** folder in the terminal and run:
+    For example:
+
+    In the SOLUTION EXPLORER view, right-click the **ECommerce.Console** project, select **Debug**, and then select **Start New Instance**.
+
+    You can also navigate to the **src/ECommerce.Console** folder in the terminal and run:
 
     ```bash
     dotnet run

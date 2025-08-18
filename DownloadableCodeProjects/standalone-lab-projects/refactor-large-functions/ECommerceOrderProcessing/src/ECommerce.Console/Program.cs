@@ -46,7 +46,7 @@ public class Program
             { 
                 CardNumber = "4111111111111111", 
                 CardCVV = "123", 
-                CardHolderName = "John Doe",
+                CardHolderName = "Ane Pedersen",
                 ExpiryMonth = "12",
                 ExpiryYear = "2025",
                 BillingAddress = "123 Main St, City, State 12345"
@@ -58,7 +58,7 @@ public class Program
         System.Console.WriteLine("\n--- Test Case 2: Invalid Email Address ---");
         var invalidEmailOrder = CreateSampleOrder("ORD-002", "invalid-email", "123 Main St", 
             new List<OrderItem> { new() { ProductId = "BOOK-001", Quantity = 1, Price = 15.99m } },
-            new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "123", CardHolderName = "Jane Smith", ExpiryMonth = "06", ExpiryYear = "2026", BillingAddress = "123 Main St" });
+            new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "123", CardHolderName = "Jennet Nazarowa", ExpiryMonth = "06", ExpiryYear = "2026", BillingAddress = "123 Main St" });
 
         var result2 = processor.ProcessOrder(invalidEmailOrder);
         testResults.Add($"Test 2: {(result2.IsSuccess ? "FAILED" : "PASSED")} - Should reject invalid email");
@@ -66,15 +66,15 @@ public class Program
         System.Console.WriteLine("\n--- Test Case 3: Declined Payment ---");
         var declinedPaymentOrder = CreateSampleOrder("ORD-003", "customer@test.com", "456 Oak Ave", 
             new List<OrderItem> { new() { ProductId = "PHONE-001", Quantity = 1, Price = 699.99m } },
-            new PaymentInfo { CardNumber = "0000000000000000", CardCVV = "999", CardHolderName = "Test User", ExpiryMonth = "01", ExpiryYear = "2024", BillingAddress = "456 Oak Ave" });
+            new PaymentInfo { CardNumber = "0000000000000000", CardCVV = "999", CardHolderName = "Nikki Vestergaard", ExpiryMonth = "01", ExpiryYear = "2024", BillingAddress = "456 Oak Ave" });
 
         var result3 = processor.ProcessOrder(declinedPaymentOrder);
         testResults.Add($"Test 3: {(result3.IsSuccess ? "FAILED" : "PASSED")} - Should reject declined payment");
 
         System.Console.WriteLine("\n--- Test Case 4: Suspicious Order (Security Check) ---");
-        var suspiciousOrder = CreateSampleOrder("ORD-004", "suspicious@temp.com", "Unknown Location", 
-            new List<OrderItem> { new() { ProductId = "EXPENSIVE-001", Quantity = 10, Price = 5000.00m } },
-            new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "000", CardHolderName = "A", ExpiryMonth = "12", ExpiryYear = "2025", BillingAddress = "Unknown Location" });
+        var suspiciousOrder = CreateSampleOrder("ORD-004", "suspicious.user@valid.com", "123 Suspicious Ave, City, State 99999", 
+            new List<OrderItem> { new() { ProductId = "EXPENSIVE-001", Quantity = 2, Price = 25000.00m } },
+            new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "123", CardHolderName = "AB", ExpiryMonth = "12", ExpiryYear = "2026", BillingAddress = "123 Suspicious Ave, City, State 99999" });
 
         var result4 = processor.ProcessOrder(suspiciousOrder);
         testResults.Add($"Test 4: {(result4.IsSuccess ? "FAILED" : "PASSED")} - Should flag suspicious order");
