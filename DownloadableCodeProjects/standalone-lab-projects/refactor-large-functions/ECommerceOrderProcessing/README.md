@@ -158,12 +158,14 @@ This project provides an excellent foundation for learning:
 ## Course Integration
 
 Before refactoring:
+
 1. Run the application and document the output
 2. Note the processing time and functionality
 3. Review the audit log contents
 4. Study the `OrderProcessor.ProcessOrder()` method structure
 
 After refactoring:
+
 1. Verify the output matches the original
 2. Confirm all test cases still pass
 3. Ensure audit logging continues to work correctly
