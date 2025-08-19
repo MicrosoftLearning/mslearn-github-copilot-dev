@@ -95,6 +95,7 @@ Use the following steps to download the sample project and open it in Visual Stu
                     - Entities\
                     - Interfaces\
                     - Services\
+                        - OrderProcessor.cs
                 - ECommerce.Console\
                     - order_audit_log.txt
                     - Program.cs
@@ -106,7 +107,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 You're a software developer working for a consulting firm. Your clients need help refactoring large functions in legacy applications. Your goal is to improve code readability and maintainability while preserving the existing functionality. You're assigned to the following app:
 
-- E-CommerceOrderProcessing: This is an e-commerce order processing application that handles customer order validation, inventory management, payment processing, shipping coordination, and customer notifications. The application uses Clean Architecture principles with a layered structure, but contains a large `ProcessOrder` method in the `OrderProcessor` class that handles multiple responsibilities and needs to be refactored into smaller, more focused functions.
+- E-CommerceOrderProcessing: This e-commerce app is used to process customer orders. The process includes order validation, inventory management, payment processing, shipping coordination, and customer notifications. The application uses Clean Architecture principles with a layered structure, but contains a large **ProcessOrder** method in the **OrderProcessor** class that handles multiple responsibilities and needs to be refactored into smaller, more focused functions.
 
 This exercise includes the following tasks:
 
@@ -119,7 +120,7 @@ This exercise includes the following tasks:
 
 The first step in any refactoring effort is to ensure that you understand the existing codebase. It's important to understand the code structure, the business logic, and the results generated when the code runs.
 
-In this task, you'll review the main components of the E-commerce order processing project, identify large functions that need refactoring, and test the code.
+In this task, you'll review the main components of the E-commerce order processing project and run the app to verify its functionality.
 
 Use the following steps to complete this task:
 
@@ -131,8 +132,8 @@ Use the following steps to complete this task:
 
     The codebase follows a layered architecture pattern with three main projects:
 
-    - **ECommerce.ApplicationCore**: Contains domain entities, business logic interfaces, and the main `OrderProcessor` service.
-    - **ECommerce.Console**: Contains the console application entry point and dependency injection setup
+    - **ECommerce.ApplicationCore**: Contains domain entities, business logic interfaces, and the main OrderProcessor service.
+    - **ECommerce.Console**: Contains the console application entry point and dependency injection setup.
     - **ECommerce.Infrastructure**: Contains service implementations for external integrations (payment, shipping, inventory, etc.).
 
     This structure represents a real-world .NET application using Clean Architecture principles, where business logic is separated from infrastructure concerns.
@@ -147,21 +148,23 @@ Use the following steps to complete this task:
 
     You'll be using GitHub Copilot's **Agent** mode later in this exercise, but for now you'll use **Ask** mode for code analysis and explanations.
 
+    > **NOTE**: GitHub Copilot's responses can vary based on the selected model. We suggest that you use the specified model when performing this lab exercise. You can repeat the exercise with a different model to see the differences.
+
 1. In Visual Studio Code, navigate to **src/ECommerce.ApplicationCore/Services/OrderProcessor.cs**.
 
-1. Open the OrderProcessor.cs file in the code editor.
+1. Open the **OrderProcessor.cs** file in the code editor.
 
     The OrderProcessor.cs file provides the main order processing service for the app.
 
 1. Take a minute to review the **OrderProcessor** class.
 
-    Notice the ProcessOrder method. This method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations.
-
-    The method is intentionally large and complex to demonstrate real-world scenarios where business logic has accumulated over time, making it difficult to read, test, and maintain.
+    Notice the ProcessOrder method. This method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations. The ProcessOrder method is intentionally large and complex to demonstrate real-world scenarios where business logic has accumulated over time, making it difficult to read, test, and maintain.
 
 1. Right-click the **ProcessOrder** method, and then select **Copilot** > **Explain**.
 
-    GitHub Copilot will analyze the ProcessOrder method and provide a detailed explanation of what the code does, helping you understand the business logic before refactoring.
+    If prompted to **Select an enclosing range to explain**, with a choice between **ProcessOrder** and **OrderProcessor**, select **ProcessOrder**.
+
+    GitHub Copilot will analyze the ProcessOrder method and provide a detailed explanation of what the code does, helping you understand the business logic before you investigate refactoring options.
 
 1. Take a few minutes to review GitHub Copilot's explanation.
 
@@ -169,11 +172,11 @@ Use the following steps to complete this task:
 
 1. Run the application to understand its current behavior.
 
-    For example:
+    You have several options for running the application. For example:
 
     In the SOLUTION EXPLORER view, right-click the **ECommerce.Console** project, select **Debug**, and then select **Start New Instance**.
 
-    You can also navigate to the **src/ECommerce.Console** folder in the terminal and run:
+    You can also navigate to the **src/ECommerce.Console** folder in the terminal and run the following .NET CLI command:
 
     ```bash
     dotnet run
@@ -181,43 +184,34 @@ Use the following steps to complete this task:
 
     Or, if you have the **Program.cs** file open in Visual Studio Code, you can select the run button above the editor.
 
-1. Review the console output from running the application.
+1. Review the console output that's generated by running the application.
 
     The application runs four test cases that demonstrate different scenarios:
 
-    - **Test 1**: Valid order processing with multiple items
-    - **Test 2**: Invalid email address validation  
-    - **Test 3**: Declined payment handling
-    - **Test 4**: Suspicious order security checks
+    - **Test 1**: Valid order processing with multiple items.
+    - **Test 2**: Invalid email address validation  .
+    - **Test 3**: Declined payment handling.
+    - **Test 4**: Suspicious order security checks.
 
     Each test shows the step-by-step processing including validation messages, inventory checks, payment processing, shipping scheduling, and notifications. The output also shows how different failure scenarios are handled with appropriate error messages and cleanup procedures.
 
-1. Take a minute to identify the refactoring opportunities in the `ProcessOrder` method.
+1. Take a minute to consider your refactoring opportunities for the `ProcessOrder` method.
 
-    The `ProcessOrder` method contains several distinct responsibilities that could be extracted into separate methods:
+    The `ProcessOrder` method contains several distinct responsibilities that could be extracted into separate methods.
 
-    - **Validation and security logic**: Input validation and risk assessment could be extracted to methods like `ValidateOrderInput` and `AssessSecurityRisk`
-    - **Inventory management**: Stock checking and reservation could be moved to a `HandleInventoryReservation` method  
-    - **Payment processing**: The payment logic with fraud checks could be cleaner in a `ProcessOrderPayment` method
-    - **Shipping coordination**: Shipping scheduling could be extracted to a `ScheduleOrderShipment` method
-    - **Notification management**: Customer communication could be moved to a `SendOrderNotifications` method
-    - **Order finalization**: Final order completion could be extracted to a `FinalizeOrderProcessing` method
-
-Understanding the existing functionality and identifying these opportunities will help you create a refactoring strategy that maintains business logic while improving code structure. The layered architecture already provides good separation of concerns at the project level, but the large method needs similar attention at the function level.
+Understanding the existing functionality and identifying refactoring opportunities will help you create a refactoring strategy that maintains business logic while improving code structure. The layered architecture already provides good separation of concerns at the project level, but the large ProcessOrder method needs attention.
 
 ### Identify refactoring opportunities using GitHub Copilot Chat (Ask mode)
 
-GitHub Copilot Chat's Ask mode is a powerful tool for analyzing complex code and identifying opportunities for refactoring large functions. In Ask mode, Copilot can analyze your code structure and suggest ways to break down monolithic methods into smaller, more focused functions.
+GitHub Copilot Chat's Ask mode is a great tool for analyzing complex code and identifying opportunities for refactoring large functions. In Ask mode, Copilot can analyze your code structure and suggest ways to break down monolithic methods into smaller, more focused functions.
 
-In this task, you'll use GitHub Copilot to systematically identify refactoring opportunities in the `ProcessOrder` method and understand how to maintain business logic while improving code structure.
+In this task, you'll use GitHub Copilot to evaluate the ProcessOrder method and identify refactoring opportunities that maintain business logic while improving code structure.
 
 Use the following steps to complete this task:
 
 1. Ensure that you have the GitHub Copilot Chat view open with **Ask** mode and the **GPT-4.1** model selected.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using the **GPT-4.1** model. The GPT-4.1 model is available with the GitHub Copilot Free plan and provides intelligent code analysis and suggestions for refactoring tasks.
-
-1. Close any files that are open in the editor except for OrderProcessor.cs.
+1. If you opened any files other than OrderProcessor.cs, close them now.
 
     GitHub Copilot uses files that are open in the editor to establish context. Having only the target file open helps focus the analysis on the code you want to refactor and ensures GitHub Copilot provides the most relevant suggestions.
 
@@ -225,52 +219,56 @@ Use the following steps to complete this task:
 
     Use a drag-and-drop operation to add the **src/ECommerce.ApplicationCore/Services/OrderProcessor.cs** file from the SOLUTION EXPLORER to the Chat context. Adding a file to the chat context tells GitHub Copilot to include that file when analyzing your prompt, which improves the accuracy of its analysis.
 
-1. Ask GitHub Copilot to analyze the `ProcessOrder` method for refactoring opportunities.
+1. Ask GitHub Copilot to analyze the ProcessOrder method for refactoring opportunities.
 
     Submit a prompt that asks GitHub Copilot to analyze the ProcessOrder method and identify specific areas for improvement. Consider including details about what you want to achieve with the refactoring.
 
     For example:
 
     ```text
-    Analyze the ProcessOrder method in the OrderProcessor class. This method is over 200 lines long and handles multiple responsibilities including validation, security checks, inventory management, payment processing, shipping, and notifications. Identify opportunities to break this large method into smaller, more focused methods. What specific functions could be extracted, and what would be the benefits of doing so?
+    Analyze the ProcessOrder method in the OrderProcessor class. This method handles multiple responsibilities. Identify opportunities to break this large method into smaller, more focused methods. What specific functions could be extracted, and what would be the benefits of doing so?
     ```
 
 1. Take a few minutes to review GitHub Copilot's response.
 
-    GitHub Copilot should identify the various responsibilities within the `ProcessOrder` method and suggest how to extract them into separate methods. The analysis should identify distinct logical sections that can become individual methods, such as validation logic, security assessments, inventory operations, payment processing, shipping coordination, notification handling, and order finalization.
+    GitHub Copilot should identify the various responsibilities within the ProcessOrder method and suggest how to extract them into separate methods. The analysis should identify distinct logical sections that can become individual methods, such as validation logic, security assessments, inventory operations, payment processing, shipping coordination, notification handling, and order finalization.
 
     For example, GitHub Copilot might identify:
 
-    - Input validation and security checks as candidates for extraction
-    - Inventory management operations that could be grouped together
-    - Payment processing logic with its own error handling
-    - Shipping and notification logic as separate concerns
-    - Order finalization steps that could be isolated
+    - Input validation and security checks as candidates for extraction.
+    - Inventory management operations that could be grouped together.
+    - Payment processing logic with its own error handling.
+    - Shipping and notification logic as separate concerns.
+    - Order finalization steps that could be isolated.
 
 1. Ask GitHub Copilot to provide a detailed refactoring plan.
 
-    Follow-up with a more specific prompt that asks for a concrete refactoring strategy:
+    For example:
 
     ```text
-    Create a detailed refactoring plan for the ProcessOrder method. Show me what the refactored ProcessOrder method would look like as a high-level outline, and list the specific methods that should be extracted. Include suggestions for method signatures and return types that would maintain the current error handling behavior.
+    Create a detailed refactoring plan for the ProcessOrder method. Show me what the ProcessOrder method would look like after refactoring and provide a list of the methods that should be extracted. I'd like to keep the input validation and security checks together in a single method. Include suggestions for method signatures and return types that would maintain the current error handling behavior.
     ```
+
+    Use follow-up prompts to gain additional insights, but avoid prompts that deviate from your goal. Side-tracking the conversation can influence GitHub Copilot's responses. A clean chat history is important.
 
 1. Take a minute to review GitHub Copilot's refactoring plan.
 
-    GitHub Copilot should provide a clear outline showing how the `ProcessOrder` method could be transformed from a large monolithic method into a series of smaller, focused method calls. This plan should maintain the existing business logic while improving code structure and readability.
+    GitHub Copilot should provide a clear outline showing how the ProcessOrder method could be transformed from a large monolithic method into a series of smaller, focused method calls. This plan should maintain the existing business logic while improving code structure and readability.
 
     The response should include:
-    - A high-level flow showing the main steps as separate method calls
-    - Suggested method names and signatures for the extracted methods
-    - Guidance on how to handle errors consistently across methods
-    - Explanations of how the refactored structure improves maintainability
+    - A high-level flow showing the main steps as separate method calls.
+    - Suggested method names and signatures for the extracted methods.
+    - Guidance on how to handle errors consistently across methods.
+    - Explanations of how the refactored structure improves maintainability.
 
-1. Ask for specific guidance on error handling patterns.
+1. Ask for additional guidance on error handling patterns.
 
-    Understanding error handling is crucial for maintaining existing behavior while refactoring. Submit a follow-up prompt:
+    Understanding the error handling process is crucial for maintaining existing behavior when you refactor the ProcessOrder method. You can have GitHub Copilot analyze the current error handling strategy and suggest a way to maintain or improve the existing behavior.
+
+    For example:
 
     ```text
-    In the current ProcessOrder method, there are multiple error scenarios with specific cleanup procedures (like releasing inventory on payment failure). In the refactored version, how should I handle errors consistently across the extracted methods? Should each method return a result object, throw exceptions, or use another pattern to maintain the existing error handling behavior?
+    In the current ProcessOrder method, there are multiple error scenarios with specific cleanup procedures (like releasing inventory on payment failure). In the refactored version, how should I handle errors consistently across the extracted methods? Should each method return an OrderResult object, throw exceptions, or use another pattern to maintain the existing error handling behavior?
     ```
 
 1. Take a minute to review the error handling recommendations.
@@ -278,10 +276,10 @@ Use the following steps to complete this task:
     GitHub Copilot should provide guidance on maintaining consistent error handling patterns across the refactored methods. This is critical because the current method has complex error handling with rollback procedures that must be preserved.
 
     The recommendations should address:
-    - How to maintain the current rollback behavior (like releasing inventory on payment failures)
-    - Whether to use return values, exceptions, or result objects for error signaling
-    - How to preserve audit logging throughout the refactored methods
-    - Ways to ensure cleanup procedures are still executed in error scenarios
+    - How to maintain the current rollback behavior (like releasing inventory on payment failures).
+    - Whether to use return values, exceptions, or result objects for error signaling.
+    - How to preserve audit logging throughout the refactored methods.
+    - Ways to ensure cleanup procedures are still executed in error scenarios.
 
 GitHub Copilot's Ask mode excels at analyzing complex code structures and providing strategic guidance for refactoring. The insights from this analysis will inform the specific refactoring approach you implement in the next section, ensuring that you maintain business logic integrity while achieving better code organization.
 
@@ -289,7 +287,7 @@ GitHub Copilot's Ask mode excels at analyzing complex code structures and provid
 
 GitHub Copilot's Agent mode enables you to assign complex refactoring tasks that involve multiple code changes. The agent can autonomously extract methods, update calls, and maintain proper error handling while keeping you informed of its progress.
 
-In this task, you'll use GitHub Copilot Agent to systematically refactor the `ProcessOrder` method by extracting smaller, focused methods while preserving the existing business logic and error handling behavior.
+In this task, you'll use GitHub Copilot Agent to systematically refactor the ProcessOrder method by extracting smaller, focused methods while preserving the existing business logic and error handling behavior.
 
 Use the following steps to complete this task:
 
@@ -297,27 +295,42 @@ Use the following steps to complete this task:
 
 1. In the Chat view, select the **Agent** mode.
 
-    The **Set Mode** dropdown is located in the bottom-left corner of the Chat view. When you select **Agent**, GitHub Copilot will switch to Agent mode, which allows it to autonomously work on complex tasks that you assign.
+    The **Set Mode** dropdown is located in the bottom-left corner of the Chat view. In **Agent** mode, GitHub Copilot processes its assigned tasks (your prompts) autonomously.
 
 1. Take a minute to plan your refactoring strategy.
 
-    Based on the analysis from the previous task, plan the logical order for extracting methods. A systematic approach ensures that each change is manageable and testable. Consider this phased refactoring strategy:
+    Based on the analysis from the previous task, plan the logical order for extracting methods. A systematic approach ensures that each change is manageable and testable.
 
-    - **Phase 1**: Extract input validation and security assessment logic
-    - **Phase 2**: Extract inventory management operations (checking and reservation)
-    - **Phase 3**: Extract payment processing with fraud detection and error handling
-    - **Phase 4**: Extract shipping coordination and tracking management
-    - **Phase 5**: Extract notification and communication logic
-    - **Phase 6**: Extract order finalization and completion procedures
+    For example, consider this phased refactoring strategy:
+
+    - **Phase 1**: Create stub methods inside the OrderProcessor class.
+    - **Phase 2**: Extract input validation and security assessment logic.
+    - **Phase 3**: Extract inventory management operations (checking and reservation).
+    - **Phase 4**: Extract payment processing with fraud detection and error handling.
+    - **Phase 5**: Extract shipping coordination and tracking management.
+    - **Phase 6**: Extract notification and communication logic.
+    - **Phase 7**: Extract order finalization and completion procedures.
 
     This phased approach ensures that changes are manageable and the refactored code maintains the same business logic and error handling as the original method.
 
-1. Ask GitHub Copilot Agent to extract the validation and security logic.
+1. Establish a location for the new methods at the end of the OrderProcessor class.
 
-    Start with the first phase of refactoring by extracting the input validation and security assessment logic:
+    Create a blank code line after the final closing brace at the end of the ProcessOrder method.
+
+1. Ask GitHub Copilot Agent to create stub methods for the code that will be extracted.
+
+    For example:
 
     ```text
-    Extract the order validation and security assessment logic from the ProcessOrder method into a new private method called ValidateOrderAndAssessSecurity. The method should take an Order parameter and return a string (null for success, or an error message for failure). Include all validation checks: null checks, email validation, address validation, payment info validation, and security risk assessment. Update ProcessOrder to use this new method while maintaining the same error handling behavior.
+    Review the current conversation. My goal is to replace sections of the ProcessOrder method with single-purpose methods that improve readability and maintainability. I want to start by creating stub code for the new methods. Use the method declarations that you proposed in this conversation and create the new methods at the current cursor location. Ensure that you're using appropriate method parameters and return types. Don't extract the code from ProcessOrder yet. After creating the stub methods, build the app and ensure that there are no errors.
+    ```
+
+    Building the stub methods first helps ensure that the new methods are correctly defined and integrated into the existing code structure. This approach allows for incremental testing and validation of each method's functionality before fully extracting the code from ProcessOrder.
+
+1. Ask GitHub Copilot Agent to extract the validation and security logic.
+
+    ```text
+    Review the validation and security assessment logic in the ProcessOrder method and determine which sections should be moved into each of the new validation methods. Move the identified code sections into the corresponding validation method. Replace the extracted code with calls to the new validation methods. Create a local variable of the return value type and ensure that the ProcessOrder method uses the return value to maintain the same error handling behavior that's provided by the original code. Once all of the methods are updated, run the app to ensure that the validation logic and error handling work correctly. Verify that the output from the four test cases produces the expected results. Don't stop testing the app (by running the app and verifying the four test cases) until all issues are resolved.
     ```
 
 1. Monitor the agent's progress and review the changes.
