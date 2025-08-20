@@ -93,6 +93,7 @@ Use the following steps to download the sample project and open it in Visual Stu
             - src\
                 - ECommerce.ApplicationCore\
                     - Entities\
+                    - Exceptions\
                     - Interfaces\
                     - Services\
                         - OrderProcessor.cs
