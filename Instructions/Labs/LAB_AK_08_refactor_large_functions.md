@@ -107,7 +107,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 You're a software developer working for a consulting firm. Your clients need help refactoring large functions in legacy applications. Your goal is to improve code readability and maintainability while preserving the existing functionality. You're assigned to the following app:
 
-- E-CommerceOrderProcessing: This e-commerce app is used to process customer orders. The process includes order validation, inventory management, payment processing, shipping coordination, and customer notifications. The application uses Clean Architecture principles with a layered structure, but contains a large **ProcessOrder** method in the **OrderProcessor** class that handles multiple responsibilities and needs to be refactored into smaller, more focused functions.
+- E-CommerceOrderProcessing: This e-commerce app is used to process customer orders. The process includes order validation, inventory management, payment processing, shipping coordination, and customer notifications. The application uses Clean Architecture principles with a layered structure, but contains a large method in the **OrderProcessor** class that handles multiple responsibilities and needs to be refactored into smaller, more focused methods.
 
 This exercise includes the following tasks:
 
@@ -120,7 +120,7 @@ This exercise includes the following tasks:
 
 The first step in any refactoring effort is to ensure that you understand the existing codebase. It's important to understand the code structure, the business logic, and the results generated when the code runs.
 
-In this task, you'll review the main components of the E-commerce order processing project and run the app to verify its functionality.
+In this task, you'll review the main components of the E-commerce order processing project and run the app to observe its functionality.
 
 Use the following steps to complete this task:
 
@@ -152,11 +152,11 @@ Use the following steps to complete this task:
 
 1. Use the SOLUTION EXPLORER view to locate the **OrderProcessor.cs** file.
 
-    Expand the **src/ECommerce.ApplicationCore/Services** folder to locate the **OrderProcessor.cs** file.
+    The **OrderProcessor.cs** file is located in the **src/ECommerce.ApplicationCore/Services** folder.
 
 1. Open the **OrderProcessor.cs** file in the code editor.
 
-    The OrderProcessor.cs file provides the order processing service for the app.
+    The OrderProcessor class is responsible for processing customer orders. It contains the main business logic for order processing, including validation, payment processing, and notification.
 
 1. Take a minute to review the **OrderProcessor** class.
 

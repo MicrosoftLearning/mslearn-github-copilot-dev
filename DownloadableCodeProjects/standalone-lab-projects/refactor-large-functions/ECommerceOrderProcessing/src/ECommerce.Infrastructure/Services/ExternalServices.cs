@@ -1,4 +1,5 @@
 using ECommerce.ApplicationCore.Entities;
+using ECommerce.ApplicationCore.Exceptions;
 using ECommerce.ApplicationCore.Interfaces;
 using ECommerce.ApplicationCore.Services;
 

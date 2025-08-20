@@ -1,4 +1,5 @@
 using ECommerce.ApplicationCore.Entities;
+using ECommerce.ApplicationCore.Exceptions;
 using ECommerce.ApplicationCore.Interfaces;
 
 namespace ECommerce.ApplicationCore.Services;
@@ -241,18 +242,5 @@ public class OrderProcessor
             
             return OrderResult.Failure("An unexpected error occurred during order processing");
         }
-    }
-}
-
-/// <summary>
-/// Custom exception for payment processing errors
-/// </summary>
-public class PaymentException : Exception
-{
-    public string PaymentErrorCode { get; }
-    
-    public PaymentException(string message, string errorCode = "UNKNOWN") : base(message)
-    {
-        PaymentErrorCode = errorCode;
     }
 }
