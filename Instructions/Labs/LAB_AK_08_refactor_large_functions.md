@@ -362,7 +362,9 @@ Use the following steps to complete this task:
 
     The agent will also provide updates in the Chat view that describe its progress, including any issues it encounters. You can interact with the agent to clarify instructions or provide additional context as needed.
 
-    > **IMPORTANT**: GitHub Copilot Agent may ask for permission to Build or Run the application at various stages during the refactoring process. When this occurs, select the **Continue** button in the Chat view to allow the agent to proceed with the build or run operation. If GitHub Copilot Agent stops before it all sections of the ProcessOrder method, enter a prompt telling it to continue where it left off.
+    GitHub Copilot Agent may ask for permission to Build or Run the application at various stages during the refactoring process. When this occurs, select the **Continue** button in the Chat view to allow the agent to proceed with the build or run operation.
+
+    > **IMPORTANT**: If GitHub Copilot Agent stops processing the assigned task before all of the sections in the ProcessOrder method are refactored, enter a prompt telling the agent to continue where it left off.
 
 1. Take a minute to review the updated OrderProcessor class.
 
@@ -446,26 +448,13 @@ GitHub Copilot Agent excels at systematic refactoring tasks that require underst
 
 ### Test the refactored e-commerce order processing code
 
-Manual testing and verification is crucial to ensure that your refactored code maintains the intended business logic and functionality. A successful refactoring process should improve code structure while producing identical behavior to the original implementation.
+Manual testing and verification ensures that your refactored code maintains the intended business logic and functionality. A successful refactoring process should improve code structure while producing identical behavior to the original implementation.
 
-In this task, you'll thoroughly test the refactored code to verify that all business logic has been preserved and that the refactoring has achieved its goals of improved maintainability and readability.
+In this task, you'll test the refactored code to verify that all business logic has been preserved and that the refactoring has achieved its goals of improved maintainability and readability.
 
 Use the following steps to complete this task:
 
-1. Build the refactored project to check for compilation errors.
-
-    In the SOLUTION EXPLORER view, right-click **ECommerceOrderProcessing.sln** and select **Build**. If there are any compilation errors, review the refactored code and resolve issues. You can use GitHub Copilot to help diagnose and fix any problems that arise from the refactoring process.
-
-    A successful build confirms that all method signatures, parameter types, and dependencies are correctly maintained after the refactoring.
-
-1. Run the refactored application and verify identical behavior.
-
-    Navigate to the **src/ECommerce.Console** folder and run the application:
-
-    ```bash
-    cd src/ECommerce.Console
-    dotnet run
-    ```
+1. Run the refactored application and verify expected behavior.
 
     Compare the output with the behavior you observed before refactoring. The console output should be identical, including:
 
@@ -476,30 +465,63 @@ Use the following steps to complete this task:
 
     The refactored code should produce exactly the same results, demonstrating that the business logic has been preserved throughout the refactoring process.
 
-1. Test different edge case scenarios to ensure robustness.
+1. Create and test additional edge case scenarios to ensure robustness.
 
-    Create additional test scenarios to verify that error handling still works correctly in various edge cases. You can modify the test cases in **Program.cs** temporarily to test additional scenarios:
+    Create additional test scenarios to verify that error handling still works correctly in various edge cases. You can modify the test cases in **Program.cs** temporarily to test additional scenarios.
+
+    For example, you can add the following code snippet before the code that displays the test summary:
 
     ```csharp
-    // Test with null order (should fail validation immediately)
-    var nullOrderResult = processor.ProcessOrder(null);
-
     // Test with empty items list (should fail validation)
-    var emptyOrder = CreateSampleOrder("ORD-EMPTY", "test@example.com", "123 Test St", 
-        new List<OrderItem>(), 
+    System.Console.WriteLine("\n--- Test Case 5: Empty Order ---");
+    var emptyOrder = CreateSampleOrder("ORD-EMPTY", "test@example.com", "123 Test St",
+        new List<OrderItem>(),
         new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "123", CardHolderName = "Test User", ExpiryMonth = "12", ExpiryYear = "2025", BillingAddress = "123 Test St" });
+
+    var result5 = processor.ProcessOrder(emptyOrder);
+    testResults.Add($"Test 5: {(result5.IsSuccess ? "FAILED" : "PASSED")} - Should reject empty order");
 
     // Test with invalid shipping address (should fail validation)
-    var invalidAddressOrder = CreateSampleOrder("ORD-ADDR", "user@example.com", "", 
+    System.Console.WriteLine("\n--- Test Case 6: Invalid Shipping Address ---");
+    var invalidAddressOrder = CreateSampleOrder("ORD-ADDR", "user@example.com", "",
         new List<OrderItem> { new() { ProductId = "BOOK-001", Quantity = 1, Price = 15.99m } },
         new PaymentInfo { CardNumber = "4111111111111111", CardCVV = "123", CardHolderName = "Test User", ExpiryMonth = "12", ExpiryYear = "2025", BillingAddress = "123 Test St" });
+
+    var result6 = processor.ProcessOrder(invalidAddressOrder);
+    testResults.Add($"Test 6: {(result6.IsSuccess ? "FAILED" : "PASSED")} - Should reject invalid shipping address");
     ```
 
     These additional tests help verify that the refactored validation logic handles edge cases correctly and that error messages remain consistent with the original implementation.
 
+1. Run the application and verify test results.
+
+    When you run the application, you should see the test results displayed in the console, indicating whether each test case passed or failed. Pay attention to any error messages or logs that are generated during the test runs.
+
+    For example, if you added the test 5 and test 6 scenarios listed above, the new test output and updated summary should look similar to the following:
+
+    ```text
+
+    --- Test Case 5: Empty Order ---
+    [AUDIT] 2025-08-20 18:28:11.099 UTC | ORDER_PROCESSING_STARTED | Order: ORD-EMPTY | Started processing order for t***@example.com
+    [AUDIT] 2025-08-20 18:28:11.100 UTC | VALIDATION_FAILURE | Order: ORD-EMPTY | Empty order items
+    
+    --- Test Case 6: Invalid Shipping Address ---
+    [AUDIT] 2025-08-20 18:28:11.101 UTC | ORDER_PROCESSING_STARTED | Order: ORD-ADDR | Started processing order for u***@example.com
+    [AUDIT] 2025-08-20 18:28:11.101 UTC | VALIDATION_FAILURE | Order: ORD-ADDR | Invalid shipping address
+    
+    === TEST SUMMARY ===
+    Test 1: PASSED - ORD-001
+    Test 2: PASSED - Should reject invalid email
+    Test 3: PASSED - Should reject declined payment
+    Test 4: PASSED - Should flag suspicious order
+    Test 5: PASSED - Should reject empty order
+    Test 6: PASSED - Should reject invalid shipping address
+
+    ```
+
 1. Verify that audit logging continues to work correctly.
 
-    Check the **order_audit_log.txt** file in the **src/ECommerce.Console** directory to ensure that audit logging is still functioning properly throughout the refactored methods. The audit log should contain:
+    Check the **order_audit_log.txt** file to ensure that audit logging is still functioning properly throughout the refactored methods. The audit log should contain:
 
     - Order processing start events
     - Validation failure logs for invalid orders
@@ -510,34 +532,7 @@ Use the following steps to complete this task:
 
     The audit trail should be complete and demonstrate that logging has been preserved across all the extracted methods.
 
-1. Perform a code review of the refactored structure.
-
-    Review the refactored **OrderProcessor.cs** file and evaluate the improvements achieved:
-
-    - **Readability**: The main `ProcessOrder` method should now read like a clear, high-level business workflow
-    - **Single Responsibility**: Each extracted method should have a focused, single responsibility
-    - **Maintainability**: Individual business logic sections can now be modified independently without affecting other parts of the process
-    - **Testability**: Each extracted method could be unit tested separately if needed
-    - **Error Handling**: Complex error handling and rollback procedures should be maintained while being better organized
-    - **Reusability**: Some extracted methods might be reusable in other contexts (like validation methods)
-
-1. Compare the before and after code structure.
-
-    Take a moment to compare the original 200+ line `ProcessOrder` method with the refactored version. The refactored version should:
-
-    - Have a clear, readable main method that shows the business process flow
-    - Contain 5-6 focused helper methods, each handling a specific aspect of order processing
-    - Maintain identical functionality and error handling behavior
-    - Be significantly easier to understand, maintain, and test
-
-1. Document the refactoring results.
-
-    Consider creating a summary of what was accomplished:
-
-    - **Original**: One 200+ line method handling all order processing responsibilities
-    - **Refactored**: One main orchestration method + 5-6 focused helper methods
-    - **Benefits Achieved**: Improved readability, better separation of concerns, enhanced maintainability, easier testing, and preserved functionality
-    - **Business Logic Preserved**: All validation rules, security checks, error handling, and rollback procedures maintained
+    > **TIP**: The order_audit_log.txt file is created/updated in the current working directory of the application. Depending on how you choose to run the ECommerce.Console project, the working directory could be the bin/Debug/net9.0 directory rather than src/ECommerce.Console. To see the output in the src/ECommerce.Console directory, run the application from the Terminal using a .NET CLI command.
 
 Manual testing verifies that your refactoring efforts have successfully achieved the goal of improving code structure while maintaining system functionality. The refactored code now provides a much more maintainable foundation where each method has a clear, focused responsibility, making future enhancements and bug fixes significantly easier to implement.
 
