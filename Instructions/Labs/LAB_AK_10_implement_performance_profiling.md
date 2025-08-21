@@ -8,7 +8,7 @@ lab:
 
 Performance profiling is a critical aspect of software development that helps identify and address performance bottlenecks and code inefficiencies.
 
-In this exercise, you review an existing project that contains performance bottlenecks and inefficient code, analyze your options for improving performance, refactor the code to address the issues, and test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and explore options for refactoring the identified issues. You use GitHub Copilot in Agent mode to refactor the code and improve performance. You test the original and refactored code to measure the impact of your changes.
+In this exercise, you review an existing project that contains poor performing and inefficient code, analyze your options for improving code performance, refactor the code to address the identified issues, and test the refactored code to ensure code performance has improved while retaining functionality and readability. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and to explore options for refactoring the identified issues. You use GitHub Copilot in Agent mode to refactor the code and improve performance. You test the original and refactored code to measure the impact of your changes.
 
 This exercise should take approximately **30** minutes to complete.
 
@@ -201,12 +201,12 @@ Use the following steps to complete this task:
 
     Enter the following prompt in the Chat view:
 
-    ```
+    ```text
     Analyze the ProductCatalog class for performance bottlenecks. Focus on the GetProductById, SearchProducts, and GetProductsByCategory methods. What are the main inefficiencies and how could they be optimized?
     ```
 
     Review GitHub Copilot's analysis, which should identify issues such as:
-    
+
     - Linear search performance in GetProductById for certain conditions
     - Inefficient cache key generation in SearchProducts
     - Sequential processing with artificial delays
@@ -216,7 +216,7 @@ Use the following steps to complete this task:
 
     Submit the following prompt:
 
-    ```
+    ```text
     Examine the OrderProcessor class, particularly the CalculateOrderTotal and FinalizeOrderAsync methods. What performance problems do you see and what optimization strategies would you recommend?
     ```
 
@@ -231,7 +231,7 @@ Use the following steps to complete this task:
 
     Use this prompt to examine inventory operations:
 
-    ```
+    ```text
     Review the InventoryManager class, especially the GetLowStockProducts and UpdateStockLevels methods. What are the performance concerns and how could the inventory operations be improved?
     ```
 
@@ -246,7 +246,7 @@ Use the following steps to complete this task:
 
     Submit this prompt to analyze the email service:
 
-    ```
+    ```text
     Analyze the EmailService class for performance issues. How does the email sending process impact overall application performance and what improvements could be made?
     ```
 
@@ -275,7 +275,7 @@ Use the following steps to complete this task:
 
     Open **ProductCatalog.cs** and select the `GetProductById` method. Use the following prompt in Chat:
 
-    ```
+    ```text
     Optimize this GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms.
     ```
 
@@ -289,7 +289,7 @@ Use the following steps to complete this task:
 
     Select the `SearchProducts` method in **ProductCatalog.cs** and use this prompt:
 
-    ```
+    ```text
     Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm and remove unnecessary delays while maintaining search functionality.
     ```
 
@@ -303,7 +303,7 @@ Use the following steps to complete this task:
 
     Open **OrderProcessor.cs** and select the `CalculateOrderTotal` method. Submit this prompt:
 
-    ```
+    ```text
     Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies.
     ```
 
@@ -317,7 +317,7 @@ Use the following steps to complete this task:
 
     Select the `FinalizeOrderAsync` method in **OrderProcessor.cs** and use this prompt:
 
-    ```
+    ```text
     Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns.
     ```
 
@@ -331,7 +331,7 @@ Use the following steps to complete this task:
 
     Open **InventoryManager.cs** and select the `UpdateStockLevels` method. Use this prompt:
 
-    ```
+    ```text
     Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging and remove unnecessary delays.
     ```
 
@@ -345,7 +345,7 @@ Use the following steps to complete this task:
 
     Open **Services/EmailService.cs** and select the email sending methods. Submit this prompt:
 
-    ```
+    ```text
     Optimize the email service to support parallel email processing and improve async performance. Consider implementing email queuing and batch operations.
     ```
 
@@ -426,7 +426,7 @@ Use the following steps to complete this task:
 
     Use GitHub Copilot to help document the changes. Submit this prompt in Chat:
 
-    ```
+    ```text
     Help me create a summary of the performance optimizations implemented in this ContosoOnlineStore project. Include before/after metrics and the main optimization strategies used.
     ```
 
