@@ -96,7 +96,7 @@ namespace ContosoOnlineStore
                 var catalog = _serviceProvider!.GetRequiredService<IProductCatalog>();
                 var inventory = _serviceProvider.GetRequiredService<IInventoryManager>();
                 var processor = _serviceProvider.GetRequiredService<IOrderProcessor>();
-                
+
                 Console.WriteLine($"✅ Loaded {catalog.GetAllProducts().Count} products");
 
                 // Create a realistic test order
@@ -108,7 +108,7 @@ namespace ContosoOnlineStore
                 order.AddItem(new OrderItem(15, 1)); // Echo Dot 5th Gen x1
 
                 Console.WriteLine($"📦 Order {order.OrderId} created with {order.Items.Count} different products");
-                
+
                 // Display initial inventory
                 Console.WriteLine("\n📊 Initial inventory levels:");
                 foreach (var item in order.Items)
@@ -121,9 +121,9 @@ namespace ContosoOnlineStore
                 // Process order with timing
                 Console.WriteLine("\n⏱️  Processing order...");
                 var stopwatch = Stopwatch.StartNew();
-                
+
                 var result = await processor.ProcessOrderWithValidationAsync(order);
-                
+
                 stopwatch.Stop();
 
                 // Display results
@@ -205,10 +205,10 @@ namespace ContosoOnlineStore
         private static async Task TestProductLookupPerformance(IProductCatalog catalog)
         {
             Console.WriteLine("\n🔎 Testing product lookup performance...");
-            
+
             var lookups = new List<int> { 1, 3, 5, 7, 9, 12, 15, 18 };
             var sw = Stopwatch.StartNew();
-            
+
             for (int i = 0; i < 100; i++)
             {
                 foreach (var productId in lookups)
@@ -216,7 +216,7 @@ namespace ContosoOnlineStore
                     var product = catalog.GetProductById(productId);
                 }
             }
-            
+
             sw.Stop();
             Console.WriteLine($"   800 product lookups completed in {sw.ElapsedMilliseconds} ms");
             Console.WriteLine($"   Average: {(double)sw.ElapsedMilliseconds / 800:F2} ms per lookup");
@@ -225,16 +225,16 @@ namespace ContosoOnlineStore
         private static async Task TestSearchPerformance(IProductCatalog catalog)
         {
             Console.WriteLine("\n🔍 Testing search performance...");
-            
+
             var searchTerms = new[] { "phone", "laptop", "audio", "gaming", "apple" };
             var sw = Stopwatch.StartNew();
-            
+
             foreach (var term in searchTerms)
             {
                 var results = catalog.SearchProducts(term);
                 Console.WriteLine($"   Search '{term}': {results.Count} results");
             }
-            
+
             sw.Stop();
             Console.WriteLine($"   {searchTerms.Length} searches completed in {sw.ElapsedMilliseconds} ms");
         }
@@ -242,11 +242,11 @@ namespace ContosoOnlineStore
         private static async Task TestOrderProcessingPerformance(IOrderProcessor processor, IProductCatalog catalog)
         {
             Console.WriteLine("\n📋 Testing order processing performance...");
-            
+
             var orders = CreateTestOrders(5);
             var sw = Stopwatch.StartNew();
             var successCount = 0;
-            
+
             foreach (var order in orders)
             {
                 try
@@ -259,7 +259,7 @@ namespace ContosoOnlineStore
                     Console.WriteLine($"   Order {order.OrderId} failed: {ex.Message}");
                 }
             }
-            
+
             sw.Stop();
             Console.WriteLine($"   {successCount}/{orders.Count} orders processed in {sw.ElapsedMilliseconds} ms");
             Console.WriteLine($"   Average: {(double)sw.ElapsedMilliseconds / orders.Count:F2} ms per order");
@@ -268,21 +268,21 @@ namespace ContosoOnlineStore
         private static async Task TestInventoryPerformance(IInventoryManager inventory)
         {
             Console.WriteLine("\n📦 Testing inventory operations performance...");
-            
+
             var sw = Stopwatch.StartNew();
             var lowStockProducts = inventory.GetLowStockProducts(50);
             sw.Stop();
-            
+
             Console.WriteLine($"   Low stock check: {lowStockProducts.Count} products found in {sw.ElapsedMilliseconds} ms");
         }
 
         private static async Task TestConcurrentOperations(IOrderProcessor processor, IProductCatalog catalog)
         {
             Console.WriteLine("\n🔄 Testing concurrent operations...");
-            
+
             var tasks = new List<Task>();
             var sw = Stopwatch.StartNew();
-            
+
             // Simulate concurrent product lookups
             for (int i = 0; i < 10; i++)
             {
@@ -294,10 +294,10 @@ namespace ContosoOnlineStore
                     }
                 }));
             }
-            
+
             await Task.WhenAll(tasks);
             sw.Stop();
-            
+
             Console.WriteLine($"   10 concurrent tasks (200 total operations) completed in {sw.ElapsedMilliseconds} ms");
         }
 
@@ -305,11 +305,11 @@ namespace ContosoOnlineStore
         {
             var orders = new List<Order>();
             var random = new Random(12345); // Fixed seed for consistent results
-            
+
             for (int i = 0; i < count; i++)
             {
                 var order = new Order($"customer{i}@example.com", $"{i + 100} Test Street, Test City, WA 98101");
-                
+
                 // Add random items to each order
                 for (int j = 0; j < random.Next(1, 5); j++)
                 {
@@ -317,10 +317,10 @@ namespace ContosoOnlineStore
                     var quantity = random.Next(1, 4);
                     order.AddItem(new OrderItem(productId, quantity));
                 }
-                
+
                 orders.Add(order);
             }
-            
+
             return orders;
         }
     }

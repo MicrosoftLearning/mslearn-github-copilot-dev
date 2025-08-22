@@ -6,21 +6,21 @@ namespace ContosoOnlineStore
     {
         [Range(1, int.MaxValue)]
         public int OrderId { get; }
-        
+
         [Required]
         [StringLength(100, MinimumLength = 1)]
         public string CustomerEmail { get; set; } = string.Empty;
-        
+
         [Required]
         [StringLength(200, MinimumLength = 1)]
         public string ShippingAddress { get; set; } = string.Empty;
-        
+
         public List<OrderItem> Items { get; }
-        
+
         public DateTime OrderDate { get; }
-        
+
         public OrderStatus Status { get; set; }
-        
+
         public decimal TotalAmount { get; set; }
 
         private static int _nextOrderId = 1;
@@ -47,7 +47,7 @@ namespace ContosoOnlineStore
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
-            
+
             if (Items.Count >= 50)
                 throw new InvalidOperationException("Cannot add more than 50 items to an order");
 

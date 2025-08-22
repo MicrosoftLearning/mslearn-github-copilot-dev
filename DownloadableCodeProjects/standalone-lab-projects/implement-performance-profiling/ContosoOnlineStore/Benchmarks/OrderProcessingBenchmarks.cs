@@ -23,27 +23,27 @@ namespace ContosoOnlineStore.Benchmarks
         public void Setup()
         {
             var services = new ServiceCollection();
-            
+
             // Configure logging
             services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning));
-            
+
             // Configure settings
             var appSettings = new AppSettings();
             services.AddSingleton(Options.Create(appSettings));
-            
+
             // Register services
             services.AddSingleton<ISecurityValidationService, SecurityValidationService>();
             services.AddSingleton<IProductCatalog, ProductCatalog>();
             services.AddSingleton<IInventoryManager, InventoryManager>();
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IOrderProcessor, OrderProcessor>();
-            
+
             _serviceProvider = services.BuildServiceProvider();
-            
+
             _catalog = _serviceProvider.GetRequiredService<IProductCatalog>();
             _inventory = _serviceProvider.GetRequiredService<IInventoryManager>();
             _orderProcessor = _serviceProvider.GetRequiredService<IOrderProcessor>();
-            
+
             // Create test order
             _testOrder = new Order("customer@example.com", "123 Test Street, Test City, WA 98101");
             _testOrder.AddItem(new OrderItem(1, 2));

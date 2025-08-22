@@ -142,7 +142,7 @@ The application includes performance counters that display:
 
 Use BenchmarkDotNet for detailed analysis:
 ```bash
-dotnet run benchmark
+dotnet run -- benchmark
 ```
 
 This provides:

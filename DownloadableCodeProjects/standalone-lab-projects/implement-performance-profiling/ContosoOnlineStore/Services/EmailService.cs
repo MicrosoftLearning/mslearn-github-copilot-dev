@@ -47,7 +47,7 @@ namespace ContosoOnlineStore.Services
 
                 // Performance bottleneck: Generate email content inefficiently
                 var emailContent = await GenerateOrderConfirmationEmailAsync(order);
-                
+
                 // Simulate sending email with configurable delay
                 await Task.Delay(_appSettings.EmailTimeoutMs);
 
@@ -68,7 +68,7 @@ namespace ContosoOnlineStore.Services
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
-            
+
             if (string.IsNullOrWhiteSpace(trackingNumber))
                 throw new ArgumentException("Tracking number cannot be empty", nameof(trackingNumber));
 
@@ -83,7 +83,7 @@ namespace ContosoOnlineStore.Services
                 }
 
                 var emailContent = await GenerateShippingNotificationEmailAsync(order, trackingNumber);
-                
+
                 // Simulate email sending delay
                 await Task.Delay(_appSettings.EmailTimeoutMs / 2);
 
@@ -109,10 +109,10 @@ namespace ContosoOnlineStore.Services
                 _logger.LogInformation("Sending low stock alert for {ProductCount} products", lowStockProducts.Count);
 
                 var emailContent = await GenerateLowStockAlertEmailAsync(lowStockProducts);
-                
+
                 // Simulate sending to multiple administrators
                 var adminEmails = new[] { "admin@contoso.com", "inventory@contoso.com", "manager@contoso.com" };
-                
+
                 foreach (var adminEmail in adminEmails)
                 {
                     await Task.Delay(100); // Performance bottleneck: Sequential email sending
@@ -147,7 +147,7 @@ namespace ContosoOnlineStore.Services
             // Additional security checks
             var suspiciousPatterns = new[] { "script", "javascript", "<", ">", "eval", "exec" };
             var lowerEmail = email.ToLowerInvariant();
-            
+
             foreach (var pattern in suspiciousPatterns)
             {
                 if (lowerEmail.Contains(pattern))
@@ -170,7 +170,7 @@ namespace ContosoOnlineStore.Services
             emailBuilder.AppendLine($"Order Date: {order.OrderDate:yyyy-MM-dd HH:mm:ss}");
             emailBuilder.AppendLine();
             emailBuilder.AppendLine("Order Details:");
-            
+
             decimal totalAmount = 0;
             foreach (var item in order.Items)
             {
@@ -184,7 +184,7 @@ namespace ContosoOnlineStore.Services
                     emailBuilder.AppendLine($"- {product.Name} x {item.Quantity} = {itemTotal:C}");
                 }
             }
-            
+
             emailBuilder.AppendLine();
             emailBuilder.AppendLine($"Total Amount: {totalAmount:C}");
             emailBuilder.AppendLine();
@@ -211,6 +211,7 @@ Estimated Delivery: {DateTime.Now.AddDays(3):yyyy-MM-dd}
 You can track your package at: https://tracking.contoso.com/{trackingNumber}
 
 Thank you for shopping with Contoso Online Store!";
+
         }
 
         private async Task<string> GenerateLowStockAlertEmailAsync(Dictionary<int, int> lowStockProducts)
@@ -244,13 +245,13 @@ Thank you for shopping with Contoso Online Store!";
         {
             // Performance bottleneck: Detailed logging that could be optimized
             await Task.Delay(20);
-            
-            _logger.LogDebug("Email sent - Type: {EmailType}, Recipient: {Recipient}, Content Length: {ContentLength}", 
+
+            _logger.LogDebug("Email sent - Type: {EmailType}, Recipient: {Recipient}, Content Length: {ContentLength}",
                 emailType, recipient, content.Length);
 
             if (_appSettings.EnableDetailedLogging)
             {
-                _logger.LogTrace("Email content preview: {ContentPreview}...", 
+                _logger.LogTrace("Email content preview: {ContentPreview}...",
                     content.Length > 100 ? content[..100] : content);
             }
         }

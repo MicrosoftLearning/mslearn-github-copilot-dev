@@ -36,7 +36,7 @@ namespace ContosoOnlineStore
             _products = new List<Product>();
             _productIndex = new Dictionary<int, Product>();
             _searchCache = new ConcurrentDictionary<string, List<Product>>();
-            
+
             InitializeProducts();
             BuildProductIndex();
         }
@@ -118,11 +118,11 @@ namespace ContosoOnlineStore
         public List<Product> GetAllProducts()
         {
             _logger.LogDebug("Retrieved all {ProductCount} products", _products.Count);
-            
+
             // Performance bottleneck: Create new list and sort every time
             var result = new List<Product>(_products);
             result.Sort((a, b) => a.Name.CompareTo(b.Name)); // Expensive sorting operation
-            
+
             return result;
         }
 
@@ -132,10 +132,10 @@ namespace ContosoOnlineStore
                 return new List<Product>();
 
             var sanitizedTerm = _securityValidation.SanitizeInput(searchTerm.ToLowerInvariant());
-            
+
             // Check cache first (but with inefficient cache key generation)
             var cacheKey = GenerateSlowCacheKey(sanitizedTerm); // Performance bottleneck
-            
+
             if (_searchCache.TryGetValue(cacheKey, out var cachedResults))
             {
                 // Check if cache is still valid
@@ -162,7 +162,7 @@ namespace ContosoOnlineStore
             // Cache the results
             _searchCache[cacheKey] = results;
             _logger.LogInformation("Found {ResultCount} products for search term: {SearchTerm}", results.Count, sanitizedTerm);
-            
+
             return results;
         }
 
@@ -172,7 +172,7 @@ namespace ContosoOnlineStore
                 return new List<Product>();
 
             var sanitizedCategory = _securityValidation.SanitizeInput(category);
-            
+
             // Performance bottleneck: Linear search instead of category index
             var results = new List<Product>();
             foreach (var product in _products)

@@ -20,7 +20,7 @@ namespace ContosoOnlineStore.Tests
             _mockSecurity = new Mock<ISecurityValidationService>();
             _mockLogger = new Mock<ILogger<ProductCatalog>>();
             var appSettings = Options.Create(new AppSettings());
-            
+
             _catalog = new ProductCatalog(_mockSecurity.Object, _mockLogger.Object, appSettings);
         }
 
@@ -73,8 +73,8 @@ namespace ContosoOnlineStore.Tests
 
             // Assert
             Assert.NotEmpty(results);
-            Assert.All(results, p => 
-                Assert.True(p.Name.ToLower().Contains("phone") || 
+            Assert.All(results, p =>
+                Assert.True(p.Name.ToLower().Contains("phone") ||
                            p.Category.ToLower().Contains("phone") ||
                            p.Description.ToLower().Contains("phone")));
         }
@@ -111,7 +111,9 @@ namespace ContosoOnlineStore.Tests
 
             // Assert
             Assert.Contains(item, order.Items);
-            Assert.Equal(1, order.Items.Count);
+            var single = Assert.Single(order.Items); // clearer intent than Count==1
+            Assert.Equal(item.ProductId, single.ProductId);
+            Assert.Equal(item.Quantity, single.Quantity);
         }
 
         [Fact]
@@ -127,8 +129,9 @@ namespace ContosoOnlineStore.Tests
             order.AddItem(item2);
 
             // Assert
-            Assert.Equal(1, order.Items.Count);
-            Assert.Equal(5, order.Items[0].Quantity);
+            var single = Assert.Single(order.Items); // ensures only one consolidated item
+            Assert.Equal(5, single.Quantity);
+            Assert.Equal(1, single.ProductId);
         }
     }
 
@@ -159,7 +162,7 @@ namespace ContosoOnlineStore.Tests
         public void ValidateProduct_NullProduct_ThrowsArgumentNullException()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _service.ValidateProduct(null));
+            Assert.Throws<ArgumentNullException>(() => _service.ValidateProduct((Product)null!));
         }
 
         [Theory]
@@ -170,7 +173,7 @@ namespace ContosoOnlineStore.Tests
         {
             // Arrange
             var product = new Product(1, "Valid Name", 10.99m, 100);
-            
+
             // We can't modify the product after creation, so we'll test with constructor validation
             // Act & Assert
             if (string.IsNullOrWhiteSpace(invalidName))

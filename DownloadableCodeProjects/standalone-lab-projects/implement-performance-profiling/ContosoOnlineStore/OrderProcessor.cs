@@ -40,8 +40,8 @@ namespace ContosoOnlineStore
         private static int _orderCounter = 0;
 
         public OrderProcessor(
-            IProductCatalog catalog, 
-            IInventoryManager inventory, 
+            IProductCatalog catalog,
+            IInventoryManager inventory,
             IEmailService emailService,
             ISecurityValidationService securityValidation,
             ILogger<OrderProcessor> logger,
@@ -78,14 +78,14 @@ namespace ContosoOnlineStore
                 {
                     // Security validation for each item
                     _securityValidation.ValidateOrderItem(item, product);
-                    
+
                     var itemTotal = product.Price * item.Quantity;
                     subtotal += itemTotal;
-                    
+
                     // Update order item with unit price for receipt
                     item.UnitPrice = product.Price;
-                    
-                    _logger.LogDebug("Calculated item total for product {ProductId}: {ItemTotal:C}", 
+
+                    _logger.LogDebug("Calculated item total for product {ProductId}: {ItemTotal:C}",
                         product.Id, itemTotal);
                 }
                 else
@@ -100,7 +100,7 @@ namespace ContosoOnlineStore
             var shipping = CalculateShipping(order);
             var total = subtotal + tax + shipping;
 
-            _logger.LogInformation("Order total calculated: Subtotal={Subtotal:C}, Tax={Tax:C}, Shipping={Shipping:C}, Total={Total:C}", 
+            _logger.LogInformation("Order total calculated: Subtotal={Subtotal:C}, Tax={Tax:C}, Shipping={Shipping:C}, Total={Total:C}",
                 subtotal, tax, shipping, total);
 
             return total;
@@ -116,7 +116,7 @@ namespace ContosoOnlineStore
 
             try
             {
-                _logger.LogInformation("Finalizing order {OrderId} (Processing #{ProcessingNumber})", 
+                _logger.LogInformation("Finalizing order {OrderId} (Processing #{ProcessingNumber})",
                     order.OrderId, _orderCounter);
 
                 // Validate order first
@@ -149,7 +149,7 @@ namespace ContosoOnlineStore
                 order.Status = OrderStatus.Shipped; // Simulate immediate shipping for demo
 
                 var processingTime = DateTime.UtcNow - startTime;
-                _logger.LogInformation("Order {OrderId} finalized successfully in {ProcessingTime}ms. Total: {Total:C}", 
+                _logger.LogInformation("Order {OrderId} finalized successfully in {ProcessingTime}ms. Total: {Total:C}",
                     order.OrderId, processingTime.TotalMilliseconds, total);
 
                 return total;
@@ -157,7 +157,7 @@ namespace ContosoOnlineStore
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to finalize order {OrderId}", order.OrderId);
-                
+
                 // Release reserved stock on failure
                 try
                 {
@@ -188,11 +188,11 @@ namespace ContosoOnlineStore
                 {
                     // Performance bottleneck: Individual inventory checks
                     await Task.Delay(10); // Simulate database query
-                    
+
                     if (!_inventory.IsInStock(item.ProductId, item.Quantity))
                     {
                         var availableStock = _inventory.GetStockLevel(item.ProductId);
-                        _logger.LogWarning("Insufficient inventory for product {ProductId}. Requested: {Requested}, Available: {Available}", 
+                        _logger.LogWarning("Insufficient inventory for product {ProductId}. Requested: {Requested}, Available: {Available}",
                             item.ProductId, item.Quantity, availableStock);
                         return false;
                     }
@@ -272,7 +272,7 @@ namespace ContosoOnlineStore
 
             var receipt = receiptBuilder.ToString();
             _logger.LogDebug("Generated receipt for order {OrderId}", order.OrderId);
-            
+
             return receipt;
         }
 
@@ -348,9 +348,9 @@ namespace ContosoOnlineStore
             var itemCount = order.GetTotalItemCount();
             var baseShipping = 5.99m;
             var perItemFee = 0.99m;
-            
+
             var shippingCost = baseShipping + (perItemFee * Math.Max(0, itemCount - 1));
-            
+
             // Free shipping for orders over $100
             if (order.TotalAmount > 100)
             {

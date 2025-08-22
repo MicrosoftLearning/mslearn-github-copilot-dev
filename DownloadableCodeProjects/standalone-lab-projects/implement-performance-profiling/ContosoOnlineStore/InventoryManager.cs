@@ -35,7 +35,7 @@ namespace ContosoOnlineStore
             _stockByProductId = new ConcurrentDictionary<int, int>();
             _reservedStock = new ConcurrentDictionary<int, int>();
             _lastStockUpdate = new Dictionary<int, DateTime>();
-            
+
             InitializeInventory();
         }
 
@@ -49,7 +49,7 @@ namespace ContosoOnlineStore
                 _lastStockUpdate[product.Id] = DateTime.UtcNow;
                 _logger.LogDebug("Initialized stock for product {ProductId}: {Stock} units", product.Id, product.InitialStock);
             }
-            
+
             _logger.LogInformation("Initialized inventory for {ProductCount} products", products.Count);
         }
 
@@ -72,7 +72,7 @@ namespace ContosoOnlineStore
             var reserved = _reservedStock.GetValueOrDefault(productId, 0);
             var availableStock = stock - reserved;
 
-            _logger.LogDebug("Stock level for product {ProductId}: {Stock} total, {Reserved} reserved, {Available} available", 
+            _logger.LogDebug("Stock level for product {ProductId}: {Stock} total, {Reserved} reserved, {Available} available",
                 productId, stock, reserved, availableStock);
 
             return Math.Max(0, availableStock);
@@ -112,7 +112,7 @@ namespace ContosoOnlineStore
                     _lastStockUpdate[item.ProductId] = DateTime.UtcNow;
                     stockChanges[item.ProductId] = newStock;
 
-                    _logger.LogInformation("Updated stock for product {ProductId}: {OldStock} -> {NewStock} (Change: -{Quantity})", 
+                    _logger.LogInformation("Updated stock for product {ProductId}: {OldStock} -> {NewStock} (Change: -{Quantity})",
                         item.ProductId, currentStock, newStock, item.Quantity);
                 }
 
@@ -142,7 +142,7 @@ namespace ContosoOnlineStore
                 foreach (OrderItem item in order.Items)
                 {
                     _reservedStock.AddOrUpdate(item.ProductId, item.Quantity, (key, existing) => existing + item.Quantity);
-                    _logger.LogDebug("Reserved {Quantity} units of product {ProductId} for order {OrderId}", 
+                    _logger.LogDebug("Reserved {Quantity} units of product {ProductId} for order {OrderId}",
                         item.Quantity, item.ProductId, order.OrderId);
                 }
             }
@@ -158,7 +158,7 @@ namespace ContosoOnlineStore
                 foreach (OrderItem item in order.Items)
                 {
                     _reservedStock.AddOrUpdate(item.ProductId, 0, (key, existing) => Math.Max(0, existing - item.Quantity));
-                    _logger.LogDebug("Released {Quantity} reserved units of product {ProductId} for order {OrderId}", 
+                    _logger.LogDebug("Released {Quantity} reserved units of product {ProductId} for order {OrderId}",
                         item.Quantity, item.ProductId, order.OrderId);
                 }
             }
@@ -179,7 +179,7 @@ namespace ContosoOnlineStore
                 }
             }
 
-            _logger.LogInformation("Found {LowStockCount} products with stock below {Threshold}", 
+            _logger.LogInformation("Found {LowStockCount} products with stock below {Threshold}",
                 lowStockProducts.Count, threshold);
 
             return lowStockProducts;
@@ -189,7 +189,7 @@ namespace ContosoOnlineStore
         {
             if (productId <= 0)
                 throw new ArgumentException("Product ID must be positive", nameof(productId));
-            
+
             if (quantity <= 0)
                 throw new ArgumentException("Restock quantity must be positive", nameof(quantity));
 
@@ -202,7 +202,7 @@ namespace ContosoOnlineStore
                 _stockByProductId[productId] = currentStock + quantity;
                 _lastStockUpdate[productId] = DateTime.UtcNow;
 
-                _logger.LogInformation("Restocked product {ProductId}: {OldStock} -> {NewStock} (+{Quantity})", 
+                _logger.LogInformation("Restocked product {ProductId}: {OldStock} -> {NewStock} (+{Quantity})",
                     productId, currentStock, currentStock + quantity, quantity);
             }
 

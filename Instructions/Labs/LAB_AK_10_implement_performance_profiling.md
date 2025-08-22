@@ -84,11 +84,22 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     - GHCopilotEx10LabApps\
         - ContosoOnlineStore\
+            - Benchmarks
             - Configuration\
-            - Services\
             - Exceptions\
-            - Benchmarks\
+            - Services\
             - Tests\
+            - appsettings.json
+            - InventoryManager.cs
+            - Orders.cs
+            - OrderItem.cs
+            - OrderProcessor.cs
+            - PERFORMANCE_GUIDE.md
+            - Product.cs
+            - ProductCatalog.cs
+            - Program.cs
+            - README.md
+        - DataAnalyzerReporter\
 
 ## Exercise scenario
 
@@ -105,7 +116,7 @@ This exercise includes the following tasks:
 
 ### Review the ContosoOnlineStore codebase manually
 
-The first step in any performance optimization effort is to understand the existing codebase and establish baseline performance metrics. It's important to understand the code structure, the business logic, and the performance characteristics before making any changes.
+The first step in any code refactoring effort is to understand the existing codebase, including the project structure and business logic. When you're working on performance improvements, it's also important to establish baseline performance metrics.
 
 In this task, you'll examine the main components of the ContosoOnlineStore project, run the application to establish baseline performance metrics, and identify potential areas for optimization.
 
@@ -125,7 +136,9 @@ Use the following steps to complete this task:
 
     Open **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs**. These classes contain the core business logic and are likely candidates for performance optimization.
 
-    Notice the realistic product data (20 products with categories and descriptions), the complex order processing workflow, and the inventory management with stock reservations. Look for comments marked "Performance bottleneck" or "Performance issue" that highlight intentional inefficiencies.
+    Notice the product data list (20 products with categories and descriptions), the complex order processing workflow, and the inventory management with stock reservations.
+
+    > **NOTE**: The codebase includes comments that help identify performance issues. Look for comments marked "Performance bottleneck" or "Performance issue" that highlight intentional inefficiencies.
 
 1. Review the Services layer and configuration.
 

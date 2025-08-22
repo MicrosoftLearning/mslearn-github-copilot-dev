@@ -91,7 +91,7 @@ namespace ContosoOnlineStore.Services
                 throw new InvalidOrderException("Order item calculation would cause numeric overflow.");
             }
 
-            _logger.LogDebug("Order item for product {ProductId} with quantity {Quantity} validated successfully", 
+            _logger.LogDebug("Order item for product {ProductId} with quantity {Quantity} validated successfully",
                 item.ProductId, item.Quantity);
         }
 
