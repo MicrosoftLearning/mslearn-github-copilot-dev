@@ -107,7 +107,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 You're a software developer working for a consulting firm. Your clients need help implementing performance profiling in legacy applications. Your goal is to improve code performance while preserving readability and the existing functionality. You're assigned to the following app:
 
-- ContosoOnlineStore: This is a comprehensive e-commerce application that processes customer orders with realistic business complexity. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains intentional performance bottlenecks that mirror real-world scenarios.
+- ContosoOnlineStore: This is an e-commerce application that processes customer orders with realistic business complexity. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains performance bottlenecks that mirror real-world scenarios.
 
 This exercise includes the following tasks:
 
@@ -124,7 +124,7 @@ In this task, you'll examine the main components of the ContosoOnlineStore proje
 
 Use the following steps to complete this task:
 
-1. Take a minute to review the ContosoOnlineStore project structure.
+1. Take a few minutes to review the ContosoOnlineStore project structure.
 
     The codebase follows modern .NET architecture patterns with clear separation of concerns. The main architectural components include:
 
@@ -150,7 +150,7 @@ Use the following steps to complete this task:
 
 1. Run the application and observe the baseline performance.
 
-    You can run the application from the Visual Studio Code integrated terminal by navigating to the project folder and running:
+    You can run the application from the Visual Studio Code integrated terminal by navigating to the project folder and running the following .NET CLI command:
 
     ```bash
     dotnet run
@@ -164,7 +164,9 @@ Use the following steps to complete this task:
     - Concurrent operation testing
     - Email notification simulation
 
-1. Record the baseline performance metrics.
+1. Store the baseline performance metrics in a file named **baseline_metrics.txt**.
+
+    Create a text file named baseline_metrics.txt. Copy the console output into the baseline_metrics.txt file.
 
     Pay attention to the timing information displayed in the console output, such as:
 
@@ -176,12 +178,12 @@ Use the following steps to complete this task:
 
     The application also runs a comprehensive performance analysis suite that tests various operations and reports timing details.
 
-1. Examine the performance benchmark capabilities.
+1. Take a minute to examine the performance benchmark capabilities provided by the OrderProcessingBenchmarks.cs file.
 
     The application includes professional benchmarking using BenchmarkDotNet. You can run detailed performance benchmarks by executing:
 
     ```bash
-    dotnet run benchmark
+    dotnet run -c Release -- benchmark
     ```
 
     This will generate detailed performance reports including memory allocation patterns and statistical analysis.
@@ -202,11 +204,11 @@ Use the following steps to complete this task:
 
     > **NOTE**: The GPT-4o model provides excellent code analysis capabilities and is recommended for this performance analysis task.
 
-1. Close any files that aren't directly related to the performance analysis.
+1. Close any files that you have open in the editor.
 
     GitHub Copilot uses files that are open in the editor to establish context. Having only the target files open helps focus the analysis on the code you want to optimize.
 
-1. Add the main business logic files to the Chat context.
+1. Add the **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs** files to the Chat context.
 
     Use a drag-and-drop operation to add **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs** from the SOLUTION EXPLORER to the Chat context.
 
@@ -214,7 +216,7 @@ Use the following steps to complete this task:
 
 1. Ask GitHub Copilot to identify performance bottlenecks in the ProductCatalog class.
 
-    Enter the following prompt in the Chat view:
+    For example, enter the following prompt in the Chat view:
 
     ```text
     Analyze the ProductCatalog class for performance bottlenecks. Focus on the GetProductById, SearchProducts, and GetProductsByCategory methods. What are the main inefficiencies and how could they be optimized?
@@ -229,7 +231,7 @@ Use the following steps to complete this task:
 
 1. Ask GitHub Copilot to analyze the OrderProcessor performance issues.
 
-    Submit the following prompt:
+    For example, submit the following prompt:
 
     ```text
     Examine the OrderProcessor class, particularly the CalculateOrderTotal and FinalizeOrderAsync methods. What performance problems do you see and what optimization strategies would you recommend?
@@ -244,7 +246,7 @@ Use the following steps to complete this task:
 
 1. Analyze the InventoryManager for efficiency issues.
 
-    Use this prompt to examine inventory operations:
+    For example, use this prompt to examine inventory operations:
 
     ```text
     Review the InventoryManager class, especially the GetLowStockProducts and UpdateStockLevels methods. What are the performance concerns and how could the inventory operations be improved?
@@ -259,7 +261,7 @@ Use the following steps to complete this task:
 
 1. Ask about the EmailService performance characteristics.
 
-    Submit this prompt to analyze the email service:
+    For example, submit this prompt to analyze the email service:
 
     ```text
     Analyze the EmailService class for performance issues. How does the email sending process impact overall application performance and what improvements could be made?
@@ -408,7 +410,7 @@ Use the following steps to complete this task:
     Run the detailed performance benchmarks to get precise measurements:
 
     ```bash
-    dotnet run benchmark
+    dotnet run -c Release -- benchmark
     ```
 
     Review the BenchmarkDotNet reports, which provide detailed statistics including:
