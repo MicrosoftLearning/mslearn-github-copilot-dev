@@ -84,11 +84,10 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     - GHCopilotEx10LabApps\
         - ContosoOnlineStore\
-            - Benchmarks
+            - Benchmarks\
             - Configuration\
             - Exceptions\
             - Services\
-            - Tests\
             - appsettings.json
             - InventoryManager.cs
             - Orders.cs
@@ -99,6 +98,9 @@ Use the following steps to download the sample project and open it in Visual Stu
             - ProductCatalog.cs
             - Program.cs
             - README.md
+        - ContosoOnlineStore.Tests\
+            - ContosoOnlineStoreTests.cs
+            - Usings.cs
         - DataAnalyzerReporter\
 
 ## Exercise scenario

@@ -5,6 +5,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- Enable optimizations even for Debug so that running the app with the
+    'benchmark' argument via 'dotnet run' produces valid BenchmarkDotNet results.
+    Without this, a Debug build shows a warning that the assembly is non-optimized. -->
+    <Optimize>true</Optimize>
+    
   </PropertyGroup>
 
   <ItemGroup>
