@@ -208,13 +208,13 @@ Use the following steps to complete this task:
 
     GitHub Copilot uses files that are open in the editor to establish context. Having only the target files open helps focus the analysis on the code you want to optimize.
 
-1. Add the **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs** files to the Chat context.
+1. Add the **InventoryManager.cs**, **OrderProcessor.cs**, and **ProductCatalog.cs** files to the Chat context.
 
-    Use a drag-and-drop operation to add **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs** from the SOLUTION EXPLORER to the Chat context.
+    Use a drag-and-drop operation to add **InventoryManager.cs**, **OrderProcessor.cs**, and **ProductCatalog.cs** from the SOLUTION EXPLORER to the Chat context.
 
     Adding files to the chat context tells GitHub Copilot to include those files when analyzing your prompts, which improves the accuracy and relevance of its analysis.
 
-1. Ask GitHub Copilot to identify performance bottlenecks in the ProductCatalog class.
+1. Ask GitHub Copilot to identify performance bottlenecks in the ProductCatalog class and suggest optimizations.
 
     For example, enter the following prompt in the Chat view:
 
@@ -224,12 +224,12 @@ Use the following steps to complete this task:
 
     Review GitHub Copilot's analysis, which should identify issues such as:
 
-    - Linear search performance in GetProductById for certain conditions
-    - Inefficient cache key generation in SearchProducts
-    - Sequential processing with artificial delays
-    - Missing optimized data structures for category filtering
+    - Linear search performance in GetProductById for certain conditions.
+    - Inefficient cache key generation in SearchProducts.
+    - Missing optimized data structures for category filtering in GetProductsByCategory.
+    - Sequential processing with artificial delays in several of the methods.
 
-1. Ask GitHub Copilot to analyze the OrderProcessor performance issues.
+1. Ask GitHub Copilot to identify performance issues in the OrderProcessor class and suggest optimizations.
 
     For example, submit the following prompt:
 
@@ -239,12 +239,12 @@ Use the following steps to complete this task:
 
     GitHub Copilot should identify problems including:
 
-    - Individual product lookups in loops (N+1 query pattern)
-    - Redundant tax and shipping calculations
-    - Sequential processing of order items
-    - Blocking operations that could be made asynchronous
+    - Individual product lookups in loops (N+1 query pattern).
+    - Redundant tax and shipping calculations.
+    - Sequential processing of order items.
+    - Blocking operations that could be made asynchronous.
 
-1. Analyze the InventoryManager for efficiency issues.
+1. Ask GitHub Copilot to identify performance issues in the InventoryManager class and suggest optimizations.
 
     For example, use this prompt to examine inventory operations:
 
@@ -254,12 +254,12 @@ Use the following steps to complete this task:
 
     The analysis should reveal:
 
-    - Individual database query simulation in loops
-    - Inefficient logging implementation with blocking operations
-    - Missing batch operation support
-    - Unnecessary thread delays in stock level checks
+    - Individual database query simulation in loops.
+    - Inefficient logging implementation with blocking operations.
+    - Missing batch operation support.
+    - Unnecessary thread delays in stock level checks.
 
-1. Ask about the EmailService performance characteristics.
+1. Ask GitHub Copilot to identify performance issues in the EmailService class and suggest optimizations.
 
     For example, submit this prompt to analyze the email service:
 
@@ -269,16 +269,18 @@ Use the following steps to complete this task:
 
     GitHub Copilot should identify:
 
-    - Sequential email content generation with blocking operations
-    - Individual product lookups within email templates
-    - Synchronous validation operations
-    - Missing parallelization opportunities for multiple recipients
+    - Sequential email content generation with blocking operations.
+    - Individual product lookups within email templates.
+    - Synchronous validation operations.
+    - Missing parallelization opportunities for multiple recipients.
 
 By using GitHub Copilot's analytical capabilities, you've identified the main performance bottlenecks in the ContosoOnlineStore application. The analysis provides a roadmap for optimization efforts, focusing on algorithmic improvements, caching strategies, and asynchronous processing patterns.
 
 ### Refactor performance-critical code using GitHub Copilot Chat (Agent mode)
 
-GitHub Copilot Chat's Agent mode enables collaborative code refactoring where you can request specific code changes and improvements. In Agent mode, Copilot can generate optimized code implementations, suggest architectural improvements, and help implement performance enhancements.
+GitHub Copilot's Agent mode provides an autonomous agent that assists with programming tasks. Developers assign high-level tasks and then start an agentic code editing session to accomplish the task. In agent mode, Copilot autonomously plans the work needed and determines the relevant files and context. The agent can make changes to your code, run tests, and even deploy your application.
+
+In Agent mode, GitHub Copilot can generate optimized code implementations, suggest architectural improvements, and help implement performance enhancements.
 
 In this task, you'll use GitHub Copilot Agent mode to systematically address the performance bottlenecks identified in the previous task.
 
@@ -288,9 +290,9 @@ Use the following steps to complete this task:
 
     In the Chat view, change the mode from **Ask** to **Agent**. Agent mode provides more targeted code generation and modification capabilities.
 
-1. Optimize the ProductCatalog GetProductById method.
+1. Assign a task to the agent that optimizes the GetProductById method in the ProductCatalog class.
 
-    Open **ProductCatalog.cs** and select the `GetProductById` method. Use the following prompt in Chat:
+    Open **ProductCatalog.cs** and select the **GetProductById** method. Use the following prompt in Chat:
 
     ```text
     Optimize this GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms.
@@ -298,13 +300,13 @@ Use the following steps to complete this task:
 
     Review GitHub Copilot's suggested improvements and implement the changes. The optimized version should include:
 
-    - Dictionary-based product lookups for O(1) performance
-    - Proper cache initialization and management
-    - Reduced redundant operations
+    - Dictionary-based product lookups for O(1) performance.
+    - Proper cache initialization and management.
+    - Reduced redundant operations.
 
-1. Enhance the SearchProducts method efficiency.
+1. Assign a task to the agent that enhances the efficiency of the SearchProducts method.
 
-    Select the `SearchProducts` method in **ProductCatalog.cs** and use this prompt:
+    Select the **SearchProducts** method in **ProductCatalog.cs** and use this prompt:
 
     ```text
     Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm and remove unnecessary delays while maintaining search functionality.
@@ -312,13 +314,13 @@ Use the following steps to complete this task:
 
     Apply GitHub Copilot's suggestions to implement:
 
-    - Efficient string matching algorithms
-    - Parallel processing for multiple search criteria
-    - Optimized cache key generation
+    - Efficient string matching algorithms.
+    - Parallel processing for multiple search criteria.
+    - Optimized cache key generation.
 
-1. Improve OrderProcessor performance for order calculations.
+1. Assign a task to the agent that improves the performance of the CalculateOrderTotal method in the OrderProcessor class.
 
-    Open **OrderProcessor.cs** and select the `CalculateOrderTotal` method. Submit this prompt:
+    Open **OrderProcessor.cs** and select the **CalculateOrderTotal** method. Submit this prompt:
 
     ```text
     Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies.
@@ -326,13 +328,13 @@ Use the following steps to complete this task:
 
     Implement the suggested improvements, which should include:
 
-    - Batch product retrieval to eliminate N+1 query patterns
-    - Cached product information during order processing
-    - Optimized tax and shipping calculations
+    - Batch product retrieval to eliminate N+1 query patterns.
+    - Cached product information during order processing.
+    - Optimized tax and shipping calculations.
 
 1. Optimize the FinalizeOrderAsync method.
 
-    Select the `FinalizeOrderAsync` method in **OrderProcessor.cs** and use this prompt:
+    Select the **FinalizeOrderAsync** method in **OrderProcessor.cs** and use this prompt:
 
     ```text
     Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns.
@@ -346,7 +348,7 @@ Use the following steps to complete this task:
 
 1. Enhance InventoryManager batch operations.
 
-    Open **InventoryManager.cs** and select the `UpdateStockLevels` method. Use this prompt:
+    Open **InventoryManager.cs** and select the **UpdateStockLevels** method. Use this prompt:
 
     ```text
     Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging and remove unnecessary delays.
