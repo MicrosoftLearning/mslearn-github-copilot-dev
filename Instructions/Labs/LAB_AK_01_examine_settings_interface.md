@@ -40,7 +40,7 @@ If you're using a hosted lab environment for this exercise:
 
     ```bash
 
-    dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+    dotnet --version
 
     ```
     
