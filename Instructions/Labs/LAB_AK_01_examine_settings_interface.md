@@ -19,7 +19,7 @@ Your lab environment must include the following:
 - Git 2.48 or later
 - Either .NET or Python:
 
-    -  **.NET SDK 9.0** or later with Visual Studio Code with the **C# Dev Kit** extension.
+    - **.NET SDK 9.0** or later with Visual Studio Code with the **C# Dev Kit** extension.
     - **Python 3.10** or later with Visual Studio Code with the **Python** extension
 
 - Access to a GitHub account with GitHub Copilot enabled.
@@ -34,23 +34,27 @@ If you're using a hosted lab environment for this exercise:
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-- Open a command terminal and then run the following commands:
+- To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
-    To ensure that Visual Studio Code is configured to use the correct version of **.NET**, run the following command:
+    Open a command terminal and then run the following command:
 
     ```bash
 
     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 
     ```
-    
-    or
 
-    To ensure that Visual Studio Code is configured to use the correct version of Python, verify your Python installation is version 3.10 or later:
+- To configure the hosted lab environment for Python, follow these steps:
 
-    ```bash
-    python --version
-    ```
+    1. To determine the version of Python installed in the hosted environment, run the following command:
+
+        ```bash
+        python --version
+        ```
+
+        If necessary, use the following steps at the following URL to Configure Python in Visual Studio Code: <a href="https://code.visualstudio.com/docs/python/python-tutorial" target="_blank">Getting Started with Python in VS Code</a>.
+
+    1. Install the Python extension using the Extensions view in Visual Studio Code.
 
 ## Exercise scenario
 
