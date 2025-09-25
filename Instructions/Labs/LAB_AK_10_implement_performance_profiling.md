@@ -6,7 +6,7 @@ lab:
 
 # Implement performance profiling using GitHub Copilot
 
-Performance profiling is a critical aspect of software development that helps identify and address performance bottlenecks and code inefficiencies.
+Performance profiling is an important aspect of software development that helps identify and address performance bottlenecks and code inefficiencies.
 
 In this exercise, you review an existing project that contains poor performing and inefficient code, analyze your options for improving code performance, refactor the code to address the identified issues, and test the refactored code to ensure code performance has improved while retaining functionality and readability. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and to explore options for refactoring the identified issues. You use GitHub Copilot in Agent mode to refactor the code and improve performance. You test the original and refactored code to measure the impact of your changes.
 
@@ -30,22 +30,14 @@ If you're using a hosted lab environment for this exercise:
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-- Open a command terminal and then run the following commands:
+- To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
-    To ensure that Visual Studio Code is configured to use the correct version of .NET, run the following command:
+    Open a command terminal and then run the following command:
 
     ```bash
+
     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
-    ```
 
-    To ensure that Git is configured to use your name and email address, update the following commands with your information, and then run the commands:
-
-    ```bash
-    git config --global user.name "John Doe"
-    ```
-
-    ```bash
-    git config --global user.email johndoe@example.com
     ```
 
 ### Download sample code project
@@ -295,7 +287,7 @@ Use the following steps to complete this task:
     Open **ProductCatalog.cs** and select the **GetProductById** method. Use the following prompt in Chat:
 
     ```text
-    Optimize this GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms.
+    Optimize this GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
     ```
 
     Review GitHub Copilot's suggested improvements and implement the changes. The optimized version should include:
@@ -309,7 +301,7 @@ Use the following steps to complete this task:
     Select the **SearchProducts** method in **ProductCatalog.cs** and use this prompt:
 
     ```text
-    Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm and remove unnecessary delays while maintaining search functionality.
+    Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm and remove unnecessary delays while maintaining search functionality. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
     ```
 
     Apply GitHub Copilot's suggestions to implement:
@@ -323,7 +315,7 @@ Use the following steps to complete this task:
     Open **OrderProcessor.cs** and select the **CalculateOrderTotal** method. Submit this prompt:
 
     ```text
-    Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies.
+    Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
     ```
 
     Implement the suggested improvements, which should include:
@@ -337,7 +329,7 @@ Use the following steps to complete this task:
     Select the **FinalizeOrderAsync** method in **OrderProcessor.cs** and use this prompt:
 
     ```text
-    Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns.
+    Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
     ```
 
     Apply the suggested changes to achieve:
@@ -351,7 +343,7 @@ Use the following steps to complete this task:
     Open **InventoryManager.cs** and select the **UpdateStockLevels** method. Use this prompt:
 
     ```text
-    Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging and remove unnecessary delays.
+    Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging, but retain any existing artificial delays for performance comparison.
     ```
 
     Implement the improvements to include:
@@ -365,7 +357,7 @@ Use the following steps to complete this task:
     Open **Services/EmailService.cs** and select the email sending methods. Submit this prompt:
 
     ```text
-    Optimize the email service to support parallel email processing and improve async performance. Consider implementing email queuing and batch operations.
+    Optimize the email service to support parallel email processing and improve async performance. Consider implementing email queuing and batch operations. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
     ```
 
     Apply the suggested optimizations for:

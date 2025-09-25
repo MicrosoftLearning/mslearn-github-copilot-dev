@@ -26,9 +26,9 @@ If you're using a hosted lab environment for this exercise:
 
 - For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-- Open a command terminal and then run the following commands:
+- To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
-    To ensure that Visual Studio Code is configured to use the correct version of .NET, run the following command:
+    Open a command terminal and then run the following command:
 
     ```bash
 
@@ -36,7 +36,9 @@ If you're using a hosted lab environment for this exercise:
 
     ```
 
-    To ensure that Git is configured to use your name and email address, update the following commands with your information, and then run the commands:
+- To ensure that Git is configured to use your name and email address:
+
+    Update the following commands with your information, and then run the commands:
 
     ```bash
 
