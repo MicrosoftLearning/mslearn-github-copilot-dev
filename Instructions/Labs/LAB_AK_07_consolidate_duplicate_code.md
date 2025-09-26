@@ -56,7 +56,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click *GHCopilotEx7LabApps.zip*, and then select **Extract all**.
+    1. Right-click **GHCopilotEx7LabApps.zip**, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 

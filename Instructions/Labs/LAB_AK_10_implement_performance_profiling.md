@@ -56,7 +56,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
     1. Navigate to the downloads folder in your lab environment.
 
-    1. Right-click *GHCopilotEx10LabApps.zip*, and then select **Extract all**.
+    1. Right-click **GHCopilotEx10LabApps.zip**, and then select **Extract all**.
 
     1. Select **Show extracted files when complete**, and then select **Extract**.
 
@@ -94,12 +94,21 @@ Use the following steps to download the sample project and open it in Visual Stu
             - ContosoOnlineStoreTests.cs
             - Usings.cs
         - DataAnalyzerReporter\
+            - data.txt
+            - DataAnalyzer.cs
+            - FileLoader.cs
+            - output.txt
+            - Program.cs
+            - README.md
+            - ReportGenerator.cs
 
 ## Exercise scenario
 
 You're a software developer working for a consulting firm. Your clients need help implementing performance profiling in legacy applications. Your goal is to improve code performance while preserving readability and the existing functionality. You're assigned to the following app:
 
-- ContosoOnlineStore: This is an e-commerce application that processes customer orders with realistic business complexity. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains performance bottlenecks that mirror real-world scenarios.
+- ContosoOnlineStore: This is an e-commerce application that processes customer orders. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains performance bottlenecks that mirror real-world scenarios.
+
+> **NOTE**: Code bottlenecks include intentional inefficiencies and performance issues, as well as simulated delays that approximate real-world timing for external dependencies. Simulated delays should be retained when the code is refactored to allow for "before and after" performance comparisons.
 
 This exercise includes the following tasks:
 
@@ -116,7 +125,7 @@ In this task, you'll examine the main components of the ContosoOnlineStore proje
 
 Use the following steps to complete this task:
 
-1. Take a few minutes to review the ContosoOnlineStore project structure.
+1. Take a minute to examine the ContosoOnlineStore project structure.
 
     The codebase follows modern .NET architecture patterns with clear separation of concerns. The main architectural components include:
 
@@ -126,19 +135,29 @@ Use the following steps to complete this task:
     - **Benchmarks**: Professional performance testing with BenchmarkDotNet
     - **Tests**: Unit tests with mocking framework
 
-1. Examine the main business logic classes.
+1. Take a few minutes to review the **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs** classes.
 
-    Open **ProductCatalog.cs**, **OrderProcessor.cs**, and **InventoryManager.cs**. These classes contain the core business logic and are likely candidates for performance optimization.
+    These classes contain the core business logic and are likely candidates for performance optimization.
 
-    Notice the product data list (20 products with categories and descriptions), the complex order processing workflow, and the inventory management with stock reservations.
+    > **NOTE**: The codebase includes comments that help identify performance issues. Look for comments marked "Performance bottleneck" or "Performance issue" that highlight intentional inefficiencies. Simulated delays are also included to approximate real-world timing for external dependencies (slow queries, network calls, etc.). These delays will be retained when refactoring the codebase to allow for "before and after" performance comparisons.
 
-    > **NOTE**: The codebase includes comments that help identify performance issues. Look for comments marked "Performance bottleneck" or "Performance issue" that highlight intentional inefficiencies.
+    - **ProductCatalog.cs**: The ProductCatalog class provides methods for retrieving, searching, and categorizing products, as well as caching search results.
 
-1. Review the Services layer and configuration.
+    - **OrderProcessor.cs**: The OrderProcessor class handles order validation, total calculation, and finalization, including inventory updates and email notifications.
 
-    Navigate to the **Services** folder and examine **EmailService.cs** and **SecurityValidationService.cs**. Also review the **Configuration/AppSettings.cs** file.
+    - **InventoryManager.cs**: The InventoryManager class manages stock levels, reservations, and low-stock alerts.
 
-    You'll notice that these services implement realistic business logic with configurable timeouts, security validation rules, and email notification workflows. The services use dependency injection and logging, following enterprise development patterns.
+1. Expand the **Services** and **Configuration** folders.
+
+    These folders contain additional business logic and configuration settings that support the main application functionality.
+
+1. Take a few minutes to review the **Program.cs** and **AppSettings.cs** files.
+
+    Examine the relationship between the Program.cs and AppSettings.cs files. Notice that the Program.cs file initializes and injects the AppSettings configuration into the application's services, enabling centralized and flexible control over application behavior. The application configuration is strongly typed and validated at startup, ensuring that all required settings are present and correctly formatted.
+
+1. Take a few minutes to review the **EmailService.cs** and **SecurityValidationService.cs** files.
+
+    Examine the implementation of these services. Notice that they supply business logic with configurable timeouts, security validation rules, and email notification workflows. The services use dependency injection and logging, following enterprise development patterns.
 
 1. Run the application and observe the baseline performance.
 
@@ -150,23 +169,25 @@ Use the following steps to complete this task:
 
     The application will execute a comprehensive performance test that includes:
 
-    - Order processing with timing measurements
-    - Product catalog operations (search, lookup, category filtering)
-    - Inventory management operations
-    - Concurrent operation testing
-    - Email notification simulation
+    - Order processing with timing measurements.
+    - Product catalog operations (search, lookup, category filtering).
+    - Inventory management operations.
+    - Concurrent operation testing.
+    - Email notification simulation.
 
 1. Store the baseline performance metrics in a file named **baseline_metrics.txt**.
 
-    Create a text file named baseline_metrics.txt. Copy the console output into the baseline_metrics.txt file.
+    Use the EXPLORER view to create a text file named baseline_metrics.txt in the Benchmarks folder, and then copy the console output into the baseline_metrics.txt file.
 
-    Pay attention to the timing information displayed in the console output, such as:
+1. Review the baseline_metrics.txt file.
 
-    - Order processing time (typically 2000-3000ms for a single order)
-    - Product lookup performance (individual operation timing)
-    - Search operation duration
-    - Inventory check timings
-    - Concurrent operation performance
+    Notice the timing information displayed under the *Running Performance Analysis* section. Key performance metrics include:
+
+    - Product lookup performance.
+    - Search performance.
+    - Order processing performance.
+    - Inventory operations performance.
+    - Concurrent operation performance.
 
     The application also runs a comprehensive performance analysis suite that tests various operations and reports timing details.
 
@@ -178,9 +199,9 @@ Use the following steps to complete this task:
     dotnet run -c Release -- benchmark
     ```
 
-    This will generate detailed performance reports including memory allocation patterns and statistical analysis.
+    Executing this command will generate detailed performance reports including memory allocation patterns and statistical analysis. If you want, you can save the detailed performance benchmark reports for later comparison.
 
-Understanding the existing architecture and baseline performance metrics provides the foundation for identifying optimization opportunities. The application demonstrates realistic e-commerce performance challenges that you'll address in subsequent tasks.
+Understanding the existing architecture and baseline performance metrics prepares the way for identifying optimization opportunities.
 
 ### Identify performance bottlenecks using GitHub Copilot Chat (Ask mode)
 
@@ -190,11 +211,11 @@ In this task, you'll use GitHub Copilot to systematically analyze the ContosoOnl
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view, and then configure Ask mode and the GPT-4o model.
+1. Open the GitHub Copilot Chat view, and then configure **Ask** mode and the **GPT-4o** model.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using the **GPT-4o** model.
+    To open the Chat view, select the **Toggle Chat** icon at the top of the Visual Studio Code window.
 
-    > **NOTE**: The GPT-4o model provides excellent code analysis capabilities and is recommended for this performance analysis task.
+    > **NOTE**: The GPT-4o model provides excellent code analysis capabilities and is included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
 
 1. Close any files that you have open in the editor.
 
@@ -214,12 +235,28 @@ Use the following steps to complete this task:
     Analyze the ProductCatalog class for performance bottlenecks. Focus on the GetProductById, SearchProducts, and GetProductsByCategory methods. What are the main inefficiencies and how could they be optimized?
     ```
 
-    Review GitHub Copilot's analysis, which should identify issues such as:
+1. Review the analysis generated by GitHub Copilot for the ProductCatalog class.
+
+    The analysis should identify issues such as:
 
     - Linear search performance in GetProductById for certain conditions.
     - Inefficient cache key generation in SearchProducts.
     - Missing optimized data structures for category filtering in GetProductsByCategory.
     - Sequential processing with artificial delays in several of the methods.
+
+1. Ask GitHub Copilot to evaluate the suggested optimizations for potential risks.
+
+    For example, enter the following prompt in the Chat view:
+
+    ```text
+    Do any of the suggested optimizations include security risks or introduce other adverse effects?
+    ```
+
+    > **IMPORTANT**: Blindly adopting code refactoring suggestions can introduce security risks and other issues. It's important to evaluate the suggested optimizations and identify any potential issues. For example, optimizations that involve caching or parallel processing may introduce thread safety concerns or data consistency issues. Manual code review is recommended to ensure that AI suggested optimizations do not compromise security or functionality. Periodic security reviews and testing should be part of any code refactoring effort.
+
+1. Review the risk analysis generated by GitHub Copilot.
+
+    The risk analysis should highlight any potential security vulnerabilities or other issues associated with the suggested optimizations. This information helps you make informed decisions about which optimizations to implement when refactoring the code.
 
 1. Ask GitHub Copilot to identify performance issues in the OrderProcessor class and suggest optimizations.
 
@@ -229,12 +266,24 @@ Use the following steps to complete this task:
     Examine the OrderProcessor class, particularly the CalculateOrderTotal and FinalizeOrderAsync methods. What performance problems do you see and what optimization strategies would you recommend?
     ```
 
-    GitHub Copilot should identify problems including:
+1. Review the analysis generated by GitHub Copilot for the OrderProcessor class.
+
+    The analysis should identify issues such as:
 
     - Individual product lookups in loops (N+1 query pattern).
     - Redundant tax and shipping calculations.
     - Sequential processing of order items.
     - Blocking operations that could be made asynchronous.
+
+1. Ask GitHub Copilot to evaluate the suggested optimizations for potential risks.
+
+    For example, enter the following prompt in the Chat view:
+
+    ```text
+    Do any of the suggested optimizations include security risks or introduce other adverse effects?
+    ```
+
+1. Review the risk analysis generated by GitHub Copilot.
 
 1. Ask GitHub Copilot to identify performance issues in the InventoryManager class and suggest optimizations.
 
@@ -244,12 +293,24 @@ Use the following steps to complete this task:
     Review the InventoryManager class, especially the GetLowStockProducts and UpdateStockLevels methods. What are the performance concerns and how could the inventory operations be improved?
     ```
 
-    The analysis should reveal:
+1. Review the analysis generated by GitHub Copilot for the InventoryManager class.
+
+    The analysis should identify issues such as:
 
     - Individual database query simulation in loops.
     - Inefficient logging implementation with blocking operations.
     - Missing batch operation support.
     - Unnecessary thread delays in stock level checks.
+
+1. Ask GitHub Copilot to evaluate the suggested optimizations for potential risks.
+
+    For example, enter the following prompt in the Chat view:
+
+    ```text
+    Do any of the suggested optimizations include security risks or introduce other adverse effects?
+    ```
+
+1. Review the risk analysis generated by GitHub Copilot.
 
 1. Ask GitHub Copilot to identify performance issues in the EmailService class and suggest optimizations.
 
@@ -259,18 +320,30 @@ Use the following steps to complete this task:
     Analyze the EmailService class for performance issues. How does the email sending process impact overall application performance and what improvements could be made?
     ```
 
-    GitHub Copilot should identify:
+1. Review the analysis generated by GitHub Copilot for the EmailService class.
+
+    The analysis should identify issues such as:
 
     - Sequential email content generation with blocking operations.
     - Individual product lookups within email templates.
     - Synchronous validation operations.
     - Missing parallelization opportunities for multiple recipients.
 
-By using GitHub Copilot's analytical capabilities, you've identified the main performance bottlenecks in the ContosoOnlineStore application. The analysis provides a roadmap for optimization efforts, focusing on algorithmic improvements, caching strategies, and asynchronous processing patterns.
+1. Ask GitHub Copilot to evaluate the suggested optimizations for potential risks.
+
+    For example, enter the following prompt in the Chat view:
+
+    ```text
+    Do any of the suggested optimizations include security risks or introduce other adverse effects?
+    ```
+
+1. Review the risk analysis generated by GitHub Copilot.
+
+By using GitHub Copilot's analytical capabilities, you've identified performance bottlenecks in the ContosoOnlineStore application. The analysis provides a roadmap for optimization efforts, focusing on algorithmic improvements, caching strategies, and asynchronous processing patterns. Analyzing AI-suggested code optimizations helps to identify risks associated with potential performance improvements. Manual code reviews, security reviews, and testing should be part of any code refactoring effort.
 
 ### Refactor performance-critical code using GitHub Copilot Chat (Agent mode)
 
-GitHub Copilot's Agent mode provides an autonomous agent that assists with programming tasks. Developers assign high-level tasks and then start an agentic code editing session to accomplish the task. In agent mode, Copilot autonomously plans the work needed and determines the relevant files and context. The agent can make changes to your code, run tests, and even deploy your application.
+GitHub Copilot's Agent mode provides an autonomous agent that assists with programming tasks. Developers assign high-level tasks to the agent and then start an agentic code editing session to complete the task. The GitHub Copilot agent autonomously evaluates the required work, determines the relevant files and context, and plans how to complete the task. The agent can make changes to your code, run tests, and even deploy your application.
 
 In Agent mode, GitHub Copilot can generate optimized code implementations, suggest architectural improvements, and help implement performance enhancements.
 
@@ -282,85 +355,121 @@ Use the following steps to complete this task:
 
     In the Chat view, change the mode from **Ask** to **Agent**. Agent mode provides more targeted code generation and modification capabilities.
 
-1. Assign a task to the agent that optimizes the GetProductById method in the ProductCatalog class.
+1. Open the **ProductCatalog.cs** file, and then select the **GetProductById** method.
 
-    Open **ProductCatalog.cs** and select the **GetProductById** method. Use the following prompt in Chat:
+1. Assign a task to the agent that optimizes the GetProductById method.
+
+    For example, enter the following task in the Chat view:
 
     ```text
-    Optimize this GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
+    Review the current chat session. Optimize the GetProductById method to improve performance. Consider using a dictionary lookup instead of linear search and implement proper caching mechanisms. Retain any existing artificial/simulated delays for "before and after" performance comparisons. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Review GitHub Copilot's suggested improvements and implement the changes. The optimized version should include:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Dictionary-based product lookups for O(1) performance.
     - Proper cache initialization and management.
     - Reduced redundant operations.
 
+    You can review and accept (or reject) individual edits in the code editor, or you can accept all changes at once by selecting **Keep** in the Chat view.
+
+    > **NOTE**: As you complete this section of the exercise, consider the security vulnerabilities and other issues that were identified in the previous task. Developers should ensure that no new vulnerabilities are introduced during the optimization process. In a production environment, manual code reviews, security reviews, and testing should be part of your process.
+
+1. In the code editor, select the **SearchProducts** method.
+
 1. Assign a task to the agent that enhances the efficiency of the SearchProducts method.
 
-    Select the **SearchProducts** method in **ProductCatalog.cs** and use this prompt:
+    For example, enter the following task in the Chat view:
 
     ```text
-    Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm and remove unnecessary delays while maintaining search functionality. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
+    Review the current chat session. Refactor the SearchProducts method to eliminate performance bottlenecks. Optimize the search algorithm while maintaining search functionality. Retain any existing artificial/simulated delays for "before and after" performance comparisons. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Apply GitHub Copilot's suggestions to implement:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Efficient string matching algorithms.
     - Parallel processing for multiple search criteria.
     - Optimized cache key generation.
 
-1. Assign a task to the agent that improves the performance of the CalculateOrderTotal method in the OrderProcessor class.
+1. Save and then close the **ProductCatalog.cs** file.
 
-    Open **OrderProcessor.cs** and select the **CalculateOrderTotal** method. Submit this prompt:
+1. Open the **OrderProcessor.cs** file, and then select the **CalculateOrderTotal** method.
+
+1. Assign a task to the agent that improves the performance of the CalculateOrderTotal method.
+
+    For example, enter the following task in the Chat view:
 
     ```text
-    Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
+    Review the current chat session. Optimize the CalculateOrderTotal method to reduce redundant product lookups and improve calculation performance. Consider batch operations and caching strategies. Retain any existing artificial/simulated delays for "before and after" performance comparisons. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Implement the suggested improvements, which should include:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Batch product retrieval to eliminate N+1 query patterns.
     - Cached product information during order processing.
     - Optimized tax and shipping calculations.
 
-1. Optimize the FinalizeOrderAsync method.
+1. In the code editor, select the **FinalizeOrderAsync** method.
 
-    Select the **FinalizeOrderAsync** method in **OrderProcessor.cs** and use this prompt:
+1. Assign a task to the agent that improves the performance of the FinalizeOrderAsync method.
+
+    For example, enter the following task in the Chat view:
 
     ```text
-    Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
+    Review the current chat session. Refactor the FinalizeOrderAsync method to improve async performance. Focus on parallel processing where possible and optimizing await patterns. Retain any existing artificial/simulated delays for "before and after" performance comparisons. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Apply the suggested changes to achieve:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Parallel processing of independent operations
     - Optimized async/await usage
     - Better exception handling in async contexts
 
-1. Enhance InventoryManager batch operations.
+1. Save and then close the **OrderProcessor.cs** file.
 
-    Open **InventoryManager.cs** and select the **UpdateStockLevels** method. Use this prompt:
+1. Open the **InventoryManager.cs** file, and then select the **UpdateStockLevels** method.
+
+1. Assign a task to the agent that improves the performance of the UpdateStockLevels method.
+
+    For example, enter the following task in the Chat view:
 
     ```text
-    Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging, but retain any existing artificial delays for performance comparison.
+    Review the current chat session. Optimize the UpdateStockLevels method to support batch operations and reduce individual update overhead. Implement efficient logging, but retain any existing artificial delays for performance comparison. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Implement the improvements to include:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Batch stock level updates
     - Efficient logging strategies
     - Reduced blocking operations
 
+1. Save and then close the **OrderProcessor.cs** file.
+
+1. Open the **EmailService.cs** file.
+
+1. Assign a task to the agent that improves the performance of the email sending methods.
+
 1. Improve EmailService asynchronous processing.
 
-    Open **Services/EmailService.cs** and select the email sending methods. Submit this prompt:
+    For example, enter the following task in the Chat view:
 
     ```text
-    Optimize the email service to support parallel email processing and improve async performance. Consider implementing email queuing and batch operations. Retain any existing artificial/simulated delays for "before and after" performance comparisons.
+    Review the current chat session. Optimize the email service methods to support parallel email processing and improve async performance. Consider implementing email queuing and batch operations. Retain any existing artificial/simulated delays for "before and after" performance comparisons. Ensure that the refactored code doesn't introduce security vulnerabilities or other issues.
     ```
 
-    Apply the suggested optimizations for:
+1. Take a minute to review the edits suggested by GitHub Copilot, and then accept the changes.
+
+    The optimized version should include:
 
     - Parallel email content generation
     - Asynchronous email sending operations
@@ -374,9 +483,9 @@ After implementing performance optimizations, it's crucial to validate that the 
 
 Use the following steps to complete this task:
 
-1. Build and test the refactored application.
+1. Build and run the refactored application.
 
-    Run the following commands in the Visual Studio Code terminal to ensure the application builds successfully:
+    Run the following command in the Visual Studio Code terminal to ensure the application builds successfully:
 
     ```bash
     dotnet build
@@ -386,46 +495,35 @@ Use the following steps to complete this task:
 
 1. Run the performance test suite.
 
-    Execute the application to measure the performance improvements:
+    Run the following command in the Visual Studio Code terminal to generate performance metrics for the refactored code:
 
     ```bash
     dotnet run
     ```
 
-    Compare the new performance metrics with your baseline measurements from the first task. You should observe:
+1. Save the new performance metrics in a file named **optimized_metrics.txt**.
 
-    - Significantly reduced order processing time (from 2000-3000ms to under 500ms)
-    - Faster product lookup operations
-    - Improved search performance
-    - Better inventory management response times
+    Use the EXPLORER view to create a text file named optimized_metrics.txt in the Benchmarks folder, and then copy the console output into the optimized_metrics.txt file.
 
-1. Execute the comprehensive benchmark suite.
+1. Take a minute to manually compare the optimized performance metrics with your baseline measurements from the first task.
 
-    Run the detailed performance benchmarks to get precise measurements:
+    You should observe the following performance improvements:
 
-    ```bash
-    dotnet run -c Release -- benchmark
-    ```
+    - Significantly faster product lookup operations.
+    - Improved search performance.
+    - Reduced order processing time.
+    - Improved performance of concurrent operations.
 
-    Review the BenchmarkDotNet reports, which provide detailed statistics including:
+    Verify the functional correctness for the refactored code.
 
-    - Mean execution times with confidence intervals
-    - Memory allocation patterns
-    - Throughput measurements
-    - Statistical significance of improvements
+    - Verify that order totals are calculated correctly.
+    - Confirm that inventory levels are updated properly.
+    - Verify that email notifications are sent successfully.
+    - Validate that security validation still functions.
 
-1. Validate functional correctness.
+1. Build and run the unit test project.
 
-    Ensure that the optimizations haven't introduced functional regressions:
-
-    - Verify that order totals are calculated correctly
-    - Confirm that inventory levels are updated properly
-    - Test that email notifications are sent successfully
-    - Validate that security validation still functions
-
-1. Run the unit test suite.
-
-    Execute the existing unit tests to ensure code correctness:
+    For example, in the Visual Studio Code terminal, navigate to the **ContosoOnlineStore.Tests** folder and run the following command:
 
     ```bash
     dotnet test
@@ -433,24 +531,46 @@ Use the following steps to complete this task:
 
     All tests should pass, confirming that the refactored code maintains the expected behavior.
 
-1. Document the performance improvements.
+    The output should look similar to the following:
 
-    Use GitHub Copilot to help document the changes. Submit this prompt in Chat:
-
-    ```text
-    Help me create a summary of the performance optimizations implemented in this ContosoOnlineStore project. Include before/after metrics and the main optimization strategies used.
+    ```plaintext
+    Restore complete (0.6s)
+      ContosoOnlineStore succeeded (0.6s) → C:\Users\cahowd\Desktop\GHCopilotEx10LabApps\ContosoOnlineStore\bin\Debug\net9.0\ContosoOnlineStore.dll
+      ContosoOnlineStore.Tests succeeded (0.2s) → bin\Debug\net9.0\ContosoOnlineStore.Tests.dll
+    [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.4.5+1caef2f33e (64-bit .NET 9.0.9)
+    [xUnit.net 00:00:02.94]   Discovering: ContosoOnlineStore.Tests
+    [xUnit.net 00:00:03.02]   Discovered:  ContosoOnlineStore.Tests
+    [xUnit.net 00:00:03.02]   Starting:    ContosoOnlineStore.Tests
+    [xUnit.net 00:00:03.18]   Finished:    ContosoOnlineStore.Tests
+      ContosoOnlineStore.Tests test succeeded (4.7s)
+    
+    Test summary: total: 16, failed: 0, succeeded: 16, skipped: 0, duration: 4.7s
+    Build succeeded in 7.0s
     ```
 
-    Create a performance improvement report that includes:
+1. Ask GitHub Copilot to help analyze the performance improvements.
 
-    - Baseline vs. optimized performance metrics
-    - Key optimization techniques applied
-    - Areas of most significant improvement
-    - Recommendations for future enhancements
+    For example, enter the following prompt in the Chat view:
 
-The testing and verification process confirms that your performance optimization efforts have been successful. The ContosoOnlineStore application now demonstrates significantly improved performance while maintaining its functional requirements and architectural integrity.
+    ```text
+    Compare the baseline_metrics.txt and optimized_metrics.txt files. Summarize the performance improvements achieved through the optimizations. Review the codebase and calculate the time associated with simulated delays for each performance test. Subtract the time associated with simulated delays from the performance data and summarize the impact of code optimizations.
+    ```
 
-Through this exercise, you've learned how to use GitHub Copilot as a powerful tool for performance analysis and optimization, demonstrating the value of AI-assisted development in addressing complex performance challenges.
+1. Take a minute to review the (performance improvements) analysis generated by GitHub Copilot.
+
+    The analysis should highlight the specific performance improvements achieved through the optimizations, excluding the impact of simulated delays. This provides a clearer picture of the effectiveness of the code changes.
+
+1. Optional - If you ran the detailed performance benchmark suite at the start of this exercise and saved the results, you can run the detailed performance benchmark again and have GitHub Copilot compare the results.
+
+    To run the detailed performance benchmarks, execute the following command in the Visual Studio Code terminal:
+
+    ```bash
+    dotnet run -c Release -- benchmark
+    ```
+
+    Ask GitHub Copilot to help you review the BenchmarkDotNet reports.
+
+The testing and verification process confirms that your performance optimization efforts have been successful. The ContosoOnlineStore application now demonstrates improved performance while maintaining its functional requirements and architectural integrity.
 
 ## Summary
 
@@ -462,3 +582,7 @@ In this exercise, you successfully used GitHub Copilot to identify and resolve p
 - **Validation**: Confirmed both performance improvements and functional correctness through comprehensive testing
 
 The optimized ContosoOnlineStore demonstrates dramatic performance improvements while maintaining code quality and architectural best practices. This approach showcases how AI-powered development tools can accelerate performance optimization efforts and help developers make data-driven improvements to complex applications.
+
+## Clean up
+
+Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them as needed. If you're using a local PC as your lab environment, you can archive or delete the sample projects folder that you created for this exercise.
