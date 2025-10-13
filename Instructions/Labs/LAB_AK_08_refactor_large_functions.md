@@ -6,7 +6,7 @@ lab:
 
 # Refactor large functions using GitHub Copilot
 
-Large functions can be difficult to read, maintain, and test. They often contain multiple responsibilities and can be challenging to understand at a glance. Refactoring large functions into smaller, more focused functions can improve code readability and maintainability.
+Large functions can be difficult to read, maintain, and test. They often contain multiple responsibilities and can be challenging to understand at a glance. Code readability and maintainability improves when large functions are refactored into smaller, more focused functions.
 
 In this exercise, you review an existing project that contains a large function, analyze your options for smaller single-responsibility functions, refactor the large function into smaller functions, and test the refactored code to ensure it works as intended. You use GitHub Copilot in Ask mode to gain an understanding of an existing code project and explore options for refactoring the logic. You use GitHub Copilot in Agent mode to refactor the code by extracting code sections from the large function to create smaller functions. You test the original and refactored code to ensure the refactored code works as intended.
 
@@ -16,19 +16,19 @@ This exercise should take approximately **30** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
 
 ### Configure your lab environment
 
 If you're using a local PC as a lab environment for this exercise:
 
-- For help configuring your local PC as your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320147" target="_blank">Configure your lab environment resources</a>.
+- For help with configuring your local PC as your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320147" target="_blank">Configure your lab environment resources</a>.
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 If you're using a hosted lab environment for this exercise:
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 - To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
@@ -92,7 +92,7 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help refactoring large functions in legacy applications. Your goal is to improve code readability and maintainability while preserving the existing functionality. You're assigned to the following app:
+You're a software developer working for a consulting firm. Your clients need help with refactoring large functions in legacy applications. Your goal is to improve code readability and maintainability while preserving the existing functionality. You're assigned to the following app:
 
 - E-CommerceOrderProcessing: This e-commerce app is used to process customer orders. The process includes order validation, inventory management, payment processing, shipping coordination, and customer notifications. The application uses Clean Architecture principles with a layered structure, but contains a large method in the **OrderProcessor** class that handles multiple responsibilities and needs to be refactored into smaller, more focused methods.
 
@@ -107,7 +107,7 @@ This exercise includes the following tasks:
 
 The first step in any refactoring effort is to ensure that you understand the existing codebase. It's important to understand the code structure, the business logic, and the results generated when the code runs.
 
-In this task, you'll review the main components of the E-commerce order processing project and run the app to observe its functionality.
+In this task, you review the main components of the E-commerce order processing project and run the app to observe its functionality.
 
 Use the following steps to complete this task:
 
@@ -147,13 +147,13 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the **OrderProcessor** class.
 
-    Notice the ProcessOrder method. This method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations. The ProcessOrder method is intentionally large and complex to demonstrate real-world scenarios where business logic has accumulated over time, making it difficult to read, test, and maintain.
+    Notice the ProcessOrder method. This method represents the core business logic for processing customer orders. Notice that it handles multiple distinct operations. The ProcessOrder method is intentionally large and complex to demonstrate real-world scenarios where business logic grew in complexity over time, making it difficult to read, test, and maintain.
 
 1. Right-click the **ProcessOrder** method, and then select **Copilot** > **Explain**.
 
     If prompted to **Select an enclosing range to explain**, select **ProcessOrder**.
 
-    GitHub Copilot will analyze the ProcessOrder method and provide a detailed explanation of what the code does, helping you understand the business logic before you investigate refactoring options.
+    GitHub Copilot analyzes the ProcessOrder method and provide a detailed explanation of what the code does, helping you understand the business logic before you investigate refactoring options.
 
 1. Take a couple minutes to review GitHub Copilot's explanation.
 
@@ -171,7 +171,7 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-1. Review the console output that's generated when the application runs.
+1. Review the console output generated by the application.
 
     The application generates output for four test cases. Each test case demonstrates a different scenario:
 
@@ -186,13 +186,13 @@ Use the following steps to complete this task:
 
     The ProcessOrder method has several distinct responsibilities. Each of the corresponding code sections could be extracted into a separate method.
 
-Understanding the existing functionality and identifying refactoring opportunities will help you create a refactoring strategy that maintains business logic while improving code structure. The layered architecture already provides good separation of concerns at the project level, but the large ProcessOrder method needs attention.
+Understanding the existing functionality and identifying refactoring opportunities helps you create a refactoring strategy that maintains business logic while improving code structure. The layered architecture already provides good separation of concerns at the project level, but the large ProcessOrder method needs attention.
 
 ### Identify refactoring opportunities using GitHub Copilot Chat (Ask mode)
 
 GitHub Copilot Chat's Ask mode is a great tool for analyzing complex code and identifying opportunities for refactoring large methods. In Ask mode, Copilot can analyze your code structure and suggest ways to break down monolithic methods into smaller, more focused methods.
 
-In this task, you'll use GitHub Copilot to evaluate the ProcessOrder method and identify refactoring opportunities that maintain business logic while improving code structure.
+In this task, you use GitHub Copilot to evaluate the ProcessOrder method and identify refactoring opportunities that maintain business logic while improving code structure.
 
 Use the following steps to complete this task:
 
@@ -248,7 +248,7 @@ Use the following steps to complete this task:
     - Guidance on how to handle errors consistently across methods.
     - Explanations of how the refactored structure improves maintainability.
 
-1. Ask for additional guidance on error handling patterns.
+1. Ask for more guidance on error handling patterns.
 
     Understanding the error handling process is crucial for maintaining existing behavior when you refactor the ProcessOrder method. You can have GitHub Copilot analyze the current error handling strategy and suggest a way to maintain or improve the existing behavior.
 
@@ -260,7 +260,7 @@ Use the following steps to complete this task:
 
 1. Take a couple minutes to review the error handling recommendations.
 
-    GitHub Copilot should provide guidance on maintaining consistent error handling patterns across the refactored methods. This is critical because the current method has complex error handling with rollback procedures that must be preserved.
+    GitHub Copilot should provide guidance on maintaining consistent error handling patterns across the refactored methods. This guidance is critical because the current method has complex error handling with rollback procedures that must be preserved.
 
     The recommendations should address:
     - How to maintain the current rollback behavior (like releasing inventory on payment failures).
@@ -274,7 +274,7 @@ GitHub Copilot's Ask mode excels at analyzing complex code structures and provid
 
 Agent mode enables you to assign complex code refactoring tasks to GitHub Copilot. The assigned tasks can include creating and/or updating multiple files. GitHub Copilot Agent processes tasks autonomously, testing and debugging updates as it works, and keeps you informed by reporting its progress in the Chat view.
 
-In this task, you'll use GitHub Copilot Agent to systematically refactor the ProcessOrder method by extracting smaller, focused methods while preserving the existing business logic and error handling behavior.
+In this task, you use GitHub Copilot Agent to systematically refactor the ProcessOrder method by extracting smaller, focused methods while preserving the existing business logic and error handling behavior.
 
 Use the following steps to complete this task:
 
@@ -314,7 +314,7 @@ Use the following steps to complete this task:
 
     The code comment should be located after the final closing brace of the ProcessOrder method and before the closing brace of the OrderProcessor class.
 
-    You'll instruct GitHub Copilot to use this location when it creates the new single-purpose methods inside the OrderProcessor class.
+    You can instruct GitHub Copilot to use this location when it creates the new single-purpose methods inside the OrderProcessor class.
 
 1. Ask GitHub Copilot Agent to create stub methods that can be used to hold the extracted code.
 
@@ -340,7 +340,7 @@ Use the following steps to complete this task:
 
 1. Ask GitHub Copilot Agent to refactor the ProcessOrder method.
 
-    Refactoring large methods works best when you're able to break the task down into manageable stages. In this case, the stages align to the single-process methods that you've already identified. The same approach should be applied when using an agent to refactor the code for you. Write a task that instructs the agent to refactor one section at a time, and then test the updates before moving on to the next section.
+    Refactoring large methods works best when you're able to break the task down into manageable stages. In this case, the stages align to the single-process methods that you already identified. The same approach should be applied when using an agent to refactor the code for you. Write a task that instructs the agent to refactor one section at a time, and then test the updates before moving on to the next section.
 
     However, working with GitHub Copilot Agent can be like having a developer available who can work independently on a series of assignments. In this case, the series of assignments is to refactor each code section and test the updates before moving on to the next section. In other words, you can write a single task (prompt) that asks GitHub Copilot Agent to refactor each of the code sections, testing each of the single-purpose methods before it moves on to the refactoring the next section.
 
@@ -356,7 +356,7 @@ Use the following steps to complete this task:
 
     GitHub Copilot Agent should start by describing its plan for refactoring each section of the ProcessOrder method. The plan should include a step-by-step approach for each code section that includes: moving code from the ProcessOrder method into the corresponding single-process method, replacing the extracted code in ProcessOrder with a method call, and testing the app to ensure that the refactored code works as intended.
 
-    The agent will also provide updates in the Chat view that describe its progress, including any issues it encounters. You can interact with the agent to clarify instructions or provide additional context as needed.
+    The agent also provides updates in the Chat view that describe its progress, including any issues it encounters. You can interact with the agent to clarify instructions or provide additional context as needed.
 
     GitHub Copilot Agent usually asks for permission to Build or Run the application during the refactoring process. When this occurs, select the **Continue** button in the Chat view to allow the agent to proceed.
 
@@ -448,9 +448,9 @@ GitHub Copilot Agent excels at systematic refactoring tasks that require underst
 
 ### Test the refactored e-commerce order processing code
 
-Manual testing and verification ensures that your refactored code maintains the intended business logic and functionality. A successful refactoring process should improve code structure while producing identical behavior to the original implementation.
+Manual testing and verification ensure that your refactored code maintains the intended business logic and functionality. A successful refactoring process should improve code structure while producing identical behavior to the original implementation.
 
-In this task, you'll test the refactored code to verify that all business logic has been preserved and that the refactoring has achieved its goals of improved maintainability and readability.
+In this task, you test the refactored code to verify that all business logic is preserved and that code readability and maintainability are improved.
 
 Use the following steps to complete this task:
 
@@ -465,9 +465,9 @@ Use the following steps to complete this task:
 
     The refactored code should produce exactly the same results, demonstrating that the business logic has been preserved throughout the refactoring process.
 
-1. Create and test additional edge case scenarios to ensure robustness.
+1. Create and test more edge case scenarios to ensure robustness.
 
-    Create additional test scenarios to verify that error handling still works correctly in various edge cases. You can modify the test cases in **Program.cs** temporarily to test additional scenarios.
+    Create extra test scenarios to verify that error handling still works correctly in various edge cases. You can modify the test cases in **Program.cs** temporarily to test other scenarios.
 
     For example, you can add the following code snippet before the code that displays the test summary:
 
@@ -491,13 +491,13 @@ Use the following steps to complete this task:
     testResults.Add($"Test 6: {(result6.IsSuccess ? "FAILED" : "PASSED")} - Should reject invalid shipping address");
     ```
 
-    These additional tests help verify that the refactored validation logic handles edge cases correctly and that error messages remain consistent with the original implementation.
+    These extra tests help verify that the refactored validation logic handles edge cases correctly and that error messages remain consistent with the original implementation.
 
 1. Run the application and verify test results.
 
     When you run the application, you should see the test results displayed in the console, indicating whether each test case passed or failed. Pay attention to any error messages or logs that are generated during the test runs.
 
-    For example, if you added the test 5 and test 6 scenarios listed above, the new test output and updated summary should look similar to the following:
+    For example, if you added the test 5 and test 6 scenarios listed above, the new test output and updated summary should look similar to the following sample:
 
     ```text
 
@@ -523,7 +523,7 @@ Use the following steps to complete this task:
 
     Check the **order_audit_log.txt** file to ensure that audit logging is still functioning properly throughout the refactored methods. The most recent events are located at the bottom of the file.
 
-    The audit trail should be complete and demonstrate that logging has been preserved across all the extracted methods.
+    The audit trail should be complete and demonstrate that logging is preserved across all the extracted methods.
 
     > **TIP**: The order_audit_log.txt file is created/updated in the current working directory of the application. Depending on how you choose to run the ECommerce.Console project, the working directory could be the "src/ECommerce.Console/bin/Debug/net9.0" directory rather than the "src/ECommerce.Console" directory. To generate the audit file in the "src/ECommerce.Console" directory, run the application from the Terminal using a .NET CLI command.
 
@@ -551,7 +551,7 @@ Use the following steps to complete this task:
     - Unexpected Errors:
         - LogUnexpectedError(string orderId, string error)
 
-Manual testing verifies that your refactoring efforts have successfully achieved the goal of improving code structure while maintaining system functionality. The refactored code now provides a much more maintainable foundation where each method has a clear, focused responsibility, making future enhancements and bug fixes significantly easier to implement.
+Manual testing verifies that your refactoring efforts achieved the goal of improving code structure while maintaining system functionality. The refactored code now provides a much more maintainable foundation where each method has a clear, focused responsibility, making future enhancements and bug fixes easier to implement.
 
 ## Summary
 
@@ -559,4 +559,4 @@ In this exercise, you learned how to use GitHub Copilot to refactor large functi
 
 ## Clean up
 
-Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them as needed. If you're using a local PC as your lab environment, you can archive or delete the sample projects folder that you created for this exercise.
+Now that you finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. If you made any changes, revert them as needed. If you're using a local PC as your lab environment, you can archive or delete the sample projects folder that you created for this exercise.
