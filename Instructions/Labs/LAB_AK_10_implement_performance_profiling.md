@@ -16,19 +16,19 @@ This exercise should take approximately **30** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
 
 ### Configure your lab environment
 
 If you're using a local PC as a lab environment for this exercise:
 
-- For help configuring your local PC as your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320147" target="_blank">Configure your lab environment resources</a>.
+- For help with configuring your local PC as your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320147" target="_blank">Configure your lab environment resources</a>.
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 If you're using a hosted lab environment for this exercise:
 
-- For help enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
+- For help with enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
 - To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
@@ -104,9 +104,9 @@ Use the following steps to download the sample project and open it in Visual Stu
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help implementing performance profiling in legacy applications. Your goal is to improve code performance while preserving readability and the existing functionality. You're assigned to the following app:
+You're a software developer working for a consulting firm. Your clients need help with implementing performance profiling in legacy applications. Your goal is to improve code performance while preserving readability and the existing functionality. You're assigned to the following app:
 
-- ContosoOnlineStore: This is an e-commerce application that processes customer orders. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains performance bottlenecks that mirror real-world scenarios.
+- ContosoOnlineStore: ContosoOnlineStore is an e-commerce application that processes customer orders. The application includes product catalog management with search capabilities, inventory tracking with stock reservations, order processing with validation and receipts, email notification services, and security validation. The application uses modern .NET architecture patterns including dependency injection, structured logging, and configuration management, but contains performance bottlenecks that mirror real-world scenarios.
 
 > **NOTE**: Code bottlenecks include intentional inefficiencies and performance issues, as well as simulated delays that approximate real-world timing for external dependencies. Simulated delays should be retained when the code is refactored to allow for "before and after" performance comparisons.
 
@@ -121,7 +121,7 @@ This exercise includes the following tasks:
 
 The first step in any code refactoring effort is to understand the existing codebase, including the project structure and business logic. When you're working on performance improvements, it's also important to establish baseline performance metrics.
 
-In this task, you'll examine the main components of the ContosoOnlineStore project, run the application to establish baseline performance metrics, and identify potential areas for optimization.
+In this task, you examine the main components of the ContosoOnlineStore project, run the application to establish baseline performance metrics, and identify potential areas for optimization.
 
 Use the following steps to complete this task:
 
@@ -129,7 +129,7 @@ Use the following steps to complete this task:
 
     The codebase follows modern .NET architecture patterns with clear separation of concerns. The main architectural components include:
 
-    - **Configuration**: Strongly-typed configuration with validation
+    - **Configuration**: Strongly typed configuration with validation
     - **Services**: Business services with interfaces for testability  
     - **Exceptions**: Custom domain-specific exceptions
     - **Benchmarks**: Professional performance testing with BenchmarkDotNet
@@ -167,7 +167,7 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-    The application will execute a comprehensive performance test that includes:
+    The application executes a comprehensive performance test that includes:
 
     - Order processing with timing measurements.
     - Product catalog operations (search, lookup, category filtering).
@@ -199,7 +199,7 @@ Use the following steps to complete this task:
     dotnet run -c Release -- benchmark
     ```
 
-    Executing this command will generate detailed performance reports including memory allocation patterns and statistical analysis. If you want, you can save the detailed performance benchmark reports for later comparison.
+    Executing this command generates detailed performance reports including memory allocation patterns and statistical analysis. If you want, you can save the detailed performance benchmark reports for later comparison.
 
 Understanding the existing architecture and baseline performance metrics prepares the way for identifying optimization opportunities.
 
@@ -207,7 +207,7 @@ Understanding the existing architecture and baseline performance metrics prepare
 
 GitHub Copilot Chat's Ask mode is an excellent tool for analyzing complex codebases and identifying performance bottlenecks. In Ask mode, Copilot can analyze your code patterns, identify inefficient algorithms, and suggest optimization strategies based on best practices.
 
-In this task, you'll use GitHub Copilot to systematically analyze the ContosoOnlineStore application and identify specific performance improvement opportunities.
+In this task, you use GitHub Copilot to systematically analyze the ContosoOnlineStore application and identify specific performance improvement opportunities.
 
 Use the following steps to complete this task:
 
@@ -339,7 +339,7 @@ Use the following steps to complete this task:
 
 1. Review the risk analysis generated by GitHub Copilot.
 
-By using GitHub Copilot's analytical capabilities, you've identified performance bottlenecks in the ContosoOnlineStore application. The analysis provides a roadmap for optimization efforts, focusing on algorithmic improvements, caching strategies, and asynchronous processing patterns. Analyzing AI-suggested code optimizations helps to identify risks associated with potential performance improvements. Manual code reviews, security reviews, and testing should be part of any code refactoring effort.
+By using GitHub Copilot's analytical capabilities, you identified performance bottlenecks in the ContosoOnlineStore application. The analysis provides a roadmap for optimization efforts, focusing on algorithmic improvements, caching strategies, and asynchronous processing patterns. Analyzing AI-suggested code optimizations helps to identify risks associated with potential performance improvements. Manual code reviews, security reviews, and testing should be part of any code refactoring effort.
 
 ### Refactor performance-critical code using GitHub Copilot Chat (Agent mode)
 
@@ -347,7 +347,7 @@ GitHub Copilot's Agent mode provides an autonomous agent that assists with progr
 
 In Agent mode, GitHub Copilot can generate optimized code implementations, suggest architectural improvements, and help implement performance enhancements.
 
-In this task, you'll use GitHub Copilot Agent mode to systematically address the performance bottlenecks identified in the previous task.
+In this task, you use GitHub Copilot Agent mode to systematically address the performance bottlenecks identified in the previous task.
 
 Use the following steps to complete this task:
 
@@ -491,7 +491,7 @@ Use the following steps to complete this task:
     dotnet build
     ```
 
-    Address any compilation errors that may have been introduced during the refactoring process.
+    Address any compilation errors that might have been introduced during the refactoring process.
 
 1. Run the performance test suite.
 
