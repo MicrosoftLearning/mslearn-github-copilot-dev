@@ -323,7 +323,7 @@ Use the following steps to complete this section of the exercise:
         ├── wireframe-navigation.txt
         ├── wireframe-product-details.txt
         ├── wireframe-products.txt
-            ```└── wireframe-shopping-cart.txt
+        └── wireframe-shopping-cart.txt
     ```
 
 1. Add the PRD and wireframe diagrams to the chat context.
