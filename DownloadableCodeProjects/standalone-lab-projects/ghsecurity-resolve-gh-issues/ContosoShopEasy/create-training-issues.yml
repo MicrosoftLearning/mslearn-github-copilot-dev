@@ -1,0 +1,169 @@
+name: Create ContosoShopEasy Training Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "CREATE" to confirm issue creation'
+        required: true
+        default: ''
+
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'CREATE'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Create Issue 1 - SQL Injection Vulnerability
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Fix SQL Injection Vulnerability in Product Search',
+            body: '## Security Issue: SQL Injection Vulnerability\n\n**Severity:** High\n**Location:** ContosoShopEasy/Services/ProductService.cs\n**Method:** SearchProducts(string searchTerm)\n\n### Description\nThe product search functionality is vulnerable to SQL injection attacks. User input is directly concatenated into SQL queries without proper parameterization or sanitization.\n\n### Vulnerable Code\n```csharp\n// Line ~35 in ProductService.cs\nstring simulatedQuery = $"SELECT * FROM Products WHERE Name LIKE \'%{searchTerm}%\' OR Description LIKE \'%{searchTerm}%\'";\nConsole.WriteLine($"[DEBUG] SQL Query: {simulatedQuery}");\n```\n\n### Security Risk\n- Attackers can manipulate database queries\n- Potential for data extraction, modification, or deletion\n- Bypassing application security controls\n\n### Expected Fix\n1. Use parameterized queries or prepared statements\n2. Implement proper input validation and sanitization\n3. Remove debug logging of SQL queries\n4. Add input length restrictions\n\n### Testing\nTry searching for: `\'; DROP TABLE Products; --`\n\n### Acceptance Criteria\n- [ ] User input is properly parameterized\n- [ ] No raw SQL construction with user input\n- [ ] Input validation prevents malicious characters\n- [ ] Debug logging removed or sanitized',
+            labels: ['security', 'high-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 2 - Weak Password Hashing
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Replace MD5 Password Hashing with Secure Alternative',
+            body: '## Security Issue: Weak Password Hashing\n\n**Severity:** High\n**Location:** ContosoShopEasy/Services/UserService.cs\n**Method:** GetMd5Hash(string input)\n\n### Description\nThe application uses MD5 for password hashing, which is cryptographically insecure and vulnerable to rainbow table attacks.\n\n### Vulnerable Code\n```csharp\n// Around line 55 in UserService.cs\nprivate string GetMd5Hash(string input)\n{\n    using (MD5 md5Hash = MD5.Create())\n    {\n        byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));\n        StringBuilder sBuilder = new StringBuilder();\n        for (int i = 0; i < data.Length; i++)\n        {\n            sBuilder.Append(data[i].ToString("x2"));\n        }\n        return sBuilder.ToString();\n    }\n}\n```\n\n### Security Risk\n- MD5 is cryptographically broken\n- Vulnerable to rainbow table attacks\n- Fast computation allows brute force attacks\n- No salt usage increases vulnerability\n\n### Expected Fix\n1. Replace MD5 with bcrypt, Argon2, or PBKDF2\n2. Implement proper salt generation\n3. Use appropriate work factors/iterations\n4. Update password verification logic\n\n### Acceptance Criteria\n- [ ] MD5 hashing completely removed\n- [ ] Secure password hashing algorithm implemented\n- [ ] Each password uses unique salt\n- [ ] Password verification updated accordingly',
+            labels: ['security', 'high-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 3 - Sensitive Data Exposure in Logs
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Remove Sensitive Data from Debug Logging',
+            body: '## Security Issue: Sensitive Data Exposure in Logs\n\n**Severity:** High\n**Locations:** Multiple files with debug logging\n\n### Description\nThe application logs sensitive information including passwords, credit card numbers, CVV codes, and personal information in debug output.\n\n### Vulnerable Code Examples\n\n**UserService.cs - Password Logging:**\n```csharp\nConsole.WriteLine($"[DEBUG] Registering user: {username}, Email: {email}, Password: {password}");\nConsole.WriteLine($"[DEBUG] Login attempt - Username: {username}, Password: {password}");\n```\n\n**PaymentService.cs - Credit Card Logging:**\n```csharp\nConsole.WriteLine($"[DEBUG] Processing payment for card: {cardNumber}");\nConsole.WriteLine($"[DEBUG] Expiry: {expiryDate}, CVV: {cvv}");\n```\n\n### Security Risk\n- Sensitive data stored in application logs\n- Potential compliance violations (PCI DSS, GDPR)\n- Information disclosure to unauthorized parties\n- Log files become high-value targets\n\n### Expected Fix\n1. Remove all sensitive data from logging\n2. Implement log sanitization\n3. Use masking for necessary debugging (e.g., ****1234 for cards)\n4. Configure appropriate log levels for production\n\n### Acceptance Criteria\n- [ ] No passwords logged in plaintext\n- [ ] No full credit card numbers in logs\n- [ ] No CVV codes in logs\n- [ ] Sensitive fields masked or omitted',
+            labels: ['security', 'high-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 4 - Hardcoded Credentials
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Remove Hardcoded Admin Credentials',
+            body: '## Security Issue: Hardcoded Admin Credentials\n\n**Severity:** Critical\n**Location:** ContosoShopEasy/Security/SecurityValidator.cs\n\n### Description\nAdmin credentials are hardcoded in the source code, creating a significant security vulnerability.\n\n### Vulnerable Code\n```csharp\n// Lines 7-9 in SecurityValidator.cs\nprivate const string ADMIN_USERNAME = "admin";\nprivate const string ADMIN_PASSWORD = "password123";\nprivate const string SESSION_PREFIX = "session";\n```\n\n### Security Risk\n- Credentials exposed in source code\n- Anyone with repository access has admin access\n- Impossible to rotate credentials without code changes\n- Credentials may be leaked through version control\n\n### Expected Fix\n1. Remove hardcoded credentials from source code\n2. Implement environment variable configuration\n3. Use secure credential management system\n4. Implement proper authentication mechanism\n\n### Acceptance Criteria\n- [ ] Hardcoded credentials completely removed\n- [ ] Environment variable configuration implemented\n- [ ] Default credentials changed from admin/password123\n- [ ] Configuration documentation updated',
+            labels: ['security', 'critical', 'bug', 'training']
+          });
+
+    - name: Create Issue 5 - Credit Card Data Storage
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Fix Credit Card Data Storage Violations',
+            body: '## Security Issue: Credit Card Data Storage Violations\n\n**Severity:** Critical\n**Locations:** Models/Order.cs, Services/PaymentService.cs\n\n### Description\nThe application stores full credit card numbers and CVV codes, violating PCI DSS compliance requirements.\n\n### Vulnerable Code\n\n**Order.cs - Full Card Storage:**\n```csharp\npublic string CardNumber { get; set; }  // This will be a security vulnerability - storing full card numbers\npublic string CVV { get; set; }  // Another security vulnerability - storing CVV\n```\n\n### PCI DSS Violations\n- **Requirement 3.2.1:** Do not store sensitive authentication data after authorization\n- **Requirement 3.2.2:** Do not store card verification code (CVV/CVC)\n- **Requirement 3.4:** Render cardholder data unreadable anywhere it is stored\n\n### Security Risk\n- PCI DSS compliance violations\n- Potential fines and penalties\n- Increased breach impact\n- Legal and regulatory consequences\n\n### Expected Fix\n1. **Never store CVV codes** - Remove CVV storage completely\n2. **Tokenize card numbers** - Store tokens instead of actual card numbers\n3. **Mask display values** - Show only last 4 digits (e.g., ****1234)\n4. **Implement proper encryption** - If card data must be stored temporarily\n\n### Acceptance Criteria\n- [ ] CVV storage completely removed\n- [ ] Full card numbers replaced with tokens\n- [ ] Only last 4 digits stored for display\n- [ ] Card type detection implemented',
+            labels: ['security', 'critical', 'bug', 'training']
+          });
+
+    - name: Create Issue 6 - Input Validation Bypass
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Fix Input Validation Security Bypass',
+            body: '## Security Issue: Input Validation Security Bypass\n\n**Severity:** High\n**Location:** ContosoShopEasy/Security/SecurityValidator.cs\n**Method:** ValidateInput(string input, string fieldName)\n\n### Description\nThe input validation method detects dangerous characters and XSS attempts but still returns `true`, allowing malicious input to pass through.\n\n### Vulnerable Code\n```csharp\n// Security vulnerability: No proper sanitization for SQL injection\nif (input.Contains("\'") || input.Contains("\\"") || input.Contains(";"))\n{\n    Console.WriteLine($"[WARNING] Potentially dangerous characters detected in {fieldName}: {input}");\n    // But still return true - vulnerability!\n}\n\nreturn true; // Always returns true - major vulnerability\n```\n\n### Security Risk\n- XSS (Cross-Site Scripting) attacks possible\n- SQL injection attempts pass validation\n- Malicious script execution in web contexts\n- Data integrity and security compromised\n\n### Expected Fix\n1. **Reject dangerous input** - Return `false` when threats detected\n2. **Implement proper sanitization** - Clean input rather than just detecting\n3. **Use whitelist validation** - Allow only safe characters\n4. **Add comprehensive XSS protection**\n\n### Acceptance Criteria\n- [ ] Validation method rejects dangerous input\n- [ ] SQL injection patterns properly blocked\n- [ ] XSS patterns properly blocked\n- [ ] Appropriate error handling for rejected input',
+            labels: ['security', 'high-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 7 - Predictable Token Generation
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Fix Predictable Session Token Generation',
+            body: '## Security Issue: Predictable Session Token Generation\n\n**Severity:** Medium\n**Location:** ContosoShopEasy/Security/SecurityValidator.cs\n**Method:** GenerateSessionToken(string username)\n\n### Description\nSession tokens are generated using predictable patterns based on username and timestamp, making them vulnerable to session hijacking.\n\n### Vulnerable Code\n```csharp\npublic string GenerateSessionToken(string username)\n{\n    // Security vulnerability: Predictable token based on username and timestamp\n    string timestamp = DateTime.Now.ToString("yyyyMMddHHmm");\n    string token = $"{SESSION_PREFIX}_{username}_{timestamp}";\n    \n    // Security vulnerability: Log the generated token\n    Console.WriteLine($"[DEBUG] Generated token: {token}");\n    \n    return token;\n}\n```\n\n### Security Risk\n- Predictable token patterns enable brute force attacks\n- Session hijacking through token prediction\n- Timestamp-based tokens are easily guessable\n- Logging tokens exposes them to unauthorized access\n\n### Expected Fix\n1. **Use cryptographically secure random generation**\n2. **Implement sufficient token entropy**\n3. **Remove token logging**\n4. **Add token expiration**\n5. **Consider JWT or similar standards**\n\n### Acceptance Criteria\n- [ ] Cryptographically secure token generation\n- [ ] Sufficient entropy (minimum 128 bits)\n- [ ] Token logging removed\n- [ ] Token expiration implemented',
+            labels: ['security', 'medium-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 8 - Weak Email Validation
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Improve Email Validation Security',
+            body: '## Security Issue: Weak Email Validation\n\n**Severity:** Medium\n**Location:** ContosoShopEasy/Security/SecurityValidator.cs\n**Method:** ValidateEmail(string email)\n\n### Description\nThe email validation is extremely weak, only checking for the presence of "@" and "." characters, allowing malicious input to pass through.\n\n### Vulnerable Code\n```csharp\npublic bool ValidateEmail(string email)\n{\n    if (string.IsNullOrEmpty(email))\n        return false;\n\n    // Security vulnerability: Log email addresses\n    Console.WriteLine($"[DEBUG] Validating email: {email}");\n\n    // Security vulnerability: Weak email validation\n    return email.Contains("@") && email.Contains(".");\n}\n```\n\n### Security Risk\n- Invalid email formats accepted\n- Potential for email injection attacks\n- Bypasses proper email format validation\n- May allow XSS through email fields\n\n### Examples of Invalid Emails That Pass\n- `test@.com` (invalid domain)\n- `@example.com` (missing local part)\n- `test.@example.com` (trailing dot)\n- `test<script>@example.com` (XSS attempt)\n\n### Expected Fix\n1. **Implement proper regex validation**\n2. **Use built-in email validation**\n3. **Remove email logging**\n4. **Add length restrictions**\n5. **Sanitize email input**\n\n### Acceptance Criteria\n- [ ] Proper email format validation implemented\n- [ ] Invalid email formats rejected\n- [ ] Email length restrictions enforced\n- [ ] Email logging removed or anonymized',
+            labels: ['security', 'medium-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 9 - Insufficient Password Requirements
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Strengthen Password Security Requirements',
+            body: '## Security Issue: Insufficient Password Requirements\n\n**Severity:** Medium\n**Location:** ContosoShopEasy/Security/SecurityValidator.cs\n**Method:** ValidatePasswordStrength(string password)\n\n### Description\nPassword validation only requires 4 characters minimum with no complexity requirements, making accounts vulnerable to brute force attacks.\n\n### Vulnerable Code\n```csharp\npublic bool ValidatePasswordStrength(string password)\n{\n    if (string.IsNullOrEmpty(password))\n        return false;\n\n    // Security vulnerability: Log password in plaintext\n    Console.WriteLine($"[DEBUG] Checking password strength: {password}");\n\n    // Security vulnerability: Very weak password requirements\n    if (password.Length < 4)\n    {\n        Console.WriteLine("[WARNING] Password too short (minimum 4 characters)");\n        return false;\n    }\n\n    // Security vulnerability: No complexity requirements\n    return true;\n}\n```\n\n### Security Risk\n- Extremely weak passwords accepted (1234, test)\n- No complexity requirements\n- Vulnerable to dictionary attacks\n- Brute force attacks easily successful\n\n### Expected Fix\n1. **Increase minimum length** to 8-12 characters\n2. **Require character complexity** (uppercase, lowercase, numbers, symbols)\n3. **Remove password logging**\n4. **Add common password blacklist**\n5. **Implement password strength scoring**\n\n### Password Strength Guidelines\n- **Minimum 8 characters**\n- **At least 3 of 4 character types:**\n  - Uppercase letters (A-Z)\n  - Lowercase letters (a-z)\n  - Numbers (0-9)\n  - Special characters (!@#$%^&*)\n\n### Acceptance Criteria\n- [ ] Minimum 8 character requirement\n- [ ] Character complexity requirements\n- [ ] Common password blacklist\n- [ ] Password logging completely removed',
+            labels: ['security', 'medium-priority', 'bug', 'training']
+          });
+
+    - name: Create Issue 10 - Information Disclosure
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '🔐 Reduce Information Disclosure in Error Messages',
+            body: '## Security Issue: Information Disclosure in Error Messages\n\n**Severity:** Low-Medium\n**Locations:** Multiple service files\n\n### Description\nThe application provides verbose error messages and debug information that could help attackers understand the system architecture and identify vulnerabilities.\n\n### Examples of Information Disclosure\n\n**SecurityValidator.cs - System Configuration:**\n```csharp\npublic void RunSecurityAudit()\n{\n    Console.WriteLine("=== Security Audit Results ===");\n    Console.WriteLine($"Admin Username: {ADMIN_USERNAME}");\n    Console.WriteLine($"Admin Password: {ADMIN_PASSWORD}");\n    Console.WriteLine("Input validation: ENABLED (but vulnerable)");\n    Console.WriteLine("Password encryption: MD5 (WEAK)");\n    Console.WriteLine("SQL injection protection: DISABLED");\n}\n```\n\n**PaymentService.cs - Configuration Details:**\n```csharp\nConsole.WriteLine($"[DEBUG] Using payment gateway: {PAYMENT_GATEWAY_URL}");\nConsole.WriteLine($"[DEBUG] Merchant: {MERCHANT_NAME}");\n```\n\n### Security Risk\n- **Reconnaissance assistance** for attackers\n- **Architecture disclosure** reveals system design\n- **Configuration exposure** shows security weaknesses\n- **Version information** helps identify known vulnerabilities\n\n### Expected Fix\n1. **Remove security audit method** or restrict to admin-only\n2. **Sanitize error messages** for production\n3. **Implement proper logging levels**\n4. **Create user-friendly error messages**\n5. **Hide system implementation details**\n\n### Acceptance Criteria\n- [ ] Security audit method removed or restricted\n- [ ] Configuration details not exposed in logs\n- [ ] Generic error messages for users\n- [ ] Detailed logging only in development mode\n- [ ] Sensitive system information protected',
+            labels: ['security', 'low-priority', 'bug', 'training']
+          });
+
+    - name: Create Training Summary Issue
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '📋 ContosoShopEasy Security Training - Issue Summary',
+            body: '# ContosoShopEasy Security Training Issues\n\nWelcome to the ContosoShopEasy security training! This repository contains **10 intentional security vulnerabilities** that you will learn to identify and fix using GitHub Copilot.\n\n## 🎯 Learning Objectives\n\nBy completing these exercises, you will:\n- Identify common security vulnerabilities in e-commerce applications\n- Use GitHub Copilot to understand and fix security issues\n- Apply secure coding best practices\n- Implement proper input validation and sanitization\n- Secure authentication and session management\n- Protect sensitive data and payment information\n\n## 🔐 Security Issues to Fix\n\n### Critical Priority Issues\n1. **Hardcoded Admin Credentials** - Remove hardcoded admin username/password\n2. **Credit Card Data Storage** - Fix PCI DSS compliance violations\n\n### High Priority Issues  \n3. **SQL Injection Vulnerability** - Secure product search functionality\n4. **Weak Password Hashing** - Replace MD5 with secure hashing\n5. **Sensitive Data in Logs** - Remove passwords/cards from debug output\n6. **Input Validation Bypass** - Fix validation that detects but allows threats\n\n### Medium Priority Issues\n7. **Predictable Session Tokens** - Implement cryptographically secure tokens\n8. **Weak Email Validation** - Improve email format validation\n9. **Insufficient Password Requirements** - Strengthen password complexity rules\n\n### Low Priority Issues\n10. **Information Disclosure** - Reduce verbose error messages and debug output\n\n## 🚀 Getting Started\n\n1. **Run the application** to see the security issues in action:\n   ```bash\n   cd ContosoShopEasy\n   dotnet run\n   ```\n\n2. **Review the security audit output** - The app will display current vulnerabilities\n\n3. **Start with Critical issues** and work your way down by priority\n\n4. **Use GitHub Copilot** to help identify and fix each vulnerability:\n   - Ask Copilot to explain the security issue\n   - Request secure alternatives\n   - Get help with implementation\n\n5. **Test your fixes** by running the application after each change\n\n## 💡 GitHub Copilot Tips\n\n- Use descriptive comments to get better suggestions\n- Ask Copilot: "How can I fix this security vulnerability?"\n- Request: "Show me a secure way to implement this"\n- Try: "What are the security risks with this code?"\n\n## ✅ Verification\n\nAfter fixing each issue:\n- [ ] Code no longer contains the vulnerability\n- [ ] Application still functions correctly\n- [ ] Security best practices are implemented\n- [ ] No new security issues introduced\n\n## ⚠️ Important Notes\n\n- This code contains **intentional vulnerabilities** for training purposes\n- **Never use this code in production**\n- Each vulnerability represents real-world security issues\n- The goal is to learn secure coding practices\n\nHappy learning! 🎓',
+            labels: ['documentation', 'training', 'good first issue']
+          });
+
+    - name: Workflow Completion
+      run: |
+        echo "✅ Successfully created 10 security training issues!"
+        echo ""
+        echo "🎯 Issues created:"
+        echo "  1. SQL Injection Vulnerability (High)"
+        echo "  2. Weak Password Hashing (High)" 
+        echo "  3. Sensitive Data in Logs (High)"
+        echo "  4. Hardcoded Credentials (Critical)"
+        echo "  5. Credit Card Storage (Critical)"
+        echo "  6. Input Validation Bypass (High)"
+        echo "  7. Predictable Tokens (Medium)"
+        echo "  8. Weak Email Validation (Medium)"
+        echo "  9. Insufficient Password Requirements (Medium)"
+        echo "  10. Information Disclosure (Low)"
+        echo ""
+        echo "🚀 Ready for GitHub Copilot security training!"
+        echo "📋 Check the 'ContosoShopEasy Security Training - Issue Summary' issue for guidance."

@@ -16,7 +16,7 @@ This exercise should take approximately **40** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, GitHub CLI, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -72,7 +72,9 @@ This exercise includes the following tasks:
 
 ### Import the ContosoShopEasy repository
 
-GitHub repository imports allow you to create a copy of an existing repository in your own GitHub account. This process preserves the original repository's history while giving you full control over the imported copy. In this task, you import the ContosoShopEasy project and create GitHub issues that mirror the security vulnerabilities present in the codebase.
+GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy. Although GitHub Importer doesn't migrate Issues, PRs, or Discussions, the repository includes a GitHub Actions workflow that automates the creation of issues based on the codebase.
+
+In this task, you import the ContosoShopEasy project and create GitHub issues that mirror the security vulnerabilities present in the codebase.
 
 Use the following steps to complete this task:
 
@@ -80,31 +82,75 @@ Use the following steps to complete this task:
 
 1. Sign in to your GitHub account.
 
-1. Create a new repository named **ContosoShopEasy**.
+1. Open your repositories tab.
 
-    You can create a new repository by selecting the **+** icon in the top-right corner of GitHub and then selecting **New repository**.
+    You can open your repositories tab by clicking on your profile icon in the top-right corner, then selecting **Repositories**.
 
-1. Copy the ContosoShopEasy project files from your local lab environment to the new repository.
+1. On the Repositories tab, select the **New** button.
 
-    You can upload files directly through the GitHub web interface or clone the empty repository and push the ContosoShopEasy files from your local machine.
+1. Under the **Create a new repository** section, select **Import a repository**.
 
-1. Create the following GitHub issues to track the security vulnerabilities:
+    The **Import your project to GitHub** page appears.
 
-    - **SQL Injection Vulnerability**: Product search functionality accepts unsanitized input and is vulnerable to injection attacks. The `SearchProducts` method in `ProductService.cs` directly incorporates user input into simulated SQL queries without proper parameterization.
+1. On the Import your project to GitHub page, under **Your source repository details**, enter the following URL for the source repository:
 
-    - **Weak Password Hashing**: The application uses MD5 hashing for password storage, which is cryptographically weak. The `GetMd5Hash` method in `UserService.cs` implements this vulnerable hashing approach.
+    ```plaintext
+    https://github.com/MicrosoftLearning/resolve-github-issues-lab-project
+    ```
 
-    - **Sensitive Data Exposure**: Full credit card numbers, CVV codes, and passwords are logged in plaintext. The `ProcessPayment` method in `PaymentService.cs` and registration/login methods in `UserService.cs` expose sensitive information.
+1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
 
-    - **Hardcoded Admin Credentials**: Admin username and password are hardcoded in the `SecurityValidator.cs` class, making them accessible to anyone with source code access.
+1. In the **Repository name** field, enter **ResolveGitHubIssues** and then select **Begin import**.
 
-    - **Input Validation Issues**: The application accepts potentially dangerous characters without proper sanitization. The `ValidateInput` method in `SecurityValidator.cs` logs warnings but still accepts malicious input.
+    GitHub creates a new repository in your account with the ContosoShopEasy project files.
 
-    - **Information Disclosure**: Debug logging exposes sensitive system information and configuration details. Multiple classes throughout the application log sensitive data for debugging purposes.
+    > **NOTE**: It may take a few moments for the import process to complete.
 
-    - **Predictable Session Tokens**: Session tokens follow predictable patterns based on username and timestamp. The `GenerateSessionToken` method in `SecurityValidator.cs` creates easily guessable tokens.
+1. Wait for the import process to complete, then open the new repository.
 
-    - **File Upload Security Issues**: The application accepts dangerous file types without proper validation. The `ValidateFileUpload` method in `SecurityValidator.cs` provides insufficient protection against malicious uploads.
+1. Go to the Actions tab of your repository, and then run the GitHub Actions workflow named **Create ContosoShopEasy Training Issues**.
+
+1. Type "CREATE" to confirm issue creation.
+
+    The workflow will create issues in your repository for each security vulnerability identified in the codebase.
+
+    Critical Priority Issues
+
+    1. **Hardcoded Admin Credentials**  
+        Remove hardcoded admin username/password.
+
+    1. **Credit Card Data Storage**  
+        Fix PCI DSS compliance violations.
+
+    High Priority Issues
+
+    1. **SQL Injection Vulnerability**  
+        Secure product search functionality.
+
+    1. **Weak Password Hashing**  
+        Replace MD5 with secure hashing.
+
+    1. **Sensitive Data in Logs**  
+        Remove passwords/cards from debug output.
+
+    1. **Input Validation Bypass**  
+        Fix validation that detects but allows threats.
+
+    Medium Priority Issues
+
+    1. **Predictable Session Tokens**  
+        Implement cryptographically secure tokens.
+
+    1. **Weak Email Validation**  
+        Improve email format validation.
+
+    1. **Insufficient Password Requirements**  
+        Strengthen password complexity rules.
+
+    Low Priority Issues
+
+    1. **Information Disclosure**  
+         Reduce verbose error messages and debug output.
 
 ### Review the issues in GitHub
 
@@ -114,27 +160,23 @@ In this task, you review the open issues for the ContosoShopEasy project and und
 
 Use the following steps to complete this task:
 
-1. Navigate to your ContosoShopEasy repository in GitHub.
+1. Navigate to your ResolveGitHubIssues repository in GitHub.
 
 1. Select the **Issues** tab to view all open issues.
 
-1. Review each issue description and take note of the following security vulnerability categories:
+1. Review each issue description and take note that the workflow has created 10 specific security issues organized by priority:
 
-    **SQL Injection Vulnerabilities**: Product search functionality that directly incorporates user input into database queries, creating opportunities for malicious SQL injection attacks.
+    **Critical Priority Issues**: These represent the most severe security risks that could lead to complete system compromise or regulatory violations.
 
-    **Weak Cryptographic Practices**: Use of MD5 hashing for password storage, which is considered cryptographically broken and unsuitable for password security.
+    **High Priority Issues**: These are serious security vulnerabilities that could allow unauthorized access or data breaches.
 
-    **Sensitive Data Exposure**: Logging of full credit card numbers, CVV codes, passwords, and other sensitive information that should never be stored or logged in plaintext.
+    **Medium Priority Issues**: These represent security weaknesses that could be exploited but have lower immediate impact.
 
-    **Hardcoded Credentials**: Admin usernames and passwords embedded directly in source code, making them accessible to anyone with repository access.
+    **Low Priority Issues**: These are security improvements that reduce information leakage and improve overall security posture.
 
-    **Input Validation Failures**: Insufficient validation and sanitization of user input, allowing potentially malicious content to be processed by the application.
+1. Notice that each issue includes detailed descriptions of the vulnerability, the specific code location, examples of vulnerable code, security risks, and acceptance criteria for fixes.
 
-    **Information Disclosure**: Debug logging that exposes sensitive system configuration, internal processes, and user data.
-
-    **Weak Session Management**: Predictable session token generation that could allow attackers to hijack user sessions.
-
-    **File Upload Vulnerabilities**: Inadequate validation of uploaded files, potentially allowing execution of malicious code.
+1. Review the **ContosoShopEasy Security Training - Issue Summary** issue, which provides an overview of all vulnerabilities and learning objectives.
 
 1. Note that these issues represent common security vulnerabilities found in real-world applications and align with OWASP security guidelines.
 
@@ -146,12 +188,12 @@ In this task, you clone the ContosoShopEasy repository, examine the project stru
 
 Use the following steps to complete this task:
 
-1. Clone your ContosoShopEasy repository to your local development environment.
+1. Clone your ResolveGitHubIssues repository to your local development environment.
 
     Open a terminal window and run the following command, replacing `your-username` with your GitHub username:
 
     ```bash
-    git clone https://github.com/your-username/ContosoShopEasy.git
+    git clone https://github.com/your-username/ResolveGitHubIssues.git
     ```
 
 1. Open the cloned repository in Visual Studio Code.
@@ -185,22 +227,24 @@ Use the following steps to complete this task:
 
     Notice that the application logs sensitive information such as passwords, credit card numbers, admin credentials, and internal system details. This output provides clear evidence of the security issues that need to be addressed.
 
-1. Identify the specific files and methods associated with each security vulnerability:
+1. Take a minute to scan the code associated with each security vulnerability as defined in the GitHub issues:
 
-    - **SQL Injection**: `ProductService.cs` - `SearchProducts` method
-    - **Weak Password Hashing**: `UserService.cs` - `GetMd5Hash` method
-    - **Sensitive Data Exposure**: `PaymentService.cs` - `ProcessPayment` method and `UserService.cs` - registration/login methods
-    - **Hardcoded Credentials**: `SecurityValidator.cs` - admin credential constants
-    - **Input Validation**: `SecurityValidator.cs` - `ValidateInput` method
-    - **Information Disclosure**: Multiple classes with debug logging
-    - **Predictable Tokens**: `SecurityValidator.cs` - `GenerateSessionToken` method
-    - **File Upload Issues**: `SecurityValidator.cs` - `ValidateFileUpload` method
+    - **SQL Injection** (#1): `ProductService.cs` - `SearchProducts` method (around line 35)
+    - **Weak Password Hashing** (#2): `UserService.cs` - `GetMd5Hash` method (around line 55)
+    - **Sensitive Data in Logs** (#3): Multiple files - `UserService.cs`, `PaymentService.cs` registration/login/payment methods
+    - **Hardcoded Admin Credentials** (#4): `SecurityValidator.cs` - admin credential constants (lines 7-9)
+    - **Credit Card Data Storage** (#5): `Models/Order.cs` - CardNumber and CVV properties
+    - **Input Validation Bypass** (#6): `SecurityValidator.cs` - `ValidateInput` method that always returns true
+    - **Predictable Session Tokens** (#7): `SecurityValidator.cs` - `GenerateSessionToken` method
+    - **Weak Email Validation** (#8): `SecurityValidator.cs` - `ValidateEmail` method
+    - **Insufficient Password Requirements** (#9): `SecurityValidator.cs` - `ValidatePasswordStrength` method
+    - **Information Disclosure** (#10): Multiple classes with verbose debug logging and security audit method
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
 GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies. By systematically analyzing each security issue, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
 
-In this task, you use GitHub Copilot's Ask mode to systematically analyze each security vulnerability in the ContosoShopEasy application.
+In this task, you use GitHub Copilot's Ask mode to systematically analyze the security vulnerabilities, starting with the most critical issues and working your way down by priority.
 
 Use the following steps to complete this task:
 
@@ -242,52 +286,68 @@ Use the following steps to complete this task:
     Show me how to implement secure password hashing using bcrypt or PBKDF2. What additional security measures should I implement for password handling?
     ```
 
-1. Analyze the sensitive data exposure issues.
+1. Analyze the sensitive data logging issues (Issue #3).
 
-    Open the `PaymentService.cs` file and locate the `ProcessPayment` method. Add it to the Chat context and ask:
+    Open the `PaymentService.cs` and `UserService.cs` files and locate methods that log sensitive information. Add relevant methods to the Chat context and ask:
 
     ```text
-    What sensitive information is being logged in this payment processing method? Why is logging full credit card numbers and CVV codes a security risk, and how should payment data be handled securely?
+    What sensitive information is being logged in the payment processing and user registration methods? Why is logging passwords, credit card numbers, and CVV codes a security risk?
     ```
 
-1. Examine the hardcoded credentials vulnerability.
+1. Examine the hardcoded credentials vulnerability (Issue #4).
 
-    Open the `SecurityValidator.cs` file and locate the admin credential constants. Add the relevant code to the Chat context and ask:
+    Open the `SecurityValidator.cs` file and locate the admin credential constants around lines 7-9. Add the relevant code to the Chat context and ask:
 
     ```text
     What security risks are created by hardcoding admin credentials in source code? How should application credentials be managed securely in production environments?
     ```
 
-1. Analyze the input validation weaknesses.
+1. Analyze the credit card data storage issues (Issue #5).
 
-    Focus on the `ValidateInput` method in `SecurityValidator.cs` and ask:
+    Open the `Models/Order.cs` file and examine the CardNumber and CVV properties. Add this code to the Chat context and ask:
 
     ```text
-    What makes this input validation method ineffective against malicious input? How can I implement proper input sanitization to prevent XSS and other injection attacks?
+    Why is storing full credit card numbers and CVV codes a PCI DSS compliance violation? What are the proper ways to handle payment card data securely?
     ```
 
-1. Review the information disclosure issues.
+1. Review the input validation bypass (Issue #6).
 
-    Select multiple methods that contain debug logging across different files and ask:
+    Focus on the `ValidateInput` method in `SecurityValidator.cs` that always returns true despite detecting threats. Ask:
 
     ```text
-    How does excessive debug logging create security vulnerabilities? What information should never be logged, and how can I implement secure logging practices?
+    What makes this input validation method ineffective? Why does it detect dangerous input but still return true, and how should proper input validation work?
     ```
 
-1. Examine the predictable token generation.
+1. Examine the predictable session token generation (Issue #7).
 
-    Focus on the `GenerateSessionToken` method and ask:
+    Focus on the `GenerateSessionToken` method in `SecurityValidator.cs` and ask:
 
     ```text
-    Why are predictable session tokens a security risk? How should secure, unpredictable session tokens be generated to prevent session hijacking attacks?
+    Why are predictable session tokens based on username and timestamp a security risk? How should secure, unpredictable session tokens be generated?
     ```
 
-1. Analyze the file upload validation issues.
+1. Analyze the weak email validation (Issue #8).
 
-    Review the `ValidateFileUpload` method and ask:
+    Review the `ValidateEmail` method in `SecurityValidator.cs` that only checks for "@" and "." characters. Ask:
 
     ```text
-    What makes this file upload validation insufficient for security? How can I implement comprehensive file upload security to prevent malicious file execution?
+    What makes this email validation insufficient? What are the security risks of weak email validation, and how should proper email validation be implemented?
+    ```
+
+1. Review the insufficient password requirements (Issue #9).
+
+    Examine the `ValidatePasswordStrength` method in `SecurityValidator.cs` that only requires 4 characters. Ask:
+
+    ```text
+    Why are these password requirements insufficient for security? What are proper password complexity requirements, and how should password strength be validated?
+    ```
+
+1. Analyze the information disclosure issues (Issue #10).
+
+    Select the `RunSecurityAudit` method and other debug logging across different files and ask:
+
+    ```text
+    How does the security audit method and excessive debug logging create information disclosure vulnerabilities? What information should never be exposed in logs or error messages?
     ```
 
 1. Document the analysis results for reference during the remediation phase.
@@ -297,6 +357,8 @@ Use the following steps to complete this task:
 ### Resolve issues using GitHub Copilot's Agent mode
 
 GitHub Copilot's Agent mode enables autonomous implementation of complex security fixes across multiple files and methods. Unlike Ask mode, which provides analysis and recommendations, Agent mode can directly modify code to implement security improvements. This approach is particularly effective for systematic security remediation, where multiple related vulnerabilities need to be addressed consistently.
+
+> **NOTE**: To save time during this lab exercise, you resolve and test a collection of issues and push updates in a single commit. Batch processing issues in this way isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits rather than batch processing. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise. Each fix should be thoroughly tested before moving to the next issue to ensure changes don't introduce regressions.
 
 In this task, you use GitHub Copilot's Agent mode to implement comprehensive security fixes for all identified vulnerabilities in the ContosoShopEasy application.
 
@@ -314,9 +376,22 @@ Use the following steps to complete this task:
     Fix the SQL injection vulnerability in the SearchProducts method. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure the method still functions correctly for legitimate searches while preventing malicious input.
     ```
 
-1. Monitor the agent's progress and review the proposed changes.
+1. Monitor the agent's progress.
 
-    The agent will modify the code to remove vulnerable logging and implement safer input handling. Review the changes to ensure they maintain functionality while addressing the security concern.
+    The agent will modify the code to remove vulnerable logging and implement safer input handling.
+
+1. Take a minute to review the proposed changes, and then select **Keep** in the Chat view.
+
+    Always review GitHub Copilot's suggested edits in the code editor. Ensure that they maintain functionality while addressing the security concern.
+
+    In a production environment, your team should complete the following checklist before moving on to the next issue:
+
+    - Code no longer contains the vulnerability.
+    - Application still functions correctly.
+    - Security best practices are implemented and no new security issues are introduced.
+    - Automated tests (if available) pass successfully.
+    - Code updates are clearly documented.
+    - Changes are committed with descriptive messages and peer-reviewed before merging and closing the issue.
 
 1. Implement secure password hashing.
 
@@ -330,55 +405,71 @@ Use the following steps to complete this task:
 
     The agent will implement stronger password hashing. Test the changes by running the application to ensure user registration and login still function correctly.
 
-1. Address sensitive data exposure in payment processing.
+1. Address sensitive data logging (Issue #3).
 
-    Open the `PaymentService.cs` file and instruct the agent:
+    Focus on the `PaymentService.cs` and `UserService.cs` files and instruct the agent:
 
     ```text
-    Fix sensitive data logging in the ProcessPayment method. Remove logging of full credit card numbers, CVV codes, and other sensitive payment information. Implement secure logging that masks sensitive data while maintaining useful operational information.
+    Fix sensitive data logging throughout the application. Remove logging of passwords, full credit card numbers, CVV codes, and other sensitive information. Implement secure logging that masks sensitive data while maintaining useful operational information.
     ```
 
-1. Remove hardcoded admin credentials.
+1. Remove hardcoded admin credentials (Issue #4).
 
     Focus on the `SecurityValidator.cs` file and use this prompt:
 
     ```text
-    Remove hardcoded admin credentials and replace them with a secure configuration approach. Implement environment variable or configuration file-based credential management while maintaining the functionality for educational demonstration purposes.
+    Remove hardcoded admin credentials from the SecurityValidator class. Replace the hardcoded ADMIN_USERNAME and ADMIN_PASSWORD constants with a secure configuration approach using environment variables while maintaining the functionality for educational demonstration purposes.
     ```
 
-1. Implement proper input validation.
+1. Fix credit card data storage violations (Issue #5).
 
-    Instruct the agent to fix the input validation vulnerabilities:
+    Focus on the `Models/Order.cs` file and instruct the agent:
 
     ```text
-    Strengthen the ValidateInput method to properly sanitize user input and prevent XSS attacks. Implement comprehensive input validation that rejects malicious content while allowing legitimate user input. Ensure the method returns false for truly dangerous input.
+    Fix PCI DSS compliance violations in the Order model. Remove or modify the CardNumber and CVV properties to avoid storing full credit card numbers and CVV codes. Implement secure payment data handling that stores only last 4 digits for display purposes.
     ```
 
-1. Reduce information disclosure through logging.
+1. Fix input validation bypass (Issue #6).
 
-    Address the debug logging issues across multiple files:
+    Instruct the agent to fix the input validation vulnerability:
 
     ```text
-    Review all console logging throughout the application and remove or mask sensitive information. Implement secure logging practices that provide useful debugging information without exposing passwords, credit card data, or system internals.
+    Fix the ValidateInput method in SecurityValidator that currently always returns true despite detecting threats. Implement proper input validation that actually rejects dangerous content when SQL injection, XSS, or other malicious patterns are detected.
     ```
 
-1. Implement secure session token generation.
+1. Implement secure session token generation (Issue #7).
 
     Focus on the session token vulnerability:
 
     ```text
-    Replace the predictable session token generation with a cryptographically secure random token generator. Ensure tokens are unpredictable and sufficiently long to prevent brute force attacks.
+    Replace the predictable session token generation in GenerateSessionToken method with a cryptographically secure random token generator. Remove the username and timestamp-based pattern and implement unpredictable tokens with sufficient entropy.
     ```
 
-1. Strengthen file upload validation.
+1. Strengthen email validation (Issue #8).
 
-    Address the file upload security issues:
+    Address the weak email validation:
 
     ```text
-    Implement comprehensive file upload validation that checks file types, sizes, and content. Reject dangerous file types and implement proper security controls to prevent malicious file uploads.
+    Fix the ValidateEmail method that only checks for '@' and '.' characters. Implement proper email format validation using regex or built-in validation methods. Remove email logging and add appropriate length restrictions.
     ```
 
-1. Test the application after each major change.
+1. Improve password requirements (Issue #9).
+
+    Focus on the password strength validation:
+
+    ```text
+    Strengthen the ValidatePasswordStrength method that currently only requires 4 characters. Implement proper password complexity requirements including minimum 8 characters, uppercase, lowercase, numbers, and special characters. Remove password logging.
+    ```
+
+1. Reduce information disclosure (Issue #10).
+
+    Address the debug logging and security audit issues:
+
+    ```text
+    Fix information disclosure vulnerabilities by removing or restricting the RunSecurityAudit method and reducing verbose error messages throughout the application. Remove sensitive system information from logs while maintaining useful debugging capabilities.
+    ```
+
+1. Test the application.
 
     After the agent implements fixes for each vulnerability category, run the application to ensure functionality is preserved:
 
@@ -419,41 +510,49 @@ Use the following steps to complete this task:
 
     Compare the output with your notes from the original application run. You should see significantly less sensitive information being logged.
 
-1. Test the SQL injection fix by examining product search functionality.
+1. Test the SQL injection fix (Issue #1).
 
     Verify that the `SearchProducts` method no longer logs vulnerable SQL queries and that search functionality still works correctly for legitimate search terms.
 
-1. Verify password security improvements.
+1. Verify password security improvements (Issue #2).
 
     Check that user registration and login processes no longer log plaintext passwords and that stronger password hashing is implemented. The application should still authenticate users correctly.
 
-1. Confirm payment processing security enhancements.
+1. Confirm sensitive data logging fixes (Issue #3).
 
-    Ensure that payment processing no longer logs full credit card numbers or CVV codes while maintaining the ability to process payments successfully.
+    Ensure that payment processing and user operations no longer log passwords, full credit card numbers, or CVV codes while maintaining the ability to process transactions successfully.
 
-1. Validate admin credential security.
+1. Validate hardcoded credential removal (Issue #4).
 
-    Verify that hardcoded admin credentials are no longer displayed in logs or security audits, while admin functionality remains accessible through secure means.
+    Verify that hardcoded admin credentials are no longer displayed in logs or security audits, while admin functionality remains accessible through secure configuration.
 
-1. Test input validation improvements.
+1. Test credit card storage compliance (Issue #5).
 
-    Confirm that the improved input validation properly handles both legitimate and potentially malicious input without breaking normal user interactions.
+    Confirm that the Order model no longer stores full credit card numbers or CVV codes, and that only masked payment information is retained for display purposes.
 
-1. Check information disclosure fixes.
+1. Verify input validation fixes (Issue #6).
 
-    Review the console output to ensure that sensitive system information, configuration details, and user data are no longer exposed through debug logging.
+    Confirm that the improved ValidateInput method now properly rejects dangerous input instead of just logging warnings and returning true.
 
-1. Verify session token security.
+1. Check session token security (Issue #7).
 
-    If session tokens are generated during application execution, confirm that they appear random and unpredictable rather than following the previous pattern-based approach.
+    If session tokens are generated during application execution, confirm that they appear random and unpredictable rather than following the previous username-timestamp pattern.
 
-1. Validate file upload security enhancements.
+1. Test email validation improvements (Issue #8).
 
-    Test the file upload validation improvements to ensure dangerous file types are properly rejected while legitimate files are accepted.
+    Verify that the email validation now properly rejects invalid email formats instead of accepting any string with "@" and "." characters.
 
-1. Compare the security audit output with the original version.
+1. Validate password requirement enhancements (Issue #9).
 
-    Run the security audit feature and compare the results with your initial observations. The audit should show improved security posture while maintaining educational value.
+    Test that password validation now enforces proper complexity requirements instead of accepting any 4-character string.
+
+1. Review information disclosure fixes (Issue #10).
+
+    Check that the security audit method is removed or restricted and that verbose error messages no longer expose sensitive system information.
+
+1. Compare the overall security posture with the original version.
+
+    Run the application and compare the console output with your initial observations. The application should show significantly improved security while maintaining all core functionality.
 
 1. Document any remaining issues or areas for improvement.
 
@@ -484,84 +583,29 @@ Use the following steps to complete this task:
     git add .
     ```
 
-1. Commit the changes with descriptive messages that reference the GitHub issues.
+1. Commit all security fixes with a comprehensive message that references all GitHub issues.
 
-    Use commit messages that clearly describe the security fixes and reference the issue numbers:
-
-    ```bash
-    git commit -m "Fix SQL injection vulnerability in ProductService SearchProducts method
-
-    - Remove vulnerable SQL query logging
-    - Implement proper input sanitization
-    - Maintain search functionality while preventing injection attacks
-
-    Fixes #1"
-    ```
-
-1. Make additional commits for each major security fix category.
-
-    Commit password hashing improvements:
+    Create a single commit that addresses all security vulnerabilities identified in the training exercise:
 
     ```bash
-    git commit -m "Replace MD5 with secure password hashing
+    git commit -m "Fix all ContosoShopEasy security vulnerabilities
 
-    - Implement bcrypt/PBKDF2 for password storage
-    - Add proper salt generation
-    - Maintain authentication compatibility
+    Security improvements implemented:
+    - Fix SQL injection in ProductService SearchProducts method
+    - Replace MD5 with secure password hashing (bcrypt/PBKDF2)
+    - Remove sensitive data from debug logging (passwords, card numbers, CVV)
+    - Remove hardcoded admin credentials, use environment variables
+    - Fix PCI DSS violations in Order model (remove full card storage)
+    - Fix input validation bypass to properly reject dangerous input
+    - Implement secure session token generation with crypto randomness
+    - Strengthen email validation with proper format checking
+    - Improve password requirements (8+ chars, complexity rules)
+    - Reduce information disclosure from security audit and debug logs
 
-    Fixes #2"
+    Fixes #1 #2 #3 #4 #5 #6 #7 #8 #9 #10"
     ```
 
-1. Continue with commits for remaining security fixes:
-
-    ```bash
-    git commit -m "Remove sensitive data from payment processing logs
-
-    - Mask credit card numbers in logging
-    - Remove CVV code exposure
-    - Maintain operational logging capabilities
-
-    Fixes #3"
-
-    git commit -m "Remove hardcoded admin credentials
-
-    - Implement secure credential management
-    - Use environment variables for sensitive config
-    - Maintain admin functionality for demo purposes
-
-    Fixes #4"
-
-    git commit -m "Strengthen input validation and prevent XSS
-
-    - Implement comprehensive input sanitization
-    - Reject malicious content properly
-    - Maintain user experience for legitimate input
-
-    Fixes #5"
-
-    git commit -m "Reduce information disclosure in debug logging
-
-    - Remove sensitive data from console output
-    - Implement secure logging practices
-    - Maintain useful debugging information
-
-    Fixes #6"
-
-    git commit -m "Implement secure session token generation
-
-    - Replace predictable tokens with cryptographically secure random generation
-    - Increase token entropy to prevent brute force attacks
-
-    Fixes #7"
-
-    git commit -m "Enhance file upload security validation
-
-    - Implement comprehensive file type checking
-    - Add file size and content validation
-    - Reject dangerous file types effectively
-
-    Fixes #8"
-    ```
+    > **NOTE**: In a production environment, each issue would typically be addressed in separate commits with individual testing and code review. This single commit approach is used here only to save time during the training exercise.
 
 1. Push the changes to your GitHub repository.
 
@@ -576,4 +620,3 @@ Use the following steps to complete this task:
 1. Review the commit history to ensure all security fixes are properly documented.
 
     Verify that the commit messages clearly describe the security improvements and provide a good audit trail for future reference.
-
