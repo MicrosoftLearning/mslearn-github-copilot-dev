@@ -515,11 +515,46 @@ Use the following steps to complete this task:
 
 1. Switch GitHub Copilot Chat to Agent mode.
 
-    In the Chat view, locate the mode selector and change from **Ask** to **Agent**. Agent mode allows GitHub Copilot to make direct code modifications based on your instructions.
+    Agent mode allows GitHub Copilot to make direct code modifications based on your instructions. Agent mode works to establish an appropriate context by reviewing relevant files in the codebase. You can add files and folders to the context manually to ensure that the agent has the necessary information to perform complex tasks.
 
-1. Address the SQL injection vulnerability first.
+1. Take a minute to consider your remediation strategy.
 
-    Open the `ProductService.cs` file and locate the `SearchProducts` method. Use the following prompt to instruct the agent:
+    Based on your analysis using GitHub Copilot's Ask mode, plan your approach to addressing the security vulnerabilities.
+
+    The GitHub issues, in order starting with the most critical, are as follows:
+
+    1. 🔐 Fix SQL Injection Vulnerability in Product Search
+    1. 🔐 Replace MD5 Password Hashing with Secure Alternative
+    1. 🔐 Remove Sensitive Data from Debug Logging
+    1. 🔐 Remove Hardcoded Admin Credentials
+    1. 🔐 Fix Credit Card Data Storage Violations
+    1. 🔐 Fix Input Validation Security Bypass
+    1. 🔐 Fix Predictable Session Token Generation
+    1. 🔐 Improve Email Validation Security
+    1. 🔐 Strengthen Password Security Requirements
+    1. 🔐 Reduce Information Disclosure in Error Messages
+
+    These issues are associated with specific files and methods in the codebase. When organized by file association, the issues are as follows:
+
+    - **ProductService.cs**: Issue #1
+    - **UserService.cs**: Issues #2 and #3
+    - **PaymentService.cs**: Issue #3
+    - **SecurityValidator.cs**: Issues #4, #6, #7, #8, #9, and #10
+    - **Models/Order.cs**: Issue #5
+
+    Your remediation strategy should involve addressing each issue systematically, ensuring that fixes are implemented correctly and consistently.
+
+1. Close all open files in the code editor to start with a clean context.
+
+1. Add the **ProductService.cs** file to the chat context.
+
+    The SQL injection issue is associated with the ProductService.cs file, and the SearchProducts method in particular.
+
+1. Ask GitHub Copilot to address the SQL injection vulnerability first.
+
+    Your analysis using GitHub Copilot's Ask mode revealed that the method constructs SQL queries using user input without proper sanitization.
+
+    Your analysis can be used to construct a clear instruction for the agent to remediate the vulnerability. For example, you can assign the following task to the agent:
 
     ```text
     Fix the SQL injection vulnerability in the SearchProducts method. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure the method still functions correctly for legitimate searches while preventing malicious input.
