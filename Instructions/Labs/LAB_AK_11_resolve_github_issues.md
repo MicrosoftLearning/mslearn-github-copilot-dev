@@ -6,9 +6,9 @@ lab:
 
 # Resolve GitHub issues using GitHub Copilot
 
-GitHub issues are a powerful way to track bugs, enhancements, and tasks for a project. In this exercise, you learn how to use GitHub Copilot to help you analyze and resolve issues in a sample codebase.
+GitHub issues are a powerful way to track bugs, enhancements, and tasks for a project.
 
-In this exercise, you work with a sample e-commerce application called ContosoShopEasy. The application contains several security vulnerabilities that have been logged as GitHub issues. Your goal is to use GitHub Copilot to help you analyze and resolve these issues.
+In this exercise, you use GitHub Copilot to help you analyze and resolve GitHub issues that relate to security vulnerabilities in an e-commerce application.
 
 This exercise should take approximately **40** minutes to complete.
 
@@ -16,7 +16,7 @@ This exercise should take approximately **40** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, GitHub CLI, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -56,9 +56,9 @@ If you're using a hosted lab environment for this exercise:
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help with resolving issues logged against a GitHub project. Your goal is to use the issues as guidance when updating the code project using GitHub Copilot in Visual Studio Code. You need to ensure that all of the issues are addressed and closed. You're assigned to the following app:
+You're a software developer working for a consulting firm. Your clients need help with resolving issues in their GitHub repositories. You need to ensure that all issues are addressed and closed. You use Visual Studio Code and GitHub Copilot as your development environment. You're assigned to the following app:
 
-- ContosoShopEasy: A realistic e-commerce application with multiple security vulnerabilities that have been logged as GitHub issues. The application demonstrates common security issues found in real-world applications while maintaining a functional e-commerce workflow.
+- ContosoShopEasy: ContosoShopEasy is an e-commerce application that contains multiple security vulnerabilities. The vulnerabilities represent common security issues found in real-world applications.
 
 This exercise includes the following tasks:
 
@@ -70,11 +70,13 @@ This exercise includes the following tasks:
 1. Test and verify the refactored code.
 1. Commit changes and close issues.
 
+> **NOTE**: To save time during this training exercise, you resolve a group of issues and push updates in a single commit. Processing issues in batches isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits rather than batch processing. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
+
 ### Import the ContosoShopEasy repository
 
-GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy. Although GitHub Importer doesn't migrate Issues, PRs, or Discussions, the repository includes a GitHub Actions workflow that automates the creation of issues based on the codebase.
+GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy. Although GitHub Importer doesn't migrate Issues, PRs, or Discussions, it does import GitHub Actions workflows. The repository that you import includes a GitHub Actions workflow that creates issues associated with the codebase.
 
-In this task, you import the ContosoShopEasy project and create GitHub issues that mirror the security vulnerabilities present in the codebase.
+In this task, you import the ContosoShopEasy repository and run a workflow to create GitHub issues for the security vulnerabilities included in the codebase.
 
 Use the following steps to complete this task:
 
@@ -102,83 +104,75 @@ Use the following steps to complete this task:
 
 1. In the **Repository name** field, enter **ResolveGitHubIssues** and then select **Begin import**.
 
-    GitHub creates a new repository in your account with the ContosoShopEasy project files.
+    GitHub creates the new repository in your account with the ContosoShopEasy project files.
 
-    > **NOTE**: It may take a few moments for the import process to complete.
+    > **NOTE**: It can take a minute or two to import the repository.
 
-1. Wait for the import process to complete, then open the new repository.
+1. Wait for the import process to complete, then open your new repository.
 
-1. Go to the Actions tab of your repository, and then run the GitHub Actions workflow named **Create ContosoShopEasy Training Issues**.
+1. Open the Actions tab of your repository.
 
-1. Type "CREATE" to confirm issue creation.
+1. On the left side under **All workflows**, select the **Create ContosoShopEasy Training Issues** workflow, and then select **Run workflow**.
 
-    The workflow will create issues in your repository for each security vulnerability identified in the codebase.
+1. In the workflow dialog that appears, type **CREATE** and then select **Run workflow**.
 
-    Critical Priority Issues
+1. Monitor the onscreen progress of the workflow.
 
-    1. **Hardcoded Admin Credentials**  
-        Remove hardcoded admin username/password.
+    After a moment, the page will refresh and display a progress bar. The workflow should complete successfully in less than a minute.
 
-    1. **Credit Card Data Storage**  
-        Fix PCI DSS compliance violations.
+1. Ensure that the workflow completes successfully before proceeding.
 
-    High Priority Issues
+    A checkmark in a green circle to the left of the workflow name indicates that the workflow ran successfully.
 
-    1. **SQL Injection Vulnerability**  
-        Secure product search functionality.
-
-    1. **Weak Password Hashing**  
-        Replace MD5 with secure hashing.
-
-    1. **Sensitive Data in Logs**  
-        Remove passwords/cards from debug output.
-
-    1. **Input Validation Bypass**  
-        Fix validation that detects but allows threats.
-
-    Medium Priority Issues
-
-    1. **Predictable Session Tokens**  
-        Implement cryptographically secure tokens.
-
-    1. **Weak Email Validation**  
-        Improve email format validation.
-
-    1. **Insufficient Password Requirements**  
-        Strengthen password complexity rules.
-
-    Low Priority Issues
-
-    1. **Information Disclosure**  
-         Reduce verbose error messages and debug output.
+    If you see an X in a red circle to the left of the workflow name, it means that the workflow failed. If the workflow fails to run successfully, ensure that you selected your account when you imported the repository and that your account has read and write permissions. You can use GitHub's **Chat with Copilot** feature to help diagnose the issue.
 
 ### Review the issues in GitHub
 
 GitHub issues serve as a centralized tracking system for bugs, security vulnerabilities, and enhancement requests. Each issue provides context about the problem, its severity, and potential impact on the application. Understanding these issues before diving into the code helps establish priorities and ensures comprehensive remediation.
 
-In this task, you review the open issues for the ContosoShopEasy project and understand the security vulnerabilities that need to be addressed.
+In this task, you review the GitHub issues and examine the security vulnerabilities that need to be addressed.
 
 Use the following steps to complete this task:
 
-1. Navigate to your ResolveGitHubIssues repository in GitHub.
+1. Select the **Issues** tab of your repository, and then take a minute to review the Issues page.
 
-1. Select the **Issues** tab to view all open issues.
+    You should see 10 issues listed. Notice that the issues are defined as bugs and that they've been assigned a priority level.
 
-1. Review each issue description and take note that the workflow has created 10 specific security issues organized by priority:
+1. To display only the critical issues, select the **Labels** dropdown, and then select the **critical** label.
 
-    **Critical Priority Issues**: These represent the most severe security risks that could lead to complete system compromise or regulatory violations.
+    The issues list filters to show only the critical issues.
 
-    **High Priority Issues**: These are serious security vulnerabilities that could allow unauthorized access or data breaches.
+    - **🔐 Fix Credit Card Data Storage Violations**  
 
-    **Medium Priority Issues**: These represent security weaknesses that could be exploited but have lower immediate impact.
+    - **🔐 Remove Hardcoded Admin Credentials**  
 
-    **Low Priority Issues**: These are security improvements that reduce information leakage and improve overall security posture.
+1. To display only the high-priority issues, select the **Labels** dropdown, deselect **critical**, and then select the **high-priority** label.
 
-1. Notice that each issue includes detailed descriptions of the vulnerability, the specific code location, examples of vulnerable code, security risks, and acceptance criteria for fixes.
+    The issues list filters to show only the high-priority issues.
 
-1. Review the **ContosoShopEasy Security Training - Issue Summary** issue, which provides an overview of all vulnerabilities and learning objectives.
+    - **🔐 Fix Input Validation Security Bypass**  
 
-1. Note that these issues represent common security vulnerabilities found in real-world applications and align with OWASP security guidelines.
+    - **🔐 Remove Sensitive Data from Debug Logging**  
+
+    - **🔐 Fix SQL Injection Vulnerability in Product Search**  
+
+    - **🔐 Replace MD5 Password Hashing with Secure Alternative**  
+
+1. Select the **Fix SQL Injection Vulnerability in Product Search** issue.
+
+1. Take a minute to review the issue details.
+
+    Issue details should describe the problem and the expected fix.
+
+    > **NOTE**: The process used to generate issues, including manual versus automated processes, affects the overall quality and accuracy of the issue descriptions. The issues included in this training were written using GitHub Copilot's Agent mode after the agent reviewed the codebase. GitHub Copilot generated highly detailed descriptions of the vulnerabilities, code locations, examples of the vulnerable code, security risks, and acceptance criteria for fixes.
+
+1. Notice that no one is assigned to the issue.
+
+1. Navigate back to the Issues tab and clear the filters.
+
+1. Select all of the issues, and then use the **Assign** dropdown to assign them to yourself.
+
+    Assigning issues to yourself helps track your progress as you work through the remediation process.
 
 ### Clone the repository and review the codebase
 
@@ -188,9 +182,15 @@ In this task, you clone the ContosoShopEasy repository, examine the project stru
 
 Use the following steps to complete this task:
 
-1. Clone your ResolveGitHubIssues repository to your local development environment.
+1. Open the Code tab of your repository.
 
-    Open a terminal window and run the following command, replacing `your-username` with your GitHub username:
+1. Clone the ResolveGitHubIssues repository to your local development environment.
+
+    For example, you can use the following steps to clone the repository using Git CLI:
+
+    1. Copy the repository URL by selecting the **Code** button and then copying the HTTPS URL.
+
+    1. Open a terminal window, navigate to the directory where you want to clone the repository, and run the following command (replacing **your-username** with your GitHub username):
 
     ```bash
     git clone https://github.com/your-username/ResolveGitHubIssues.git
@@ -200,15 +200,20 @@ Use the following steps to complete this task:
 
     Navigate to the repository folder and open it in Visual Studio Code. Ensure that you have the GitHub Copilot and GitHub Copilot Chat extensions installed and enabled.
 
-1. Examine the project structure in the SOLUTION EXPLORER.
+1. Examine the project structure in the EXPLORER view.
 
     The ContosoShopEasy application follows a layered architecture with the following components:
 
-    - **Models/**: Contains data models for `Product.cs`, `User.cs`, `Order.cs`, and `Category.cs`
-    - **Services/**: Contains business logic in `ProductService.cs`, `UserService.cs`, `PaymentService.cs`, and `OrderService.cs`
-    - **Data/**: Contains data repositories in `ProductRepository.cs`, `UserRepository.cs`, and `OrderRepository.cs`
-    - **Security/**: Contains security validation logic in `SecurityValidator.cs`
+    - **Models/**: Contains data models for **Category.cs**, **Order.cs**, **Product.cs**, and **User.cs**.
+
+    - **Services/**: Contains business logic in **OrderService.cs**, **PaymentService.cs**, **ProductService.cs**, and **UserService.cs**.
+
+    - **Data/**: Contains data repositories in **OrderRepository.cs**, **ProductRepository.cs**, and **UserRepository.cs**.
+
+    - **Security/**: Contains security validation logic in **SecurityValidator.cs**
+
     - **Program.cs**: Main application entry point with dependency injection setup
+
     - **README.md**: Documentation explaining the application's purpose and vulnerabilities
 
 1. Build and run the application to observe its current behavior.
@@ -221,24 +226,33 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-    The application will display a comprehensive demonstration of the e-commerce functionality, including a security audit that reveals the intentional vulnerabilities.
+    The application executes a complete e-commerce workflow simulation. It exposes multiple security vulnerabilities through detailed console logging. The application first runs a security audit that displays hardcoded admin credentials. It then demonstrates user registration, login attempts, and product searches with SQL injection patterns. The application also shows payment processing with full credit card logging and order management. Throughout this process, it outputs sensitive information to the console including passwords, credit card numbers, CVV codes, session tokens, and internal system details.
 
 1. Review the console output to identify security-related logging.
 
     Notice that the application logs sensitive information such as passwords, credit card numbers, admin credentials, and internal system details. This output provides clear evidence of the security issues that need to be addressed.
 
-1. Take a minute to scan the code associated with each security vulnerability as defined in the GitHub issues:
+1. Take a few minutes to locate/read the code comments associated with the GitHub issues:
 
-    - **SQL Injection** (#1): `ProductService.cs` - `SearchProducts` method (around line 35)
-    - **Weak Password Hashing** (#2): `UserService.cs` - `GetMd5Hash` method (around line 55)
-    - **Sensitive Data in Logs** (#3): Multiple files - `UserService.cs`, `PaymentService.cs` registration/login/payment methods
-    - **Hardcoded Admin Credentials** (#4): `SecurityValidator.cs` - admin credential constants (lines 7-9)
-    - **Credit Card Data Storage** (#5): `Models/Order.cs` - CardNumber and CVV properties
-    - **Input Validation Bypass** (#6): `SecurityValidator.cs` - `ValidateInput` method that always returns true
-    - **Predictable Session Tokens** (#7): `SecurityValidator.cs` - `GenerateSessionToken` method
-    - **Weak Email Validation** (#8): `SecurityValidator.cs` - `ValidateEmail` method
-    - **Insufficient Password Requirements** (#9): `SecurityValidator.cs` - `ValidatePasswordStrength` method
-    - **Information Disclosure** (#10): Multiple classes with verbose debug logging and security audit method
+    - **Fix SQL Injection Vulnerability in Product Search**: Open the ProductService.cs file and scan the SearchProducts method.
+
+    - **Replace MD5 Password Hashing with Secure Alternative**: Open the UserService.cs file and scan the GetMd5Hash method.
+
+    - **Remove Sensitive Data from Debug Logging**: Open the UserService.cs and PaymentService.cs files and scan the registration/login/payment methods.
+
+    - **Remove Hardcoded Admin Credentials**: Open the SecurityValidator.cs file and scan the admin credential constants (lines 7-9).
+
+    - **Fix Credit Card Data Storage Violations**: Open the Models/Order.cs file and scan the CardNumber and CVV properties.
+
+    - **Fix Input Validation Security Bypass**: Open the SecurityValidator.cs file and scan the ValidateInput method that always returns true.
+
+    - **Fix Predictable Session Token Generation**: Open the SecurityValidator.cs file and scan the GenerateSessionToken method.
+
+    - **Improve Email Validation Security**: Open the SecurityValidator.cs file and scan the ValidateEmail method.
+
+    - **Strengthen Password Security Requirements**: Open the SecurityValidator.cs file and scan the ValidatePasswordStrength method.
+
+    - **Reduce Information Disclosure in Error Messages**: There are multiple classes with verbose debug logging and security audit methods. For example, open the SecurityValidator.cs file and scan the RunSecurityAudit method.
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
@@ -357,8 +371,6 @@ Use the following steps to complete this task:
 ### Resolve issues using GitHub Copilot's Agent mode
 
 GitHub Copilot's Agent mode enables autonomous implementation of complex security fixes across multiple files and methods. Unlike Ask mode, which provides analysis and recommendations, Agent mode can directly modify code to implement security improvements. This approach is particularly effective for systematic security remediation, where multiple related vulnerabilities need to be addressed consistently.
-
-> **NOTE**: To save time during this lab exercise, you resolve and test a collection of issues and push updates in a single commit. Batch processing issues in this way isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits rather than batch processing. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise. Each fix should be thoroughly tested before moving to the next issue to ensure changes don't introduce regressions.
 
 In this task, you use GitHub Copilot's Agent mode to implement comprehensive security fixes for all identified vulnerabilities in the ContosoShopEasy application.
 
@@ -620,3 +632,7 @@ Use the following steps to complete this task:
 1. Review the commit history to ensure all security fixes are properly documented.
 
     Verify that the commit messages clearly describe the security improvements and provide a good audit trail for future reference.
+
+## Clean up
+
+Now that you've finished the exercise, take a minute to ensure that you haven't made changes to your GitHub account or GitHub Copilot subscription that you don't want to keep. For example, you might want to delete the ResolveGitHubIssues repository. If you're using a local PC as your lab environment, you can archive or delete the local clone of the repository created for this exercise.
