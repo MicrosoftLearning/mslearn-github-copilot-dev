@@ -44,19 +44,19 @@ If you're using a hosted lab environment for this exercise:
 
     ```bash
 
-    git config --global user.name "John Doe"
+    git config --global user.name "Julie Miller"
 
     ```
 
     ```bash
 
-    git config --global user.email johndoe@example.com
+    git config --global user.email julie.miller@example.com
 
     ```
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help with resolving issues in their GitHub repositories. You need to ensure that all issues are addressed and closed. You use Visual Studio Code and GitHub Copilot as your development environment. You're assigned to the following app:
+You're a software developer working for a consulting firm. Your clients need help with resolving issues in their GitHub repositories. You need to ensure that all issues are addressed and closed. You use Visual Studio Code as your development environment and GitHub Copilot to assist with development tasks. You're assigned to the following app:
 
 - ContosoShopEasy: ContosoShopEasy is an e-commerce application that contains multiple security vulnerabilities. The vulnerabilities represent common security issues found in real-world applications.
 
@@ -64,13 +64,13 @@ This exercise includes the following tasks:
 
 1. Import the ContosoShopEasy repository.
 1. Review the issues in GitHub.
-1. Clone the repository and review the codebase.
+1. Clone the repository locally and review the codebase.
 1. Analyze issues using GitHub Copilot's Ask mode.
 1. Resolve issues using GitHub Copilot's Agent mode.
 1. Test and verify the refactored code.
 1. Commit changes and close issues.
 
-> **NOTE**: To save time during this training exercise, you resolve a group of issues and push updates in a single commit. Processing issues in batches isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits rather than batch processing. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
+> **NOTE**: To save time during this training exercise, you resolve a group of issues and push updates in a single commit. Processing issues in batches isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
 
 ### Import the ContosoShopEasy repository
 
@@ -82,9 +82,7 @@ Use the following steps to complete this task:
 
 1. Open a browser window and navigate to GitHub.com.
 
-1. Sign in to your GitHub account.
-
-1. Open your repositories tab.
+1. Sign in to your GitHub account, and then open your repositories tab.
 
     You can open your repositories tab by clicking on your profile icon in the top-right corner, then selecting **Repositories**.
 
@@ -106,9 +104,9 @@ Use the following steps to complete this task:
 
     GitHub creates the new repository in your account with the ContosoShopEasy project files.
 
-    > **NOTE**: It can take a minute or two to import the repository.
+1. Wait for the import process to complete, and then open your new repository.
 
-1. Wait for the import process to complete, then open your new repository.
+    > **NOTE**: It can take a minute or two to import the repository.
 
 1. Open the Actions tab of your repository.
 
@@ -122,9 +120,9 @@ Use the following steps to complete this task:
 
 1. Ensure that the workflow completes successfully before proceeding.
 
-    A checkmark in a green circle to the left of the workflow name indicates that the workflow ran successfully.
+    A checkmark inside a green circle indicates that the workflow ran successfully (should appear on the left of the workflow name).
 
-    If you see an X in a red circle to the left of the workflow name, it means that the workflow failed. If the workflow fails to run successfully, ensure that you selected your account when you imported the repository and that your account has read and write permissions. You can use GitHub's **Chat with Copilot** feature to help diagnose the issue.
+    If an X inside a red circle appears to the left of the workflow name, it means that the workflow failed. If the workflow fails to run successfully, ensure that you selected your account when you imported the repository and that your account has read and write permissions. You can use GitHub's **Chat with Copilot** feature to help diagnose the issue.
 
 ### Review the issues in GitHub
 
@@ -142,9 +140,9 @@ Use the following steps to complete this task:
 
     The issues list filters to show only the critical issues.
 
-    - **🔐 Fix Credit Card Data Storage Violations**  
-
     - **🔐 Remove Hardcoded Admin Credentials**  
+
+    - **🔐 Fix Credit Card Data Storage Violations**  
 
 1. To display only the high-priority issues, select the **Labels** dropdown, deselect **critical**, and then select the **high-priority** label.
 
@@ -154,9 +152,9 @@ Use the following steps to complete this task:
 
     - **🔐 Remove Sensitive Data from Debug Logging**  
 
-    - **🔐 Fix SQL Injection Vulnerability in Product Search**  
-
     - **🔐 Replace MD5 Password Hashing with Secure Alternative**  
+
+    - **🔐 Fix SQL Injection Vulnerability in Product Search**  
 
 1. Select the **Fix SQL Injection Vulnerability in Product Search** issue.
 
@@ -164,7 +162,7 @@ Use the following steps to complete this task:
 
     Issue details should describe the problem and the expected fix.
 
-    > **NOTE**: The process used to generate issues, including manual versus automated processes, affects the overall quality and accuracy of the issue descriptions. The issues included in this training were written using GitHub Copilot's Agent mode after the agent reviewed the codebase. GitHub Copilot generated highly detailed descriptions of the vulnerabilities, code locations, examples of the vulnerable code, security risks, and acceptance criteria for fixes.
+    > **NOTE**: The process used to document issues, including manual versus AI-automated processes, can affect the overall quality and accuracy of the issue descriptions. The issues included in this training were written using GitHub Copilot's Agent mode after the agent reviewed the codebase. GitHub Copilot can be used to generate highly detailed descriptions of the vulnerabilities, code locations, examples of the vulnerable code, security risks, and acceptance criteria for fixes.
 
 1. Notice that no one is assigned to the issue.
 
@@ -172,17 +170,19 @@ Use the following steps to complete this task:
 
 1. Select all of the issues, and then use the **Assign** dropdown to assign them to yourself.
 
-    Assigning issues to yourself helps track your progress as you work through the remediation process.
+    Assigning the issues to yourself helps you track your progress as you work through the remediation process.
 
-### Clone the repository and review the codebase
+### Clone the repository locally and review the codebase
 
-Understanding the structure and functionality of an existing codebase is essential before implementing security fixes. The ContosoShopEasy application follows a layered architecture typical of enterprise applications, with clear separation between models, services, data access, and security components. Reviewing the code structure and running the application helps establish a baseline for testing after implementing security improvements.
+The ContosoShopEasy application follows a layered architecture typical of enterprise applications, with clear separation between models, services, data access, and security components.
 
-In this task, you clone the ContosoShopEasy repository, examine the project structure, observe the application's current behavior, and review security vulnerabilities.
+Taking the time to understand the basic structure, behavior, and features of an existing codebase is essential before attempting to resolve security issues.
+
+In this task, you create a local clone of your repository, examine the project structure in Visual Studio Code, review the application's console output, and locate security vulnerabilities.
 
 Use the following steps to complete this task:
 
-1. Open the Code tab of your repository.
+1. Navigate back to the root page of your repository (Code tab).
 
 1. Clone the ResolveGitHubIssues repository to your local development environment.
 
@@ -190,15 +190,17 @@ Use the following steps to complete this task:
 
     1. Copy the repository URL by selecting the **Code** button and then copying the HTTPS URL.
 
-    1. Open a terminal window, navigate to the directory where you want to clone the repository, and run the following command (replacing **your-username** with your GitHub username):
+    1. Open a terminal window, navigate to the directory where you want to clone the repository, and then run a "git clone" command that uses the repository URL.
 
-    ```bash
-    git clone https://github.com/your-username/ResolveGitHubIssues.git
-    ```
+        For example, open Windows PowerShell, navigate to C:\TrainingProjects, and then run the following command (replacing **your-username** with your GitHub username):
+
+        ```bash
+        git clone https://github.com/your-username/ResolveGitHubIssues.git
+        ```
 
 1. Open the cloned repository in Visual Studio Code.
 
-    Navigate to the repository folder and open it in Visual Studio Code. Ensure that you have the GitHub Copilot and GitHub Copilot Chat extensions installed and enabled.
+    Ensure that you're using the latest version of Visual Studio Code and that you have the GitHub Copilot and GitHub Copilot Chat extensions installed and enabled.
 
 1. Examine the project structure in the EXPLORER view.
 
@@ -216,9 +218,9 @@ Use the following steps to complete this task:
 
     - **README.md**: Documentation explaining the application's purpose and vulnerabilities
 
-1. Build and run the application to observe its current behavior.
+1. To observe the application's current behavior, build and run the application.
 
-    Run the following commands in the terminal:
+    For example, you can open Visual Studio Code's integrated terminal window and run the following commands:
 
     ```bash
     cd ContosoShopEasy
@@ -228,11 +230,11 @@ Use the following steps to complete this task:
 
     The application runs an e-commerce workflow simulation that exposes security vulnerabilities through detailed console logging.
 
-1. Review the console output.
+1. Take a minute to review the console output.
 
-    Notice that the application logs sensitive information such as passwords, credit card numbers, admin credentials, and internal system details. This output provides clear evidence of the security issues that need to be addressed.
+    Notice that the application logs sensitive information such as passwords, credit card numbers, admin credentials, and internal system details. This output provides clear evidence of security issues that need to be addressed.
 
-    > **NOTE**: Code logic and logging in this app are designed to expose security vulnerabilities. Although the implementation is contrived, the logs highlight security issues that are common in real-world applications.
+    > **NOTE**: The code comments, logic, and logging in this app are designed to help expose security vulnerabilities. Although the implementation is contrived, the comments and output logs highlight security issues that are common in real-world applications.
 
 1. To begin a review process that identifies security vulnerabilities in the codebase, expand the **Models** folder, and then open the **Order.cs** file.
 
@@ -242,7 +244,7 @@ Use the following steps to complete this task:
 
 1. Expand the **Security** folder and then open the **SecurityValidator.cs** file.
 
-1. Take a minute to locate the following security issues:
+1. Take a minute to find the following security issues:
 
     - Near the top of the file, notice the comment related to the admin credential constants (lines 7-9). This code is related to the "Remove Hardcoded Admin Credentials" issue.
 
@@ -256,24 +258,27 @@ Use the following steps to complete this task:
 
     - Locate the RunSecurityAudit method and review the comments describing security vulnerabilities. This code is related to the "Reduce Information Disclosure in Error Messages" issue.
 
+    Several of the methods in the SecurityValidator.cs file are related to the "Remove Sensitive Data from Debug Logging" issue.
+
 1. Expand the **Services** folder and then open the **UserService.cs** file.
 
-1. Take a minute to locate the following security issues:
+1. Take a minute to find the following security issues:
 
     - Locate the RegisterUser, LoginUser, and ValidateUserInput methods and review the comments describing security vulnerabilities. This code is related to the "Remove Sensitive Data from Debug Logging" issues.
+
     - Locate the GetMd5Hash method and review the comments describing security vulnerabilities. This code is related to the "Replace MD5 Password Hashing with Secure Alternative" issue.
 
 1. Open the **PaymentService.cs** file.
 
 1. Take a minute to review the comments describing security vulnerabilities.
 
-    This code is related to the "Remove Sensitive Data from Debug Logging" issue.
+    The security vulnerabilities in this code are related to the "Remove Sensitive Data from Debug Logging" issue.
 
 1. Open the **ProductService.cs** file.
 
 1. Take a minute to review the SearchProducts method.
 
-    This code is related to the "Fix SQL Injection Vulnerability in Product Search" issue.
+    The security vulnerabilities in this code are related to the "Fix SQL Injection Vulnerability in Product Search" issue.
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
@@ -283,17 +288,25 @@ In this task, you use GitHub Copilot's Ask mode to systematically analyze the se
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view and ensure that Ask mode is selected.
+1. Open GitHub Copilot's Chat view and ensure that the **Ask** mode is selected.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Verify that the chat mode is set to **Ask** and you're using the **GPT-4.1** model.
+    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Verify that the chat mode is set to **Ask** and that you're using the **GPT-4.1** model.
+
+    > **NOTE**: The GPT-4.1 model provides excellent code analysis capabilities and is included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
+
+1. Ensure that you're starting with clean chat session.
+
+    Chat sessions help to organize your interactions with GitHub Copilot. Each session maintains its own context, allowing you to focus on specific tasks or issues. The conversation history within a session provides continuity, enabling GitHub Copilot to build on previous interactions for more accurate and relevant responses. This chat conversation will focus on analyzing and resolving security vulnerabilities in the ContosoShopEasy application. After you complete your analysis of the GitHub issues using GitHub Copilot's Ask mode, you can use the same conversation to help implement code changes using GitHub Copilot's Agent mode. GitHub Copilot can use the detailed analysis from the Ask mode to inform its code generation in the Agent mode, ensuring that the fixes align with the identified vulnerabilities and recommended remediation strategies.
+
+    If needed, you can start a new chat session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel).
 
 1. Open the **ProductService.cs** file, and then locate the **SearchProducts** method.
 
 1. In the code editor, select the entire **SearchProducts** method.
 
-    Selecting code in the editor focuses the Chat context. GitHub Copilot uses the selected code to provide relevant analysis and recommendations.
+    Selecting code in the editor helps to focus the Chat context. GitHub Copilot uses the selected code to provide relevant analysis and recommendations.
 
-1. Ask GitHub Copilot to analyze the the code for SQL injection vulnerability.
+1. Ask GitHub Copilot to analyze the code for SQL injection vulnerability.
 
     For example, you can submit the following prompt:
 
@@ -310,6 +323,8 @@ Use the following steps to complete this task:
     ```
 
 1. Take a minute to review GitHub Copilot's remediation suggestions.
+
+    You should see recommendations for using parameterized queries or ORM methods that help to manage SQL injection risks. You might also see suggestions for input validation and sanitization techniques. GitHub Copilot often provides code snippets that demonstrate how to implement suggestions.
 
 1. Open the **UserService.cs** file, and then locate the **GetMd5Hash** method.
 
@@ -519,9 +534,9 @@ Use the following steps to complete this task:
 
 1. Take a minute to consider your remediation strategy.
 
-    Based on your analysis using GitHub Copilot's Ask mode, plan your approach to addressing the security vulnerabilities.
+    Create a plan that's based on the analysis you completed using GitHub Copilot's Ask mode. Consider the order in which you'll address the issues, dependencies between fixes, and how to verify that each vulnerability has been successfully remediated.
 
-    The GitHub issues, in order starting with the most critical, are as follows:
+    The GitHub issues, starting with the critical issues and descending by priority, are as follows:
 
     1. 🔐 Fix SQL Injection Vulnerability in Product Search
     1. 🔐 Replace MD5 Password Hashing with Secure Alternative
@@ -544,17 +559,23 @@ Use the following steps to complete this task:
 
     Your remediation strategy should involve addressing each issue systematically, ensuring that fixes are implemented correctly and consistently.
 
-1. Close all open files in the code editor to start with a clean context.
+    To save time during this training exercise, you resolve all of the issues and then commit all code updates together. A file-based remediation strategy makes sense in this case. However, processing issues in large batches isn't a recommended best practice.
+
+    In a production environment, it's often better to address each issue individually with separate commits. This approach provides better traceability, easier code reviews, and safer rollback options if problems arise.
+
+1. Close all open files in the code editor.
+
+    Closing files helps the agent focus on the files you add to the context. Files that are left open in the editor unintentionally can distract from the task at hand.
 
 1. Add the **ProductService.cs** file to the chat context.
 
-    The SQL injection issue is associated with the ProductService.cs file, and the SearchProducts method in particular.
+    The SQL injection issue is associated with the SearchProducts method in the ProductService.cs file.
 
-1. Ask GitHub Copilot to address the SQL injection vulnerability first.
+1. Ask GitHub Copilot to address the SQL injection vulnerability.
 
-    Your analysis using GitHub Copilot's Ask mode revealed that the method constructs SQL queries using user input without proper sanitization.
+    The analysis that you completed using GitHub Copilot's Ask mode revealed that the method constructs SQL queries using user input without proper sanitization. Use your analysis to construct clear task instructions that the agent can use to remediate the vulnerability.
 
-    Your analysis can be used to construct a clear instruction for the agent to remediate the vulnerability. For example, you can assign the following task to the agent:
+    For example, you can assign the following task to the agent:
 
     ```text
     Fix the SQL injection vulnerability in the SearchProducts method. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure the method still functions correctly for legitimate searches while preventing malicious input.
