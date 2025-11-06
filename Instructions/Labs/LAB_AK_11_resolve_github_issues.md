@@ -244,6 +244,8 @@ Use the following steps to complete this task:
 
 1. Expand the **Security** folder and then open the **SecurityValidator.cs** file.
 
+    > **NOTE**: The SecurityValidator.cs class is designed to centralize security-related logic for the ContosoShopEasy application, making it easier to locate, manage, and resolve security issues. In a real-world application, a class like SecurityValidator could be used to enforce security best practices and input validation. However, the specific implementation in ContosoShopEasy is intentionally insecure and contrived to expose vulnerabilities.
+
 1. Take a minute to find the following security issues:
 
     - Near the top of the file, notice the comment related to the admin credential constants (lines 7-9). This code is related to the "Remove Hardcoded Admin Credentials" issue.
@@ -254,11 +256,15 @@ Use the following steps to complete this task:
 
     - Locate the ValidatePasswordStrength method and review the comments describing security vulnerabilities. This code is related to the "Strengthen Password Security Requirements" issue.
 
+    - Locate the ValidateCreditCard method and review the comments describing security vulnerabilities. This code is related to the "Fix Credit Card Data Storage Violations" issue.
+
     - Locate the GenerateSessionToken method and review the comments describing security vulnerabilities. This code is related to the "Fix Predictable Session Token Generation" issue.
 
-    - Locate the RunSecurityAudit method and review the comments describing security vulnerabilities. This code is related to the "Reduce Information Disclosure in Error Messages" issue.
+    - Locate the RunSecurityAudit method and review the comments describing security vulnerabilities. This code is related to the "Reduce Information Disclosure in Error Messages (Console Output)" issue.
 
-    Several of the methods in the SecurityValidator.cs file are related to the "Remove Sensitive Data from Debug Logging" issue.
+    Several of the methods in the SecurityValidator.cs file are also related to the "Remove Sensitive Data from Debug Logging" issue.
+
+    The issues exposed by the SecurityValidator class are commonly found distributed among the classes of real-world applications, especially legacy or poorly maintained codebases.
 
 1. Expand the **Services** folder and then open the **UserService.cs** file.
 
@@ -282,11 +288,41 @@ Use the following steps to complete this task:
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
-GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies. By systematically analyzing each security issue, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
+GitHub issues often contain complex problems that require careful analysis before implementing fixes. Understanding the root causes, potential impacts, and best remediation strategies is crucial for effective resolution.
+
+You can use the following Visual Studio Code extensions to assist with issue analysis and resolution:
+
+- **GitHub Copilot Chat**: GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies.
+
+- **GitHub Pull Requests**: The GitHub Pull Requests extension integrates GitHub issues directly into Visual Studio Code, allowing you to manage and interact with issues without leaving your development environment.
+
+By systematically analyzing each security issue, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
 
 In this task, you use GitHub Copilot's Ask mode to systematically analyze the security vulnerabilities.
 
 Use the following steps to complete this task:
+
+1. Open the Extensions view in Visual Studio Code.
+
+    To open the Extensions view, select the **Extensions** icon from the Activity Bar on the left side of the Visual Studio Code window.
+
+1. In the Extensions view, search for "GitHub Pull Requests", and then install the extension.
+
+    This extension allows you to review and manage GitHub pull requests and issues in Visual Studio Code.
+
+    After the installation is complete, you may need to reload Visual Studio Code for the changes to take effect. A **GitHub** icon should be added to Visual Studio Code's Activity Bar.
+
+1. To open the GitHub Pull Requests view, select the **GitHub** icon from the Activity Bar.
+
+    If prompted, sign in to your GitHub account to connect Visual Studio Code to your GitHub repositories.
+
+1. Notice the **Pull Requests** and **Issues** sections in the GitHub view.
+
+    The **Issues** section allows you to view and manage issues from your GitHub repositories directly within Visual Studio Code.
+
+1. Take a minute to review the issues listed under the **Issues** section.
+
+    You should see the same issues that you reviewed earlier in the GitHub web interface.
 
 1. Open GitHub Copilot's Chat view and ensure that the **Ask** mode is selected.
 
@@ -305,6 +341,8 @@ Use the following steps to complete this task:
 1. In the code editor, select the entire **SearchProducts** method.
 
     Selecting code in the editor helps to focus the Chat context. GitHub Copilot uses the selected code to provide relevant analysis and recommendations.
+
+    The **SearchProducts** method is associated with the "Fix SQL Injection Vulnerability in Product Search" issue.
 
 1. Ask GitHub Copilot to analyze the code for SQL injection vulnerability.
 
@@ -326,9 +364,23 @@ Use the following steps to complete this task:
 
     You should see recommendations for using parameterized queries or ORM methods that help to manage SQL injection risks. You might also see suggestions for input validation and sanitization techniques. GitHub Copilot often provides code snippets that demonstrate how to implement suggestions.
 
-1. Open the **UserService.cs** file, and then locate the **GetMd5Hash** method.
+1. Open the **UserService.cs** file.
+
+1. Ask GitHub Copilot to review the UserService.cs file, identify security vulnerabilities, and then list the related GitHub issues.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    Review the UserService.cs file and identify the security vulnerabilities that are present in the code. Create a list the corresponding GitHub issues. Indicate the methods associated with each issue.
+    ```
+
+1. Take a minute to review GitHub Copilot's response.
+
+1. In the code editor, locate the **GetMd5Hash** method.
 
 1. In the code editor, select the entire **GetMd5Hash** method.
+
+    The **GetMd5Hash** method is associated with the "Replace MD5 Password Hashing with Secure Alternative" issue.
 
 1. Ask GitHub Copilot to analyze the weak password hashing vulnerability.
 
@@ -348,11 +400,13 @@ Use the following steps to complete this task:
 
 1. Take a minute to review GitHub Copilot's remediation suggestions.
 
+    GitHub Copilot should provide a comparison of "PBKDF2" and "bcrypt". It should also provide code snippets demonstrating how to implement secure password hashing using these algorithms, and a list of additional security measures for password handling.
+
 1. In the **UserService.cs** file, locate the **RegisterUser** and **LoginUser** methods.
 
-    These methods log user information. Logging sensitive information is a security vulnerability.
-
 1. In the code editor, select both methods.
+
+    The **RegisterUser** and **LoginUser** methods are associated with the "Remove Sensitive Data from Debug Logging" issue.
 
 1. Ask GitHub Copilot to analyze the sensitive data logging vulnerability.
 
@@ -375,6 +429,8 @@ Use the following steps to complete this task:
 1. Open the **PaymentService.cs** file, and then locate the **ProcessPayment** method.
 
 1. In the code editor, select the entire **ProcessPayment** method.
+
+    The **ProcessPayment** method is associated with the "Remove Sensitive Data from Debug Logging" issue.
 
 1. Ask GitHub Copilot to analyze the logging of sensitive payment data.
 
