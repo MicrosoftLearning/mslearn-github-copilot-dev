@@ -110,7 +110,7 @@ Use the following steps to complete this task:
 
 1. Open the Actions tab of your repository.
 
-1. On the left side under **All workflows**, select the **Create ContosoShopEasy Training Issues** workflow, and then select **Run workflow**.
+1. On the left side of the page under **All workflows**, select the **Create ContosoShopEasy Training Issues** workflow, and then select **Run workflow**.
 
 1. In the workflow dialog that appears, type **CREATE** and then select **Run workflow**.
 
@@ -134,11 +134,15 @@ Use the following steps to complete this task:
 
 1. Select the **Issues** tab of your repository, and then take a minute to review the Issues page.
 
-    You should see 10 issues listed. Notice that the issues are defined as bugs and that they've been assigned a priority level.
+    You should see 10 issues open listed. Notice the following:
+
+    - All of the issues are labeled as bugs.
+    - All of the issues have a priority level.
+    - None of the issues are assigned to anyone.
 
 1. To display only the critical issues, select the **Labels** dropdown, and then select the **critical** label.
 
-    The issues list filters to show only the critical issues.
+    The issues list should update to show only the critical issues.
 
     - **🔐 Remove Hardcoded Admin Credentials**  
 
@@ -146,7 +150,7 @@ Use the following steps to complete this task:
 
 1. To display only the high-priority issues, select the **Labels** dropdown, deselect **critical**, and then select the **high-priority** label.
 
-    The issues list filters to show only the high-priority issues.
+    The issues list should update to show only the high-priority issues.
 
     - **🔐 Fix Input Validation Security Bypass**  
 
@@ -168,17 +172,21 @@ Use the following steps to complete this task:
 
 1. Navigate back to the Issues tab and clear the filters.
 
-1. Select all of the issues, and then use the **Assign** dropdown to assign them to yourself.
+1. Select the following critical and high-priority issues, and then use the **Assign** dropdown to assign them to yourself.
 
-    Assigning the issues to yourself helps you track your progress as you work through the remediation process.
+    - **🔐 Fix Credit Card Data Storage Violations**  
+
+    - **🔐 Fix SQL Injection Vulnerability in Product Search**  
+
+    It's generally best to work on the higher priority issues first. Assigning issues to yourself helps you track your progress as you work through the remediation process.
 
 ### Clone the repository locally and review the codebase
 
 The ContosoShopEasy application follows a layered architecture typical of enterprise applications, with clear separation between models, services, data access, and security components.
 
-Taking the time to understand the basic structure, behavior, and features of an existing codebase is essential before attempting to resolve security issues.
+Taking the time to understand the basic structure, behavior, and features of an existing codebase is an important first step when resolving security issues.
 
-In this task, you create a local clone of your repository, examine the project structure in Visual Studio Code, review the application's console output, and locate security vulnerabilities.
+In this task, you create a local clone of your repository, examine the project structure in Visual Studio Code, review the application's console output, and identify security vulnerabilities within the codebase.
 
 Use the following steps to complete this task:
 
@@ -206,13 +214,13 @@ Use the following steps to complete this task:
 
     The ContosoShopEasy application follows a layered architecture with the following components:
 
-    - **Models/**: Contains data models for **Category.cs**, **Order.cs**, **Product.cs**, and **User.cs**.
-
-    - **Services/**: Contains business logic in **OrderService.cs**, **PaymentService.cs**, **ProductService.cs**, and **UserService.cs**.
-
     - **Data/**: Contains data repositories in **OrderRepository.cs**, **ProductRepository.cs**, and **UserRepository.cs**.
 
+    - **Models/**: Contains data models for **Category.cs**, **Order.cs**, **Product.cs**, and **User.cs**.
+
     - **Security/**: Contains security validation logic in **SecurityValidator.cs**
+
+    - **Services/**: Contains business logic in **OrderService.cs**, **PaymentService.cs**, **ProductService.cs**, and **UserService.cs**.
 
     - **Program.cs**: Main application entry point with dependency injection setup
 
@@ -232,15 +240,19 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the console output.
 
-    Notice that the application logs sensitive information such as passwords, credit card numbers, admin credentials, and internal system details. This output provides clear evidence of security issues that need to be addressed.
+    The ContosoShopEasy application uses intentionally excessive logging as an educational tool to expose vulnerabilities. Excessive logging serves a dual purpose: both creating AND exposing security issues, which mimics actual over-logging problems found in some production systems. This implementation helps developers distinguish between two types of vulnerabilities:
 
-    > **NOTE**: The code comments, logic, and logging in this app are designed to help expose security vulnerabilities. Although the implementation is contrived, the comments and output logs highlight security issues that are common in real-world applications.
+    - Issues created BY logging: Approximately 40% of the vulnerabilities in the ContosoShopEasy application are caused by over-logging. For example, password exposure, credit card number disclosure, session token exposure, and configuration information disclosure.
 
-1. To begin a review process that identifies security vulnerabilities in the codebase, expand the **Models** folder, and then open the **Order.cs** file.
+    - Issues that exist independently of logging: Approximately 60% of the vulnerabilities in the ContosoShopEasy application exist independently of logging. For example, SQL injection, weak password hashing, hardcoded credentials, predictable tokens, input validation bypass, credit card storage, and weak email validation. Although logging doesn't create these vulnerabilities, it does help to expose them within the training environment.
+
+1. To begin your review of security vulnerabilities in the codebase, expand the **Models** folder, and then open the **Order.cs** file.
+
+    Notice that the ContosoShopEasy application uses code comments, logic, and logging to expose security issues. Although the implementation is contrived, it highlights vulnerabilities that are common in real-world applications.
 
 1. Scroll down to find the **PaymentInfo** class.
 
-    Notice the comments regarding the CardNumber and CVV properties. This code is related to the "Fix Credit Card Data Storage Violations" issue.
+    Notice the comments regarding the CardNumber and CVV properties. This code is related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
 1. Expand the **Security** folder and then open the **SecurityValidator.cs** file.
 
@@ -256,7 +268,7 @@ Use the following steps to complete this task:
 
     - Locate the ValidatePasswordStrength method and review the comments describing security vulnerabilities. This code is related to the "Strengthen Password Security Requirements" issue.
 
-    - Locate the ValidateCreditCard method and review the comments describing security vulnerabilities. This code is related to the "Fix Credit Card Data Storage Violations" issue.
+    - Locate the ValidateCreditCard method and review the comments describing security vulnerabilities. This code is related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
     - Locate the GenerateSessionToken method and review the comments describing security vulnerabilities. This code is related to the "Fix Predictable Session Token Generation" issue.
 
@@ -280,37 +292,63 @@ Use the following steps to complete this task:
 
     The security vulnerabilities in this code are related to the "Remove Sensitive Data from Debug Logging" issue.
 
+    Notice that the PaymentService class uses OrderRepository to persist payment-related order data. If the OrderRepository class does not properly handle sensitive data, it could lead to data exposure vulnerabilities.
+
 1. Open the **ProductService.cs** file.
 
 1. Take a minute to review the SearchProducts method.
 
-    The security vulnerabilities in this code are related to the "Fix SQL Injection Vulnerability in Product Search" issue.
+    The security vulnerabilities in this code are related to the **Fix SQL Injection Vulnerability in Product Search** issue that you assigned to yourself.
+
+    Notice that the SearchProducts method calls the ProductRepository's Search method. If the Search method is not properly validating and sanitizing user input, it could be vulnerable to SQL injection attacks.
+
+1. Make a list of the code files related to the issues assigned to you.
+
+    The issues that you assigned to yourself are:
+
+    - **🔐 Fix Credit Card Data Storage Violations**
+    - **🔐 Fix SQL Injection Vulnerability in Product Search**
+
+    The code files related to the "Fix Credit Card Data Storage Violations" issue are:
+
+    - Models/Orders.cs/PaymentInfo class
+    - Security/SecurityValidator.cs/ValidateCreditCard method
+    - Data/OrderRepository.cs
+
+    The code files related to the "Fix SQL Injection Vulnerability in Product Search" issue are:
+
+    - Services/ProductService.cs/SearchProducts method
+    - Data/ProductRepository.cs/SearchProducts method
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
 GitHub issues often contain complex problems that require careful analysis before implementing fixes. Understanding the root causes, potential impacts, and best remediation strategies is crucial for effective resolution.
 
-You can use the following Visual Studio Code extensions to assist with issue analysis and resolution:
+The following GitHub extensions for Visual Studio Code can assist with issue analysis and resolution:
 
 - **GitHub Copilot Chat**: GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies.
 
 - **GitHub Pull Requests**: The GitHub Pull Requests extension integrates GitHub issues directly into Visual Studio Code, allowing you to manage and interact with issues without leaving your development environment.
 
-By systematically analyzing each security issue, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
+By systematically analyzing security issues, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
 
-In this task, you use GitHub Copilot's Ask mode to systematically analyze the security vulnerabilities.
+In this task, you use GitHub Copilot's Ask mode to analyze the security vulnerabilities.
 
 Use the following steps to complete this task:
 
-1. Open the Extensions view in Visual Studio Code.
+1. Ensure that the GitHub Copilot Chat and GitHub Pull Requests extensions are installed in Visual Studio Code.
 
-    To open the Extensions view, select the **Extensions** icon from the Activity Bar on the left side of the Visual Studio Code window.
+    Open the Extensions view in Visual Studio Code and review your installed extensions. If either extension is missing, install it before proceeding.
 
-1. In the Extensions view, search for "GitHub Pull Requests", and then install the extension.
+    For example, you can use the following steps to install the GitHub Pull Requests extension:
 
-    This extension allows you to review and manage GitHub pull requests and issues in Visual Studio Code.
+    1. Open the Extensions view in Visual Studio Code.
 
-    After the installation is complete, you may need to reload Visual Studio Code for the changes to take effect. A **GitHub** icon should be added to Visual Studio Code's Activity Bar.
+    1. In the Extensions view, search for **GitHub Pull Requests**.
+
+    1. Select **GitHub Pull Requests** from the search results, and then install the extension.
+
+        After the installation is complete, you may need to reload Visual Studio Code for the changes to take effect. A **GitHub** icon should be added to Visual Studio Code's Activity Bar.
 
 1. To open the GitHub Pull Requests view, select the **GitHub** icon from the Activity Bar.
 
@@ -320,9 +358,20 @@ Use the following steps to complete this task:
 
     The **Issues** section allows you to view and manage issues from your GitHub repositories directly within Visual Studio Code.
 
+    > **IMPORTANT**: To save time during this training exercise, issues are resolved in batches. However, Microsoft and GitHub recommend resolving each issue individually with separate commits. The GitHub Pull Requests extension is designed to facilitate processing issues individually and in separate branches. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
+
 1. Take a minute to review the issues listed under the **Issues** section.
 
     You should see the same issues that you reviewed earlier in the GitHub web interface.
+
+1. 
+
+
+
+
+
+
+
 
 1. Open GitHub Copilot's Chat view and ensure that the **Ask** mode is selected.
 
@@ -366,23 +415,27 @@ Use the following steps to complete this task:
 
 1. Open the **UserService.cs** file.
 
-1. Ask GitHub Copilot to review the UserService.cs file, identify security vulnerabilities, and then list the related GitHub issues.
+1. Select the **RegisterUser**, **LoginUser**, and **ValidateUserInput** methods, and then ask GitHub Copilot to analyze sensitive data exposure vulnerabilities.
 
     For example, you can submit the following prompt:
 
     ```text
-    Review the UserService.cs file and identify the security vulnerabilities that are present in the code. Create a list the corresponding GitHub issues. Indicate the methods associated with each issue.
+    What sensitive information is being logged in the user registration, login, and input validation methods? Why is logging passwords and user data a security risk?
     ```
 
-1. Take a minute to review GitHub Copilot's response.
+1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
 
-1. In the code editor, locate the **GetMd5Hash** method.
+    For example, after reviewing the initial analysis, you can submit the following prompt:
 
-1. In the code editor, select the entire **GetMd5Hash** method.
+    ```text
+    How can I modify these methods to prevent sensitive data logging? What secure logging practices should I implement to protect user information?
+    ```
 
-    The **GetMd5Hash** method is associated with the "Replace MD5 Password Hashing with Secure Alternative" issue.
+1. Take a minute to review GitHub Copilot's remediation suggestions.
 
-1. Ask GitHub Copilot to analyze the weak password hashing vulnerability.
+   You should see recommendations for removing sensitive information from logs, such as passwords and personal data. GitHub Copilot may also suggest implementing structured logging practices, using log redaction techniques, and ensuring that logs are stored securely.
+
+1. Select the **GetMd5Hash** method, and then ask GitHub Copilot to analyze the weak password hashing vulnerability.
 
     For example, you can submit the following prompt:
 
@@ -401,30 +454,6 @@ Use the following steps to complete this task:
 1. Take a minute to review GitHub Copilot's remediation suggestions.
 
     GitHub Copilot should provide a comparison of "PBKDF2" and "bcrypt". It should also provide code snippets demonstrating how to implement secure password hashing using these algorithms, and a list of additional security measures for password handling.
-
-1. In the **UserService.cs** file, locate the **RegisterUser** and **LoginUser** methods.
-
-1. In the code editor, select both methods.
-
-    The **RegisterUser** and **LoginUser** methods are associated with the "Remove Sensitive Data from Debug Logging" issue.
-
-1. Ask GitHub Copilot to analyze the sensitive data logging vulnerability.
-
-    For example, you can submit the following prompt:
-
-    ```text
-    What sensitive information is being logged in the user registration and login methods? Why is logging passwords and user data a security risk?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify these methods to prevent sensitive data logging? What secure logging practices should I implement to protect user information?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
 
 1. Open the **PaymentService.cs** file, and then locate the **ProcessPayment** method.
 
