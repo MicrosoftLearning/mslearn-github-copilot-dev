@@ -607,7 +607,7 @@ Use the following steps to resolve the SQL injection vulnerability:
     For example, you can assign the following task to the agent:
 
     ```text
-    #codebase I need you to fix the SQL injection vulnerability in the SearchProducts method. Review the current Chat conversation related to SQL injection vulnerabilities to identify my expected code fixes and acceptance criteria. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure that the method still functions correctly for legitimate searches while preventing malicious input. Update the DisplayKnownVulnerabilities method in SecurityValidator.cs to reflect the updates.
+    #codebase I need you to fix the SQL injection vulnerability in the SearchProducts method. Review the current Chat conversation related to SQL injection vulnerabilities to identify my expected code fixes and acceptance criteria. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure that the method still functions correctly for legitimate searches while preventing malicious input. Update the DisplayKnownVulnerabilities method in SecurityValidator.cs to reflect that SQL injection protection is enabled.
     ```
 
 1. Monitor the agent's progress.
@@ -631,18 +631,6 @@ Use the following steps to resolve the SQL injection vulnerability:
     - Automated tests (if available) pass successfully.
     - Code updates are clearly documented.
     - Changes are committed with descriptive messages and peer-reviewed before merging and closing the issue.
-
-1. Close the ProductService.cs file, and then add the **ContosoShopEasy** folder to the chat context.
-
-    The SecurityValidator.cs file contains security-related logic that may be relevant to input validation and sanitization. The Program.cs file sets up dependency injection and may require updates to accommodate any new validation services.
-
-1. Ask GitHub Copilot to review the additional files for necessary updates.
-
-    For example, you can assign the following task to the agent:
-
-    ```text
-    Review the Program.cs and SecurityValidator.cs files. Update the DemonstrateProductSearch method in Program.cs and logging statements in the Program.cs and SecurityValidator.cs files to show that SQL injection attacks are being managed. The updated code should log both the original and sanitized input. Update the DisplayKnownVulnerabilities method in SecurityValidator.cs to reflect the updates.
-    ```
 
 #### Resolve Credit Card Data Storage Violations
 
@@ -699,7 +687,7 @@ Use the following steps to resolve the credit card data storage violations:
     For example, you can assign the following task to the agent:
 
     ```text
-    Fix the credit card validation logging in the ValidateCreditCard method in SecurityValidator.cs. Remove or mask the full credit card number in log statements, showing only the last 4 digits if logging is necessary. Ensure the validation logic continues to work correctly.
+    Fix the credit card validation logging in the ValidateCreditCard method in SecurityValidator.cs. Remove or mask the full credit card number in log statements, showing only the last 4 digits if logging is necessary. Ensure the validation logic continues to work correctly. Update the DisplayKnownVulnerabilities method to reflect that credit card data storage is now secure.
     ```
 
 1. Monitor the agent's progress.
@@ -784,29 +772,26 @@ In this task, you commit your security improvements to the repository and close 
 
 Use the following steps to complete this task:
 
-1. Review all changes made to the codebase.
+1. Open Visual Studio Code's Source Control view, and then review the changes made to each of the updated files.
 
-    Use Git to see what files have been modified:
+    Look for any unexpected changes that may have been introduced during the remediation process. Ensure that all changes align with your remediation strategy and that no new vulnerabilities were introduced.
 
-    ```bash
-    git status
-    git diff
+1. Ask GitHub Copilot to craft a comprehensive commit message.
+
+    For example, you can use the following prompt in the Chat view:
+
+    ```text
+    I need to create a commit message that summarizes the security fixes I implemented for two GitHub issues: "Fix SQL Injection Vulnerability in Product Search" and "Fix Credit Card Data Storage Violations." The commit message should clearly describe the changes made to address each issue, including specific code modifications and the overall impact on application security. Draft a detailed commit message that captures all relevant information.
     ```
 
-1. Stage all security-related changes for commit.
+1. Take a minute to review the proposed commit message.
 
-    Add the modified files to the staging area:
+    Ensure that it accurately reflects the security improvements made and provides sufficient detail for future reference.
 
-    ```bash
-    git add .
-    ```
+    For example, the commit message might look similar to the following sample:
 
-1. Commit the security fixes with a comprehensive message that references the GitHub issues you addressed.
-
-    Create a commit that addresses the two security vulnerabilities assigned to you:
-
-    ```bash
-    git commit -m "Fix SQL injection and credit card data storage vulnerabilities
+    ```text
+    Fix SQL injection and credit card data storage vulnerabilities
 
     Security improvements implemented:
     - Fix SQL injection in ProductService SearchProducts method
@@ -820,20 +805,18 @@ Use the following steps to complete this task:
       - Update PaymentService to not log or store sensitive card data
       - Mask credit card numbers in SecurityValidator logs
     
-    Fixes #[SQL_INJECTION_ISSUE_NUMBER] #[CREDIT_CARD_ISSUE_NUMBER]"
+    Fixes #[SQL_INJECTION_ISSUE_NUMBER] #[CREDIT_CARD_ISSUE_NUMBER]
     ```
 
-    Replace `[SQL_INJECTION_ISSUE_NUMBER]` and `[CREDIT_CARD_ISSUE_NUMBER]` with the actual issue numbers from your GitHub repository. You can find these numbers in the GitHub Pull Requests view in Visual Studio Code or by viewing the issues on GitHub.
+1. Replace `[SQL_INJECTION_ISSUE_NUMBER]` and `[CREDIT_CARD_ISSUE_NUMBER]` with the actual issue numbers from your GitHub repository.
+
+    You can find these numbers in the GitHub Pull Requests view in Visual Studio Code or by viewing the issues on GitHub.
 
     > **NOTE**: In a production environment, each issue would typically be addressed in separate commits with individual testing and code review. Combining both fixes in a single commit is used here to streamline the training exercise workflow.
 
-1. Push the changes to your GitHub repository.
+1. Stage and commit your changes, and then push changes to your GitHub repository (or synchronize).
 
-    ```bash
-    git push origin main
-    ```
-
-1. Verify that the GitHub issues are automatically closed.
+1. Open GitHub and verify that the GitHub issues are automatically closed.
 
     Navigate to your repository on GitHub and check that the two issues you referenced in your commit message are marked as closed. GitHub automatically closes issues when commit messages include "Fixes #[issue_number]" syntax.
 
