@@ -70,8 +70,6 @@ This exercise includes the following tasks:
 1. Test and verify the refactored code.
 1. Commit changes and close issues.
 
-> **NOTE**: To save time during this training exercise, you resolve a group of issues and push updates in a single commit. Processing issues in batches isn't a recommended best practice. Microsoft and GitHub recommend resolving each issue individually with separate commits. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
-
 ### Import the ContosoShopEasy repository
 
 GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy. Although GitHub Importer doesn't migrate Issues, PRs, or Discussions, it does import GitHub Actions workflows. The repository that you import includes a GitHub Actions workflow that creates issues associated with the codebase.
@@ -240,21 +238,21 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the console output.
 
-    The ContosoShopEasy application uses intentionally excessive logging as an educational tool to expose vulnerabilities. Excessive logging serves a dual purpose: both creating AND exposing security issues, which mimics actual over-logging problems found in some production systems. This implementation helps developers distinguish between two types of vulnerabilities:
+    The ContosoShopEasy application uses intentionally excessive logging as an educational tool. In addition to exposing security issues in the codebase, some of the logs actually create the issues. Including logs that create security issues demonstrates actual over-logging problems found in some production systems. Logging in the ContosoShopEasy application is used to help developers distinguish between two types of issues:
 
-    - Issues created BY logging: Approximately 40% of the vulnerabilities in the ContosoShopEasy application are caused by over-logging. For example, password exposure, credit card number disclosure, session token exposure, and configuration information disclosure.
+    - Issues created by logging: Approximately 40% of the vulnerabilities in the ContosoShopEasy application are caused by over-logging. For example, password exposure, credit card number disclosure, session token exposure, and configuration information disclosure.
 
-    - Issues that exist independently of logging: Approximately 60% of the vulnerabilities in the ContosoShopEasy application exist independently of logging. For example, SQL injection, weak password hashing, hardcoded credentials, predictable tokens, input validation bypass, credit card storage, and weak email validation. Although logging doesn't create these vulnerabilities, it does help to expose them within the training environment.
+    - Issues that exist independently of logging: Approximately 60% of the vulnerabilities in the ContosoShopEasy application exist independently of logging. For example, SQL injection, weak password hashing, hardcoded credentials, predictable tokens, input validation bypass, credit card storage, and weak email validation. Although logging doesn't create these vulnerabilities, logging does help to expose the issues within the training environment.
 
 1. To begin your review of security vulnerabilities in the codebase, expand the **Models** folder, and then open the **Order.cs** file.
-
-    Notice that the ContosoShopEasy application uses code comments, logic, and logging to expose security issues. Although the implementation is contrived, it highlights vulnerabilities that are common in real-world applications.
 
 1. Scroll down to find the **PaymentInfo** class.
 
     Notice the comments regarding the CardNumber and CVV properties. This code is related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
 1. Expand the **Security** folder and then open the **SecurityValidator.cs** file.
+
+    Notice that the ContosoShopEasy application uses code comments, logic, and logging to expose security issues. Although the implementation is contrived, this approach helps to highlight vulnerabilities that are common in real-world applications.
 
     > **NOTE**: The SecurityValidator.cs class is designed to centralize security-related logic for the ContosoShopEasy application, making it easier to locate, manage, and resolve security issues. In a real-world application, a class like SecurityValidator could be used to enforce security best practices and input validation. However, the specific implementation in ContosoShopEasy is intentionally insecure and contrived to expose vulnerabilities.
 
@@ -282,17 +280,19 @@ Use the following steps to complete this task:
 
 1. Take a minute to find the following security issues:
 
-    - Locate the RegisterUser, LoginUser, and ValidateUserInput methods and review the comments describing security vulnerabilities. This code is related to the "Remove Sensitive Data from Debug Logging" issues.
+    - Locate the RegisterUser, LoginUser, and ValidateUserInput methods and review the comments describing security vulnerabilities. This code is related to the "Remove Sensitive Data from Debug Logging" issue.
 
     - Locate the GetMd5Hash method and review the comments describing security vulnerabilities. This code is related to the "Replace MD5 Password Hashing with Secure Alternative" issue.
 
 1. Open the **PaymentService.cs** file.
 
-1. Take a minute to review the comments describing security vulnerabilities.
+1. Take a minute to review the comments in the payment and validation methods.
 
-    The security vulnerabilities in this code are related to the "Remove Sensitive Data from Debug Logging" issue.
+    The security vulnerabilities in this code are related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
-    Notice that the PaymentService class uses OrderRepository to persist payment-related order data. If the OrderRepository class does not properly handle sensitive data, it could lead to data exposure vulnerabilities.
+    The PaymentService class is also related to other issues. For example, the "Remove Sensitive Data from Debug Logging" and "Reduce Information Disclosure in Error Messages (Console Output )" issues.
+
+    Notice that the PaymentService class uses OrderRepository to persist payment-related order data. If the OrderRepository class doesn't handle sensitive data properly, it could lead to data exposure vulnerabilities in the OrderRepository class.
 
 1. Open the **ProductService.cs** file.
 
@@ -300,7 +300,7 @@ Use the following steps to complete this task:
 
     The security vulnerabilities in this code are related to the **Fix SQL Injection Vulnerability in Product Search** issue that you assigned to yourself.
 
-    Notice that the SearchProducts method calls the ProductRepository's Search method. If the Search method is not properly validating and sanitizing user input, it could be vulnerable to SQL injection attacks.
+    Notice that the SearchProducts method in ProductService calls the SearchProducts method in ProductRepository. You might want to analyze the repository method to determine whether it requires security improvements as well.
 
 1. Make a list of the code files related to the issues assigned to you.
 
@@ -324,7 +324,7 @@ Use the following steps to complete this task:
 
 GitHub issues often contain complex problems that require careful analysis before implementing fixes. Understanding the root causes, potential impacts, and best remediation strategies is crucial for effective resolution.
 
-The following GitHub extensions for Visual Studio Code can assist with issue analysis and resolution:
+The following GitHub extensions for Visual Studio Code can help you analyze GitHub issues:
 
 - **GitHub Copilot Chat**: GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies.
 
@@ -332,7 +332,7 @@ The following GitHub extensions for Visual Studio Code can assist with issue ana
 
 By systematically analyzing security issues, you can develop a comprehensive understanding of the problems before implementing fixes. This approach ensures that solutions address root causes rather than just symptoms.
 
-In this task, you use GitHub Copilot's Ask mode to analyze the security vulnerabilities.
+In this task, you use GitHub Copilot's Ask mode to analyze the GitHub issues assigned to you.
 
 Use the following steps to complete this task:
 
@@ -354,24 +354,19 @@ Use the following steps to complete this task:
 
     If prompted, sign in to your GitHub account to connect Visual Studio Code to your GitHub repositories.
 
-1. Notice the **Pull Requests** and **Issues** sections in the GitHub view.
+1. Notice that the GitHub view includes two sections, **Pull Requests** and **Issues**.
 
-    The **Issues** section allows you to view and manage issues from your GitHub repositories directly within Visual Studio Code.
+    The **Issues** section allows you to view and manage issues from your GitHub repositories directly within Visual Studio Code. The **Pull Requests** section allows you to manage pull requests.
 
-    > **IMPORTANT**: To save time during this training exercise, issues are resolved in batches. However, Microsoft and GitHub recommend resolving each issue individually with separate commits. The GitHub Pull Requests extension is designed to facilitate processing issues individually and in separate branches. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise.
+1. Collapse the **Pull Requests** section.
 
-1. Take a minute to review the issues listed under the **Issues** section.
+1. Take a minute to review the **Issues** section.
 
-    You should see the same issues that you reviewed earlier in the GitHub web interface.
+    Notice that the issues you assigned to yourself are listed under the My Issues section (no milestones were defined). If you expand the **Recent Issues** section, you can see all of the issues that were added to the repository.
 
-1. 
+1. Under the My Issues section, select **Fix SQL Injection Vulnerability in Product Search**.
 
-
-
-
-
-
-
+    The GitHub Pull Requests extension opens the issue details in a new editor tab. You can review the issue description, comments, and any related information in this tab. You can use issue details to help construct the prompts that you submit to GitHub Copilot in the Chat view.
 
 1. Open GitHub Copilot's Chat view and ensure that the **Ask** mode is selected.
 
@@ -379,11 +374,17 @@ Use the following steps to complete this task:
 
     > **NOTE**: The GPT-4.1 model provides excellent code analysis capabilities and is included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
 
-1. Ensure that you're starting with clean chat session.
+1. Ensure that you're starting with a clean chat session.
 
-    Chat sessions help to organize your interactions with GitHub Copilot. Each session maintains its own context, allowing you to focus on specific tasks or issues. The conversation history within a session provides continuity, enabling GitHub Copilot to build on previous interactions for more accurate and relevant responses. This chat conversation will focus on analyzing and resolving security vulnerabilities in the ContosoShopEasy application. After you complete your analysis of the GitHub issues using GitHub Copilot's Ask mode, you can use the same conversation to help implement code changes using GitHub Copilot's Agent mode. GitHub Copilot can use the detailed analysis from the Ask mode to inform its code generation in the Agent mode, ensuring that the fixes align with the identified vulnerabilities and recommended remediation strategies.
+    Chat sessions help to organize your interactions with GitHub Copilot. Each session maintains its own context, allowing you to focus on specific tasks or issues. The conversation history within a session provides continuity, enabling GitHub Copilot to build on previous interactions for more accurate and relevant responses. This chat conversation will focus on analyzing and resolving the two security vulnerabilities assigned to you in the ContosoShopEasy application. After you complete your analysis of the GitHub issues using GitHub Copilot's Ask mode, you can use the same conversation to help implement code changes using GitHub Copilot's Agent mode. GitHub Copilot can use the detailed analysis from the Ask mode to inform its code generation in the Agent mode, ensuring that the fixes align with the identified vulnerabilities and recommended remediation strategies.
 
     If needed, you can start a new chat session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel).
+
+#### Analyze SQL Injection Vulnerability
+
+The SQL injection vulnerability exists in the ProductService.cs file and potentially in the ProductRepository.cs file. You'll analyze both files to understand the full scope of the vulnerability.
+
+Use the following steps to analyze the SQL injection vulnerability:
 
 1. Open the **ProductService.cs** file, and then locate the **SearchProducts** method.
 
@@ -391,225 +392,177 @@ Use the following steps to complete this task:
 
     Selecting code in the editor helps to focus the Chat context. GitHub Copilot uses the selected code to provide relevant analysis and recommendations.
 
-    The **SearchProducts** method is associated with the "Fix SQL Injection Vulnerability in Product Search" issue.
-
 1. Ask GitHub Copilot to analyze the code for SQL injection vulnerability.
 
     For example, you can submit the following prompt:
 
     ```text
-    Analyze the SearchProducts method for security vulnerabilities. What makes this code susceptible to SQL injection attacks, and what are the potential consequences if an attacker exploits this vulnerability?
+    Analyze the SearchProducts method for SQL injection vulnerabilities. Consider the following issue description: "The product search functionality is vulnerable to SQL injection attacks. User input is directly concatenated into SQL queries without proper parameterization or sanitization." Explain the impact of directly concatenating user input into SQL queries without proper parameterization or sanitization. What are the potential consequences if an attacker exploits this vulnerability?
     ```
 
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
+1. Review GitHub Copilot's analysis.
+
+    GitHub Copilot should identify that the method constructs SQL queries using user input without proper sanitization. The simulated SQL query demonstrates how user input is directly concatenated into the query string, which could allow attackers to manipulate the database query.
+
+1. Ask for specific remediation guidance.
 
     For example, after reviewing the initial analysis, you can submit the following prompt:
 
     ```text
-    How can I modify this method to prevent SQL injection attacks? What secure coding practices should I implement to safely handle user input in database queries?
+    How can I modify this method to prevent SQL injection attacks? What secure coding practices should I implement to safely handle user input in database queries? Where should user input be validated and sanitized? What techniques can I use to construct SQL queries safely?
     ```
 
 1. Take a minute to review GitHub Copilot's remediation suggestions.
 
     You should see recommendations for using parameterized queries or ORM methods that help to manage SQL injection risks. You might also see suggestions for input validation and sanitization techniques. GitHub Copilot often provides code snippets that demonstrate how to implement suggestions.
 
-1. Open the **UserService.cs** file.
+1. Open the **ProductRepository.cs** file in the **Data** folder, and then locate the **SearchProducts** method.
 
-1. Select the **RegisterUser**, **LoginUser**, and **ValidateUserInput** methods, and then ask GitHub Copilot to analyze sensitive data exposure vulnerabilities.
+    During your code review, you noted that the SearchProducts method in ProductRepository is called by the SearchProducts method in ProductService. You can analyze the repository method to determine if it requires security improvements as well.
 
-    For example, you can submit the following prompt:
-
-    ```text
-    What sensitive information is being logged in the user registration, login, and input validation methods? Why is logging passwords and user data a security risk?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify these methods to prevent sensitive data logging? What secure logging practices should I implement to protect user information?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
-
-   You should see recommendations for removing sensitive information from logs, such as passwords and personal data. GitHub Copilot may also suggest implementing structured logging practices, using log redaction techniques, and ensuring that logs are stored securely.
-
-1. Select the **GetMd5Hash** method, and then ask GitHub Copilot to analyze the weak password hashing vulnerability.
+1. In the code editor, select the entire **SearchProducts** method, and then ask GitHub Copilot to analyze the code for SQL injection vulnerability.
 
     For example, you can submit the following prompt:
 
     ```text
-    Why is MD5 hashing unsuitable for password storage? What are the security risks of using MD5 for passwords, and what stronger alternatives should I use instead?
+    Analyze the SearchProducts method in ProductRepository. Does this method properly handle the search term to prevent SQL injection, or are there vulnerabilities here as well? How does this method relate to the vulnerability in ProductService?
     ```
 
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
+1. Review GitHub Copilot's analysis of the repository method.
 
-    For example, after reviewing the initial analysis, you can submit the following prompt:
+    GitHub Copilot should note that while the repository method uses safe string operations (ToLower and Contains), the primary vulnerability is in the ProductService layer where the simulated SQL query is constructed with user input. The repository implementation itself is relatively safe, but the service layer exposes the vulnerability through improper SQL query construction.
 
-    ```text
-    Show me how to implement secure password hashing using bcrypt or PBKDF2. What additional security measures should I implement for password handling?
-    ```
+1. Close the ProductRepository.cs file.
 
-1. Take a minute to review GitHub Copilot's remediation suggestions.
-
-    GitHub Copilot should provide a comparison of "PBKDF2" and "bcrypt". It should also provide code snippets demonstrating how to implement secure password hashing using these algorithms, and a list of additional security measures for password handling.
-
-1. Open the **PaymentService.cs** file, and then locate the **ProcessPayment** method.
-
-1. In the code editor, select the entire **ProcessPayment** method.
-
-    The **ProcessPayment** method is associated with the "Remove Sensitive Data from Debug Logging" issue.
-
-1. Ask GitHub Copilot to analyze the logging of sensitive payment data.
+1. Ask GitHub Copilot to propose a comprehensive remediation strategy for the SQL injection vulnerability that includes input validation and sanitization techniques.
 
     For example, you can submit the following prompt:
 
     ```text
-    What sensitive payment information is being logged in this method? Why is logging credit card numbers and CVV codes a security risk?
+    #codebase I need to resolve SQL injection vulnerabilities associated with the SearchProducts method in the ProductService.cs file. Notice that user input is directly concatenated into SQL queries without proper parameterization or sanitization. The updated codebase should use parameterized queries or prepared statements, implement proper input validation and sanitization, remove debug logging of SQL queries, and add input length restrictions. My acceptance criteria includes: User input is properly parameterized; No raw SQL construction with user input; Input validation prevents malicious characters; Debug logging removed or sanitized. Review the codebase and identify the code files that must be updated to address the SQL injection vulnerability. Based on your code review and the current Chat conversation, suggest a phased approach to required file updates.
     ```
 
-1. Open the **SecurityValidator.cs** file, and then locate the admin credential constants near the top of the file.
+1. Document the analysis results for reference during the remediation phase.
 
-1. In the code editor, select the hardcoded admin credential constants.
+    Take notes on GitHub Copilot's recommendations for both vulnerability categories. This documentation will guide your implementation of security fixes in the next task.
 
-1. Ask GitHub Copilot to analyze the hardcoded credentials vulnerability.
+#### Analyze Credit Card Data Storage Violations
 
-    For example, you can submit the following prompt:
+The credit card data storage vulnerability exists in multiple files: the Order.cs model, the PaymentService.cs service, the SecurityValidator.cs validator, and potentially the OrderRepository.cs data layer. You'll analyze these files to understand the full scope of the vulnerability.
 
-    ```text
-    What security risks are created by hardcoding admin credentials in source code? How should application credentials be managed securely in production environments?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    What are best practices for managing application credentials securely? How can I implement secure credential management in this application?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
-
-1. In the **SecurityValidator.cs** file, locate the **ValidateInput** method.
-
-1. In the code editor, select the entire **ValidateInput** method.
-
-1. Ask GitHub Copilot to analyze the input validation bypass vulnerability.
-
-    For example, you can submit the following prompt:
-
-    ```text
-    What makes this input validation method ineffective? Why does it detect dangerous input but still return true, and how should proper input validation work?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify this method to implement effective input validation? What secure coding practices should I follow to prevent input validation bypass vulnerabilities?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
-
-1. In the **SecurityValidator.cs** file, locate the **GenerateSessionToken** method.
-
-1. In the code editor, select the entire **GenerateSessionToken** method.
-
-1. Ask GitHub Copilot to analyze the predictable session token generation vulnerability.
-
-    For example, you can submit the following prompt:
-
-    ```text
-    Why are predictable session tokens based on username and timestamp a security risk? How should secure, unpredictable session tokens be generated?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify this method to generate secure, unpredictable session tokens? What cryptographic techniques should I use to enhance session token security?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
-
-1. In the **SecurityValidator.cs** file, locate the **ValidateEmail** method.
-
-1. In the code editor, select the entire **ValidateEmail** method.
-
-1. Ask GitHub Copilot to analyze the weak email validation vulnerability.
-
-    For example, you can submit the following prompt:
-
-    ```text
-    What makes this email validation insufficient? What are the security risks of weak email validation, and how should proper email validation be implemented?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify this method to implement robust email validation? What techniques should I use to ensure email addresses are properly validated?
-    ```
-
-1. In the **SecurityValidator.cs** file, locate the **ValidatePasswordStrength** method.
-
-1. In the code editor, select the entire **ValidatePasswordStrength** method.
-
-1. Ask GitHub Copilot to analyze the insufficient password requirements vulnerability.
-
-    For example, you can submit the following prompt:
-
-    ```text
-    Why are these password requirements insufficient for security? What are proper password complexity requirements, and how should password strength be validated?
-    ```
-
-1. Review GitHub Copilot's analysis and then ask for specific remediation guidance.
-
-    For example, after reviewing the initial analysis, you can submit the following prompt:
-
-    ```text
-    How can I modify this method to enforce strong password requirements? What best practices should I follow for password strength validation?
-    ```
-
-1. Take a minute to review GitHub Copilot's remediation suggestions.
+Use the following steps to analyze the credit card data storage violations:
 
 1. Under the **Models** folder, open the **Order.cs** file, and then locate the **PaymentInfo** class.
 
 1. In the code editor, select the **CardNumber** and **CVV** properties within the **PaymentInfo** class.
+
+    Notice the comments indicating these properties are security vulnerabilities. Storing full card numbers and CVV codes violates PCI DSS compliance requirements.
 
 1. Ask GitHub Copilot to analyze the credit card data storage violations.
 
     For example, you can submit the following prompt:
 
     ```text
-    Why is storing full credit card numbers and CVV codes a PCI DSS compliance violation? What are the proper ways to handle payment card data securely?
+    Why is storing full credit card numbers and CVV codes in the PaymentInfo class a PCI DSS compliance violation? What are the proper ways to handle payment card data securely?
     ```
 
-1. Return to the **SecurityValidator.cs** file, and then locate the **RunSecurityAudit** method.
+1. Review GitHub Copilot's analysis.
 
-1. In the code editor, select the entire **RunSecurityAudit** method.
+    GitHub Copilot should explain that PCI DSS requirements prohibit storing sensitive authentication data after authorization, including CVV codes. It should also explain that full card numbers should be tokenized or masked.
 
-1. Ask GitHub Copilot to analyze the information disclosure vulnerability.
+1. Ask for specific remediation guidance.
 
     For example, you can submit the following prompt:
 
     ```text
-    How does the security audit method create information disclosure vulnerabilities? What information should never be exposed in logs or error messages?
+    How should I modify the PaymentInfo class to comply with PCI DSS requirements? What properties should I add or change to store payment information securely?
+    ```
+
+1. Take a minute to review GitHub Copilot's remediation suggestions.
+
+    You should see recommendations for removing the CVV property entirely, replacing the CardNumber with a masked version or token, storing only the last 4 digits, and adding a card type property for display purposes.
+
+1. Open the **PaymentService.cs** file, and then locate the **ProcessPayment** method.
+
+1. In the code editor, select the entire **ProcessPayment** method.
+
+    Notice that the method creates a PaymentInfo object and stores the full card number and CVV. This method also logs sensitive payment information.
+
+1. Ask GitHub Copilot to analyze the ProcessPayment method for credit card data storage issues.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    What security vulnerabilities exist in the ProcessPayment method related to credit card data storage and logging? How does this method contribute to the PCI DSS violations?
+    ```
+
+1. Review GitHub Copilot's analysis.
+
+    GitHub Copilot should identify multiple issues: logging full card numbers and CVV codes, storing these values in the PaymentInfo object, and exposing sensitive data throughout the processing flow.
+
+1. Ask for specific remediation guidance for the ProcessPayment method.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    How should I modify the ProcessPayment method to handle credit card data securely? What changes are needed to prevent storing and logging sensitive card information?
+    ```
+
+1. Open the **SecurityValidator.cs** file, locate the **ValidateCreditCard** method.
+
+1. In the code editor, select the entire **ValidateCreditCard** method.
+
+    Notice that this method logs the full credit card number, which is a security vulnerability.
+
+1. Ask GitHub Copilot to analyze the ValidateCreditCard method.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    What security issues exist in the ValidateCreditCard method? How should credit card validation be performed without logging sensitive data?
+    ```
+
+1. Review GitHub Copilot's analysis and remediation suggestions.
+
+    GitHub Copilot should generate a list of security issues and some recommendations for secure coding practices. The recommendations may include removing or masking the credit card number in log statements, using algorithms validate card numbers, and improving card number length and format validation.
+
+1. Open the **OrderRepository.cs** file in the **Data** folder.
+
+1. Review the file to determine if it handles PaymentInfo objects.
+
+    Notice that the OrderRepository class stores Order objects, which include PaymentInfo. If the PaymentInfo class stores full card numbers and CVV codes, the repository will persist this sensitive data.
+
+1. Ask GitHub Copilot to analyze the impact of the OrderRepository on credit card data storage.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    How does the OrderRepository contribute to credit card data storage violations? What happens when Order objects containing PaymentInfo with full card numbers and CVV codes are stored?
+    ```
+
+1. Review GitHub Copilot's analysis.
+
+    GitHub Copilot should explain that the repository persists whatever data is in the Order and PaymentInfo objects. If the PaymentInfo model is fixed to store only secure data (tokens, last 4 digits), the repository will automatically store secure data instead.
+
+1. Close the OrderRepository.cs file.
+
+1. Ask GitHub Copilot to propose a comprehensive remediation strategy for the Fix Credit Card Data Storage Violations issue that includes input validation and sanitization techniques.
+
+    For example, you can submit the following prompt:
+
+    ```text
+    #codebase I need to resolve credit card data storage violations associated with the PaymentInfo model in the OrderRepository.cs file. Notice that the model currently stores full card numbers and CVV codes. The updated codebase should never store CVV codes (remove CVV storage completely), tokenize card numbers and store tokens instead of actual card numbers, mask the display of credit card numbers to show only last 4 digits, and implement proper encryption if card data must be stored temporarily. My acceptance criteria includes: CVV storage completely removed; Full card numbers replaced with tokens; Only the last 4 digits of a credit card are stored for display; Card type detection implemented. Review the codebase and identify the code files that must be updated to address the credit card data storage violations. Based on your code review and the current Chat conversation, suggest a phased approach to required file updates.
     ```
 
 1. Document the analysis results for reference during the remediation phase.
 
-    Take notes on GitHub Copilot's recommendations for each vulnerability category. This documentation will guide your implementation of security fixes in the next task.
+    Take notes on GitHub Copilot's recommendations for both vulnerability categories. This documentation will guide your implementation of security fixes in the next task.
 
 ### Resolve issues using GitHub Copilot's Agent mode
 
 GitHub Copilot's Agent mode enables autonomous implementation of complex security fixes across multiple files and methods. Unlike Ask mode, which provides analysis and recommendations, Agent mode can directly modify code to implement security improvements. This approach is particularly effective for systematic security remediation, where multiple related vulnerabilities need to be addressed consistently.
 
-In this task, you use GitHub Copilot's Agent mode to implement comprehensive security fixes for all identified vulnerabilities in the ContosoShopEasy application.
+In this task, you use GitHub Copilot's Agent mode to remediate the GitHub issues assigned to you.
 
 Use the following steps to complete this task:
 
@@ -619,34 +572,25 @@ Use the following steps to complete this task:
 
 1. Take a minute to consider your remediation strategy.
 
-    Create a plan that's based on the analysis you completed using GitHub Copilot's Ask mode. Consider the order in which you'll address the issues, dependencies between fixes, and how to verify that each vulnerability has been successfully remediated.
+    Create a remediation strategy that's based on the analysis you completed using GitHub Copilot's Ask mode. Consider the order in which you'll address your assigned issues, your approach for resolving the issue(s), and how to verify that code vulnerabilities have been successfully remediated.
 
-    The GitHub issues, starting with the critical issues and descending by priority, are as follows:
+    The two GitHub issues assigned to you are:
 
-    1. 🔐 Fix SQL Injection Vulnerability in Product Search
-    1. 🔐 Replace MD5 Password Hashing with Secure Alternative
-    1. 🔐 Remove Sensitive Data from Debug Logging
-    1. 🔐 Remove Hardcoded Admin Credentials
-    1. 🔐 Fix Credit Card Data Storage Violations
-    1. 🔐 Fix Input Validation Security Bypass
-    1. 🔐 Fix Predictable Session Token Generation
-    1. 🔐 Improve Email Validation Security
-    1. 🔐 Strengthen Password Security Requirements
-    1. 🔐 Reduce Information Disclosure in Error Messages
+    1. 🔐 Fix SQL Injection Vulnerability in Product Search (High priority)
+    1. 🔐 Fix Credit Card Data Storage Violations (Critical priority)
 
-    These issues are associated with specific files and methods in the codebase. When organized by file association, the issues are as follows:
+    Although the credit card storage issue has a higher severity, the SQL injection issue is more straightforward to fix and can be addressed first. This allows you to validate your workflow with a simpler fix before tackling the more complex credit card storage violations.
 
-    - **ProductService.cs**: Issue #1
-    - **UserService.cs**: Issues #2 and #3
-    - **PaymentService.cs**: Issue #3
-    - **SecurityValidator.cs**: Issues #4, #6, #7, #8, #9, and #10
-    - **Models/Order.cs**: Issue #5
+    These issues are associated with specific files and methods in the codebase:
 
-    Your remediation strategy should involve addressing each issue systematically, ensuring that fixes are implemented correctly and consistently.
+    - **SQL Injection Issue**: ProductService.cs (SearchProducts method)
+    - **Credit Card Storage Issue**: Models/Order.cs (PaymentInfo class), PaymentService.cs (ProcessPayment method), SecurityValidator.cs (ValidateCreditCard method), and OrderRepository.cs (data persistence)
 
-    To save time during this training exercise, you resolve all of the issues and then commit all code updates together. A file-based remediation strategy makes sense in this case. However, processing issues in large batches isn't a recommended best practice.
+    > **NOTE**: The GitHub Pull Requests extension supports processing issues individually and in separate branches. Resolving issues individually provides better traceability, easier code reviews, and safer rollback options if problems arise. In a production environment, you should address each issue individually with separate commits and pull requests.
 
-    In a production environment, it's often better to address each issue individually with separate commits. This approach provides better traceability, easier code reviews, and safer rollback options if problems arise.
+#### Resolve SQL Injection Vulnerability
+
+Use the following steps to resolve the SQL injection vulnerability:
 
 1. Close all open files in the code editor.
 
@@ -654,7 +598,7 @@ Use the following steps to complete this task:
 
 1. Add the **ProductService.cs** file to the chat context.
 
-    The SQL injection issue is associated with the SearchProducts method in the ProductService.cs file.
+    The SQL injection issue is primarily located in the SearchProducts method of the ProductService.cs file.
 
 1. Ask GitHub Copilot to address the SQL injection vulnerability.
 
@@ -663,7 +607,7 @@ Use the following steps to complete this task:
     For example, you can assign the following task to the agent:
 
     ```text
-    Fix the SQL injection vulnerability in the SearchProducts method. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure the method still functions correctly for legitimate searches while preventing malicious input.
+    #codebase I need you to fix the SQL injection vulnerability in the SearchProducts method. Review the current Chat conversation related to SQL injection vulnerabilities to identify my expected code fixes and acceptance criteria. Remove the simulated SQL query logging that demonstrates the vulnerability, and implement proper input sanitization to safely handle search terms. Ensure that the method still functions correctly for legitimate searches while preventing malicious input. Update the DisplayKnownVulnerabilities method in SecurityValidator.cs to reflect the updates.
     ```
 
 1. Monitor the agent's progress.
@@ -674,6 +618,11 @@ Use the following steps to complete this task:
 
     Always review GitHub Copilot's suggested edits in the code editor. Ensure that they maintain functionality while addressing the security concern.
 
+    The changes should include:
+    - Removal of the simulated SQL query logging
+    - Removal or sanitization of debug logging that exposes the search term
+    - Addition of input validation or sanitization logic
+
     In a production environment, your team should complete the following checklist before moving on to the next issue:
 
     - Code no longer contains the vulnerability.
@@ -683,112 +632,108 @@ Use the following steps to complete this task:
     - Code updates are clearly documented.
     - Changes are committed with descriptive messages and peer-reviewed before merging and closing the issue.
 
-1. Implement secure password hashing.
+1. Close the ProductService.cs file, and then add the **ContosoShopEasy** folder to the chat context.
 
-    Focus on the `UserService.cs` file and use the following prompt:
+    The SecurityValidator.cs file contains security-related logic that may be relevant to input validation and sanitization. The Program.cs file sets up dependency injection and may require updates to accommodate any new validation services.
 
-    ```text
-    Replace the MD5 password hashing with bcrypt or PBKDF2. Update the GetMd5Hash method to use a cryptographically secure hashing algorithm with proper salt generation. Ensure compatibility with existing user authentication while improving security.
-    ```
+1. Ask GitHub Copilot to review the additional files for necessary updates.
 
-1. Review and test the password hashing changes.
-
-    The agent will implement stronger password hashing. Test the changes by running the application to ensure user registration and login still function correctly.
-
-1. Address sensitive data logging (Issue #3).
-
-    Focus on the `PaymentService.cs` and `UserService.cs` files and instruct the agent:
+    For example, you can assign the following task to the agent:
 
     ```text
-    Fix sensitive data logging throughout the application. Remove logging of passwords, full credit card numbers, CVV codes, and other sensitive information. Implement secure logging that masks sensitive data while maintaining useful operational information.
+    Review the Program.cs and SecurityValidator.cs files. Update the DemonstrateProductSearch method in Program.cs and logging statements in the Program.cs and SecurityValidator.cs files to show that SQL injection attacks are being managed. The updated code should log both the original and sanitized input. Update the DisplayKnownVulnerabilities method in SecurityValidator.cs to reflect the updates.
     ```
 
-1. Remove hardcoded admin credentials (Issue #4).
+#### Resolve Credit Card Data Storage Violations
 
-    Focus on the `SecurityValidator.cs` file and use this prompt:
+The credit card data storage violations span multiple files and require coordinated changes. You'll need to modify the data model, update services that handle payment data, and remove sensitive data from logs.
+
+Use the following steps to resolve the credit card data storage violations:
+
+1. Close any files that are open in the editor, and then add the **Order.cs** file (in the Models folder) to the chat context.
+
+    The PaymentInfo class in this file stores full card numbers and CVV codes, which violates PCI DSS compliance requirements.
+
+1. Ask GitHub Copilot to fix the PaymentInfo class.
+
+    For example, you can assign the following task to the agent:
 
     ```text
-    Remove hardcoded admin credentials from the SecurityValidator class. Replace the hardcoded ADMIN_USERNAME and ADMIN_PASSWORD constants with a secure configuration approach using environment variables while maintaining the functionality for educational demonstration purposes.
+    Fix PCI DSS compliance violations in the PaymentInfo class in Order.cs. Remove the CVV property entirely as CVV codes should never be stored. Replace the CardNumber property with a CardLastFourDigits property that stores only the last 4 digits. Add a CardType property to identify the card brand (Visa, Mastercard, etc.). Update the constructor and any initializations accordingly.
     ```
 
-1. Fix credit card data storage violations (Issue #5).
+1. Monitor the agent's progress and review the proposed changes.
 
-    Focus on the `Models/Order.cs` file and instruct the agent:
+    The agent should modify the PaymentInfo class to remove sensitive data storage. Review the changes and select **Keep** if they address the issue correctly.
+
+1. Close the Order.cs file, and then add the **PaymentService.cs** file to the chat context.
+
+    The ProcessPayment method in this file logs sensitive payment data and creates PaymentInfo objects with full card numbers and CVV codes.
+
+1. Ask GitHub Copilot to fix the ProcessPayment method.
+
+    For example, you can assign the following task to the agent:
 
     ```text
-    Fix PCI DSS compliance violations in the Order model. Remove or modify the CardNumber and CVV properties to avoid storing full credit card numbers and CVV codes. Implement secure payment data handling that stores only last 4 digits for display purposes.
+    Fix the credit card data handling in the ProcessPayment method in PaymentService.cs. Remove all logging of full card numbers, CVV codes, and other sensitive payment data. Update the PaymentInfo object creation to store only the last 4 digits of the card number and the card type, without storing CVV. Implement card number masking in any remaining log statements (show only last 4 digits). Ensure the payment processing logic still works correctly.
     ```
 
-1. Fix input validation bypass (Issue #6).
+1. Monitor the agent's progress.
 
-    Instruct the agent to fix the input validation vulnerability:
+    The changes should include:
+    - Removal or masking of sensitive data in log statements
+    - Updates to PaymentInfo object creation to use only last 4 digits
+    - Removal of CVV storage
+    - Addition of card type detection logic if needed
+
+1. Take a minute to review the proposed changes in the code editor, and then select **Keep** in the Chat view.
+
+    Always review GitHub Copilot's suggested edits in the code editor. Ensure that they maintain functionality while addressing the security concern.
+
+1. Close the PaymentService.cs file, and then add the **SecurityValidator.cs** file to the chat context.
+
+    The ValidateCreditCard method logs full credit card numbers.
+
+1. Ask GitHub Copilot to fix the ValidateCreditCard method.
+
+    For example, you can assign the following task to the agent:
 
     ```text
-    Fix the ValidateInput method in SecurityValidator that currently always returns true despite detecting threats. Implement proper input validation that actually rejects dangerous content when SQL injection, XSS, or other malicious patterns are detected.
+    Fix the credit card validation logging in the ValidateCreditCard method in SecurityValidator.cs. Remove or mask the full credit card number in log statements, showing only the last 4 digits if logging is necessary. Ensure the validation logic continues to work correctly.
     ```
 
-1. Implement secure session token generation (Issue #7).
+1. Monitor the agent's progress.
 
-    Focus on the session token vulnerability:
+    The agent should update the logging to mask sensitive data while maintaining the validation functionality.
 
-    ```text
-    Replace the predictable session token generation in GenerateSessionToken method with a cryptographically secure random token generator. Remove the username and timestamp-based pattern and implement unpredictable tokens with sufficient entropy.
-    ```
+1. Take a minute to review the proposed changes in the code editor, and then select **Keep** in the Chat view.
 
-1. Strengthen email validation (Issue #8).
+    Always review GitHub Copilot's suggested edits in the code editor. Ensure that they maintain functionality while addressing the security concern.
 
-    Address the weak email validation:
+1. Consider the impact on OrderRepository.
 
-    ```text
-    Fix the ValidateEmail method that only checks for '@' and '.' characters. Implement proper email format validation using regex or built-in validation methods. Remove email logging and add appropriate length restrictions.
-    ```
+    The OrderRepository.cs file stores Order objects, which include PaymentInfo. Since you've updated the PaymentInfo class to only store secure data (last 4 digits, card type), the repository will automatically persist secure data instead of full card numbers and CVV codes. No direct changes to the repository are needed, but you should verify this during testing.
 
-1. Improve password requirements (Issue #9).
+1. Build the application to ensure all changes compile successfully.
 
-    Focus on the password strength validation:
-
-    ```text
-    Strengthen the ValidatePasswordStrength method that currently only requires 4 characters. Implement proper password complexity requirements including minimum 8 characters, uppercase, lowercase, numbers, and special characters. Remove password logging.
-    ```
-
-1. Reduce information disclosure (Issue #10).
-
-    Address the debug logging and security audit issues:
-
-    ```text
-    Fix information disclosure vulnerabilities by removing or restricting the RunSecurityAudit method and reducing verbose error messages throughout the application. Remove sensitive system information from logs while maintaining useful debugging capabilities.
-    ```
-
-1. Test the application.
-
-    After the agent implements fixes for each vulnerability category, run the application to ensure functionality is preserved:
+    Run the following command in the terminal:
 
     ```bash
     dotnet build
-    dotnet run
     ```
 
-1. Verify that security improvements don't break core functionality.
-
-    Ensure that product search, user registration, payment processing, and other core features continue to work correctly after implementing security fixes.
+    If there are compilation errors, use GitHub Copilot to help identify and resolve any issues introduced during the security fixes. Common issues might include:
+    - References to removed properties (CVV, full CardNumber)
+    - Constructor parameter mismatches
+    - Type mismatches in assignments
 
 ### Test and verify the refactored code
 
 Comprehensive testing after security remediation ensures that vulnerability fixes don't introduce functional regressions while confirming that security improvements are effective. This verification process should test both the security aspects and the business functionality of the application. Proper testing validates that the application maintains its intended behavior while being more secure.
 
-In this task, you systematically test the updated ContosoShopEasy application to verify that security issues have been resolved and that core functionality remains intact.
+In this task, you systematically test the updated ContosoShopEasy application to verify that the two security issues have been resolved and that core functionality remains intact.
 
 Use the following steps to complete this task:
-
-1. Build the application and resolve any compilation errors.
-
-    Run the following command to ensure the code compiles successfully:
-
-    ```bash
-    dotnet build
-    ```
-
-    If there are compilation errors, use GitHub Copilot to help identify and resolve any issues introduced during the security fixes.
 
 1. Run the complete application to observe the overall behavior.
 
@@ -800,49 +745,32 @@ Use the following steps to complete this task:
 
     Compare the output with your notes from the original application run. You should see significantly less sensitive information being logged.
 
-1. Test the SQL injection fix (Issue #1).
+1. Test the SQL injection fix.
 
-    Verify that the `SearchProducts` method no longer logs vulnerable SQL queries and that search functionality still works correctly for legitimate search terms.
+    Verify that the SearchProducts method no longer logs the simulated SQL query with user input concatenated directly into the query string. The application should:
 
-1. Verify password security improvements (Issue #2).
+    - Still perform product searches correctly
+    - Not display vulnerable SQL query logging
+    - Handle search terms safely without exposing SQL injection vulnerability
+    - Not log raw search terms excessively
 
-    Check that user registration and login processes no longer log plaintext passwords and that stronger password hashing is implemented. The application should still authenticate users correctly.
+1. Test the credit card data storage fix.
 
-1. Confirm sensitive data logging fixes (Issue #3).
+    Verify that the PaymentInfo class and related code no longer store or log full credit card numbers and CVV codes. The application should:
 
-    Ensure that payment processing and user operations no longer log passwords, full credit card numbers, or CVV codes while maintaining the ability to process transactions successfully.
+    - Not log full credit card numbers (check for masking, e.g., ****1234)
+    - Not log CVV codes at all
+    - Not store CVV codes in the PaymentInfo object
+    - Store only the last 4 digits of card numbers
+    - Continue to process payments correctly (simulated)
 
-1. Validate hardcoded credential removal (Issue #4).
+1. Verify the overall security improvements.
 
-    Verify that hardcoded admin credentials are no longer displayed in logs or security audits, while admin functionality remains accessible through secure configuration.
+    Compare the console output with your initial observations. Key improvements should include:
 
-1. Test credit card storage compliance (Issue #5).
-
-    Confirm that the Order model no longer stores full credit card numbers or CVV codes, and that only masked payment information is retained for display purposes.
-
-1. Verify input validation fixes (Issue #6).
-
-    Confirm that the improved ValidateInput method now properly rejects dangerous input instead of just logging warnings and returning true.
-
-1. Check session token security (Issue #7).
-
-    If session tokens are generated during application execution, confirm that they appear random and unpredictable rather than following the previous username-timestamp pattern.
-
-1. Test email validation improvements (Issue #8).
-
-    Verify that the email validation now properly rejects invalid email formats instead of accepting any string with "@" and "." characters.
-
-1. Validate password requirement enhancements (Issue #9).
-
-    Test that password validation now enforces proper complexity requirements instead of accepting any 4-character string.
-
-1. Review information disclosure fixes (Issue #10).
-
-    Check that the security audit method is removed or restricted and that verbose error messages no longer expose sensitive system information.
-
-1. Compare the overall security posture with the original version.
-
-    Run the application and compare the console output with your initial observations. The application should show significantly improved security while maintaining all core functionality.
+    - **SQL Injection**: No simulated SQL queries showing user input concatenation
+    - **Credit Card Data**: No full card numbers or CVV codes in logs or stored data
+    - Application core functionality (product search, payment processing) still works correctly
 
 1. Document any remaining issues or areas for improvement.
 
@@ -873,29 +801,31 @@ Use the following steps to complete this task:
     git add .
     ```
 
-1. Commit all security fixes with a comprehensive message that references all GitHub issues.
+1. Commit the security fixes with a comprehensive message that references the GitHub issues you addressed.
 
-    Create a single commit that addresses all security vulnerabilities identified in the training exercise:
+    Create a commit that addresses the two security vulnerabilities assigned to you:
 
     ```bash
-    git commit -m "Fix all ContosoShopEasy security vulnerabilities
+    git commit -m "Fix SQL injection and credit card data storage vulnerabilities
 
     Security improvements implemented:
     - Fix SQL injection in ProductService SearchProducts method
-    - Replace MD5 with secure password hashing (bcrypt/PBKDF2)
-    - Remove sensitive data from debug logging (passwords, card numbers, CVV)
-    - Remove hardcoded admin credentials, use environment variables
-    - Fix PCI DSS violations in Order model (remove full card storage)
-    - Fix input validation bypass to properly reject dangerous input
-    - Implement secure session token generation with crypto randomness
-    - Strengthen email validation with proper format checking
-    - Improve password requirements (8+ chars, complexity rules)
-    - Reduce information disclosure from security audit and debug logs
-
-    Fixes #1 #2 #3 #4 #5 #6 #7 #8 #9 #10"
+      - Remove vulnerable SQL query logging with user input
+      - Implement proper input handling and sanitization
+    
+    - Fix PCI DSS violations for credit card data storage
+      - Remove CVV property from PaymentInfo class
+      - Replace CardNumber with CardLastFourDigits
+      - Add CardType property for card brand identification
+      - Update PaymentService to not log or store sensitive card data
+      - Mask credit card numbers in SecurityValidator logs
+    
+    Fixes #[SQL_INJECTION_ISSUE_NUMBER] #[CREDIT_CARD_ISSUE_NUMBER]"
     ```
 
-    > **NOTE**: In a production environment, each issue would typically be addressed in separate commits with individual testing and code review. This single commit approach is used here only to save time during the training exercise.
+    Replace `[SQL_INJECTION_ISSUE_NUMBER]` and `[CREDIT_CARD_ISSUE_NUMBER]` with the actual issue numbers from your GitHub repository. You can find these numbers in the GitHub Pull Requests view in Visual Studio Code or by viewing the issues on GitHub.
+
+    > **NOTE**: In a production environment, each issue would typically be addressed in separate commits with individual testing and code review. Combining both fixes in a single commit is used here to streamline the training exercise workflow.
 
 1. Push the changes to your GitHub repository.
 
@@ -905,11 +835,11 @@ Use the following steps to complete this task:
 
 1. Verify that the GitHub issues are automatically closed.
 
-    Navigate to your repository on GitHub and check that the issues are marked as closed due to the commit messages that referenced them.
+    Navigate to your repository on GitHub and check that the two issues you referenced in your commit message are marked as closed. GitHub automatically closes issues when commit messages include "Fixes #[issue_number]" syntax.
 
-1. Review the commit history to ensure all security fixes are properly documented.
+1. Review the commit history to ensure the security fixes are properly documented.
 
-    Verify that the commit messages clearly describe the security improvements and provide a good audit trail for future reference.
+    Verify that the commit message clearly describes the security improvements and provides a good audit trail for future reference.
 
 ## Clean up
 
