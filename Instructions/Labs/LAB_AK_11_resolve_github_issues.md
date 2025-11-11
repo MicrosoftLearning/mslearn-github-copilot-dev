@@ -1,7 +1,7 @@
 ---
 lab:
     title: 'Exercise - Resolve GitHub issues using GitHub Copilot'
-    description: 'Learn how to identify and address performance bottlenecks and code inefficiencies using GitHub Copilot tools.'
+    description: 'Learn how to identify and resolve code security vulnerabilities using GitHub Copilot in Visual Studio Code.'
 ---
 
 # Resolve GitHub issues using GitHub Copilot
