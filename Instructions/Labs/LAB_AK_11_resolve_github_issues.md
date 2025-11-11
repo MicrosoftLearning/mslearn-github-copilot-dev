@@ -1,8 +1,8 @@
-<!-- ---
+---
 lab:
     title: 'Exercise - Resolve GitHub issues using GitHub Copilot'
     description: 'Learn how to identify and address performance bottlenecks and code inefficiencies using GitHub Copilot tools.'
---- -->
+---
 
 # Resolve GitHub issues using GitHub Copilot
 
@@ -16,7 +16,7 @@ This exercise should take approximately **40** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -124,7 +124,7 @@ Use the following steps to complete this task:
 
 ### Review the issues in GitHub
 
-GitHub issues serve as a centralized tracking system for bugs, security vulnerabilities, and enhancement requests. Each issue provides context about the problem, its severity, and potential impact on the application. Understanding these issues before diving into the code helps establish priorities and ensures comprehensive remediation.
+GitHub issues serve as a centralized tracking system for bugs, security vulnerabilities, and enhancement requests. Each issue provides context about the problem, its severity, and potential effects on the application. Understanding these issues before diving into the code helps establish priorities and ensures comprehensive remediation.
 
 In this task, you review the GitHub issues and examine the security vulnerabilities that need to be addressed.
 
@@ -132,7 +132,7 @@ Use the following steps to complete this task:
 
 1. Select the **Issues** tab of your repository, and then take a minute to review the Issues page.
 
-    You should see 10 issues open listed. Notice the following:
+    You should see 10 open issues listed. Notice the following details about the issues:
 
     - All of the issues are labeled as bugs.
     - All of the issues have a priority level.
@@ -176,7 +176,7 @@ Use the following steps to complete this task:
 
     - **🔐 Fix SQL Injection Vulnerability in Product Search**  
 
-    It's generally best to work on the higher priority issues first. Assigning issues to yourself helps you track your progress as you work through the remediation process.
+    It's often best to work on the higher priority issues first. Assigning issues to yourself helps you track your progress as you work through the remediation process.
 
 ### Clone the repository locally and review the codebase
 
@@ -248,7 +248,7 @@ Use the following steps to complete this task:
 
 1. Scroll down to find the **PaymentInfo** class.
 
-    Notice the comments regarding the CardNumber and CVV properties. This code is related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
+    Notice the comments regarding the CardNumber and Card Verification Value (CVV) properties. This code is related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
 1. Expand the **Security** folder and then open the **SecurityValidator.cs** file.
 
@@ -274,7 +274,7 @@ Use the following steps to complete this task:
 
     Several of the methods in the SecurityValidator.cs file are also related to the "Remove Sensitive Data from Debug Logging" issue.
 
-    The issues exposed by the SecurityValidator class are commonly found distributed among the classes of real-world applications, especially legacy or poorly maintained codebases.
+    The issues exposed by the SecurityValidator class are commonly found distributed among the classes of real-world applications, especially legacy, or poorly maintained codebases.
 
 1. Expand the **Services** folder and then open the **UserService.cs** file.
 
@@ -290,7 +290,7 @@ Use the following steps to complete this task:
 
     The security vulnerabilities in this code are related to the **Fix Credit Card Data Storage Violations** issue that you assigned to yourself.
 
-    The PaymentService class is also related to other issues. For example, the "Remove Sensitive Data from Debug Logging" and "Reduce Information Disclosure in Error Messages (Console Output )" issues.
+    The PaymentService class is also related to other issues. For example, the "Remove Sensitive Data from Debug Logging" and "Reduce Information Disclosure in Error Messages (Console Output)" issues.
 
     Notice that the PaymentService class uses OrderRepository to persist payment-related order data. If the OrderRepository class doesn't handle sensitive data properly, it could lead to data exposure vulnerabilities in the OrderRepository class.
 
@@ -322,11 +322,11 @@ Use the following steps to complete this task:
 
 ### Analyze issues using GitHub Copilot's Ask mode
 
-GitHub issues often contain complex problems that require careful analysis before implementing fixes. Understanding the root causes, potential impacts, and best remediation strategies is crucial for effective resolution.
+GitHub issues often contain complex problems that require careful analysis before implementing fixes. Your understanding of the root causes, potential impacts, and best remediation strategies is crucial for effective resolution.
 
 The following GitHub extensions for Visual Studio Code can help you analyze GitHub issues:
 
-- **GitHub Copilot Chat**: GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential impact, and suggest remediation strategies.
+- **GitHub Copilot Chat**: GitHub Copilot's Ask mode provides intelligent code analysis capabilities that can help identify security vulnerabilities, understand their potential effects, and suggest remediation strategies.
 
 - **GitHub Pull Requests**: The GitHub Pull Requests extension integrates GitHub issues directly into Visual Studio Code, allowing you to manage and interact with issues without leaving your development environment.
 
@@ -348,7 +348,7 @@ Use the following steps to complete this task:
 
     1. Select **GitHub Pull Requests** from the search results, and then install the extension.
 
-        After the installation is complete, you may need to reload Visual Studio Code for the changes to take effect. A **GitHub** icon should be added to Visual Studio Code's Activity Bar.
+        After the installation is complete, you might need to reload Visual Studio Code for the changes to take effect. A **GitHub** icon should be added to Visual Studio Code's Activity Bar.
 
 1. To open the GitHub Pull Requests view, select the **GitHub** icon from the Activity Bar.
 
@@ -376,13 +376,13 @@ Use the following steps to complete this task:
 
 1. Ensure that you're starting with a clean chat session.
 
-    Chat sessions help to organize your interactions with GitHub Copilot. Each session maintains its own context, allowing you to focus on specific tasks or issues. The conversation history within a session provides continuity, enabling GitHub Copilot to build on previous interactions for more accurate and relevant responses. This chat conversation will focus on analyzing and resolving the two security vulnerabilities assigned to you in the ContosoShopEasy application. After you complete your analysis of the GitHub issues using GitHub Copilot's Ask mode, you can use the same conversation to help implement code changes using GitHub Copilot's Agent mode. GitHub Copilot can use the detailed analysis from the Ask mode to inform its code generation in the Agent mode, ensuring that the fixes align with the identified vulnerabilities and recommended remediation strategies.
+    Chat sessions help to organize your interactions with GitHub Copilot. Each session maintains its own context, allowing you to focus on specific tasks or issues. The conversation history within a session provides continuity, enabling GitHub Copilot to build on previous interactions for more accurate and relevant responses. This chat conversation focuses on analyzing and resolving the two security vulnerabilities assigned to you in the ContosoShopEasy application. After you complete your analysis of the GitHub issues using GitHub Copilot's Ask mode, you can use the same conversation to help implement code changes using GitHub Copilot's Agent mode. GitHub Copilot can use the detailed analysis from the Ask mode to inform its code generation in the Agent mode, ensuring that the fixes align with the identified vulnerabilities and recommended remediation strategies.
 
     If needed, you can start a new chat session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel).
 
 #### Analyze SQL Injection Vulnerability
 
-The SQL injection vulnerability exists in the ProductService.cs file and potentially in the ProductRepository.cs file. You'll analyze both files to understand the full scope of the vulnerability.
+The SQL injection vulnerability exists in the ProductService.cs file and potentially in the ProductRepository.cs file. You analyze both files to understand the full scope of the vulnerability.
 
 Use the following steps to analyze the SQL injection vulnerability:
 
@@ -414,7 +414,7 @@ Use the following steps to analyze the SQL injection vulnerability:
 
 1. Take a minute to review GitHub Copilot's remediation suggestions.
 
-    You should see recommendations for using parameterized queries or ORM methods that help to manage SQL injection risks. You might also see suggestions for input validation and sanitization techniques. GitHub Copilot often provides code snippets that demonstrate how to implement suggestions.
+    You should see recommendations for using parameterized queries or Object-Relational Mapping (ORM) methods that help to manage SQL injection risks. You might also see suggestions for input validation and sanitization techniques. GitHub Copilot often provides code snippets that demonstrate how to implement suggestions.
 
 1. Open the **ProductRepository.cs** file in the **Data** folder, and then locate the **SearchProducts** method.
 
@@ -448,7 +448,7 @@ Use the following steps to analyze the SQL injection vulnerability:
 
 #### Analyze Credit Card Data Storage Violations
 
-The credit card data storage vulnerability exists in multiple files: the Order.cs model, the PaymentService.cs service, the SecurityValidator.cs validator, and potentially the OrderRepository.cs data layer. You'll analyze these files to understand the full scope of the vulnerability.
+The credit card data storage vulnerability exists in multiple files: the Order.cs model, the PaymentService.cs service, the SecurityValidator.cs validator, and potentially the OrderRepository.cs data layer. You analyze these files to understand the full scope of the vulnerability.
 
 Use the following steps to analyze the credit card data storage violations:
 
@@ -456,7 +456,7 @@ Use the following steps to analyze the credit card data storage violations:
 
 1. In the code editor, select the **CardNumber** and **CVV** properties within the **PaymentInfo** class.
 
-    Notice the comments indicating these properties are security vulnerabilities. Storing full card numbers and CVV codes violates PCI DSS compliance requirements.
+    Notice the comments indicating these properties are security vulnerabilities. Storing full card numbers and CVV codes violates Payment Card Industry Data Security Standard (PCI DSS) compliance requirements.
 
 1. Ask GitHub Copilot to analyze the credit card data storage violations.
 
@@ -508,7 +508,7 @@ Use the following steps to analyze the credit card data storage violations:
     How should I modify the ProcessPayment method to handle credit card data securely? What changes are needed to prevent storing and logging sensitive card information?
     ```
 
-1. Open the **SecurityValidator.cs** file, locate the **ValidateCreditCard** method.
+1. Open the **SecurityValidator.cs** file, and then locate the **ValidateCreditCard** method.
 
 1. In the code editor, select the entire **ValidateCreditCard** method.
 
@@ -524,15 +524,15 @@ Use the following steps to analyze the credit card data storage violations:
 
 1. Review GitHub Copilot's analysis and remediation suggestions.
 
-    GitHub Copilot should generate a list of security issues and some recommendations for secure coding practices. The recommendations may include removing or masking the credit card number in log statements, using algorithms validate card numbers, and improving card number length and format validation.
+    GitHub Copilot should generate a list of security issues and some recommendations for secure coding practices. The recommendations might include removing or masking the credit card number in log statements, using algorithms validate card numbers, and improving card number length and format validation.
 
 1. Open the **OrderRepository.cs** file in the **Data** folder.
 
 1. Review the file to determine if it handles PaymentInfo objects.
 
-    Notice that the OrderRepository class stores Order objects, which include PaymentInfo. If the PaymentInfo class stores full card numbers and CVV codes, the repository will persist this sensitive data.
+    Notice that the OrderRepository class stores Order objects, which include PaymentInfo. If the PaymentInfo class stores full card numbers and CVV codes, the repository persists this sensitive data.
 
-1. Ask GitHub Copilot to analyze the impact of the OrderRepository on credit card data storage.
+1. Ask GitHub Copilot to analyze the effects that OrderRepository has on credit card data storage.
 
     For example, you can submit the following prompt:
 
@@ -542,7 +542,7 @@ Use the following steps to analyze the credit card data storage violations:
 
 1. Review GitHub Copilot's analysis.
 
-    GitHub Copilot should explain that the repository persists whatever data is in the Order and PaymentInfo objects. If the PaymentInfo model is fixed to store only secure data (tokens, last 4 digits), the repository will automatically store secure data instead.
+    GitHub Copilot should explain that the repository persists whatever data is in the Order and PaymentInfo objects. If the PaymentInfo model is fixed to store only secure data (tokens, last 4 digits), the repository automatically stores secure data instead.
 
 1. Close the OrderRepository.cs file.
 
@@ -560,7 +560,7 @@ Use the following steps to analyze the credit card data storage violations:
 
 ### Resolve issues using GitHub Copilot's Agent mode
 
-GitHub Copilot's Agent mode enables autonomous implementation of complex security fixes across multiple files and methods. Unlike Ask mode, which provides analysis and recommendations, Agent mode can directly modify code to implement security improvements. This approach is particularly effective for systematic security remediation, where multiple related vulnerabilities need to be addressed consistently.
+GitHub Copilot's Agent mode enables autonomous implementation of complex security fixes across multiple files and methods. Unlike Ask mode, which provides analysis and recommendations, Agent mode can directly modify code to implement security improvements. This approach is effective for systematic security remediation, where multiple related vulnerabilities need to be addressed consistently.
 
 In this task, you use GitHub Copilot's Agent mode to remediate the GitHub issues assigned to you.
 
@@ -572,14 +572,14 @@ Use the following steps to complete this task:
 
 1. Take a minute to consider your remediation strategy.
 
-    Create a remediation strategy that's based on the analysis you completed using GitHub Copilot's Ask mode. Consider the order in which you'll address your assigned issues, your approach for resolving the issue(s), and how to verify that code vulnerabilities have been successfully remediated.
+    Create a remediation strategy that uses the analysis you completed using GitHub Copilot's Ask mode. Consider the order in which you address your assigned issues, your approach for resolving the issues, and how to verify that code vulnerabilities are successfully remediated.
 
     The two GitHub issues assigned to you are:
 
     1. 🔐 Fix SQL Injection Vulnerability in Product Search (High priority)
     1. 🔐 Fix Credit Card Data Storage Violations (Critical priority)
 
-    Although the credit card storage issue has a higher severity, the SQL injection issue is more straightforward to fix and can be addressed first. This allows you to validate your workflow with a simpler fix before tackling the more complex credit card storage violations.
+    Although the credit card storage issue has a higher severity, the SQL injection issue is more straightforward to fix and can be addressed first. This approach allows you to validate your workflow with a simpler fix before tackling the more complex credit card storage violations.
 
     These issues are associated with specific files and methods in the codebase:
 
@@ -612,7 +612,7 @@ Use the following steps to resolve the SQL injection vulnerability:
 
 1. Monitor the agent's progress.
 
-    The agent will modify the code to remove vulnerable logging and implement safer input handling.
+    The agent modifies the code to remove vulnerable logging and implement safer input handling.
 
 1. Take a minute to review the proposed changes, and then select **Keep** in the Chat view.
 
@@ -634,7 +634,7 @@ Use the following steps to resolve the SQL injection vulnerability:
 
 #### Resolve Credit Card Data Storage Violations
 
-The credit card data storage violations span multiple files and require coordinated changes. You'll need to modify the data model, update services that handle payment data, and remove sensitive data from logs.
+The credit card data storage violations span multiple files and require coordinated changes. You need to modify the data model, update services that handle payment data, and remove sensitive data from logs.
 
 Use the following steps to resolve the credit card data storage violations:
 
@@ -700,7 +700,7 @@ Use the following steps to resolve the credit card data storage violations:
 
 1. Consider the impact on OrderRepository.
 
-    The OrderRepository.cs file stores Order objects, which include PaymentInfo. Since you've updated the PaymentInfo class to only store secure data (last 4 digits, card type), the repository will automatically persist secure data instead of full card numbers and CVV codes. No direct changes to the repository are needed, but you should verify this during testing.
+    The OrderRepository.cs file stores Order objects, which include PaymentInfo. You updated the PaymentInfo class to store only the secure data (last 4 digits, card type). As a result, the repository automatically persists secure data instead of full card numbers and CVV codes. No direct changes to the repository are needed, but you should verify data security during testing.
 
 1. Build the application to ensure all changes compile successfully.
 
@@ -719,7 +719,7 @@ Use the following steps to resolve the credit card data storage violations:
 
 Comprehensive testing after security remediation ensures that vulnerability fixes don't introduce functional regressions while confirming that security improvements are effective. This verification process should test both the security aspects and the business functionality of the application. Proper testing validates that the application maintains its intended behavior while being more secure.
 
-In this task, you systematically test the updated ContosoShopEasy application to verify that the two security issues have been resolved and that core functionality remains intact.
+In this task, you systematically test the updated ContosoShopEasy application to verify that the two security issues are resolved and that core functionality remains intact.
 
 Use the following steps to complete this task:
 
@@ -731,7 +731,7 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-    Compare the output with your notes from the original application run. You should see significantly less sensitive information being logged.
+    Compare the output with your notes from the original application run. You should see less sensitive information being logged.
 
 1. Test the SQL injection fix.
 
@@ -746,7 +746,7 @@ Use the following steps to complete this task:
 
     Verify that the PaymentInfo class and related code no longer store or log full credit card numbers and CVV codes. The application should:
 
-    - Not log full credit card numbers (check for masking, e.g., ****1234)
+    - Not log full credit card numbers (check for masking, for example, ****1234)
     - Not log CVV codes at all
     - Not store CVV codes in the PaymentInfo object
     - Store only the last 4 digits of card numbers
@@ -762,7 +762,7 @@ Use the following steps to complete this task:
 
 1. Document any remaining issues or areas for improvement.
 
-    Note any security concerns that may require additional attention or any functional issues that need to be addressed.
+    Note any security concerns that might require more attention or any functional issues that need to be addressed.
 
 ### Commit changes and close issues
 
@@ -774,7 +774,7 @@ Use the following steps to complete this task:
 
 1. Open Visual Studio Code's Source Control view, and then review the changes made to each of the updated files.
 
-    Look for any unexpected changes that may have been introduced during the remediation process. Ensure that all changes align with your remediation strategy and that no new vulnerabilities were introduced.
+    Look for any unexpected changes introduced during the remediation process. Ensure that all changes align with your remediation strategy and that no new vulnerabilities were introduced.
 
 1. Ask GitHub Copilot to craft a comprehensive commit message.
 
