@@ -1,8 +1,8 @@
----
+<!-- ---
 lab:
     title: 'Exercise - Resolve GitHub secret scanning alerts using GitHub Copilot'
     description: 'Learn  how to view and interpret Alerts on the repository Security tab, and how to use Copilot’s Chat modes (Ask and Agent) to remediate problems.'
----
+--- -->
 
 # Resolve GitHub secret scanning alerts using GitHub Copilot
 
