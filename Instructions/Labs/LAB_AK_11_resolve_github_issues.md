@@ -368,11 +368,11 @@ Use the following steps to complete this task:
 
     The GitHub Pull Requests extension opens the issue details in a new editor tab. You can review the issue description, comments, and any related information in this tab. You can use issue details to help construct the prompts that you submit to GitHub Copilot in the Chat view.
 
-1. Open GitHub Copilot's Chat view and ensure that the **Ask** mode is selected.
+1. Open GitHub Copilot's Chat view, ensure that the **Ask** mode is selected and that you're using the **GPT-4.1** model.
 
     If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Verify that the chat mode is set to **Ask** and that you're using the **GPT-4.1** model.
 
-    > **NOTE**: The GPT-4.1 model provides excellent code analysis capabilities and is included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
+    > **NOTE**: GitHub Copilot offers different chat models. The GPT-4.1 model provides excellent code analysis capabilities and it's included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
 
 1. Ensure that you're starting with a clean chat session.
 
