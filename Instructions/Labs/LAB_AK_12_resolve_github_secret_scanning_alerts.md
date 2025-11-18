@@ -56,9 +56,11 @@ If you're using a hosted lab environment for this exercise:
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help with resolving secret scanning alerts in their GitHub repositories. You need to ensure that all alerts are addressed and closed. You use Visual Studio Code as your development environment and GitHub Copilot to assist with development tasks. You're assigned to the following legacy app:
+You're a software developer working for a consulting firm. Your clients need help with resolving secret scanning alerts in their GitHub repositories. You need to use GitHub Secret Scanning, Push Protection, and GitHub Copilot to eliminate hard-coded secrets. You use Visual Studio Code as your development environment and GitHub Copilot to assist with development tasks. You're assigned to the following legacy app:
 
-- ContosoOrderProcessor: A legacy e-commerce order processing workflow, including customer validation, payment processing, email notifications, and database operations. The code contains (intentionally) exposed secrets that demonstrate common security vulnerabilities: hard-coded database connection strings with embedded credentials, payment provider API keys (Stripe, PayPal), email service credentials (SendGrid), and cloud infrastructure access keys (AWS, Azure Storage).
+- ContosoOrderProcessor: A legacy e-commerce order processing workflow that includes customer validation, payment processing, email notifications, and database operations. The code contains hard-coded secrets that need to be managed in a secure manner.
+
+The ContosoOrderProcessor repository demonstrates common security vulnerabilities. Hard-coded secrets are included intentionally for training purposes.
 
 This exercise includes the following tasks:
 
@@ -99,7 +101,7 @@ Use the following steps to complete this task:
 
 1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
 
-1. In the **Repository name** field, enter **ResolveGitHubSecurityAlerts**.
+1. Enter **ResolveGitHubSecurityAlerts** in the **Repository name** field.
 
     GitHub automatically checks the availability of the repository name. If this name is already taken, append a unique suffix (for example, your initials or a random number) to the repository name to make it unique.
 
@@ -154,7 +156,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the Secret scanning alerts page.
 
-    You should see eight alerts with the "Open" status. The following alerts should be included in the list:
+    You should see a list that includes the following five alerts:
 
     - ✓ Stripe API Key - PaymentService.cs.
     - ✓ Square Access Token - PaymentService.cs.
@@ -164,24 +166,25 @@ Use the following steps to complete this task:
 
     > **NOTE**: GitHub's secret scanning feature uses pattern matching to detect secrets in your codebase. The alerts you see are based on the secrets that were intentionally included in the ContosoOrderProcessor application for training purposes.
 
-1. To view details about a specific alert, select the **Mailgun API Key** alert.
+1. To view the details of a specific alert, select the **Mailgun API Key** alert.
 
     The alert details page displays detailed information about the secret, including:
 
-    - The file path and line number where the secret was found (Services/EmailService.cs, line 11).
+    - The exposed secret.
+    - The file path where the secret was found (ContosoOrderProcessor/Services/EmailService.cs).
     - A code snippet showing the secret in context.
     - The commit that introduced the secret.
-    - Remediation steps and recommendations.
+    - Remediation steps.
 
 1. Take a minute to review the code snippet shown in the alert.
 
-    Notice that the alert points to the EmailService.cs file (line 11) and shows a Mailgun API key. Exposing an email service API key is a security risk because it could allow unauthorized access to email sending capabilities, potentially leading to spam or phishing attacks.
+    Notice that the alert points to the EmailService.cs file (line 19). The code exposes a Mailgun API key.
 
 1. Navigate back to the Secret scanning alerts page.
 
 1. Select the **Stripe API Key** alert and review the details.
 
-    Notice that this alert points to the PaymentService.cs file (line 8) and shows a Stripe live API key. Exposing a live payment API key is a critical security risk because it could allow unauthorized charges or access to sensitive payment data.
+    Notice that this alert points to the PaymentService.cs file (line 24). The code exposes a Stripe live API key.
 
 1. Navigate back to the Secret scanning alerts page and take a minute to review the other alerts.
 
@@ -190,7 +193,7 @@ Use the following steps to complete this task:
     - Each alert identifies a specific file and line number where the secret was found.
     - The alerts cover multiple categories of secrets.
     - All alerts are currently in the "Open" status, indicating they need to be addressed.
-    - The alerts were generated based on pattern matching of known secret formats.
+    - The alerts can be assigned to team members for resolution.
 
 ### Review the code project in Visual Studio Code
 
