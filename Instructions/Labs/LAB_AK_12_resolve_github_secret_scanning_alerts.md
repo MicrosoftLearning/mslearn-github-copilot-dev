@@ -190,9 +190,12 @@ Use the following steps to complete this task:
 
     As you review the alerts, notice the following:
 
-    - Each alert identifies a specific file and line number where the secret was found.
-    - The alerts cover multiple categories of secrets.
     - All alerts are currently in the "Open" status, indicating they need to be addressed.
+    - Each alert identifies the file and line number where the secret was found.
+    - The identified secrets are located in the following three files:
+        - AppConfig.cs
+        - EmailService.cs
+        - PaymentService.cs
     - The alerts can be assigned to team members for resolution.
 
 ### Review the code project in Visual Studio Code
@@ -255,9 +258,7 @@ Use the following steps to complete this task:
     - **Services**: Contains service classes for database access, email sending, and payment processing (DatabaseService.cs, EmailService.cs, PaymentService.cs).
     - **Program.cs**: The main entry point that demonstrates the order processing workflow.
 
-1. Open the **Program.cs** file in the code editor.
-
-1. Take a minute to review the code in the **Program.cs** file.
+1. Open the **Program.cs** file and take a minute to review the code.
 
     Notice that the Main method performs the following tasks:
 
@@ -268,7 +269,7 @@ Use the following steps to complete this task:
         > [!NOTE]
         > The application terminates early if the configuration isn't validated successfully. For example, if the environment variables haven't been set. This prevents the application from running with incomplete or incorrect settings.
 
-    1. Once the configuration is validated, the Main method simulates the following order processing workflow:
+    1. Second, after the configuration is validated, the Main method simulates the following order processing workflow:
 
         - Creates a new order.
         - Validates customer information.
@@ -276,9 +277,9 @@ Use the following steps to complete this task:
         - Sends email notifications using the EmailService.
         - Stores order details in the database using the DatabaseService.
 
-1. Expand the **Configuration** folder and then open the **AppConfig.cs** file in the code editor.
+1. Use Visual Studio Code's EXPLORER view to expand the **Configuration** folder.
 
-1. Take a minute to review the **AppConfig.cs** file.
+1. Open the **AppConfig.cs** file and take a minute to review the code.
 
     AppConfig.cs is a static configuration class that manages all application settings, credentials, and feature flags for ContosoOrderProcessor. It implements a dual-source configuration pattern where some secrets are loaded securely from IConfiguration (environment variables) with fallback chains, while others remain intentionally hard-coded as public constants for training purposes. The class provides utility methods for initialization, configuration validation, and credential retrieval.
 
@@ -291,6 +292,8 @@ In this task, you create a PowerShell script to set up environment variables con
 Use the following steps to complete this task:
 
 1. At the root of your project, create a script file named **setup-secrets.ps1**.
+
+    You're creating a PowerShell script that sets environment variables for the current PowerShell session.
 
 1. Add the following PowerShell code to the **setup-secrets.ps1** file:
 
@@ -349,6 +352,8 @@ Use the following steps to complete this task:
     Write-Host ""
     ```
 
+    This script sets environment variables for AWS credentials, SendGrid API key, PayPal credentials, Azure Storage connection string, SQL Server connection string, GitHub Personal Access Token, and npm token. All secret values are fictional and intended for training purposes only.
+
     > [!NOTE]
     > Azure Key Vault is recommended over environment variables for production deployments. Learn more: <a href="https://learn.microsoft.com/azure/key-vault/" target="_blank">Azure Key Vault documentation</a>.
 
@@ -356,17 +361,49 @@ Use the following steps to complete this task:
 
     On the top menu bar, select **Terminal**, and then select **New Terminal**.
 
-1. To configure environment variables and then run the application, enter the following commands in the terminal:
+1. To configure environment variables, enter the following command in the terminal:
 
     ```powershell
     . .\setup-secrets.ps1
+    ```
+
+    The script should generate the following output:
+
+    ```plaintext
+    ════════════════════════════════════════════════════════
+      Contoso Order Processor - Environment Setup Script
+    ════════════════════════════════════════════════════════
+    Setting environment variables for current session...
+    ✓ AWS credentials configured
+    ✓ SendGrid API key configured
+    ✓ PayPal credentials configured
+    ✓ Azure Storage connection string configured
+    ✓ SQL Server connection string configured
+    ✓ GitHub Personal Access Token configured
+    ✓ npm Token configured
+    ════════════════════════════════════════════════════════
+    ✓ All environment variables configured successfully!
+    ════════════════════════════════════════════════════════
+    ```
+
+1. To run the application, enter the following commands in the terminal:
+
+    ```powershell
     cd ContosoOrderProcessor
     dotnet run
     ```
 
-    The **setup-secrets.ps1** script sets up environment variables containing secrets (AWS credentials, SendGrid API key, PayPal credentials, SQL Server connection string, GitHub PAT, and npm token).
+    The application validates the configuration and then runs a simulated workflow that demonstrates the following tasks:
 
-    The application runs an order processing simulation that demonstrates the workflow from order creation through payment processing, email notifications, and database storage. The console output displays detailed logging information.
+    1. Customer retrieval.
+    1. Customer validation.
+    1. Order creation.
+    1. Order validation.
+    1. Fraud detection.
+    1. Payment processing.
+    1. Database persistence.
+    1. Email notification.
+    1. Shipping notification.
 
     > [!NOTE]
     > All environment variables are temporary and only exist in the current PowerShell window. They're lost when the terminal closes. Environment variables are used to simplify the training environment. A more secure approach would involve using Azure Key Vault or other secure secret management solutions.
@@ -387,21 +424,19 @@ Use the following steps to complete this task:
 
 GitHub Copilot's Ask mode provides intelligent code analysis that can help you understand security vulnerabilities, their potential impacts, and suggested remediation strategies. By analyzing the code that contains exposed secrets, you can develop a comprehensive understanding of the problems before implementing fixes.
 
-In this task, you use GitHub Copilot's Ask mode to analyze the Stripe API key vulnerability in the PaymentService.cs file. You'll review the security risks associated with exposing the Stripe API key and gather remediation recommendations.
+In this task, you use GitHub Copilot's Ask mode to analyze the hard-coded secrets in the ContosoOrderProcessor application. You'll review the security risks associated with the exposed secrets and gather remediation suggestions.
 
 Use the following steps to complete this task:
 
 1. Open GitHub Copilot's Chat view in Visual Studio Code.
 
-    To open the Chat view, select the Chat icon from the Activity Bar on the left side of Visual Studio Code, or press `Ctrl+Alt+I` (Windows/Linux) or `Cmd+Option+I` (Mac).
+    To open the Chat view, select the Toggle Chat button at the top of the Visual Studio Code window, or press `Ctrl+Alt+I` (Windows/Linux) or `Cmd+Option+I` (Mac).
 
-1. Ensure that you're starting with a clean chat session.
+1. Ensure that you're starting with a new/clean Chat session.
 
-    If you've been using the Chat view previously, you may want to start fresh. Select the **New Chat** button (the **+** icon at the top of the Chat panel) to begin a new conversation.
+    If you analyzed or updated the codebase in the current Chat session, you may want to start fresh. Select the **New Chat** button (the **+** icon at the top of the Chat panel) to begin a new conversation. A new Chat session ensures that GitHub Copilot has no prior context that could influence its analysis.
 
 1. Use the Set Agent button to select **Ask** mode, and then use the Pick Model button to select the **GPT-4.1** model.
-
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window.
 
     > **NOTE**: The **GPT-4.1** model is included with the GitHub Copilot Free plan. This model also provides excellent code analysis capabilities. Choosing a different model may yield different results.
 
@@ -417,7 +452,9 @@ Use the following steps to complete this task:
 
 1. Take a minute to review GitHub Copilot's analysis.
 
-    GitHub Copilot should provide a detailed analysis that identifies two hard-coded secrets in the PaymentService class: a Stripe API key and a Square access token. It should explain the types of secrets, their providers, and the associated security risks.
+    GitHub Copilot should provide a detailed analysis that identifies two hard-coded secrets in the PaymentService class: a Stripe API key and a Square access token. It should explain the types of secrets, their providers, the locations in the code, and the associated security risks.
+
+    The analysis should be similar to the following:
 
     ```md
     The `PaymentService` class exposes two hard-coded secrets:
@@ -447,64 +484,74 @@ Use the following steps to complete this task:
     
     You can find these exposed secrets in `PaymentService.StripeApiKey` and `PaymentService.SquareAccessToken`.
     ```
-    
-
-
-
-
-
-
-1. Locate the **StripeApiKey** constant (line 8).
-
-1. In the code editor, select the entire line containing the StripeApiKey constant.
-
-1. Ask GitHub Copilot to analyze the security risk.
-
-    In the Chat input box, enter the following prompt:
-
-    ```plaintext
-    Analyze this Stripe API key. What are the security risks of having it in the source code?
-    ```
-
-
-
-
-
-
-
-
-1. Review GitHub Copilot's analysis.
-
-    GitHub Copilot should explain that exposing a Stripe live API key (sk_live_*) is extremely dangerous because:
-
-    - Attackers could make unauthorized charges
-    - They could access customer payment information
-    - They could create refunds or modify transactions
-    - The key provides full API access with no restrictions
-    - Once exposed in Git history, the key must be revoked
 
 1. Ask for specific remediation guidance for the Stripe API key.
 
-    In the Chat input box, enter the following prompt:
+    For example, enter the following prompt in the Chat:
 
     ```plaintext
-    What's the best practice for storing API keys like Stripe in a C# application? How should I refactor this code to use environment variables?
+    What's the best practice for storing API keys like Stripe in a C# application? How should I refactor this code to remove the hard-coded Stripe API key?
     ```
 
-1. Review GitHub Copilot's remediation suggestions.
+1. Take a minute to review GitHub Copilot's remediation suggestions.
 
-    You should see recommendations such as:
+    GitHub Copilot should recommend best practices for securely storing API keys, such as using environment variables or secret management services. It should also provide code snippets demonstrating how to refactor the PaymentService class to read the Stripe API key from a secure location instead of hard-coding it.
 
-    - Using environment variables to store the API key
-    - Reading the key with `Environment.GetEnvironmentVariable()`
-    - Adding null checking to handle missing environment variables
-    - Using .NET User Secrets for local development
-    - Using Azure Key Vault or AWS Secrets Manager for production
-    - Never committing actual API keys to source control
+    GitHub Copilot will use the Ask mode conversation to inform the remediation steps you'll take in the next task using Agent mode. You can also take notes on GitHub Copilot's recommendations. Your insights can also guide remediation.
 
-1. Document the Stripe API key analysis results.
+1. Ask GitHub Copilot to suggest remediation strategies for the Square access token.
 
-    Take notes on GitHub Copilot's recommendations. You'll use these specific insights to guide the Agent mode remediation in the next task.
+    For example, enter the following prompt in the Chat:
+
+    ```plaintext
+    Suggest remediation strategies for the Square access token exposed in the PaymentService class. How can I securely manage this secret? Should I use the same approach to manage both the Square access token and the Stripe API key?
+    ```
+
+1. Take a minute to review GitHub Copilot's remediation suggestions.
+
+    You should see that GitHub Copilot recommends using a consistent strategy for managing both the Square access token and the Stripe API key. GitHub Copilot suggests using environment variables or secret management services.
+
+1. Open the **Services/EmailService.cs** file in the code editor.
+
+1. Ask GitHub Copilot to analyze the EmailService class, identify secrets, and suggest remediation strategies.
+
+    For example, enter the following prompt in the Chat:
+
+    ```plaintext
+    Analyze the EmailService class. Identify secrets exposed in the code. Suggest remediation strategies for securely managing secrets.
+    ```
+
+1. Take a minute to review GitHub Copilot's remediation suggestions.
+
+    You should see that GitHub Copilot identifies the hard-coded Mailgun API key as well as some SMTP credentials that were not recognized by GitHub Secret Scanning. Secret scanning tools may not detect all types of secrets, especially if they don't match known patterns.
+
+    GitHub Copilot recommends using environment variables or secret management services to securely manage the secret.
+
+1. Ask GitHub Copilot why GitHub Secret Scanning didn't detect the SMTP credentials.
+
+    For example, enter the following prompt in the Chat:
+
+    ```plaintext
+    Why didn't GitHub Secret Scanning detect the SMTP credentials in the EmailService class? Explain the limitations of secret scanning tools.
+    ```
+
+1. Review GitHub Copilot's response.
+
+    GitHub Copilot should explain that secret scanning tools rely on pattern matching and may not detect all types of secrets, especially if they don't match known patterns or formats. It should also highlight the importance of using multiple layers of security, including code reviews and static analysis tools, to identify potential vulnerabilities.
+
+1. Ask GitHub Copilot to review the AppConfig.cs file and then suggest the remediation strategy that should be used for managing all hard-coded secrets in the ContosoOrderProcessor application.
+
+    For example, enter the following prompt in the Chat:
+
+    ```plaintext
+    Review the AppConfig class and identify exposed secrets. Consider the secrets previously identified in the PaymentService and EmailService classes. Should the application's existing approach for securely managing secrets be extended for all secrets in the ContosoOrderProcessor application? Explain your reasoning and suggest a remediation strategy.
+    ```
+
+1. Take a minute to review GitHub Copilot's remediation suggestions.
+
+    You should see that GitHub Copilot recommends extending the existing approach of using environment variables for securely managing all secrets in the ContosoOrderProcessor application. It should explain that this approach centralizes secret management, reduces the risk of exposure, and aligns with best practices for secure application development.
+
+    > **NOTE**: While environment variables are a common approach for managing secrets during development and testing, secret management solutions like Azure Key Vault are recommended for production deployments. Environment variables are used in this lab for simplicity.
 
 ### Use GitHub Copilot's Agent mode to remediate secret scanning alerts
 
