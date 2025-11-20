@@ -1,14 +1,14 @@
-<!-- ---
+---
 lab:
     title: 'Exercise - Resolve GitHub secret scanning alerts using GitHub Copilot'
-    description: 'Learn  how to view and interpret Alerts on the repository Security tab, and how to use Copilot’s Chat modes (Ask and Agent) to remediate problems.'
---- -->
+    description: 'Learn how to manage GitHub secret scanning alerts and how to use GitHub Copilot’s Ask and Agent modes to remediate hard-coded secrets.'
+---
 
 # Resolve GitHub secret scanning alerts using GitHub Copilot
 
-GitHub secret scanning is a security feature that helps identify and prevent the exposure of sensitive information, such as API keys, passwords, and other secrets, in your code repositories. When a secret is detected, GitHub generates an alert to notify repository administrators and maintainers about the potential security risk.
+GitHub secret scanning is a security feature that helps identify and prevent the exposure of sensitive information in your code repositories, such as API keys, tokens, and passwords. When a secret is detected, GitHub generates an alert to notify repository administrators and maintainers about the potential security risk.
 
-In this exercise, you use GitHub Copilot to help you analyze and resolve GitHub secret scanning alerts that relate to sensitive information in the code repository of an e-commerce application.
+In this exercise, you use GitHub and GitHub Copilot to help you analyze and resolve GitHub secret scanning alerts related to hard-coded secrets in a code repository.
 
 This exercise should take approximately **40** minutes to complete.
 
@@ -56,9 +56,9 @@ If you're using a hosted lab environment for this exercise:
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your clients need help with removing hard-coded secrets from legacy code. You plan to use GitHub Secret Scanning, GitHub Push Protection, and GitHub Copilot to detect and remediate hard-coded secrets. You use Visual Studio Code as your development environment and GitHub Copilot to assist with development tasks. You're assigned to the following legacy app:
+You're a software developer working for a consulting firm. Your clients need help with removing hard-coded secrets from legacy applications. You plan to use GitHub Secret Scanning, GitHub Push Protection, and GitHub Copilot to detect and remediate hard-coded secrets. You use Visual Studio Code as your development environment and GitHub Copilot to assist with development tasks. You're assigned to the following legacy app:
 
-- ContosoOrderProcessor: A legacy e-commerce order processing workflow that includes customer validation, payment processing, email notifications, and database operations. The code contains hard-coded secrets that need to be managed in a secure manner.
+- ContosoOrderProcessor: An e-commerce app that provides an order processing workflow. The workflow includes customer validation, payment processing, email notifications, and database operations. The code contains hard-coded secrets that need to be managed in a secure manner.
 
 This exercise includes the following tasks:
 
@@ -68,10 +68,10 @@ This exercise includes the following tasks:
 1. Configure environment variables and run the application.
 1. Use GitHub Copilot's Ask mode to analyze secret scanning alerts.
 1. Use GitHub Copilot's Agent mode to remediate secret scanning alerts.
-1. Commit and push changes to GitHub.
-1. Enable and test Push Protection.
+1. Push changes to GitHub and close secret scanning alerts.
+1. Test the GitHub Push protection feature.
 
-### Import the ContosoOrderProcessor Repository
+### Import the ContosoOrderProcessor Repository to your GitHub account
 
 GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy.
 
@@ -113,11 +113,11 @@ Use the following steps to complete this task:
 
 1. Wait for the import process to complete, and then open the **ResolveGitHubSecurityAlerts** repository.
 
-    The ResolveGitHubSecurityAlerts repository contains the ContosoOrderProcessor application. The ContosoOrderProcessor application contains hard-coded secrets that are included for training purposes.
+    The ResolveGitHubSecurityAlerts repository contains the ContosoOrderProcessor application. Hard-coded secrets are included for training purposes.
 
 ### Review security alerts on GitHub
 
-GitHub's secret scanning feature detects tokens, passwords, and other secrets that are accidentally committed to a repository. Security alerts are generated when secrets are detected, providing information about the type of secret, its location in the code, and recommendations for remediation.
+GitHub's secret scanning feature detects API keys, tokens, passwords, and other secrets that are accidentally committed to a repository. Security alerts are generated when secrets are detected, providing information about the type of secret, its location in the code, and recommendations for remediation.
 
 In this task, you examine the code repository and review the security alerts generated by GitHub secret scanning.
 
@@ -137,7 +137,7 @@ Use the following steps to complete this task:
 
 1. Scroll to the bottom of the page, and then verify that **Secret Protection** and **Push protection** are enabled.
 
-    The **Disable** button, which can be used to turn off the feature, shows that the two features are currently enabled.
+    The **Disable** buttons, which can be used to turn off the features, show that the two features are currently enabled.
 
     > **NOTE**: For public repositories, secret scanning (Secret Protection and Push protection) are enabled by default. For private repositories, you must enable secret scanning manually.
 
@@ -149,7 +149,7 @@ Use the following steps to complete this task:
 
 1. In the left sidebar, under the **Vulnerability alerts** section, select **Secret scanning**.
 
-    The Secret scanning alerts page displays a list of all secret scanning alerts that have been detected in your repository. Each alert includes information about the type of secret, the file and line number where the secret was found, and the status of the alert.
+    The Secret scanning alerts page displays the security alerts for secrets detected in your repository. Each alert includes information about the type of secret, the file and line number where the secret was found, and the status of the alert.
 
 1. Take a minute to review the Secret scanning alerts page.
 
@@ -184,7 +184,7 @@ Use the following steps to complete this task:
 
     Notice that this alert points to the PaymentService.cs file (line 24). The code exposes a Stripe live API key.
 
-1. Navigate back to the Secret scanning alerts page and take a minute to review the other alerts.
+1. Navigate back to the Secret scanning alerts page and quickly review the other alerts.
 
     As you review the alerts, notice the following:
 
@@ -289,7 +289,7 @@ Use the following steps to complete this task:
     - **PaymentService.cs**: This class handles payment processing using third-party payment gateways. It contains hard-coded secrets for Stripe and Square payment providers.
     - **EmailService.cs**: This class manages email notifications using the Mailgun email service. It contains a hard-coded Mailgun API key and SMTP credentials.
 
-> **NOTE**: Hard-coded secrets are included for training purposes only. In a real-world application, secrets should never be hard-coded in source code.
+> **NOTE**: Hard-coded secrets are included in the application for training purposes only. In a real-world application, secrets should never be hard-coded.
 
 ### Configure environment variables and run the application
 
@@ -410,7 +410,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the console output generated by the ContosoOrderProcessor application.
 
-    The application displays the entire order processing workflow, including configuration details and processing steps. Notice the log messages that show how secrets are being used throughout the application. For example, you can see connection strings, API keys, and other sensitive information being logged to the console.
+    The application logs the entire workflow process, including configuration details and processing steps. Notice that some messages expose secrets. For example, you can see connection strings, API keys, and other sensitive information being logged to the console.
 
 1. Add a file named **OriginalConsoleOutput.txt** to the root of your project.
 
@@ -418,7 +418,7 @@ Use the following steps to complete this task:
 
 1. Copy the console output to the **OriginalConsoleOutput.txt** file.
 
-    You can compare this original console output with the console output after remediating the secret scanning alerts.
+    You compare this original console output with the final console output after remediating the secret scanning alerts.
 
 ### Use GitHub Copilot's Ask mode to analyze secret scanning alerts
 
@@ -428,7 +428,7 @@ In this task, you use GitHub Copilot's Ask mode to analyze the hard-coded secret
 
 Use the following steps to complete this task:
 
-1. Open GitHub Copilot's Chat view in Visual Studio Code.
+1. Ensure that GitHub Copilot's Chat view is open in Visual Studio Code.
 
     To open the Chat view, select the Toggle Chat button at the top of the Visual Studio Code window, or press `Ctrl+Alt+I` (Windows/Linux) or `Cmd+Option+I` (Mac).
 
@@ -452,7 +452,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review GitHub Copilot's analysis.
 
-    GitHub Copilot should provide a detailed analysis that identifies hard-coded secrets in the PaymentService class. The secrets should include a Stripe API Key and a Square Access Token. PayPal Credentials might also be identified. The explanation should describe the types of secrets, their providers, the locations in the code, and the associated security risks.
+    GitHub Copilot should provide a detailed analysis that identifies hard-coded secrets in the PaymentService class. The secrets should include a Stripe API Key and a Square Access Token. The explanation should describe the types of secrets, their providers, the locations in the code, and the associated security risks.
 
     The analysis should be similar to the following:
 
@@ -485,7 +485,7 @@ Use the following steps to complete this task:
     You can find these exposed secrets in `PaymentService.StripeApiKey` and `PaymentService.SquareAccessToken`.
     ```
 
-1. Ask for specific remediation guidance for the Stripe API key.
+1. Ask GitHub Copilot for specific remediation guidance for the Stripe API key.
 
     For example, enter the following prompt in the Chat:
 
@@ -541,7 +541,7 @@ Use the following steps to complete this task:
 
 1. Open the **Configuration/AppConfig.cs** file in the code editor.
 
-1. Ask GitHub Copilot to review the AppConfig.cs file and then suggest the remediation strategy that should be used for managing all hard-coded secrets in the ContosoOrderProcessor application.
+1. Ask GitHub Copilot to review the AppConfig.cs file and then suggest the remediation strategy that should be used to manage all hard-coded secrets in the ContosoOrderProcessor application.
 
     For example, enter the following prompt in the Chat:
 
@@ -555,13 +555,15 @@ Use the following steps to complete this task:
 
 ### Use GitHub Copilot's Agent mode to remediate secret scanning alerts
 
-GitHub Copilot's Agent mode can help you implement security fixes by directly replacing hard-coded secrets with secure alternatives in your code files. The Agent mode goes beyond analysis to actively modify code using security best practices.
+GitHub Copilot's Agent mode can help you implement security fixes by directly replacing hard-coded secrets with secure alternatives in your code files. The Agent mode goes beyond analysis to actively edit code files using security best practices.
 
 In this task, you use GitHub Copilot's Agent mode to remediate some of the secret scanning alerts that you analyzed in the previous task. You apply the remediation strategy identified during your Ask mode analysis. You intentionally leave some secrets unfixed to test GitHub's Push Protection feature.
 
 Use the following steps to complete this task:
 
 1. In Visual Studio Code, close any files that are open in the editor.
+
+    Agent mode reviews the codebase and the assigned task to establish context and identify areas that require remediation.
 
 1. In the Chat view, switch to GitHub Copilot's **Agent** mode.
 
@@ -572,18 +574,18 @@ Use the following steps to complete this task:
     For example, enter the following prompt in the Chat:
 
     ```plaintext
-    Review the current conversation and then review the PaymentService.cs file. Notice how some secrets are managed using environment variables and others are hard-coded. I need you to remove hard-coded secrets from the PaymentService class and implement environment variables that securely manage the secrets. Update the setup-secrets.ps1 script accordingly.
+    Review the current conversation and then review the PaymentService.cs file. Notice how some secrets are managed using environment variables and others are hard-coded. I need you to remove hard-coded secrets from the PaymentService class and implement environment variables that securely manage the secrets. Update the setup-secrets.ps1 script for the new environment variables, and ensure that the formatting matches the existing environment variable declarations. Ensure that the suggested updates don't introduce errors and run a build task to verify the app builds correctly after the updates.
     ```
 
 1. Run the task and monitor the agent's progress.
 
-    The agent should begin analyzing the PaymentService.cs file and proposing code changes to remove the hard-coded secrets. Progress is reported in the Chat view. Code edits appear in the code editor as they're proposed by GitHub Copilot.
+    The agent should begin analyzing the PaymentService.cs file and proposing code changes to remove the hard-coded secrets. Progress is reported in the Chat view. GitHub Copilot Agent suggests code updates directly within the code files.
 
     > **NOTE**: The agent might ask for permission to access certain files or perform specific actions. Grant permission as needed to allow the agent to complete the task.
 
 1. Take a minute to review the changes proposed by GitHub Copilot Agent.
 
-    If GitHub Copilot doesn't open the PaymentService.cs and setup-secrets.ps1 files automatically, open them manually to review the proposed changes.
+    Review the PaymentService.cs and setup-secrets.ps1 files in the editor.
 
     You can review each edit individually in the code editor. You can scroll through the edits manually, or use the Chat Edits navigation bar to move up and down through the proposed changes. The edits should align with the remediation strategy identified during your Ask mode analysis.
 
@@ -602,7 +604,7 @@ Use the following steps to complete this task:
     For example, enter the following prompt in the Chat:
 
     ```plaintext
-    Now review the EmailService.cs file. Remove Mailgun hard-coded secrets from the EmailService class and implement environment variables that securely manage the secrets. Update the setup-secrets.ps1 script accordingly.
+    Now review the EmailService.cs file. Remove hard-coded Mailgun and SMTP secrets from the EmailService class and implement environment variables that securely manage the secrets. Update the setup-secrets.ps1 script for the new environment variables, and ensure that the formatting matches the existing environment variable declarations. Ensure that the suggested updates don't introduce errors and run a build task to verify the app builds correctly after the updates.
     ```
 
 1. Run the task and monitor the agent's progress.
@@ -618,7 +620,7 @@ Use the following steps to complete this task:
     For example, enter the following prompt in the Chat:
 
     ```plaintext
-    I need you to ensure that the app's configuration is validated correctly and that the app runs as expected. Review the Program.cs and AppConfig.cs files. Update the ValidateRequiredConfiguration method to include validation for all environment variables before starting the workflow. Update the ValidateRequiredConfiguration method to include error messages for any missing environment variable. Update console logging in Program.cs to use safe placeholder values for secrets. Also, update the AppConfig class to include static properties for the new secrets, loaded from configuration/environment variables. The validation in AppConfig.cs should also be updated to check all environment variables.
+    I need you to ensure that the app's configuration is validated correctly and that the app runs as expected. Review the Program.cs and AppConfig.cs files. Update the ValidateRequiredConfiguration method to include validation for all environment variables before starting the workflow. Update the ValidateRequiredConfiguration method to include error messages for any missing environment variable. Update console logging in Program.cs to use safe placeholder values for secrets. Also, update the AppConfig class to include static properties for the new secrets, loaded from configuration/environment variables. The validation in AppConfig.cs should also be updated to check all environment variables. Ensure that the suggested updates don't introduce errors and run a build task to verify the app builds correctly after the updates.
     ```
 
 1. Run the task and monitor the agent's progress.
@@ -673,11 +675,11 @@ Use the following steps to complete this task:
 
     These files were only needed to run and verify the application before and after remediating the secret scanning alerts. They should be removed to keep the repository clean.
 
-### Commit and push changes to GitHub
+### Push changes to GitHub and close secret scanning alerts
 
-After fixing some of the secret scanning alerts, you need to commit and push your changes to GitHub. This allows you to observe how GitHub updates the security alerts based on the remediated code.
+After removing hard-coded secrets, you need to commit and push your changes to GitHub. This allows you to observe how GitHub updates the security alerts based on the remediated code.
 
-In this task, you commit and push your code changes, then verify that the fixed alerts are updated in GitHub's Security tab.
+In this task, you commit and push your code updates, then review the process for closing GitHub secret scanning security alerts.
 
 Use the following steps to complete this task:
 
@@ -731,7 +733,7 @@ Use the following steps to complete this task:
 
     1. Invalidate the Secret (If Not Already Done): If the exposed secrets were for sensitive systems (API keys, credentials, etc.), make sure you rotate or invalidate them. Removing the secret from code does not protect you if it has been compromised.
 
-    1. Document Your Actions: Note in the alert what was done (e.g., "Secret removed and rotated in commit <SHA> on <date>"). This helps with auditing and future reference.
+    1. Document Your Actions: Include a comment in the alert that describes the remediation (including the commit SHA and date). This helps with auditing and future reference.
 
     1. Suppress or Dismiss the Alert: If the secret has been fully remediated (removed and rotated), you can dismiss the security alert in GitHub. Select an appropriate reason (such as “Revoked” or “Used in test”) to help others understand the context.
 
@@ -743,7 +745,7 @@ Use the following steps to complete this task:
 
 1. Close the secret scanning alerts for the remediated secrets.
 
-    Use the following steps to close each alert:
+    Use the following steps to close each of the remediated alerts:
 
     1. Open an alert and review the details.
 
@@ -755,7 +757,9 @@ Use the following steps to complete this task:
 
     1. Select **Close alert**.
 
-### Enable and test Push Protection
+    The Slack and Twilio secrets were not remediated. Leave those alerts open to test GitHub's Push Protection feature in the next task.
+
+### Test the GitHub Push protection feature
 
 GitHub's Push Protection feature prevents secrets from being accidentally pushed to your repository. When enabled, it scans commits for known secret patterns and blocks the push if secrets are detected, giving you a chance to remove them before they enter the repository history.
 
@@ -763,81 +767,37 @@ In this task, you enable Push Protection for your repository and test it by atte
 
 Use the following steps to complete this task:
 
-1. Navigate to your repository on GitHub in a web browser.
-
-1. Open the repository Settings.
-
-    Click the **Settings** tab at the top of your repository page.
-
-1. Select **Code security and analysis** from the left sidebar.
-
-1. Locate the **Push protection** section.
-
-    Scroll down to find the Push protection settings within the Secret scanning section.
-
-1. Enable Push Protection.
-
-    Click the **Enable** button next to "Push protection". If it's already enabled, you can skip this step.
-
-    > **NOTE**: Push Protection is available for public repositories and for private repositories with GitHub Advanced Security enabled.
-
-1. Return to Visual Studio Code.
+1. Return to the ContosoOrderProcessor app in Visual Studio Code.
 
 1. Open the **Configuration/AppConfig.cs** file in the code editor.
 
-1. Locate the **SlackBotToken** constant.
+1. Scroll down to find the declaration statement for the **SlackBotToken** constant.
 
-1. Modify the SlackBotToken to test Push Protection.
+1. Change one digit of the assigned SlackBotToken to a different value.
 
-    Change the existing SlackBotToken to a different value to simulate adding a new secret:
-    This simulates a developer accidentally committing a secret.
+    This simulates a developer accidentally adding a new hard-coded secret to the code.
 
-1. Save the file.
+1. Save the AppConfig.cs file.
 
-1. Stage and commit the change.
+1. Open the SOURCE CONTROL view, and then stage and commit the change.
 
-    In the Source Control view, stage the EmailService.cs file and commit with a message like:
+    For example, enter a commit message, select **Commit**, and then select **Yes** to stage the changes if prompted.
 
-    ```plaintext
-    Update SlackBotToken configuration
-    ```
+1. Attempt to sync/push the commit.
 
-1. Attempt to push the commit.
+    For example, select **Sync Changes** and then select **Ok** to push the commit.
 
-    Click **Sync Changes** or **Push**, or use the command line:
+1. Notice that the GitHub Push protection feature blocks the push.
 
-    ```bash
-    git push origin main
-    ```
+    A dialog box appears with the message "Can't push refs to remote".
 
-1. Observe the Push Protection block.
+1. On the dialog box, select **Open Git Log**.
 
-    The push should be rejected with an error message indicating that secrets were detected. The error message will list the detected secret pattern and provide instructions on how to proceed.
+    The log should tell you that the push was rejected because secrets were detected. The error message will list the detected secret pattern and offer instructions on how to proceed.
 
-1. Read and understand the error message.
+1. Use the SOURCE CONTROL view to amend the commit and revert the SlackBotToken change in AppConfig.cs.
 
-    The error confirms that Push Protection is working correctly. It prevented a secret from entering your repository. Notice that this is one of the secrets you intentionally left unfixed from the earlier tasks.
-
-1. Revert the SlackBotToken change.
-
-    Open Configuration/AppConfig.cs and restore the original SlackBotToken value, or simply undo your changes.
-
-1. Save the file.
-
-1. Amend the commit to remove the modified secret.
-
-    In the terminal, run:
-
-    ```bash
-    git add Services/EmailService.cs
-    git commit --amend --no-edit
-    ```
-
-    Or discard the commit entirely:
-
-    ```bash
-    git reset --soft HEAD~1
-    ```
+    For example, use the SOURCE CONTROL view as follows: select **Undo Last Commit**, select **Unstage All Changes**, and then select **Discard Changes**.
 
 Push Protection has successfully prevented a secret from being pushed to your repository. In a real-world scenario, this feature would catch accidental commits of API keys, tokens, passwords, and other sensitive information before they become part of your repository history.
 
