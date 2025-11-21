@@ -186,7 +186,7 @@ Use the following steps to complete this task:
 
 1. Navigate back to the Secret scanning alerts page and quickly review the other alerts.
 
-    As you review the alerts, notice the following:
+    As you review the alerts, notice the following details:
 
     - All of the alerts are currently in the "Open" status, indicating they need to be addressed.
     - Each alert identifies the file and line number where the secret was found.
@@ -262,7 +262,7 @@ Use the following steps to complete this task:
 
     1. First, the Main method builds and validates a configuration object.
 
-        Notice the ValidateRequiredConfiguration method at the bottom of the Program.cs file. This method validates that all required configuration values are present before the application starts. It checks for configuration data in appsettings.json and secrets in environment variables (AWS credentials, SendGrid API key, PayPal credentials, Azure storage connection, database connection, GitHub token, and NPM token). If any are missing, it displays a formatted error message listing the missing items, instructs the user to run a setup script, and exits the application with an error code.
+        Notice the ValidateRequiredConfiguration method at the bottom of the Program.cs file. This method validates that all required configuration values are present before the application starts. It checks for configuration data in appsettings.json and secrets in environment variables. If any are missing, it displays a formatted error message listing the missing items, instructs the user to run a setup script, and exits the application with an error code.
 
         > **NOTE**: The application terminates early if the configuration isn't validated successfully. For example, if the environment variables haven't been set. This prevents the application from running with incomplete or incorrect settings.
 
@@ -286,7 +286,7 @@ Use the following steps to complete this task:
 
 1. Expand the **Services** folder, and then take a couple minutes to review the following files:
 
-    - **PaymentService.cs**: This class handles payment processing using third-party payment gateways. It contains hard-coded secrets for Stripe and Square payment providers.
+    - **PaymentService.cs**: This class handles payment processing using payment gateways. It contains hard-coded secrets for Stripe and Square payment providers.
     - **EmailService.cs**: This class manages email notifications using the Mailgun email service. It contains a hard-coded Mailgun API key and SMTP credentials.
 
 > **NOTE**: Hard-coded secrets are included in the application for training purposes only. In a real-world application, secrets should never be hard-coded.
@@ -454,7 +454,7 @@ Use the following steps to complete this task:
 
     GitHub Copilot should provide a detailed analysis that identifies hard-coded secrets in the PaymentService class. The secrets should include a Stripe API Key and a Square Access Token. The explanation should describe the types of secrets, their providers, the locations in the code, and the associated security risks.
 
-    The analysis should be similar to the following:
+    The analysis should be similar to the following example:
 
     ```md
     The `PaymentService` class exposes two hard-coded secrets:
@@ -523,7 +523,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review GitHub Copilot's remediation suggestions.
 
-    You should see that GitHub Copilot identifies the hard-coded Mailgun API key as well as some SMTP credentials that were not recognized by GitHub Secret Scanning. Secret scanning tools might not detect all types of secrets, especially if they don't match known patterns.
+    You should see that GitHub Copilot identifies the hard-coded Mailgun API key and some SMTP credentials that weren't recognized by GitHub Secret Scanning. Secret scanning tools might not detect all types of secrets, especially if they don't match known patterns.
 
     GitHub Copilot recommends using environment variables or secret management services to securely manage the secret.
 
@@ -595,7 +595,7 @@ Use the following steps to complete this task:
 
     If the proposed changes look correct and match the remediation strategy from your analysis, select **Keep** to apply the edits to your PaymentService.cs and setup-secrets.ps1 files. You can use the **Keep** button in the Chat view accept all proposed changes (all files).
 
-    After accepting the edits, the hard-coded secrets should be removed from the source code and the secrets should be securely managed using environment variables.
+    After accepting the edits, you should see that the hard-coded secrets are removed from the source code and the secrets are securely managed using environment variables.
 
     > **NOTE**: If you notice any issues with the proposed changes, you can select **Undo** to reject the edits. You can also manually modify the code as needed. If you accept the changes and later find issues, you can use the Chat view's **Undo Last Request** feature to revert the most recent changes. You can also use Visual Studio Code's undo features to revert code changes.
 
@@ -677,7 +677,7 @@ Use the following steps to complete this task:
 
 ### Push changes to GitHub and close secret scanning alerts
 
-After removing hard-coded secrets, you need to commit and push your changes to GitHub. This allows you to observe how GitHub updates the security alerts based on the remediated code.
+After removing hard-coded secrets, you need to commit and push your changes to GitHub. These actions allow you to observe how GitHub updates the security alerts based on the remediated code.
 
 In this task, you commit and push your code updates, then review the process for closing GitHub secret scanning security alerts.
 
@@ -701,11 +701,11 @@ Use the following steps to complete this task:
     Replace hard-coded secrets with environment variables in PaymentService and EmailService classes. Update configuration validation in Program.cs and AppConfig.cs. 
     ```
 
-    Once the commit message is created, click the **Commit** button (checkmark icon). If prompted to stage the changes, select **Yes**.
+    Once the commit message is created, select the **Commit** button (checkmark icon). If prompted to stage the changes, select **Yes**.
 
 1. Push (or Sync) the changes to GitHub.
 
-    Click the **Sync Changes** button or the **Push** option in the Source Control view. If you're using the command line, you can run:
+    Select the **Sync Changes** button or the **Push** option in the Source Control view. If you're using the command line, you can run:
 
     ```bash
     git push origin main
@@ -719,25 +719,25 @@ Use the following steps to complete this task:
 
 1. Open the Security tab.
 
-    Click the **Security** tab at the top of your repository page.
+    Select the **Security** tab at the top of your repository page.
 
 1. Select **Secret scanning** from the left sidebar.
 
 1. Notice that Secret Scanning still flags the same secrets.
 
-    Secret Scanning continues to flag secrets in past commits, even after they've been removed in the most recent commit. This behavior is by design to ensure that exposed secrets are properly remediated.
+    Secret Scanning continues to flag secrets in past commits, even after removing them in the most recent commit. This behavior is by design to ensure that exposed secrets are properly remediated.
 
     Here are best practices for managing the Security alerts:
 
-    1. Review the Alert Details: Open the security alert to confirm which secret(s) were detected and verify they are no longer present in the most recent commits.
+    1. Review the Alert Details: Open the security alert to confirm which secrets were detected and verify they're no longer present in the most recent commits.
 
-    1. Invalidate the Secret (If Not Already Done): If the exposed secrets were for sensitive systems (API keys, credentials, etc.), make sure you rotate or invalidate them. Removing the secret from code does not protect you if it has been compromised.
+    1. Invalidate the Secret (If Not Already Done): If the exposed secrets were for sensitive systems (API keys, credentials, etc.), make sure you rotate or invalidate them. Removing the secret from code doesn't protect you if it is compromised.
 
     1. Document Your Actions: Include a comment in the alert that describes the remediation (including the commit SHA and date). This helps with auditing and future reference.
 
-    1. Suppress or Dismiss the Alert: If the secret has been fully remediated (removed and rotated), you can dismiss the security alert in GitHub. Select an appropriate reason (such as “Revoked” or “Used in test”) to help others understand the context.
+    1. Suppress or Dismiss the Alert: If the secret is fully remediated (removed and rotated), you can dismiss the security alert in GitHub. Select an appropriate reason (such as "Revoked" or "Used in test") to help others understand the context.
 
-    1. Protect Your History (Optional): For public repositories or in highly sensitive cases, you may consider rewriting your git history to delete the secret entirely, but be aware this will force contributors to re-clone and can disrupt forks.
+    1. Protect Your History (Optional): For public repositories or in highly sensitive cases, you might consider rewriting your git history to delete the secret entirely. **Important**: rewriting your git history will force contributors to reclone and can disrupt forks.
 
     1. Monitor for Future Leaks: Keep Secret Scanning enabled on the repo. Consider enabling push protection to prevent future accidental commits of secrets.
 
@@ -757,7 +757,7 @@ Use the following steps to complete this task:
 
     1. Select **Close alert**.
 
-    The Slack and Twilio secrets were not remediated. Leave those alerts open to test GitHub's Push Protection feature in the next task.
+    The Slack and Twilio secrets weren't remediated. Leave those alerts open to test GitHub's Push Protection feature in the next task.
 
 ### Test the GitHub Push protection feature
 
@@ -775,7 +775,7 @@ Use the following steps to complete this task:
 
 1. Change one digit of the assigned SlackBotToken to a different value.
 
-    This simulates a developer accidentally adding a new hard-coded secret to the code.
+    This action simulates a developer accidentally adding a new hard-coded secret to the code.
 
 1. Save the AppConfig.cs file.
 
@@ -793,13 +793,13 @@ Use the following steps to complete this task:
 
 1. On the dialog box, select **Open Git Log**.
 
-    The log should tell you that the push was rejected because secrets were detected. The error message will list the detected secret pattern and offer instructions on how to proceed.
+    The log should tell you that the push was rejected because secrets were detected. The error message lists the detected secret pattern and offer instructions on how to proceed.
 
 1. Use the SOURCE CONTROL view to amend the commit and revert the SlackBotToken change in AppConfig.cs.
 
     For example, use the SOURCE CONTROL view as follows: select **Undo Last Commit**, select **Unstage All Changes**, and then select **Discard Changes**.
 
-Push Protection has successfully prevented a secret from being pushed to your repository. In a real-world scenario, this feature would catch accidental commits of API keys, tokens, passwords, and other sensitive information before they become part of your repository history.
+Push Protection prevents secrets from being pushed to your repository. In a real-world scenario, this feature would catch accidental commits of API keys, tokens, passwords, and other sensitive information before they become part of your repository history.
 
 ## Clean up
 
