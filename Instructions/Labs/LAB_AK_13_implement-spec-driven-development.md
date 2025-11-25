@@ -10,13 +10,13 @@ GitHub Spec Kit is a tool that helps developers implement spec-driven developmen
 
 In this exercise, you learn how to set up a Spec Kit development environment, create specifications, plans, and tasks, and implement a product feature using GitHub Copilot.
 
-This exercise should take approximately **90** minutes to complete.
+This exercise should take approximately **50-55** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
 ## Before you start
 
-Your lab environment must include the following resources: Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit extension, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Python 3.11 or later, Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -28,7 +28,63 @@ If you're using a hosted lab environment for this exercise:
 
 - For help with enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-- To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
+### Verify and install required tools
+
+1. Verify Python 3.11 or later is installed:
+
+    Spec Kit's CLI tool is Python-based and requires Python 3.11+.
+
+    ```powershell
+    python --version
+    ```
+
+    Expected output: `Python 3.11.0` or higher
+
+    If you need to install Python, download from [python.org](https://www.python.org/downloads/) or use your organization's software distribution system.
+
+1. Verify Git 2.48 or later is installed:
+
+    ```powershell
+    git --version
+    ```
+
+    Expected output: `git version 2.48.0` or higher
+
+    If needed, install Git from [git-scm.com](https://git-scm.com/downloads) or your corporate application catalog.
+
+1. Verify Visual Studio Code is installed:
+
+    Download from [code.visualstudio.com](https://code.visualstudio.com/) or your corporate application catalog if needed.
+
+1. Verify the GitHub Copilot Chat extension is installed:
+
+    - Open Visual Studio Code
+    - Navigate to Extensions (Ctrl+Shift+X)
+    - Search for "GitHub Copilot Chat"
+    - If not installed, click Install and sign in with your GitHub account when prompted
+
+1. Install the uv package manager:
+
+    Spec Kit uses uv for CLI installation and management.
+
+    - Install uv following the instructions at [docs.astral.sh/uv](https://docs.astral.sh/uv/)
+
+    - For Windows PowerShell:
+
+        ```powershell
+        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+        ```
+
+    - Restart your terminal after installation to ensure uv is in your PATH
+
+1. Verify GitHub Copilot access:
+
+    - Ensure you have an active GitHub Copilot subscription
+    - Check your subscription at [github.com/settings/copilot](https://github.com/settings/copilot)
+
+### Configure your environment
+
+1. To ensure that the .NET SDK is configured to use the official NuGet.org repository as a source for downloading and restoring packages:
 
     Open a command terminal and then run the following command:
 
@@ -38,7 +94,7 @@ If you're using a hosted lab environment for this exercise:
 
     ```
 
-- To ensure that Git is configured to use your name and email address:
+1. To ensure that Git is configured to use your name and email address:
 
     Update the following commands with your information, and then run the commands:
 
@@ -82,79 +138,9 @@ This exercise includes the following tasks:
 
 ## Task 1: Configure GitHub Spec Kit in the development environment
 
-In this task, you set up a complete GitHub Spec Kit development environment with Visual Studio Code and GitHub Copilot. You install required tools, configure the environment, and verify everything is ready for spec-driven development.
+In this task, you install the GitHub Spec Kit CLI tool and configure Visual Studio Code for spec-driven development.
 
-### Step 1: Install prerequisites
-
-Before installing GitHub Spec Kit, ensure your development environment includes the necessary tools.
-
-1. Install Python 3.11 or later:
-
-    Spec Kit's CLI tool is Python-based and requires Python 3.11+.
-
-    - Verify your Python version:
-
-        ```powershell
-        python --version
-        ```
-
-    - If you need to install Python, download from [python.org](https://www.python.org/downloads/) or use your organization's software distribution system.
-
-    - Expected output: `Python 3.11.0` or higher
-
-1. Install or verify Visual Studio Code:
-
-    - Download from [code.visualstudio.com](https://code.visualstudio.com/) or your corporate application catalog.
-
-    - Spec Kit works through VS Code's interface with AI coding assistants.
-
-1. Install the GitHub Copilot Chat extension:
-
-    - Open Visual Studio Code
-
-    - Navigate to Extensions (Ctrl+Shift+X)
-
-    - Search for "GitHub Copilot Chat"
-
-    - Click Install
-
-    - Sign in with your GitHub account when prompted
-
-1. Install or verify Git:
-
-    - Verify Git is installed:
-
-        ```powershell
-        git --version
-        ```
-
-    - Expected output: `git version 2.30.0` or higher
-
-    - If needed, install Git from [git-scm.com](https://git-scm.com/downloads) or your corporate application catalog.
-
-1. Install the uv package manager:
-
-    Spec Kit uses uv for CLI installation and management.
-
-    - Install uv following the instructions at [docs.astral.sh/uv](https://docs.astral.sh/uv/)
-
-    - For Windows PowerShell:
-
-        ```powershell
-        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-        ```
-
-    - Restart your terminal after installation to ensure uv is in your PATH
-
-1. Verify GitHub Copilot access:
-
-    - Ensure you have an active GitHub Copilot subscription
-
-    - Check your subscription at [github.com/settings/copilot](https://github.com/settings/copilot)
-
-    - For Microsoft employees, Copilot is typically provisioned through your organization's GitHub Enterprise account
-
-### Step 2: Install and verify the GitHub Spec Kit (Specify CLI)
+### Step 1: Install and verify the GitHub Spec Kit (Specify CLI)
 
 The `specify` command-line tool initializes projects for spec-driven development.
 
@@ -182,18 +168,18 @@ The `specify` command-line tool initializes projects for spec-driven development
 
     The version number may vary. If you see the version number, the installation was successful.
 
-**Troubleshooting installation issues:**
+    **Troubleshooting installation issues:**
 
-- **Command not found**: If `specify` isn't recognized after installation, the `uv` tools directory may not be in your PATH. Run `uv tool list` to verify the installation. You may need to restart your terminal or manually add the tools directory to your PATH.
+    - **Command not found**: If `specify` isn't recognized after installation, the `uv` tools directory may not be in your PATH. Run `uv tool list` to verify the installation. You may need to restart your terminal or manually add the tools directory to your PATH.
 
-- **SSL certificate errors in corporate environments**: Corporate networks may intercept HTTPS connections. Configure `uv` to use your organization's certificate bundle:
+    - **SSL certificate errors in corporate environments**: Corporate networks may intercept HTTPS connections. Configure `uv` to use your organization's certificate bundle:
 
-    ```powershell
-    $env:SSL_CERT_FILE = "C:\path\to\corporate-ca-bundle.crt"
-    uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
-    ```
+        ```powershell
+        $env:SSL_CERT_FILE = "C:\path\to\corporate-ca-bundle.crt"
+        uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+        ```
 
-### Step 3: Configure Visual Studio Code for GitHub Spec Kit
+### Step 2: Configure Visual Studio Code for GitHub Spec Kit
 
 Spec Kit integrates with VS Code through the GitHub Copilot Chat extension.
 
@@ -237,92 +223,7 @@ Spec Kit integrates with VS Code through the GitHub Copilot Chat extension.
 
     - Sign in using your enterprise credentials
 
-### Step 4: Create and initialize a test repository
-
-For this exercise, you work in an isolated test repository.
-
-1. Create a new GitHub repository:
-
-    - Navigate to [github.com](https://github.com/) (or your GitHub Enterprise Server)
-
-    - Click the "+" icon in the top-right corner
-
-    - Select "New repository"
-
-    - Name it `spec-kit-training`
-
-    - Choose "Private" to keep experiments confidential
-
-    - Click "Create repository"
-
-1. Clone the repository locally:
-
-    ```powershell
-    git clone https://github.com/yourusername/spec-kit-training.git
-    cd spec-kit-training
-    ```
-
-1. Initialize GitHub Spec Kit in the repository:
-
-    ```powershell
-    specify init
-    ```
-
-1. When prompted, select the appropriate options:
-
-    - Choose "GitHub Copilot" as the AI agent
-
-    - Choose "PowerShell" for the script variant (on Windows)
-
-1. Observe the created files and directories:
-
-    - `.github/prompts/` directory containing workflow templates
-
-    - Template files: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`
-
-    - Configuration files that tell GitHub Copilot about the spec-driven workflow
-
-### Step 5: Verify the environment is ready
-
-Confirm your environment is properly configured.
-
-1. Open the project in Visual Studio Code:
-
-    ```powershell
-    code .
-    ```
-
-1. Open the Copilot Chat panel (Ctrl+Alt+I)
-
-1. Type `/speckit` in the chat input
-
-1. Verify autocomplete shows commands like:
-
-    - `/speckit.constitution`
-    - `/speckit.specify`
-    - `/speckit.clarify`
-    - `/speckit.plan`
-    - `/speckit.tasks`
-    - `/speckit.implement`
-
-1. Verify the project structure:
-
-    - Confirm `.github/prompts/` directory exists
-
-    - Confirm template files exist: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`
-
-**Troubleshooting verification issues:**
-
-- **`/speckit` commands don't appear**: 
-  - Verify `.github/prompts/` exists in your workspace root
-  - Reload VS Code: Press Ctrl+Shift+P, type "Reload Window", press Enter
-  - Ensure you opened the correct folder in VS Code (the folder containing `.github/`), not a parent or child directory
-
-- **Copilot Chat shows "You don't have access to GitHub Copilot"**:
-  - Check your Copilot subscription at [github.com/settings/copilot](https://github.com/settings/copilot)
-  - Re-authenticate: Click the account icon in VS Code's lower-left corner, sign out, then sign back in
-
-Your GitHub Spec Kit development environment is now configured and ready. You can proceed with the remaining tasks to implement a product feature using spec-driven development.
+Your GitHub Spec Kit development environment is now configured and ready. In the next task, you'll create the ContosoDashboard repository and initialize it for spec-driven development.
 
 ## Task 2: Create and initialize the ContosoDashboard repository
 
@@ -365,31 +266,20 @@ Now you'll use the Specify CLI to initialize your local repository with the Spec
 
     Replace `C:\Users\YourUsername\Documents` with your preferred location.
 
-1. Initialize a new Spec Kit project:
+1. Initialize a new Spec Kit project with GitHub Copilot and PowerShell:
 
     ```powershell
-    specify init ContosoDashboard
+    specify init ContosoDashboard --ai copilot --script ps
     ```
 
-    The CLI will begin the initialization process and prompt you with several questions.
+    This command creates a new project directory configured for GitHub Copilot with PowerShell scripts.
 
-1. When prompted to select an AI assistant, choose **copilot** (GitHub Copilot):
+    **Command options explained:**
+    - `ContosoDashboard` - The name of your project directory
+    - `--ai copilot` - Configures the project for GitHub Copilot (other options: claude, gemini, cursor-agent, windsurf, etc.)
+    - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux)
 
-    ```plaintext
-    Which AI assistant will you use?
-    > copilot
-    ```
-
-    Use the arrow keys to navigate and press Enter to select.
-
-1. When prompted to select a script variant, choose **ps** (PowerShell) for Windows:
-
-    ```plaintext
-    Which script variant would you like?
-    > ps (PowerShell)
-    ```
-
-    If you're using macOS or Linux, select **sh** (bash/zsh) instead.
+    > **Note**: If you're using macOS or Linux, replace `--script ps` with `--script sh`.
 
 1. Wait for the initialization to complete. The CLI will:
 
@@ -404,12 +294,12 @@ Now you'll use the Specify CLI to initialize your local repository with the Spec
     ```plaintext
     ✓ Created project directory: ContosoDashboard
     ✓ Initialized Git repository
-    ✓ Created Spec Kit structure
-    ✓ Added template files
+    ✓ Created Spec Kit structure (.github/prompts/)
+    ✓ Added template files (constitution.md, spec.md, plan.md, tasks.md)
     
     Next steps:
     1. cd ContosoDashboard
-    2. Open the project in your AI coding assistant
+    2. Open the project in Visual Studio Code
     3. Start with /speckit.constitution to define your project principles
     ```
 
@@ -483,7 +373,7 @@ Open the project in VS Code to begin the spec-driven development process.
 
 1. Wait for VS Code to fully load the project. You should see the project files in the EXPLORER view:
 
-    ```
+    ```plaintext
     CONTOSODASHBOARD
     ├── .github
     │   └── prompts
@@ -512,12 +402,7 @@ Open the project in VS Code to begin the spec-driven development process.
         - `/speckit.analyze`
         - `/speckit.checklist`
 
-1. If the `/speckit` commands don't appear:
-
-    - Reload VS Code: Press **Ctrl+Shift+P**, type "Reload Window", and press Enter
-    - Verify you opened the `ContosoDashboard` folder (not a parent or child directory)
-    - Check that `.github/prompts/` exists in your workspace root
-    - Ensure GitHub Copilot Chat extension is installed and signed in
+    > **Note**: If the `/speckit` commands don't appear, reload VS Code by pressing **Ctrl+Shift+P**, typing "Reload Window", and pressing Enter. Verify you opened the `ContosoDashboard` folder (not a parent or child directory) and that `.github/prompts/` exists in your workspace root.
 
 **Troubleshooting**: If you encounter issues during initialization:
 
@@ -567,51 +452,33 @@ Use the `/speckit.constitution` command to create the project's governing princi
 
     Press **Enter** to execute the command.
 
-1. GitHub Copilot will prompt you for information about the project principles and constraints. Provide the following detailed context:
+1. GitHub Copilot will prompt you for information about the project principles and constraints. Provide the following context:
 
     ```plaintext
-    Create a constitution for the ContosoDashboard project with the following principles and constraints:
+    Create a constitution for the ContosoDashboard project:
 
-    **Organizational Constraints:**
-    - All cloud infrastructure must use Microsoft Azure services (Azure App Service, Azure SQL Database, Azure Blob Storage, Azure Key Vault)
-    - Authentication must integrate with Microsoft Entra ID (formerly Azure AD)
-    - Must comply with Contoso Corporation's data retention policies (3-year minimum for business data)
-    - Must follow GDPR and data privacy regulations
+    **Technology Stack:**
+    - Backend: ASP.NET Core 8.0+ with Entity Framework Core
+    - Cloud: Microsoft Azure (App Service, SQL Database, Blob Storage, Key Vault)
+    - Authentication: Microsoft Entra ID
 
-    **Security Requirements:**
-    - All data in transit must use TLS 1.3 encryption
-    - All data at rest must be encrypted
-    - Implement protection against OWASP Top 10 vulnerabilities (SQL Injection, XSS, CSRF, etc.)
-    - Role-based access control (RBAC) must be enforced for all features
-    - Sensitive configuration (connection strings, API keys) must be stored in Azure Key Vault
-    - All authentication attempts and security events must be logged
+    **Security:**
+    - TLS 1.3 encryption for data in transit
+    - Encryption at rest for all stored data
+    - Role-based access control (RBAC) for all features
+    - Virus scanning for uploaded files
+    - Store sensitive configuration in Azure Key Vault
 
-    **Technical Standards:**
-    - Use ASP.NET Core 8.0 or later for backend development
-    - Follow Microsoft's official coding conventions and style guidelines
-    - All code must include XML documentation comments for public APIs
-    - Minimum 80% code coverage with unit tests
-    - Use Entity Framework Core for data access
-    - Implement repository pattern for data access layers
+    **Performance:**
+    - Page loads under 2 seconds
+    - API responses under 500ms
+    - Support 1,000 concurrent users
 
-    **Performance Requirements:**
-    - Page load times must not exceed 2 seconds under normal network conditions
-    - API response times must not exceed 500 milliseconds for 95% of requests
-    - The application must support 1,000 concurrent users
-    - Database queries must be optimized with appropriate indexing
-
-    **Quality Standards:**
-    - All user-facing messages must be clear and professional
-    - Error handling must provide meaningful feedback without exposing sensitive information
-    - The application must be accessible and comply with WCAG 2.1 Level AA standards
-    - All features must work on latest versions of Edge, Chrome, Firefox, and Safari
-
-    **Development Practices:**
-    - Use Git for version control with meaningful commit messages
-    - Follow GitFlow branching strategy (main, develop, feature branches)
-    - Require code reviews before merging to main branch
-    - Implement CI/CD pipelines for automated testing and deployment
-    - Document all architectural decisions in ADR (Architecture Decision Records) format
+    **Quality:**
+    - 80% code coverage with unit tests
+    - XML documentation for public APIs
+    - WCAG 2.1 Level AA accessibility
+    - Use repository pattern for data access
     ```
 
 1. Press **Enter** and wait for GitHub Copilot to process the information and generate the constitution.
@@ -627,32 +494,21 @@ After Copilot generates the constitution, review it carefully to ensure it captu
 1. Verify the constitution includes sections covering:
 
     - **Project Identity**: Name, purpose, and scope of the ContosoDashboard application
-    - **Organizational Constraints**: Azure-only infrastructure, Entra ID integration, data retention policies
-    - **Security and Compliance**: Encryption requirements, OWASP protection, RBAC, logging
-    - **Technical Architecture**: Technology stack (.NET, Entity Framework), architectural patterns, coding standards
-    - **Performance Benchmarks**: Load time limits, API response times, scalability targets
-    - **Quality and Accessibility**: WCAG compliance, error handling, browser support
-    - **Development Workflow**: Version control, branching strategy, code review process, CI/CD
+    - **Technology Stack**: Azure services, ASP.NET Core, Entity Framework Core, Entra ID
+    - **Security Requirements**: Encryption, RBAC, virus scanning, secure configuration
+    - **Performance Benchmarks**: Page load times, API response times, concurrent user support
+    - **Quality Standards**: Test coverage, documentation, accessibility, architecture patterns
 
 1. Check that each principle is clearly stated and actionable. For example:
 
     - ❌ Vague: "Use good security practices"
     - ✅ Clear: "All API endpoints must validate authentication tokens and enforce role-based permissions"
 
-1. If any critical requirements are missing or unclear, you can refine them by:
+1. If any critical requirements are missing or unclear, you can edit the `constitution.md` file directly to add or modify principles. For example, you might add:
 
-    - Editing the `constitution.md` file directly to add or modify principles
-    - Or asking a follow-up question in Copilot Chat:
-
-        ```plaintext
-        Add a principle about file upload security: All uploaded files must be scanned for malware using an approved service before storage, and file size limits must be enforced (max 25 MB per file).
-        ```
-
-1. Add any Contoso-specific principles that weren't included. For example:
-
+    - All uploaded files must be scanned for malware before storage
+    - File size limits must be enforced (max 25 MB per file)
     - Document management features must support PDF and Microsoft Office file formats
-    - Storage quotas must be enforced (2 GB per user by default)
-    - All document access must be audited for compliance tracking
 
 ### Step 4: Validate and save the constitution
 
@@ -703,16 +559,16 @@ Use the following steps to complete this task:
 
     Navigate to the following folder: spec-driven-development
 
-1. Open the upload-manage-docs-feature-requirements.md file in Visual Studio Code or a text editor.
+1. Open the upload-manage-docs-feature-requirements-simplified.md file in Visual Studio Code or a text editor.
 
-1. Take 2-3 minutes to read through the requirements document, paying particular attention to:
+1. Take 1-2 minutes to read through the requirements document, paying particular attention to:
 
-    - **Business Need**: Why Contoso needs this feature (centralized document storage, version control, security)
+    - **Business Need**: Why Contoso needs this feature (centralized document storage, security)
     - **Target Users**: All Contoso employees with role-based permissions
-    - **High-Level Requirements**: The 18 numbered requirements covering upload, organization, management, integration, storage, and reporting
+    - **Core Requirements**: The 6 requirement areas covering upload, organization, access, integration, performance, and audit
     - **Success Metrics**: How feature success will be measured (e.g., 70% adoption rate, documents found in under 30 seconds)
-    - **Constraints**: Azure infrastructure, 8-10 week timeline, security policies
-    - **Out of Scope**: Features not included in this release (collaborative editing, OCR, etc.)
+    - **Technical Constraints**: Azure infrastructure, 8-10 week timeline, security policies
+    - **Out of Scope**: Features not included in this release
 
 1. In Visual Studio Code with the ContosoDashboard project open, open the Copilot Chat view (press **Ctrl+Alt+I**).
 
@@ -725,26 +581,25 @@ Use the following steps to complete this task:
     ```plaintext
     Feature: Document Upload and Management for ContosoDashboard
     
-    Enable employees to upload work-related documents (PDF, Office, images, text), organize by category/project, share with team members, search efficiently, and manage versions. Must integrate with existing dashboard features while maintaining security and compliance.
+    Enable employees to upload work-related documents (PDF, Office, images, text), organize by category/project, share with team members, and search efficiently. Must integrate with existing dashboard features while maintaining security.
     
     Target Users: All 5,000 Contoso employees with role-based access (Employee, Team Lead, Project Manager, Administrator).
     
     Core Capabilities:
-    1. Upload: Multiple files, max 25 MB each (100 MB batch), supported types (PDF, Office docs, images, text), metadata (title, category, description, project, tags), progress indicator, virus scanning
-    2. Organization: My Documents view, Project Documents view, Team Documents view, Shared with Me section, search by title/description/tags/uploader/project (results under 2 seconds)
-    3. Management: Download with tracking, in-browser preview (PDF/images), edit metadata, version control (30-day history), soft delete (30-day trash), restore, sharing with permissions (View Only/View & Download)
+    1. Upload: Multiple files, max 25 MB each, supported types (PDF, Office docs, images, text), metadata (title, category, description, project, tags), progress indicator, virus scanning
+    2. Organization: My Documents view, Project Documents view, search by title/description/tags/uploader/project (results under 2 seconds)
+    3. Management: Download, in-browser preview (PDF/images), edit metadata, replace files, delete documents, sharing with notifications
     4. Integration: Attach to tasks, dashboard Recent Documents widget, notifications for sharing/new project docs
-    5. Storage: 2 GB quota per user, usage display, 80% warning, admin quota adjustments
-    6. Performance: Upload in 30s (25 MB files), list load in 2s (500 docs), search in 2s, preview in 3s
-    7. Audit: Log all uploads/downloads/deletions/sharing, admin reports, 7-year retention for Official Records, 5-year audit logs
+    5. Performance: Upload in 30s (25 MB files), list load in 2s (500 docs), search in 2s, preview in 3s
+    6. Audit: Log all uploads/downloads/deletions/sharing, admin reports
     
-    Security: Azure Blob Storage encryption at rest, TLS 1.3 in transit, RBAC enforcement, audit logging.
+    Security: Azure Blob Storage encryption at rest, TLS 1.3 in transit, RBAC enforcement, virus scanning.
     
-    Success Criteria: 70% adoption in 3 months, find docs under 30s, 90% properly categorized, zero security incidents, <5% support tickets.
+    Success Criteria: 70% adoption in 3 months, find docs under 30s, 90% properly categorized, zero security incidents.
     
     Constraints: Azure Blob Storage, ASP.NET Core integration, 8-10 week timeline, Entra ID authentication.
     
-    Out of Scope: Collaborative editing, OCR, translation, approval workflows, SharePoint integration, mobile apps, templates, e-signatures.
+    Out of Scope: Version history, storage quotas, soft delete/trash, collaborative editing, external integrations, mobile apps.
     ```
 
 1. Press **Enter** and wait 1-2 minutes for GitHub Copilot to generate the specification in the `spec.md` file.
@@ -761,9 +616,8 @@ Use the following steps to complete this task:
 
 1. Check that key requirements from your input are captured:
 
-    - File size limits (25 MB per file, 100 MB batch)
+    - File size limits (25 MB per file)
     - Supported file types (PDF, Office documents, images, text files)
-    - Storage quotas (2 GB per user)
     - Performance targets (2-second page loads, 30-second uploads)
     - Security measures (virus scanning, encryption, RBAC)
     - Integration points (tasks, dashboard widgets, notifications)
@@ -801,69 +655,48 @@ Use the following steps to complete this task:
 1. GitHub Copilot will analyze the `spec.md` file and generate clarification questions. You may receive questions such as:
 
     - "Should drag-and-drop upload be supported in addition to the file selection dialog?"
-    - "What happens to documents when a user's employment ends? Should they be transferred, archived, or deleted?"
-    - "Should there be different storage quotas for different user roles (e.g., Project Managers get more space)?"
-    - "How should version numbering work? Automatic incrementing (v1, v2, v3) or manual versioning?"
-    - "Should users receive notifications when someone downloads their documents?"
-    - "What specific virus scanning service should be used (Microsoft Defender, ClamAV, third-party)?"
+    - "What happens to documents when a user's employment ends?"
+    - "What specific virus scanning service should be used?"
     - "Should document titles be unique within a user's library, or can duplicates exist?"
-    - "How should search ranking work? By relevance, date, or user-defined criteria?"
+    - "How should search results be ranked?"
 
 1. Answer each question thoughtfully. Here are example responses you can provide:
 
     For drag-and-drop support:
 
     ```plaintext
-    Yes, support drag-and-drop upload in addition to file selection dialog for better user experience. The same validation rules apply (file type, size limits, virus scanning).
+    Yes, support drag-and-drop upload for better user experience. The same validation rules apply (file type, size limits, virus scanning).
     ```
 
     For user termination:
 
     ```plaintext
-    When an employee leaves, their personal documents should be retained for 90 days for knowledge transfer, then archived. Project documents remain with the project indefinitely. Team Leads are notified to review and reassign ownership of critical documents.
-    ```
-
-    For storage quotas by role:
-
-    ```plaintext
-    Use standard 2 GB quota for all users initially. Administrators can adjust quotas on a case-by-case basis. Consider implementing automatic quota increase requests for users approaching limits.
-    ```
-
-    For version numbering:
-
-    ```plaintext
-    Use automatic version numbering (v1, v2, v3...). Display version number and timestamp for each version. Allow users to add optional version notes when uploading a new version.
-    ```
-
-    For download notifications:
-
-    ```plaintext
-    No real-time notifications for downloads - this would be too noisy. Instead, provide a downloadable report showing who accessed documents in the last 30 days for audit purposes.
+    When an employee leaves, personal documents are deleted after 90 days. Project documents remain with the project. Team Leads are notified to review critical documents.
     ```
 
     For virus scanning:
 
     ```plaintext
-    Use Microsoft Defender for Cloud integration since we're already using Azure. Files must pass scanning before being stored in Blob Storage. Quarantine failed files and notify the uploader and administrators.
+    Use Microsoft Defender for Cloud since we're using Azure. Files must pass scanning before storage. Quarantine failed files and notify the uploader.
     ```
 
     For duplicate titles:
 
     ```plaintext
-    Allow duplicate titles - users should be able to have multiple documents with the same name in different categories or projects. Use unique document IDs internally, and display upload date/category to distinguish duplicates in the UI.
+    Allow duplicate titles. Use unique document IDs internally, and display upload date/category to distinguish duplicates in the UI.
     ```
 
     For search ranking:
 
     ```plaintext
-    Rank search results by relevance (title matches first, then tag matches, then description matches), with most recently uploaded as a tiebreaker. Allow users to re-sort results by date or file size after initial search.
+    Rank by relevance (title matches first, then tags, then description), with recent uploads as tiebreaker. Allow users to re-sort by date or file size.
     ```
 
 1. After you provide each answer, GitHub Copilot updates the `spec.md` file with clarifications.
 
 1. If Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed.
 
-    The clarification process may involve 2-3 rounds of questions as Copilot identifies dependencies and follow-up questions based on your answers.
+    The clarification process typically involves 1-2 rounds of questions as Copilot refines the specification.
 
 1. Once the clarification process is complete, review the updated `spec.md` file:
 
@@ -898,34 +731,25 @@ Use the following steps to complete this task:
 1. GitHub Copilot will analyze the `constitution.md` and `spec.md` files to generate the plan. It may prompt you for additional technical context. Provide the following information:
 
     ```plaintext
-    Technology Stack and Architecture Context:
+    Technology Stack Context:
     
-    Existing Application:
-    - Backend: ASP.NET Core 8.0 Web API with C# 12
-    - Frontend: Blazor Server (or specify React/Angular if different)
-    - Database: Azure SQL Database with Entity Framework Core 8
-    - Authentication: Microsoft Entra ID (Azure AD) with JWT tokens
-    - Hosting: Azure App Service (Production), local IIS Express (Development)
+    Backend: ASP.NET Core 8.0 Web API with C#, Entity Framework Core 8
+    Database: Azure SQL Database
+    Storage: Azure Blob Storage for document files
+    Authentication: Microsoft Entra ID with JWT tokens
+    Hosting: Azure App Service
     
-    New Components for Document Management:
-    - Storage: Azure Blob Storage with hierarchical namespace enabled
-    - File Processing: Azure Functions for virus scanning (async processing)
-    - Search: Azure Cognitive Search for document content indexing (optional enhancement)
-    - Caching: Azure Redis Cache for frequently accessed metadata
+    Architecture:
+    - Repository pattern for data access
+    - Service layer for business logic
+    - Dependency Injection
+    - DTOs for API contracts
     
-    Architecture Patterns:
-    - Use Repository pattern for data access
-    - Implement Service layer for business logic
-    - Apply Dependency Injection throughout
-    - Use DTOs (Data Transfer Objects) for API contracts
-    - Implement CQRS pattern for read-heavy operations like search
-    
-    Development Practices:
-    - Follow Clean Architecture principles
-    - Use async/await for all I/O operations
-    - Implement comprehensive logging with Application Insights
-    - Include XML documentation for all public APIs
-    - Write unit tests with xUnit, integration tests with WebApplicationFactory
+    Development:
+    - Async/await for all I/O operations
+    - Unit tests with xUnit
+    - XML documentation for public APIs
+    - Application Insights for logging
     ```
 
 1. Wait 2-3 minutes for GitHub Copilot to generate the technical plan in the `plan.md` file.
@@ -946,11 +770,10 @@ Use the following steps to complete this task:
 
 1. Review the data model section. It should include entities such as:
 
-    - **Document**: DocumentId, Title, Description, FileName, FileSize, FileType, BlobStorageUrl, Category, UploadedBy, UploadDate, LastModifiedDate, IsDeleted, DeletedDate
-    - **DocumentVersion**: VersionId, DocumentId, VersionNumber, BlobStorageUrl, UploadedBy, UploadDate, VersionNotes
+    - **Document**: DocumentId, Title, Description, FileName, FileSize, FileType, BlobStorageUrl, Category, UploadedBy, UploadDate, LastModifiedDate
     - **DocumentTag**: TagId, DocumentId, TagName
-    - **DocumentShare**: ShareId, DocumentId, SharedBy, SharedWith, Permission (ViewOnly/ViewAndDownload), SharedDate
-    - **DocumentAuditLog**: LogId, DocumentId, Action (Upload/Download/Delete/Share/Modify), UserId, Timestamp, Details
+    - **DocumentShare**: ShareId, DocumentId, SharedBy, SharedWith, SharedDate
+    - **DocumentAuditLog**: LogId, DocumentId, Action (Upload/Download/Delete/Share), UserId, Timestamp
 
 1. Review the API design section. It should include endpoints such as:
 
@@ -958,16 +781,13 @@ Use the following steps to complete this task:
     POST   /api/documents                  - Upload new document
     GET    /api/documents                  - Get user's documents (with filtering/sorting)
     GET    /api/documents/{id}             - Get document details
-    PUT    /api/documents/{id}             - Update document metadata
-    DELETE /api/documents/{id}             - Soft delete document
+    PUT    /api/documents/{id}             - Update document metadata or replace file
+    DELETE /api/documents/{id}             - Delete document
     GET    /api/documents/{id}/download    - Download document
     GET    /api/documents/{id}/preview     - Get preview URL
     POST   /api/documents/{id}/share       - Share document with users
     GET    /api/documents/project/{id}     - Get project documents
     GET    /api/documents/search           - Search documents
-    POST   /api/documents/{id}/versions    - Upload new version
-    GET    /api/documents/trash            - Get deleted documents
-    POST   /api/documents/{id}/restore     - Restore from trash
     ```
 
 1. Check that the plan addresses all constitutional constraints:
@@ -1023,83 +843,42 @@ Use the following steps to complete this task:
 
 1. Open the `tasks.md` file from the EXPLORER view.
 
-1. Review the generated task list. It should include tasks covering all aspects of implementation, for example:
+1. Review the generated task list. It should include tasks such as:
 
-    **Database and Data Model Tasks:**
-    - [ ] Task 1: Create Document entity with EF Core model and DbContext configuration
-    - [ ] Task 2: Create DocumentVersion entity and configure relationship with Document
-    - [ ] Task 3: Create DocumentTag, DocumentShare, and DocumentAuditLog entities
-    - [ ] Task 4: Generate and apply EF Core migrations for new tables
-    - [ ] Task 5: Create repository interfaces (IDocumentRepository, IDocumentVersionRepository)
-    - [ ] Task 6: Implement repository classes with CRUD operations and queries
+    **Data Model (5 tasks):**
+    - [ ] Task 1: Create Document entity with EF Core model
+    - [ ] Task 2: Create DocumentTag, DocumentShare, and DocumentAuditLog entities
+    - [ ] Task 3: Generate and apply EF Core migrations
+    - [ ] Task 4: Create repository interfaces
+    - [ ] Task 5: Implement repository classes
 
-    **Azure Infrastructure Tasks:**
-    - [ ] Task 7: Create Azure Blob Storage container for document storage with hierarchical namespace
-    - [ ] Task 8: Configure Azure Key Vault and store Blob Storage connection string
-    - [ ] Task 9: Set up Azure Function for virus scanning with Queue Storage trigger
-    - [ ] Task 10: Configure managed identity for secure access to Blob Storage and Key Vault
+    **Backend API (8 tasks):**
+    - [ ] Task 6: Create DocumentService with upload logic
+    - [ ] Task 7: Implement POST /api/documents endpoint for upload
+    - [ ] Task 8: Implement GET /api/documents endpoint with filtering/sorting
+    - [ ] Task 9: Implement GET /api/documents/{id}/download endpoint
+    - [ ] Task 10: Implement document preview generation
+    - [ ] Task 11: Implement document search endpoint
+    - [ ] Task 12: Implement sharing endpoints
+    - [ ] Task 13: Implement audit logging
 
-    **Backend API Tasks:**
-    - [ ] Task 11: Create DocumentService class with upload logic (validation, metadata, Blob Storage)
-    - [ ] Task 12: Implement DocumentController with POST /api/documents endpoint for upload
-    - [ ] Task 13: Add file type and size validation middleware
-    - [ ] Task 14: Implement GET /api/documents endpoint with filtering, sorting, and pagination
-    - [ ] Task 15: Implement GET /api/documents/{id} endpoint for document details
-    - [ ] Task 16: Implement PUT /api/documents/{id} endpoint for metadata updates
-    - [ ] Task 17: Implement DELETE /api/documents/{id} endpoint for soft delete
-    - [ ] Task 18: Implement GET /api/documents/{id}/download endpoint with blob streaming
-    - [ ] Task 19: Implement document preview generation for PDFs and images
-    - [ ] Task 20: Add document search endpoint with full-text search capability
-    - [ ] Task 21: Implement document sharing endpoints (create/revoke share)
-    - [ ] Task 22: Implement version management endpoints (upload version, get version history)
-    - [ ] Task 23: Implement trash/restore endpoints
-    - [ ] Task 24: Add storage quota checking and enforcement logic
-    - [ ] Task 25: Implement audit logging for all document operations
+    **Frontend UI (5 tasks):**
+    - [ ] Task 14: Create DocumentUpload component with drag-drop
+    - [ ] Task 15: Create DocumentList component with table view
+    - [ ] Task 16: Create document preview viewer
+    - [ ] Task 17: Create sharing dialog
+    - [ ] Task 18: Create "Recent Documents" dashboard widget
 
-    **Security and Authorization Tasks:**
-    - [ ] Task 26: Add authorization policies for role-based access control
-    - [ ] Task 27: Implement permission checks for document access (owner, shared user, project member)
-    - [ ] Task 28: Add input sanitization to prevent XSS and injection attacks
-    - [ ] Task 29: Configure CORS policies for frontend access
-    - [ ] Task 30: Implement rate limiting for upload endpoints
+    **Testing (4 tasks):**
+    - [ ] Task 19: Write unit tests for DocumentService
+    - [ ] Task 20: Write integration tests for upload API
+    - [ ] Task 21: Write UI tests for upload workflow
+    - [ ] Task 22: Perform security testing
 
-    **Frontend UI Tasks:**
-    - [ ] Task 31: Create DocumentUpload component with file selection and drag-drop
-    - [ ] Task 32: Add upload progress indicator with file size/name display
-    - [ ] Task 33: Create DocumentList component with table view and filtering
-    - [ ] Task 34: Add sorting controls (by name, date, size, category)
-    - [ ] Task 35: Implement search bar with autocomplete suggestions
-    - [ ] Task 36: Create DocumentDetail view showing metadata and actions
-    - [ ] Task 37: Implement in-browser document preview (PDF viewer, image viewer)
-    - [ ] Task 38: Create document sharing dialog with user selection and permission settings
-    - [ ] Task 39: Add version history display with option to download previous versions
-    - [ ] Task 40: Create trash/deleted documents view with restore functionality
-    - [ ] Task 41: Add storage quota indicator to user profile page
-    - [ ] Task 42: Create "Recent Documents" widget for dashboard home page
-
-    **Integration Tasks:**
-    - [ ] Task 43: Add document attachment capability to task detail pages
-    - [ ] Task 44: Create notification service integration for document sharing events
-    - [ ] Task 45: Update dashboard summary cards to include document count
-    - [ ] Task 46: Add navigation menu items for document management pages
-
-    **Testing Tasks:**
-    - [ ] Task 47: Write unit tests for DocumentService (upload, download, delete, share)
-    - [ ] Task 48: Write unit tests for repository classes
-    - [ ] Task 49: Write integration tests for document upload API endpoint
-    - [ ] Task 50: Write integration tests for search and filtering functionality
-    - [ ] Task 51: Write UI tests for upload workflow
-    - [ ] Task 52: Perform security testing (file upload vulnerabilities, authorization bypass)
-    - [ ] Task 53: Conduct performance testing (concurrent uploads, large file handling)
-    - [ ] Task 54: Test storage quota enforcement
-
-    **Documentation and Deployment Tasks:**
-    - [ ] Task 55: Add XML documentation comments to all public APIs
-    - [ ] Task 56: Create API documentation with Swagger/OpenAPI
-    - [ ] Task 57: Update user documentation with document management guide
-    - [ ] Task 58: Configure CI/CD pipeline to deploy Azure resources
-    - [ ] Task 59: Set up monitoring and alerts in Application Insights
-    - [ ] Task 60: Perform final code review and security scan
+    **Deployment (3 tasks):**
+    - [ ] Task 23: Configure CI/CD pipeline
+    - [ ] Task 24: Set up Application Insights monitoring
+    - [ ] Task 25: Perform final code review
 
 1. Verify that the task list covers all requirements from the specification:
 
@@ -1152,12 +931,12 @@ In this task, you'll implement a subset of the feature to demonstrate the spec-d
 
 Use the following steps to complete this task:
 
-1. Review the task list in `tasks.md` and identify the first few foundational tasks to implement:
+1. Review the task list in `tasks.md` and identify foundational tasks to implement:
 
-    - Task 1-3: Create entity models
-    - Task 7-8: Set up Azure Blob Storage configuration
-    - Task 11-12: Implement upload service and API endpoint
-    - Task 31-32: Create upload UI component
+    - Task 1: Create Document entity
+    - Task 6: Implement upload service
+    - Task 7: Create upload API endpoint
+    - Task 14: Create upload UI component
 
 1. **Create the Document entity model:**
 
@@ -1170,38 +949,11 @@ Use the following steps to complete this task:
     ```csharp
     // Document entity for storing uploaded file metadata
     // Properties: DocumentId (Guid), Title, Description, FileName, FileSize, FileType,
-    // BlobStorageUrl, Category, UploadedBy, UploadDate, LastModifiedDate, IsDeleted, DeletedDate
+    // BlobStorageUrl, Category, UploadedBy, UploadDate, LastModifiedDate
     // Include data annotations for required fields and string lengths per spec requirements
     ```
 
     Position your cursor after the comment and press **Enter**. GitHub Copilot should generate the entity class. Review and accept the suggestion, or refine it as needed.
-
-1. Similarly, create entity models for `DocumentVersion.cs`, `DocumentTag.cs`, `DocumentShare.cs`, and `DocumentAuditLog.cs` using Copilot's assistance with detailed comments describing the properties and relationships.
-
-1. **Set up database context:**
-
-    Create `Data/ApplicationDbContext.cs` and add DbSet properties for your entities. Use Copilot to generate the configuration:
-
-    ```csharp
-    // ApplicationDbContext for ContosoDashboard
-    // Include DbSets for Document, DocumentVersion, DocumentTag, DocumentShare, DocumentAuditLog
-    // Configure entity relationships and indexes for optimal query performance
-    ```
-
-1. **Configure Azure Blob Storage:**
-
-    Create `Services/BlobStorageService.cs` for handling file uploads to Azure Blob Storage:
-
-    ```csharp
-    // BlobStorageService for uploading files to Azure Blob Storage
-    // Constructor: inject IConfiguration to get connection string from Azure Key Vault
-    // Method: UploadFileAsync(Stream fileStream, string fileName, string containerName)
-    // Method: DownloadFileAsync(string blobUrl)
-    // Method: DeleteFileAsync(string blobUrl)
-    // Use Azure.Storage.Blobs SDK, handle exceptions, return blob URL on success
-    ```
-
-    Let Copilot generate the implementation based on this detailed comment.
 
 1. **Implement the document upload service:**
 
@@ -1233,20 +985,7 @@ Use the following steps to complete this task:
     //   - Call DocumentService.UploadDocumentAsync
     //   - Return 201 Created with document details on success
     //   - Return 400 Bad Request for validation errors (file too large, unsupported type)
-    //   - Return 413 Payload Too Large if file exceeds limits
     // Include XML documentation comments for Swagger
-    ```
-
-1. **Implement document listing endpoint:**
-
-    In the same controller, add a GET endpoint:
-
-    ```csharp
-    // GET /api/documents - get user's documents with filtering and sorting
-    //   - Query parameters: category, projectId, sortBy (date, name, size), page, pageSize
-    //   - Call DocumentService.GetUserDocumentsAsync
-    //   - Return paginated results with total count
-    //   - Support filtering by category and project
     ```
 
 1. **Create the upload UI component (Blazor example):**
@@ -1258,7 +997,6 @@ Use the following steps to complete this task:
     @* Features per spec:
        - File selection input (multiple files)
        - Drag-and-drop zone
-       - File type filter (PDF, Office, images, text)
        - Metadata form: title (required), description, category dropdown, project dropdown, tags
        - Upload progress indicator
        - Success/error notifications
@@ -1271,23 +1009,6 @@ Use the following steps to complete this task:
 
     Use Copilot to generate the component markup and code-behind with the detailed requirements in comments.
 
-1. **Create the document list UI component:**
-
-    Create `Pages/Documents/Index.razor`:
-
-    ```razor
-    @* My Documents Page *@
-    @* Features per spec:
-       - Table view with columns: Title, Category, Upload Date, File Size, Actions
-       - Sorting controls (click column headers)
-       - Filter controls (category dropdown, project dropdown, date range)
-       - Search bar
-       - Actions per row: Download, Preview, Edit, Delete, Share
-       - Pagination controls (20 items per page)
-    *@
-    @page "/documents"
-    ```
-
 1. **Test the implementation:**
 
     After implementing the core functionality, test the upload workflow:
@@ -1299,8 +1020,7 @@ Use the following steps to complete this task:
     - Click upload and verify:
         - Progress indicator appears
         - Success notification displays
-        - Document appears in the document list
-        - File is stored in Azure Blob Storage (if connected) or simulated storage
+        - File validation works correctly
 
 1. **Mark completed tasks:**
 
@@ -1308,11 +1028,9 @@ Use the following steps to complete this task:
 
     ```markdown
     - [x] Task 1: Create Document entity with EF Core model
-    - [x] Task 7: Create Azure Blob Storage configuration
-    - [x] Task 11: Create DocumentService with upload logic
-    - [x] Task 12: Implement DocumentController POST endpoint
-    - [x] Task 31: Create DocumentUpload UI component
-    - [x] Task 33: Create DocumentList component
+    - [x] Task 6: Create DocumentService with upload logic
+    - [x] Task 7: Implement DocumentController POST endpoint
+    - [x] Task 14: Create DocumentUpload UI component
     ```
 
 1. **Commit your implementation:**
