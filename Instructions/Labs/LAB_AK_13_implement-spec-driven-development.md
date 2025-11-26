@@ -1,14 +1,14 @@
 <!-- ---
 lab:
-    title: 'Exercise - Implement Spec-Driven Development with GitHub Spec Kit'
-    description: 'Learn how to ???'
+    title: 'Exercise - Implement a product feature using GitHub Spec Kit'
+    description: 'Learn how to implement a spec-driven development process using GitHub Spec Kit and GitHub Copilot in Visual Studio Code.'
 --- -->
 
-# Implement Spec-Driven Development with GitHub Spec Kit
+# Implement a product feature using GitHub Spec Kit
 
-GitHub Spec Kit is a tool that helps developers implement spec-driven development (SDD) using AI coding assistants like GitHub Copilot.
+GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (SSD) by integrating specifications with AI coding assistants like GitHub Copilot.
 
-In this exercise, you learn how to set up a Spec Kit development environment, create specifications, plans, and tasks, and implement a product feature using GitHub Copilot.
+In this exercise, you learn how to set up a GitHub Spec Kit development environment, create constitutions, specifications, plans, and tasks, and then implement a product feature using GitHub Copilot.
 
 This exercise should take approximately **50** minutes to complete.
 
@@ -84,17 +84,17 @@ You'll work with the following application:
 
 This exercise includes the following tasks:
 
-1. Configure GitHub Spec Kit in the development environment.
-1. Create and initialize a GitHub repository for the ContosoDashboard project.
+1. Configure the GitHub Spec Kit in your development environment.
+1. Import and initialize the existing ContosoDashboard application repository.
 1. Define the project Constitution (organizational constraints and development principles).
 1. Create the Spec for the document upload and management feature.
 1. Clarify the Spec (iterate on requirements with AI assistance).
 1. Generate the Technical Plan (architecture and implementation approach).
 1. Create the Task List (actionable implementation steps).
-1. Implement the Feature using GitHub Copilot.
+1. Implement the specified feature using GitHub Copilot.
 1. Review and verify the implementation.
 
-## Configure GitHub Spec Kit in the development environment
+## Configure the GitHub Spec Kit in your development environment
 
 The GitHub Spec Kit includes a command-line interface (CLI) tool called Specify that initializes projects for spec-driven development. It also integrates with Visual Studio Code through the GitHub Copilot Chat extension to provide AI-assisted generation of specifications, plans, and tasks.
 
@@ -189,145 +189,172 @@ In this task, you install the GitHub Spec Kit CLI tool and configure Visual Stud
 
     - Sign in using your enterprise credentials
 
-Your GitHub Spec Kit development environment is now configured and ready. In the next task, you'll create the ContosoDashboard repository and initialize it for spec-driven development.
+Your GitHub Spec Kit development environment is now configured and ready. In the next task, you'll import the existing ContosoDashboard application and initialize it for spec-driven development.
 
-## Create and initialize the ContosoDashboard repository
+## Import and initialize the ContosoDashboard repository
 
-In this task, you create a new GitHub repository for the ContosoDashboard project and initialize it with GitHub Spec Kit. This sets up the foundation for spec-driven development by creating the necessary directory structure and template files.
+In this task, you import the existing ContosoDashboard application repository to your GitHub account and initialize it with GitHub Spec Kit. This mirrors a real-world scenario where you add a new feature to an existing application rather than building from scratch.
 
-### Step 1: Create a new GitHub repository
+The ContosoDashboard application is a fully functional ASP.NET Core 8.0 Blazor Server application with existing features including task management, project tracking, team collaboration, and notifications. You'll use GitHub Spec Kit to plan and implement the document upload and management feature as an addition to this working application.
 
-Before initializing Spec Kit locally, you need a GitHub repository to host your project.
+### Step 1: Import the ContosoDashboard repository to your GitHub account
 
-1. Open a browser window and navigate to `https://github.com`.
+GitHub Importer allows you to create a complete copy of an existing repository in your own GitHub account, giving you full control over the imported copy.
 
-1. Sign in to your GitHub account if you're not already signed in.
+1. Open a browser window and navigate to GitHub.com.
 
-1. Create a new repository:
+1. Sign in to your GitHub account, and then open your repositories tab.
 
-    - Click your profile icon in the top-right corner, and then select **Repositories**.
-    - On the Repositories page, select the **New** button.
-    - On the Create a new repository page, configure the repository as follows:
-        - **Repository name**: `ContosoDashboard`
-        - **Description**: `Internal employee dashboard with document management`
-        - **Visibility**: Select **Public**
-        - **Initialize this repository with**: Leave all checkboxes unchecked (Spec Kit will initialize the repository)
-    - Select **Create repository**.
+    You can open your repositories tab by clicking on your profile icon in the top-right corner, then selecting **Repositories**.
 
-1. Keep the repository page open in your browser - you'll need the repository URL in the next steps.
+1. On the Repositories tab, select the **New** button.
 
-    The URL should be in the format: `https://github.com/YOUR-USERNAME/ContosoDashboard.git`
+1. Under the **Create a new repository** section, select **Import a repository**.
 
-### Step 2: Initialize the repository with GitHub Spec Kit
-
-Now you'll use the Specify CLI to initialize your local repository with the Spec-Driven Development structure.
-
-1. Open a terminal window (Command Prompt, PowerShell, or Terminal).
-
-1. Navigate to the location where you want to create your project folder:
-
-    ```powershell
-    cd C:\Users\YourUsername\Documents
-    ```
-
-    Replace `C:\Users\YourUsername\Documents` with your preferred location.
-
-1. Initialize a new Spec Kit project with GitHub Copilot and PowerShell:
-
-    ```powershell
-    specify init ContosoDashboard --ai copilot --script ps
-    ```
-
-    This command creates a new project directory configured for GitHub Copilot with PowerShell scripts.
-
-    **Command options explained:**
-    - `ContosoDashboard` - The name of your project directory
-    - `--ai copilot` - Configures the project for GitHub Copilot (other options: claude, gemini, cursor-agent, windsurf, etc.)
-    - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux)
-
-    > **Note**: If you're using macOS or Linux, replace `--script ps` with `--script sh`.
-
-1. Wait for the initialization to complete. The CLI will:
-
-    - Create the `ContosoDashboard` directory
-    - Set up the `.github/prompts/` directory with Spec Kit commands
-    - Create template files: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`
-    - Initialize a Git repository
-    - Display a success message with next steps
-
-1. Observe the output and confirm that initialization completed successfully:
+1. On the **Import your project to GitHub** page, under **Your source repository details**, enter the following URL for the source repository:
 
     ```plaintext
-    ✓ Created project directory: ContosoDashboard
-    ✓ Initialized Git repository
-    ✓ Created Spec Kit structure (.github/prompts/)
-    ✓ Added template files (constitution.md, spec.md, plan.md, tasks.md)
-    
-    Next steps:
-    1. cd ContosoDashboard
-    2. Open the project in Visual Studio Code
-    3. Start with /speckit.constitution to define your project principles
+    https://github.com/MicrosoftLearning/ContosoDashboard-GitHub-Spec-Kit.git
     ```
 
-### Step 3: Connect the local repository to GitHub
+1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
 
-Link your local repository to the GitHub repository you created earlier.
+1. Enter **ContosoDashboard** in the **Repository name** field.
 
-1. Navigate to the newly created project directory:
+    GitHub automatically checks the availability of the repository name. If this name is already taken, append a unique suffix (for example, your initials or a random number) to the repository name to make it unique.
+
+1. Ensure that the repository is set to **Public**.
+
+1. Select the **Begin import** button.
+
+    GitHub uses the import process to create the new repository in your account.
+
+    > **NOTE**: It can take a minute or two for the import process to finish.
+
+1. Wait for the import process to complete (typically 1-2 minutes).
+
+    GitHub will display a progress indicator and notify you when the import is complete.
+
+1. Once complete, select **View repository** or navigate to `https://github.com/YOUR-USERNAME/ContosoDashboard` to view your imported repository.
+
+1. Explore the repository structure to familiarize yourself with the existing application:
+
+    - `Models/` - Contains 7 entity classes (User, TaskItem, Project, etc.)
+    - `Data/` - ApplicationDbContext with EF Core configuration
+    - `Services/` - 5 service implementations for business logic
+    - `Pages/` - 7 Blazor pages (Dashboard, Tasks, Projects, Team, Notifications, Profile, ProjectDetails)
+    - `Shared/` - Layout components and navigation
+    - `README.md` and `PROJECT_SUMMARY.md` - Application documentation
+
+### Step 2: Clone the repository and initialize GitHub Spec Kit
+
+Now you'll clone your imported repository and initialize it with GitHub Spec Kit for spec-driven development.
+
+1. On your ContosoDashboard repository page in GitHub, select the **Code** button and copy the HTTPS URL.
+
+    The URL should be similar to: `https://github.com/YOUR-USERNAME/ContosoDashboard.git`
+
+1. Open a terminal window, and then navigate to the location where you want to clone the project:
+
+    For example:
+
+    Open a terminal window (Command Prompt, PowerShell, or Terminal), and then run:
+
+    ```powershell
+    cd C:\TrainingProjects
+    ```
+
+    Replace `C:\TrainingProjects` with your preferred location. You can use any directory where you have write permissions, and you can create a new folder location if needed.
+
+1. Clone your ContosoDashboard repository:
+
+    ```powershell
+    git clone https://github.com/YOUR-USERNAME/ContosoDashboard.git
+    ```
+
+    Replace `YOUR-USERNAME` with your actual GitHub username.
+
+1. Navigate into the cloned repository:
 
     ```powershell
     cd ContosoDashboard
     ```
 
-1. Verify the repository structure:
+1. Initialize GitHub Spec Kit within the existing project:
 
     ```powershell
-    ls -Recurse -Depth 2
+    specify init --existing --ai copilot --script ps
     ```
 
-    You should see:
+    The `specify init` command uses the following options:
 
-    - `.github/prompts/` directory with Spec Kit prompt files
-    - `constitution.md`, `spec.md`, `plan.md`, `tasks.md` template files
-    - `.git/` directory (hidden)
+    - `--existing` - Initializes Spec Kit in the current directory (existing project)
+    - `--ai copilot` - Configures the project for GitHub Copilot
+    - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux)
 
-1. Connect to the remote GitHub repository:
+    > **Note**: If you're using macOS or Linux, replace `--script ps` with `--script sh`.
+
+1. Wait for the initialization to complete.
+
+    The CLI will:
+
+    - Detect the existing Git repository
+    - Add the `.github/prompts/` directory with Spec Kit commands
+    - Create template files: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`
+    - Preserve all existing application files
+    - Display a success message
+
+1. Verify the Spec Kit files were added:
 
     ```powershell
-    git remote add origin https://github.com/YOUR-USERNAME/ContosoDashboard.git
+    ls -Name
     ```
 
-    Replace `YOUR-USERNAME` with your actual GitHub username.
-
-1. Verify the remote was added:
-
-    ```powershell
-    git remote -v
-    ```
-
-    You should see:
+    You should see the new files alongside existing application files:
 
     ```plaintext
-    origin  https://github.com/YOUR-USERNAME/ContosoDashboard.git (fetch)
-    origin  https://github.com/YOUR-USERNAME/ContosoDashboard.git (push)
+    constitution.md
+    spec.md
+    plan.md
+    tasks.md
+    .github/
+    Models/
+    Data/
+    Services/
+    Pages/
+    Shared/
+    (... other existing files ...)
     ```
 
-1. Create an initial commit and push to GitHub:
+### Step 3: Commit and push Spec Kit initialization
+
+Commit the Spec Kit files to your repository to track the spec-driven development process.
+
+1. Stage the new Spec Kit files:
 
     ```powershell
-    git add .
-    git commit -m "Initial Spec Kit setup"
-    git branch -M main
-    git push -u origin main
+    git add .github/ constitution.md spec.md plan.md tasks.md
+    ```
+
+1. Create a commit:
+
+    ```powershell
+    git commit -m "Initialize GitHub Spec Kit for document management feature"
+    ```
+
+1. Push to GitHub:
+
+    ```powershell
+    git push
     ```
 
     If prompted for GitHub credentials, sign in to authorize the push.
 
-1. Verify the push succeeded by refreshing your GitHub repository page in the browser. You should now see the Spec Kit files in your repository.
+1. Verify the push succeeded by refreshing your GitHub repository page in the browser. You should now see the Spec Kit files alongside the existing application code.
 
-### Step 4: Open the project in Visual Studio Code
+### Step 4: Open the project in Visual Studio Code and explore
 
-Open the project in VS Code to begin the spec-driven development process.
+Open the project in VS Code to familiarize yourself with the existing application and begin the spec-driven development process.
 
 1. Open the project in Visual Studio Code:
 
@@ -337,25 +364,38 @@ Open the project in VS Code to begin the spec-driven development process.
 
     This command opens the current directory (ContosoDashboard) in VS Code.
 
-1. Wait for VS Code to fully load the project. You should see the project files in the EXPLORER view:
+1. Wait for VS Code to fully load the project. Explore the EXPLORER view to see the existing application structure:
 
     ```plaintext
     CONTOSODASHBOARD
-    ├── .github
-    │   └── prompts
-    │       ├── (various .prompt.md files)
-    ├── constitution.md
-    ├── spec.md
-    ├── plan.md
-    └── tasks.md
+    ├── .github/
+    │   └── prompts/          (Spec Kit commands)
+    ├── constitution.md       (Spec Kit file)
+    ├── spec.md               (Spec Kit file)
+    ├── plan.md               (Spec Kit file)
+    ├── tasks.md              (Spec Kit file)
+    ├── Models/               (Existing: User, TaskItem, Project, etc.)
+    ├── Data/                 (Existing: ApplicationDbContext)
+    ├── Services/             (Existing: TaskService, ProjectService, etc.)
+    ├── Pages/                (Existing: Index, Tasks, Projects, etc.)
+    ├── Shared/               (Existing: MainLayout, NavMenu)
+    ├── Program.cs            (Existing: App configuration)
+    ├── README.md             (Existing: Documentation)
+    └── (other application files)
     ```
+
+1. Review the existing application documentation:
+
+    - Open `README.md` to understand the current application features
+    - Open `PROJECT_SUMMARY.md` to see the technical implementation details
+    - Browse the `Models/` folder to see the existing data entities
 
 1. Open the Copilot Chat view:
 
     - Press **Ctrl+Alt+I** (Windows/Linux) or **Cmd+Alt+I** (macOS)
     - Or click the **Chat** icon in the Activity Bar
 
-1. Verify that Spec Kit commands are available:
+1. Verify that GitHub Spec Kit commands are available:
 
     - In the Chat input field, type `/speckit`
     - You should see autocomplete suggestions appear showing available commands:
@@ -370,15 +410,27 @@ Open the project in VS Code to begin the spec-driven development process.
 
     > **Note**: If the `/speckit` commands don't appear, reload VS Code by pressing **Ctrl+Shift+P**, typing "Reload Window", and pressing Enter. Verify you opened the `ContosoDashboard` folder (not a parent or child directory) and that `.github/prompts/` exists in your workspace root.
 
-**Troubleshooting**: If you encounter issues during initialization:
+    **Troubleshooting**: If you encounter issues:
 
-- **"specify command not found"**: Ensure you completed Task 1 and installed the Specify CLI. Run `specify --version` to verify installation.
-- **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
-- **Git errors during push**: Verify you're signed in to GitHub. You may need to set up Git credentials or use a personal access token.
+    - **"specify command not found"**: Ensure you completed Task 1 and installed the Specify CLI. Run `specify version` to verify installation.
+    - **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
+    - **Git clone errors**: Verify you're signed in to GitHub and have access to your imported repository.
+    - **Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading VS Code.
 
-Your ContosoDashboard project is now initialized with GitHub Spec Kit and ready for spec-driven development. You can proceed to define the project constitution in the next task.
+**Understanding the Setup**: You now have a working ContosoDashboard application with GitHub Spec Kit initialized. The existing application provides:
 
-## Task 3: Define the project Constitution
+- User authentication and role-based access control (Employee, Team Lead, Project Manager, Administrator)
+- Task management with status tracking and assignments
+- Project management with team members and progress tracking
+- Team collaboration features
+- Notification system
+- User profile management
+
+You'll use GitHub Spec Kit to plan and implement the new document upload and management feature as an addition to these existing capabilities. The spec-driven approach ensures the new feature integrates seamlessly with the existing architecture while maintaining code quality and security standards.
+
+Your ContosoDashboard project is now ready for spec-driven development. In the next task, you'll define the project constitution to establish development principles for adding the document management feature.
+
+## Define the project Constitution
 
 The constitution establishes the governing principles and constraints that guide all development decisions for the ContosoDashboard project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
 
@@ -421,30 +473,49 @@ Use the `/speckit.constitution` command to create the project's governing princi
 1. GitHub Copilot will prompt you for information about the project principles and constraints. Provide the following context:
 
     ```plaintext
-    Create a constitution for the ContosoDashboard project:
+    Create a constitution for the ContosoDashboard project document management feature:
 
-    **Technology Stack:**
-    - Backend: ASP.NET Core 8.0+ with Entity Framework Core
+    **Existing Application Context:**
+    - ContosoDashboard is a working ASP.NET Core 8.0 Blazor Server application
+    - Current features: task management, project tracking, team collaboration, notifications, user profiles
+    - Uses Entity Framework Core 8 with SQL Server LocalDB
+    - Implements role-based access (Employee, Team Lead, Project Manager, Administrator)
+    - Already has 7 entity models, 5 services, and complete UI pages
+
+    **Technology Stack (Must Match Existing):**
+    - Backend: ASP.NET Core 8.0 with Entity Framework Core 8
+    - UI: Blazor Server with Bootstrap 5.3
     - Cloud: Microsoft Azure (App Service, SQL Database, Blob Storage, Key Vault)
-    - Authentication: Microsoft Entra ID
+    - Authentication: Microsoft Entra ID (infrastructure already in place)
+    - Development: .NET 8.0 SDK
+
+    **Architecture Principles (Must Follow Existing Patterns):**
+    - Repository pattern for data access (match existing services)
+    - Service layer for business logic (follow TaskService, ProjectService patterns)
+    - Dependency Injection (already configured in Program.cs)
+    - Async/await for all I/O operations (existing standard)
+    - Entity models in Models/ folder with proper relationships
 
     **Security:**
     - TLS 1.3 encryption for data in transit
     - Encryption at rest for all stored data
-    - Role-based access control (RBAC) for all features
+    - Role-based access control (RBAC) matching existing roles
     - Virus scanning for uploaded files
     - Store sensitive configuration in Azure Key Vault
+    - Follow existing authentication patterns
 
     **Performance:**
-    - Page loads under 2 seconds
+    - Page loads under 2 seconds (match existing pages)
     - API responses under 500ms
     - Support 1,000 concurrent users
+    - Database indexes on frequently queried fields (follow existing pattern)
 
     **Quality:**
     - 80% code coverage with unit tests
     - XML documentation for public APIs
     - WCAG 2.1 Level AA accessibility
-    - Use repository pattern for data access
+    - Code style consistent with existing codebase
+    - Integration with existing navigation and layout components
     ```
 
 1. Press **Enter** and wait for GitHub Copilot to process the information and generate the constitution.
@@ -513,7 +584,7 @@ The constitution serves as a "contract" between business requirements and techni
 
 You've successfully defined the project constitution. In the next task, you'll create a detailed specification for the document upload and management feature.
 
-## Task 4: Create the Spec for the document upload and management feature
+## Create the Spec for the document upload and management feature
 
 The specification (spec) defines what you're building from the user's perspective. It describes features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating implementation plans and tasks.
 
@@ -606,7 +677,7 @@ Use the following steps to complete this task:
 
 The specification defines the "what" without the "how." It doesn't specify programming languages, frameworks, database schemas, or code organization - those implementation details will be determined in the Plan and Tasks phases based on the constitution's technical constraints. The spec focuses on user needs and business requirements, making it easier to review with non-technical stakeholders.
 
-## Task 5: Clarify the Spec (iterate on requirements)
+## Clarify the Spec (iterate on requirements)
 
 The `/speckit.clarify` command helps identify ambiguities, gaps, and underspecified areas in your specification. GitHub Copilot analyzes the spec and asks targeted questions to ensure all requirements are clear and complete before moving to the technical planning phase.
 
@@ -682,7 +753,7 @@ Use the following steps to complete this task:
 
 The clarified specification now provides comprehensive guidance for implementation. By addressing ambiguities upfront, you reduce the risk of building the wrong solution or having to make significant changes later in the development process.
 
-## Task 6: Generate the Technical Plan
+## Generate the Technical Plan
 
 The technical plan bridges the gap between the "what" (specification) and the "how" (implementation). It defines the architecture, technology choices, data models, API designs, and implementation approach while adhering to the constraints defined in the constitution.
 
@@ -793,7 +864,7 @@ Use the following steps to complete this task:
 
 The technical plan now serves as a blueprint for implementation. It translates business requirements into concrete technical decisions while respecting organizational constraints. This plan will guide the creation of actionable tasks in the next step.
 
-## Task 7: Create the Task List
+## Create the Task List
 
 The task list breaks down the technical plan into specific, actionable implementation steps. Each task should be small enough to complete in a reasonable timeframe (typically a few hours to a day) and have clear acceptance criteria.
 
@@ -889,7 +960,7 @@ Use the following steps to complete this task:
 
 The task list now provides a clear roadmap for implementation. In the next task, you'll use GitHub Copilot to help implement these tasks systematically.
 
-## Task 8: Implement the Feature using GitHub Copilot
+## Implement the specified feature using GitHub Copilot
 
 With a clear specification, technical plan, and task list in place, you're ready to implement the document upload and management feature. This task demonstrates how spec-driven development guides implementation and how GitHub Copilot assists with code generation based on the context you've established.
 
@@ -906,9 +977,11 @@ Use the following steps to complete this task:
 
 1. **Create the Document entity model:**
 
-    In Visual Studio Code, create a new folder structure: `ContosoDashboard/Models/`
+    In Visual Studio Code, create a new file in the existing `Models/` folder: `Models/Document.cs`
 
-1. Create a new file `Models/Document.cs` and use GitHub Copilot to generate the entity:
+    The Document entity will follow the same pattern as existing entities (User, TaskItem, Project, etc.) in the Models folder.
+
+1. Create the `Models/Document.cs` file and use GitHub Copilot to generate the entity:
 
     Type the following comment in the file:
 
@@ -923,7 +996,9 @@ Use the following steps to complete this task:
 
 1. **Implement the document upload service:**
 
-    Create `Services/DocumentService.cs`:
+    Create a new file in the existing `Services/` folder: `Services/DocumentService.cs`
+
+    This service will follow the same pattern as existing services (TaskService, ProjectService, etc.).
 
     ```csharp
     // DocumentService for business logic
@@ -941,7 +1016,7 @@ Use the following steps to complete this task:
 
 1. **Create the upload API endpoint:**
 
-    Create `Controllers/DocumentsController.cs`:
+    If using Blazor Server (like the existing ContosoDashboard), you may create a code-behind file for a page. If adding Web API support, create `Controllers/DocumentsController.cs`:
 
     ```csharp
     // DocumentsController API endpoints
@@ -956,7 +1031,9 @@ Use the following steps to complete this task:
 
 1. **Create the upload UI component (Blazor example):**
 
-    Create `Pages/Documents/Upload.razor`:
+    Create a new file in the existing `Pages/` folder: `Pages/Documents.razor`
+
+    This page will follow the same pattern as existing pages (Tasks.razor, Projects.razor, etc.) and integrate with the existing MainLayout and NavMenu.
 
     ```razor
     @* Document Upload Page *@
@@ -1016,7 +1093,7 @@ Use the following steps to complete this task:
 
 In a full implementation, you would continue through all remaining tasks in the task list, systematically building out the complete feature. The spec-driven development approach keeps you focused on requirements and prevents scope creep or missed functionality.
 
-## Task 9: Review and verify the implementation
+## Review and verify the implementation
 
 The final step in spec-driven development is to verify that the implementation meets all requirements defined in the specification and that the code adheres to the principles established in the constitution.
 
@@ -1199,6 +1276,7 @@ Use the following steps to complete this task:
 **Congratulations!** You've successfully completed the spec-driven development exercise. You've learned how to:
 
 - Set up GitHub Spec Kit in a development environment
+- Import an existing application repository for realistic feature development
 - Create a project constitution with organizational constraints
 - Generate a detailed specification from high-level requirements
 - Use AI-assisted clarification to refine the specification
@@ -1208,49 +1286,3 @@ Use the following steps to complete this task:
 - Verify that the implementation meets all requirements
 
 This methodology can be applied to any software development project, especially when working with AI coding assistants like GitHub Copilot. The structured approach ensures that AI-generated code aligns with business requirements and organizational standards, resulting in higher-quality software delivered more efficiently.
-
----
-
-### Import the ContosoDashboard repository to your GitHub account
-
-GitHub Importer allows you to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy.
-
-In this task, you use your GitHub account to import the ContosoDashboard repository.
-
-Use the following steps to complete this task:
-
-1. Open a browser window and navigate to GitHub.com.
-
-1. Sign in to your GitHub account, and then open your repositories tab.
-
-    You can open your repositories tab by clicking on your profile icon in the top-right corner, then selecting **Repositories**.
-
-1. On the Repositories tab, select the **New** button.
-
-1. Under the **Create a new repository** section, select **Import a repository**.
-
-1. On the **Import your project to GitHub** page, under **Your source repository details**, enter the following URL for the source repository:
-
-    ```plaintext
-    https://github.com/MicrosoftLearning/ContosoDashboard.git
-    ```
-
-1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
-
-1. Enter **ContosoDashboard** in the **Repository name** field.
-
-    GitHub automatically checks the availability of the repository name. If this name is already taken, append a unique suffix (for example, your initials or a random number) to the repository name to make it unique.
-
-1. Ensure that the repository is set to **Public**.
-
-    Secret Scanning is enabled by default for public repositories.
-
-1. Select the **Begin import** button.
-
-    GitHub uses the import process to create the new repository in your account.
-
-    > **NOTE**: It can take a minute or two for the import process to finish.
-
-1. Wait for the import process to complete, and then open the **ContosoDashboard** repository.
-
-    The ContosoDashboard repository contains the ContosoDashboard application.
