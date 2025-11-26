@@ -1,0 +1,168 @@
+@page "/profile"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject IUserService UserService
+
+<PageTitle>My Profile - ContosoDashboard</PageTitle>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>My Profile</h1>
+        </div>
+    </div>
+
+    @if (user != null)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Information</h5>
+                        
+                        <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+
+                            <div class="mb-3">
+                                <label class="form-label">Display Name</label>
+                                <InputText class="form-control" @bind-Value="user.DisplayName" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <InputText class="form-control" @bind-Value="user.Email" disabled />
+                                <small class="form-text text-muted">Email cannot be changed</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <InputText class="form-control" @bind-Value="user.PhoneNumber" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Department</label>
+                                <InputText class="form-control" @bind-Value="user.Department" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Job Title</label>
+                                <InputText class="form-control" @bind-Value="user.JobTitle" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Availability Status</label>
+                                <InputSelect class="form-select" @bind-Value="user.AvailabilityStatus">
+                                    <option value="@AvailabilityStatus.Available">Available</option>
+                                    <option value="@AvailabilityStatus.Busy">Busy</option>
+                                    <option value="@AvailabilityStatus.InMeeting">In Meeting</option>
+                                    <option value="@AvailabilityStatus.OutOfOffice">Out of Office</option>
+                                </InputSelect>
+                            </div>
+
+                            <h6 class="mt-4">Notification Preferences</h6>
+                            
+                            <div class="form-check mb-2">
+                                <InputCheckbox class="form-check-input" @bind-Value="user.EmailNotificationsEnabled" id="emailNotif" />
+                                <label class="form-check-label" for="emailNotif">
+                                    Email Notifications
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <InputCheckbox class="form-check-input" @bind-Value="user.InAppNotificationsEnabled" id="appNotif" />
+                                <label class="form-check-label" for="appNotif">
+                                    In-App Notifications
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            @if (showSuccessMessage)
+                            {
+                                <span class="text-success ms-3">
+                                    <i class="bi bi-check-circle"></i> Profile updated successfully!
+                                </span>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            @if (!string.IsNullOrEmpty(user.ProfilePhotoUrl))
+                            {
+                                <img src="@user.ProfilePhotoUrl" alt="Profile" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto" 
+                                     style="width: 150px; height: 150px; font-size: 48px;">
+                                    @GetInitials(user.DisplayName)
+                                </div>
+                            }
+                        </div>
+                        
+                        <h5>@user.DisplayName</h5>
+                        <p class="text-muted mb-1">@user.JobTitle</p>
+                        <p class="text-muted">@user.Department</p>
+                        
+                        <hr />
+                        
+                        <div class="text-start">
+                            <p><strong>Role:</strong> @user.Role</p>
+                            <p><strong>Member Since:</strong> @user.CreatedDate.ToString("MMMM yyyy")</p>
+                            @if (user.LastLoginDate.HasValue)
+                            {
+                                <p><strong>Last Login:</strong> @user.LastLoginDate.Value.ToString("MMM dd, yyyy")</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p><em>Loading...</em></p>
+    }
+</div>
+
+@code {
+    private User? user;
+    private bool showSuccessMessage = false;
+    private int currentUserId = 4; // Demo user
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetUserByIdAsync(currentUserId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (user != null)
+        {
+            await UserService.UpdateUserProfileAsync(user);
+            showSuccessMessage = true;
+            
+            // Hide success message after 3 seconds
+            await Task.Delay(3000);
+            showSuccessMessage = false;
+            StateHasChanged();
+        }
+    }
+
+    private string GetInitials(string displayName)
+    {
+        if (string.IsNullOrEmpty(displayName))
+            return "?";
+
+        var parts = displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+            return parts[0].Substring(0, Math.Min(2, parts[0].Length)).ToUpper();
+
+        return $"{parts[0][0]}{parts[^1][0]}".ToUpper();
+    }
+}

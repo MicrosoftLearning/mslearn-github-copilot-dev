@@ -1,0 +1,136 @@
+@page "/notifications"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject INotificationService NotificationService
+
+<PageTitle>Notifications - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Notifications</h1>
+        </div>
+    </div>
+
+    @if (notifications == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!notifications.Any())
+    {
+        <div class="alert alert-info">No notifications to display.</div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="list-group">
+                    @foreach (var notification in notifications)
+                    {
+                        <div class="list-group-item @(!notification.IsRead ? "list-group-item-primary" : "")">
+                            <div class="d-flex w-100 justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h6 class="mb-0 me-2">@notification.Title</h6>
+                                        <span class="badge bg-@GetPriorityColor(notification.Priority)">
+                                            @notification.Priority
+                                        </span>
+                                        <span class="badge bg-secondary ms-2">@notification.Type</span>
+                                    </div>
+                                    <p class="mb-1">@notification.Message</p>
+                                    <small class="text-muted">@GetRelativeTime(notification.CreatedDate)</small>
+                                </div>
+                                @if (!notification.IsRead)
+                                {
+                                    <button class="btn btn-sm btn-outline-primary ms-3" 
+                                            @onclick="() => MarkAsRead(notification.NotificationId)">
+                                        <i class="bi bi-check"></i> Mark as Read
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary</h5>
+                        <p class="card-text">
+                            <strong>Total Notifications:</strong> @notifications.Count<br />
+                            <strong>Unread:</strong> @notifications.Count(n => !n.IsRead)<br />
+                            <strong>Read:</strong> @notifications.Count(n => n.IsRead)
+                        </p>
+                        @if (notifications.Any(n => !n.IsRead))
+                        {
+                            <button class="btn btn-primary btn-sm" @onclick="MarkAllAsRead">
+                                Mark All as Read
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Notification>? notifications;
+    private int currentUserId = 4; // Demo user
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNotifications();
+    }
+
+    private async Task LoadNotifications()
+    {
+        notifications = await NotificationService.GetUserNotificationsAsync(currentUserId, unreadOnly: false);
+    }
+
+    private async Task MarkAsRead(int notificationId)
+    {
+        await NotificationService.MarkAsReadAsync(notificationId);
+        await LoadNotifications();
+    }
+
+    private async Task MarkAllAsRead()
+    {
+        if (notifications != null)
+        {
+            foreach (var notification in notifications.Where(n => !n.IsRead))
+            {
+                await NotificationService.MarkAsReadAsync(notification.NotificationId);
+            }
+            await LoadNotifications();
+        }
+    }
+
+    private string GetPriorityColor(NotificationPriority priority)
+    {
+        return priority switch
+        {
+            NotificationPriority.Urgent => "danger",
+            NotificationPriority.Important => "warning",
+            NotificationPriority.Informational => "info",
+            _ => "secondary"
+        };
+    }
+
+    private string GetRelativeTime(DateTime dateTime)
+    {
+        var timeSpan = DateTime.UtcNow - dateTime;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "Just now";
+        if (timeSpan.TotalMinutes < 60)
+            return $"{(int)timeSpan.TotalMinutes} min ago";
+        if (timeSpan.TotalHours < 24)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalDays < 7)
+            return $"{(int)timeSpan.TotalDays} days ago";
+
+        return dateTime.ToString("MMM dd, yyyy");
+    }
+}

@@ -1,0 +1,185 @@
+@page "/tasks"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject ITaskService TaskService
+
+<PageTitle>My Tasks - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>My Tasks</h1>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary" @onclick="ShowCreateTaskModal">
+                <i class="bi bi-plus-circle"></i> New Task
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <label>Status</label>
+            <select class="form-select" @bind="filterStatus">
+                <option value="">All</option>
+                <option value="@Models.TaskStatus.NotStarted">Not Started</option>
+                <option value="@Models.TaskStatus.InProgress">In Progress</option>
+                <option value="@Models.TaskStatus.Completed">Completed</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>Priority</label>
+            <select class="form-select" @bind="filterPriority">
+                <option value="">All</option>
+                <option value="@TaskPriority.Low">Low</option>
+                <option value="@TaskPriority.Medium">Medium</option>
+                <option value="@TaskPriority.High">High</option>
+                <option value="@TaskPriority.Critical">Critical</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>&nbsp;</label>
+            <button class="btn btn-secondary d-block w-100" @onclick="ApplyFilters">
+                Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Tasks List -->
+    @if (tasks == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!tasks.Any())
+    {
+        <div class="alert alert-info">No tasks found.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                        <th>Project</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in tasks)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@task.Title</strong>
+                                @if (!string.IsNullOrEmpty(task.Description))
+                                {
+                                    <br />
+                                    <small class="text-muted">@task.Description</small>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-@GetPriorityColor(task.Priority)">
+                                    @task.Priority
+                                </span>
+                            </td>
+                            <td>
+                                <select class="form-select form-select-sm" 
+                                        value="@task.Status" 
+                                        @onchange="@(e => UpdateTaskStatus(task.TaskId, Enum.Parse<Models.TaskStatus>(e.Value?.ToString() ?? "NotStarted")))">
+                                    <option value="@Models.TaskStatus.NotStarted">Not Started</option>
+                                    <option value="@Models.TaskStatus.InProgress">In Progress</option>
+                                    <option value="@Models.TaskStatus.Completed">Completed</option>
+                                </select>
+                            </td>
+                            <td>
+                                @if (task.DueDate.HasValue)
+                                {
+                                    var isOverdue = task.DueDate.Value < DateTime.UtcNow && task.Status != Models.TaskStatus.Completed;
+                                    <span class="@(isOverdue ? "text-danger fw-bold" : "")">
+                                        @task.DueDate.Value.ToString("MMM dd, yyyy")
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">No due date</span>
+                                }
+                            </td>
+                            <td>
+                                @if (task.Project != null)
+                                {
+                                    <a href="/projects/@task.ProjectId">@task.Project.Name</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewTaskDetails(task.TaskId)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<TaskItem>? tasks;
+    private string filterStatus = "";
+    private string filterPriority = "";
+    private int currentUserId = 4; // Demo user
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTasks();
+    }
+
+    private async Task LoadTasks()
+    {
+        tasks = await TaskService.GetUserTasksAsync(currentUserId);
+    }
+
+    private async Task ApplyFilters()
+    {
+        Models.TaskStatus? status = string.IsNullOrEmpty(filterStatus) ? null : Enum.Parse<Models.TaskStatus>(filterStatus);
+        TaskPriority? priority = string.IsNullOrEmpty(filterPriority) ? null : Enum.Parse<TaskPriority>(filterPriority);
+
+        tasks = await TaskService.GetFilteredTasksAsync(currentUserId, status, priority, null);
+    }
+
+    private async Task UpdateTaskStatus(int taskId, Models.TaskStatus newStatus)
+    {
+        await TaskService.UpdateTaskStatusAsync(taskId, newStatus);
+        await LoadTasks();
+    }
+
+    private void ShowCreateTaskModal()
+    {
+        // TODO: Implement modal dialog for creating tasks
+    }
+
+    private void ViewTaskDetails(int taskId)
+    {
+        // TODO: Navigate to task details or show modal
+    }
+
+    private string GetPriorityColor(TaskPriority priority)
+    {
+        return priority switch
+        {
+            TaskPriority.Critical => "danger",
+            TaskPriority.High => "warning",
+            TaskPriority.Medium => "info",
+            TaskPriority.Low => "secondary",
+            _ => "secondary"
+        };
+    }
+}

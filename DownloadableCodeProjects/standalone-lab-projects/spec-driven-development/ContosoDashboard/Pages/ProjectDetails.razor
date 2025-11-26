@@ -1,0 +1,291 @@
+@page "/projects/{projectId:int}"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject IProjectService ProjectService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Project Details - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    @if (project == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="row mb-4">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/projects">My Projects</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@project.Name</li>
+                    </ol>
+                </nav>
+                <h1>@project.Name</h1>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Project Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="text-muted small">Description</label>
+                                <p>@project.Description</p>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="text-muted small">Status</label>
+                                <p>
+                                    <span class="badge bg-@GetStatusColor(project.Status)">
+                                        @project.Status
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="text-muted small">Progress</label>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: @project.CompletionPercentage%"
+                                         aria-valuenow="@project.CompletionPercentage" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @project.CompletionPercentage%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="text-muted small">Project Manager</label>
+                                <p>@project.ProjectManager.DisplayName</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-muted small">Start Date</label>
+                                <p>@project.StartDate.ToString("MMM dd, yyyy")</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-muted small">Target Completion</label>
+                                <p>
+                                    @if (project.TargetCompletionDate.HasValue)
+                                    {
+                                        <span>@project.TargetCompletionDate.Value.ToString("MMM dd, yyyy")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not set</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Project Tasks</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (!project.Tasks.Any())
+                        {
+                            <p class="text-muted">No tasks assigned to this project.</p>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Assigned To</th>
+                                            <th>Status</th>
+                                            <th>Priority</th>
+                                            <th>Due Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var task in project.Tasks.OrderBy(t => t.DueDate))
+                                        {
+                                            <tr class="@(task.DueDate.HasValue && task.DueDate < DateTime.Today && task.Status != Models.TaskStatus.Completed ? "table-danger" : "")">">
+                                                <td>
+                                                    <strong>@task.Title</strong>
+                                                    @if (!string.IsNullOrEmpty(task.Description))
+                                                    {
+                                                        <br />
+                                                        <small class="text-muted">@task.Description</small>
+                                                    }
+                                                </td>
+                                                <td>@task.AssignedUser.DisplayName</td>
+                                                <td>
+                                                    <span class="badge bg-@GetTaskStatusColor(task.Status)">
+                                                        @task.Status
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-@GetPriorityColor(task.Priority)">
+                                                        @task.Priority
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @(task.DueDate?.ToString("MMM dd, yyyy") ?? "No due date")
+                                                    @if (task.DueDate.HasValue && task.DueDate < DateTime.Today && task.Status != Models.TaskStatus.Completed)
+                                                    {
+                                                        <span class="text-danger ms-1">
+                                                            <i class="bi bi-exclamation-triangle"></i> Overdue
+                                                        </span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Team Members</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (!project.ProjectMembers.Any())
+                        {
+                            <p class="text-muted">No team members assigned.</p>
+                        }
+                        else
+                        {
+                            <div class="list-group list-group-flush">
+                                @foreach (var member in project.ProjectMembers.OrderBy(m => m.User.DisplayName))
+                                {
+                                    <div class="list-group-item px-0">
+                                        <div class="d-flex align-items-center">
+                                            @if (!string.IsNullOrEmpty(member.User.ProfilePhotoUrl))
+                                            {
+                                                <img src="@member.User.ProfilePhotoUrl" 
+                                                     alt="@member.User.DisplayName" 
+                                                     class="rounded-circle me-2" 
+                                                     style="width: 40px; height: 40px; object-fit: cover;" />
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
+                                                     style="width: 40px; height: 40px; font-size: 16px;">
+                                                    @GetInitials(member.User.DisplayName)
+                                                </div>
+                                            }
+                                            <div class="flex-grow-1">
+                                                <div>
+                                                    <strong>@member.User.DisplayName</strong>
+                                                </div>
+                                                <small class="text-muted">@member.Role</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="text-muted small">Total Tasks</label>
+                            <h4>@project.Tasks.Count</h4>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small">Completed Tasks</label>
+                            <h4>@project.Tasks.Count(t => t.Status == Models.TaskStatus.Completed)</h4>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small">In Progress</label>
+                            <h4>@project.Tasks.Count(t => t.Status == Models.TaskStatus.InProgress)</h4>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small">Overdue Tasks</label>
+                            <h4 class="@(project.Tasks.Count(t => t.DueDate.HasValue && t.DueDate < DateTime.Today && t.Status != Models.TaskStatus.Completed) > 0 ? "text-danger" : "")">
+                                @project.Tasks.Count(t => t.DueDate.HasValue && t.DueDate < DateTime.Today && t.Status != Models.TaskStatus.Completed)
+                            </h4>
+                        </div>
+                        <div>
+                            <label class="text-muted small">Team Size</label>
+                            <h4>@project.ProjectMembers.Count</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int ProjectId { get; set; }
+
+    private Project? project;
+
+    protected override async Task OnInitializedAsync()
+    {
+        project = await ProjectService.GetProjectByIdAsync(ProjectId);
+        
+        if (project == null)
+        {
+            NavigationManager.NavigateTo("/projects");
+        }
+    }
+
+    private string GetStatusColor(ProjectStatus status)
+    {
+        return status switch
+        {
+            ProjectStatus.Planning => "secondary",
+            ProjectStatus.Active => "primary",
+            ProjectStatus.OnHold => "warning",
+            ProjectStatus.Completed => "success",
+            _ => "secondary"
+        };
+    }
+
+    private string GetTaskStatusColor(Models.TaskStatus status)
+    {
+        return status switch
+        {
+            Models.TaskStatus.NotStarted => "secondary",
+            Models.TaskStatus.InProgress => "primary",
+            Models.TaskStatus.Completed => "success",
+            _ => "secondary"
+        };
+    }
+
+    private string GetPriorityColor(TaskPriority priority)
+    {
+        return priority switch
+        {
+            TaskPriority.Low => "secondary",
+            TaskPriority.Medium => "info",
+            TaskPriority.High => "warning",
+            TaskPriority.Critical => "danger",
+            _ => "secondary"
+        };
+    }
+
+    private string GetInitials(string displayName)
+    {
+        var names = displayName.Split(' ');
+        if (names.Length >= 2)
+        {
+            return $"{names[0][0]}{names[1][0]}".ToUpper();
+        }
+        return displayName.Length > 0 ? displayName[0].ToString().ToUpper() : "?";
+    }
+}

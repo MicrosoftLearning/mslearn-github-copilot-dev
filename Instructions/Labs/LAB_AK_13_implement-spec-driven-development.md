@@ -16,7 +16,7 @@ This exercise should take approximately **50** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following resources: Python 3.11 or later, Git 2.48 or later, .NET SDK 9.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Python 3.11 or later, Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 

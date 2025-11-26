@@ -1,0 +1,139 @@
+@page "/team"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject IUserService UserService
+@inject ITaskService TaskService
+
+<PageTitle>Team - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>My Team</h1>
+            <p class="text-muted">View your team members and their current workload</p>
+        </div>
+    </div>
+
+    @if (teamMembers == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!teamMembers.Any())
+    {
+        <div class="alert alert-info">No team members found in your department.</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var member in teamMembers)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                @if (!string.IsNullOrEmpty(member.ProfilePhotoUrl))
+                                {
+                                    <img src="@member.ProfilePhotoUrl" alt="@member.DisplayName" 
+                                         class="rounded-circle me-3" 
+                                         style="width: 60px; height: 60px; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" 
+                                         style="width: 60px; height: 60px; font-size: 20px;">
+                                        @GetInitials(member.DisplayName)
+                                    </div>
+                                }
+                                <div>
+                                    <h5 class="card-title mb-1">@member.DisplayName</h5>
+                                    <p class="card-text text-muted mb-0">@member.JobTitle</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Status:</small><br />
+                                <span class="badge bg-@GetStatusColor(member.AvailabilityStatus)">
+                                    @GetStatusText(member.AvailabilityStatus)
+                                </span>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Role:</small><br />
+                                <strong>@member.Role</strong>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Department:</small><br />
+                                <strong>@member.Department</strong>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(member.Email))
+                            {
+                                <div class="mt-3">
+                                    <small>
+                                        <i class="bi bi-envelope"></i> @member.Email
+                                    </small>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(member.PhoneNumber))
+                            {
+                                <div>
+                                    <small>
+                                        <i class="bi bi-telephone"></i> @member.PhoneNumber
+                                    </small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<User>? teamMembers;
+    private int currentUserId = 4; // Demo user
+
+    protected override async Task OnInitializedAsync()
+    {
+        teamMembers = await UserService.GetTeamMembersAsync(currentUserId);
+    }
+
+    private string GetInitials(string displayName)
+    {
+        if (string.IsNullOrEmpty(displayName))
+            return "?";
+
+        var parts = displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+            return parts[0].Substring(0, Math.Min(2, parts[0].Length)).ToUpper();
+
+        return $"{parts[0][0]}{parts[^1][0]}".ToUpper();
+    }
+
+    private string GetStatusColor(AvailabilityStatus status)
+    {
+        return status switch
+        {
+            AvailabilityStatus.Available => "success",
+            AvailabilityStatus.Busy => "danger",
+            AvailabilityStatus.InMeeting => "warning",
+            AvailabilityStatus.OutOfOffice => "secondary",
+            _ => "secondary"
+        };
+    }
+
+    private string GetStatusText(AvailabilityStatus status)
+    {
+        return status switch
+        {
+            AvailabilityStatus.Available => "Available",
+            AvailabilityStatus.Busy => "Busy",
+            AvailabilityStatus.InMeeting => "In Meeting",
+            AvailabilityStatus.OutOfOffice => "Out of Office",
+            _ => "Unknown"
+        };
+    }
+}

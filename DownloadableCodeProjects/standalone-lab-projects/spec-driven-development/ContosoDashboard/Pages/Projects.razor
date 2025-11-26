@@ -1,0 +1,108 @@
+@page "/projects"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject IProjectService ProjectService
+
+<PageTitle>My Projects - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>My Projects</h1>
+        </div>
+    </div>
+
+    @if (projects == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (!projects.Any())
+    {
+        <div class="alert alert-info">No projects found.</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var project in projects)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 project-card">
+                        <div class="card-body">
+                            <h5 class="card-title">@project.Name</h5>
+                            <p class="card-text text-muted">@project.Description</p>
+                            
+                            <div class="mb-2">
+                                <small class="text-muted">Project Manager:</small><br />
+                                <strong>@project.ProjectManager.DisplayName</strong>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Status:</small><br />
+                                <span class="badge bg-@GetStatusColor(project.Status)">
+                                    @project.Status
+                                </span>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Progress:</small>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: @project.CompletionPercentage%"
+                                         aria-valuenow="@project.CompletionPercentage" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @project.CompletionPercentage%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Target Completion:</small><br />
+                                @if (project.TargetCompletionDate.HasValue)
+                                {
+                                    <span>@project.TargetCompletionDate.Value.ToString("MMM dd, yyyy")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Not set</span>
+                                }
+                            </div>
+
+                            <div class="mb-2">
+                                <small class="text-muted">Tasks: @project.Tasks.Count</small><br />
+                                <small class="text-muted">Team Members: @project.ProjectMembers.Count</small>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/projects/@project.ProjectId" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<Project>? projects;
+    private int currentUserId = 4; // Demo user
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetUserProjectsAsync(currentUserId);
+    }
+
+    private string GetStatusColor(ProjectStatus status)
+    {
+        return status switch
+        {
+            ProjectStatus.Planning => "secondary",
+            ProjectStatus.Active => "primary",
+            ProjectStatus.OnHold => "warning",
+            ProjectStatus.Completed => "success",
+            _ => "secondary"
+        };
+    }
+}

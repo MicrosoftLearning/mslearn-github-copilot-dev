@@ -1,0 +1,22 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="/profile" class="ms-auto">
+                <i class="bi bi-person-circle"></i> Profile
+            </a>
+            <a href="/notifications" class="ms-3">
+                <i class="bi bi-bell"></i> Notifications
+            </a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

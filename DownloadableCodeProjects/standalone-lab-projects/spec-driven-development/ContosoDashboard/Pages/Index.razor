@@ -1,0 +1,159 @@
+@page "/"
+@using ContosoDashboard.Services
+@using ContosoDashboard.Models
+@inject IDashboardService DashboardService
+@inject INotificationService NotificationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Dashboard - ContosoDashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Welcome, @userName!</h1>
+            <p class="text-muted">@DateTime.Now.ToString("dddd, MMMM dd, yyyy")</p>
+        </div>
+    </div>
+
+    @if (summary != null)
+    {
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card summary-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Tasks</h5>
+                        <p class="card-text display-4">@summary.TotalActiveTasks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card summary-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Due Today</h5>
+                        <p class="card-text display-4 text-warning">@summary.TasksDueToday</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card summary-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Projects</h5>
+                        <p class="card-text display-4 text-info">@summary.ActiveProjects</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card summary-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Notifications</h5>
+                        <p class="card-text display-4 text-danger">@summary.UnreadNotifications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (announcements != null && announcements.Any())
+    {
+        <div class="row mb-4">
+            <div class="col">
+                <h3>Announcements</h3>
+                @foreach (var announcement in announcements)
+                {
+                    <div class="card mb-3 announcement-card">
+                        <div class="card-body">
+                            <h5 class="card-title">@announcement.Title</h5>
+                            <p class="card-text">@announcement.Content</p>
+                            <small class="text-muted">
+                                Posted by @announcement.CreatedByUser.DisplayName on @announcement.PublishDate.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Quick Actions</h3>
+            <div class="list-group">
+                <a href="/tasks" class="list-group-item list-group-item-action">
+                    <i class="bi bi-check2-square"></i> View My Tasks
+                </a>
+                <a href="/projects" class="list-group-item list-group-item-action">
+                    <i class="bi bi-folder"></i> View My Projects
+                </a>
+                <a href="/notifications" class="list-group-item list-group-item-action">
+                    <i class="bi bi-bell"></i> View Notifications
+                </a>
+                <a href="/profile" class="list-group-item list-group-item-action">
+                    <i class="bi bi-person"></i> Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Recent Notifications</h3>
+            @if (recentNotifications != null && recentNotifications.Any())
+            {
+                <div class="list-group">
+                    @foreach (var notification in recentNotifications.Take(5))
+                    {
+                        <div class="list-group-item @(!notification.IsRead ? "bg-light" : "")">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">@notification.Title</h6>
+                                <small>@GetRelativeTime(notification.CreatedDate)</small>
+                            </div>
+                            <p class="mb-1">@notification.Message</p>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No recent notifications</p>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private DashboardSummary? summary;
+    private List<Announcement>? announcements;
+    private List<Notification>? recentNotifications;
+    private string userName = "User";
+    private int currentUserId = 1; // This should come from authentication
+
+    protected override async Task OnInitializedAsync()
+    {
+        // In a real application, get the current user from authentication
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userName = user.Identity?.Name ?? "User";
+
+        // For demo purposes, using hardcoded user ID
+        // In production, retrieve from authenticated user claims
+        currentUserId = 4; // Ni Kang
+
+        summary = await DashboardService.GetDashboardSummaryAsync(currentUserId);
+        announcements = await DashboardService.GetActiveAnnouncementsAsync();
+        recentNotifications = await NotificationService.GetUserNotificationsAsync(currentUserId);
+    }
+
+    private string GetRelativeTime(DateTime dateTime)
+    {
+        var timeSpan = DateTime.UtcNow - dateTime;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "Just now";
+        if (timeSpan.TotalMinutes < 60)
+            return $"{(int)timeSpan.TotalMinutes} min ago";
+        if (timeSpan.TotalHours < 24)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalDays < 7)
+            return $"{(int)timeSpan.TotalDays} days ago";
+
+        return dateTime.ToString("MMM dd, yyyy");
+    }
+}
