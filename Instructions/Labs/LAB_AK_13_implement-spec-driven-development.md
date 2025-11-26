@@ -10,7 +10,7 @@ GitHub Spec Kit is a tool that helps developers implement spec-driven developmen
 
 In this exercise, you learn how to set up a Spec Kit development environment, create specifications, plans, and tasks, and implement a product feature using GitHub Copilot.
 
-This exercise should take approximately **50-55** minutes to complete.
+This exercise should take approximately **50** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
@@ -28,21 +28,9 @@ If you're using a hosted lab environment for this exercise:
 
 - For help with enabling your GitHub Copilot subscription in Visual Studio Code, paste the following URL into a browser's site navigation bar: <a href="https://go.microsoft.com/fwlink/?linkid=2320158" target="_blank">Enable GitHub Copilot within Visual Studio Code</a>.
 
-### Verify and install required tools
+### Verify or install required tools
 
-1. Verify Python 3.11 or later is installed:
-
-    Spec Kit's CLI tool is Python-based and requires Python 3.11+.
-
-    ```powershell
-    python --version
-    ```
-
-    Expected output: `Python 3.11.0` or higher
-
-    If you need to install Python, download from [python.org](https://www.python.org/downloads/) or use your organization's software distribution system.
-
-1. Verify Git 2.48 or later is installed:
+1. Verify that Git 2.48 or later is installed:
 
     ```powershell
     git --version
@@ -51,36 +39,6 @@ If you're using a hosted lab environment for this exercise:
     Expected output: `git version 2.48.0` or higher
 
     If needed, install Git from [git-scm.com](https://git-scm.com/downloads) or your corporate application catalog.
-
-1. Verify Visual Studio Code is installed:
-
-    Download from [code.visualstudio.com](https://code.visualstudio.com/) or your corporate application catalog if needed.
-
-1. Verify the GitHub Copilot Chat extension is installed:
-
-    - Open Visual Studio Code
-    - Navigate to Extensions (Ctrl+Shift+X)
-    - Search for "GitHub Copilot Chat"
-    - If not installed, click Install and sign in with your GitHub account when prompted
-
-1. Install the uv package manager:
-
-    Spec Kit uses uv for CLI installation and management.
-
-    - Install uv following the instructions at [docs.astral.sh/uv](https://docs.astral.sh/uv/)
-
-    - For Windows PowerShell:
-
-        ```powershell
-        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-        ```
-
-    - Restart your terminal after installation to ensure uv is in your PATH
-
-1. Verify GitHub Copilot access:
-
-    - Ensure you have an active GitHub Copilot subscription
-    - Check your subscription at [github.com/settings/copilot](https://github.com/settings/copilot)
 
 ### Configure your environment
 
@@ -136,84 +94,92 @@ This exercise includes the following tasks:
 1. Implement the Feature using GitHub Copilot.
 1. Review and verify the implementation.
 
-## Task 1: Configure GitHub Spec Kit in the development environment
+## Configure GitHub Spec Kit in the development environment
+
+The GitHub Spec Kit includes a command-line interface (CLI) tool called Specify that initializes projects for spec-driven development. It also integrates with Visual Studio Code through the GitHub Copilot Chat extension to provide AI-assisted generation of specifications, plans, and tasks.
 
 In this task, you install the GitHub Spec Kit CLI tool and configure Visual Studio Code for spec-driven development.
 
-### Step 1: Install and verify the GitHub Spec Kit (Specify CLI)
+1. Open a terminal window.
 
-The `specify` command-line tool initializes projects for spec-driven development.
+    You can use a Command Prompt, PowerShell, or Terminal window.
 
-1. Install the Specify CLI using uv:
+1. Ensure that Python 3.11 or later is installed:
+
+    Spec Kit's CLI tool is Python-based and requires Python 3.11+.
+
+    To check the installed Python version, run the following command:
+
+    ```powershell
+    python --version
+    ```
+
+    Expected output: `Python 3.11.0` or higher
+
+    If you need to install Python, download from [python.org](https://www.python.org/downloads/) or use your organization's software distribution system.
+
+1. Ensure that the uv package manager is installed:
+
+    Spec Kit uses uv for CLI installation and management.
+
+    - You can install uv by following the instructions at [docs.astral.sh/uv](https://docs.astral.sh/uv/)
+
+    - For Windows PowerShell:
+
+        ```powershell
+        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+        ```
+
+1. To ensure that uv is in your environment PATH, restart your terminal window, and then run the following command:
+
+    ```powershell
+    uv --version
+    ```
+
+1. To install the Specify CLI tool, run the following command:
 
     ```powershell
     uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
     ```
 
-    This installs the latest version directly from the GitHub repository and makes the `specify` command available system-wide.
+    This command installs the latest version directly from the GitHub repository and makes the `specify` command available system-wide.
 
-1. Restart your terminal to ensure the `specify` command is in your PATH.
+    The `specify` command-line tool can be used to initialize projects for spec-driven development.
 
-1. Verify the installation:
+1. To ensure that the `specify` command is in your environment PATH, restart your terminal window, and then run the following command:
 
     ```powershell
-    specify --version
+    specify version
     ```
 
     You should see output similar to:
 
     ```output
-    specify-cli 0.3.0
+         CLI Version    0.0.22
+    Template Version    0.0.85
+            Released    2025-11-15
+              Python    3.13.9
+            Platform    Windows
+        Architecture    AMD64
+          OS Version    10.0.26200
     ```
 
-    The version number may vary. If you see the version number, the installation was successful.
+    Troubleshooting installation issues:
 
-    **Troubleshooting installation issues:**
+    - Command not found: If `specify` isn't recognized after installation, the `uv` tools directory may not be in your PATH. Run `uv tool list` to verify the installation. You may need to restart your terminal or manually add the tools directory to your PATH.
 
-    - **Command not found**: If `specify` isn't recognized after installation, the `uv` tools directory may not be in your PATH. Run `uv tool list` to verify the installation. You may need to restart your terminal or manually add the tools directory to your PATH.
-
-    - **SSL certificate errors in corporate environments**: Corporate networks may intercept HTTPS connections. Configure `uv` to use your organization's certificate bundle:
+    - SSL certificate errors in corporate environments: Corporate networks may intercept HTTPS connections. Configure `uv` to use your organization's certificate bundle:
 
         ```powershell
         $env:SSL_CERT_FILE = "C:\path\to\corporate-ca-bundle.crt"
         uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
         ```
 
-### Step 2: Configure Visual Studio Code for GitHub Spec Kit
+1. Open Visual Studio Code, and then ensure that GitHub Copilot Chat is enabled.
 
-Spec Kit integrates with VS Code through the GitHub Copilot Chat extension.
+    The GitHub Spec Kit integrates with Visual Studio Code through the GitHub Copilot Chat extension.
 
-1. Verify Copilot Chat is installed and active:
-
-    - Open Visual Studio Code
-
-    - Press `Ctrl+Alt+I` to open the Copilot Chat panel
-
-    - Look for the chat input field on the right side of the window
-
-1. If the chat panel doesn't appear, verify the extension installation:
-
-    - Navigate to Extensions (Ctrl+Shift+X)
-
-    - Search for "GitHub Copilot Chat"
-
-    - If it shows "Disable" or "Uninstall", it's already installed
-
-    - If it shows "Install", click Install and reload VS Code
-
-1. Authenticate to GitHub:
-
-    - Open Visual Studio Code
-
-    - Click the account icon in the lower-left corner
-
-    - Select "Sign in to use GitHub Copilot"
-
-    - Choose "Sign in with GitHub"
-
-    - Complete the authentication flow in your browser
-
-1. For GitHub Enterprise Server environments:
+    For GitHub Enterprise Server environments:
 
     - Open VS Code Settings (Ctrl+,)
 
@@ -225,7 +191,7 @@ Spec Kit integrates with VS Code through the GitHub Copilot Chat extension.
 
 Your GitHub Spec Kit development environment is now configured and ready. In the next task, you'll create the ContosoDashboard repository and initialize it for spec-driven development.
 
-## Task 2: Create and initialize the ContosoDashboard repository
+## Create and initialize the ContosoDashboard repository
 
 In this task, you create a new GitHub repository for the ContosoDashboard project and initialize it with GitHub Spec Kit. This sets up the foundation for spec-driven development by creating the necessary directory structure and template files.
 
