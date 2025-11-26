@@ -1,8 +1,12 @@
 @page "/projects/{projectId:int}"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject IProjectService ProjectService
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Project Details - ContosoDashboard</PageTitle>
 
@@ -233,10 +237,23 @@
     public int ProjectId { get; set; }
 
     private Project? project;
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        project = await ProjectService.GetProjectByIdAsync(ProjectId);
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            project = await ProjectService.GetProjectByIdAsync(ProjectId, currentUserId);
+        }
         
         if (project == null)
         {

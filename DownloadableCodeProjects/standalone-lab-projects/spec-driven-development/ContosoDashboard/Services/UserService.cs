@@ -9,9 +9,10 @@ public interface IUserService
     Task<User?> GetUserByIdAsync(int userId);
     Task<User?> GetUserByEmailAsync(string email);
     Task<User> CreateOrUpdateUserAsync(string email, string displayName);
-    Task<bool> UpdateUserProfileAsync(User user);
+    Task<bool> UpdateUserProfileAsync(User user, int requestingUserId);
     Task<bool> UpdateAvailabilityStatusAsync(int userId, AvailabilityStatus status);
     Task<List<User>> GetTeamMembersAsync(int userId);
+    Task<List<User>> GetAllUsersAsync();
 }
 
 public class UserService : IUserService
@@ -61,16 +62,54 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<bool> UpdateUserProfileAsync(User user)
+    public async Task<bool> UpdateUserProfileAsync(User user, int requestingUserId)
     {
         var existingUser = await _context.Users.FindAsync(user.UserId);
         if (existingUser == null) return false;
 
-        existingUser.DisplayName = user.DisplayName;
-        existingUser.PhoneNumber = user.PhoneNumber;
-        existingUser.Department = user.Department;
-        existingUser.JobTitle = user.JobTitle;
-        existingUser.ProfilePhotoUrl = user.ProfilePhotoUrl;
+        // Authorization: Users can only update their own profile
+        if (existingUser.UserId != requestingUserId)
+        {
+            return false; // User not authorized to update this profile
+        }
+
+        // Input validation
+        if (!string.IsNullOrWhiteSpace(user.DisplayName))
+            existingUser.DisplayName = user.DisplayName;
+        
+        // Validate phone number format if provided
+        if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+        {
+            if (user.PhoneNumber.Length <= 20)
+                existingUser.PhoneNumber = user.PhoneNumber;
+        }
+        else
+        {
+            existingUser.PhoneNumber = null;
+        }
+
+        // Validate and sanitize department and job title
+        if (!string.IsNullOrWhiteSpace(user.Department) && user.Department.Length <= 100)
+            existingUser.Department = user.Department;
+        
+        if (!string.IsNullOrWhiteSpace(user.JobTitle) && user.JobTitle.Length <= 100)
+            existingUser.JobTitle = user.JobTitle;
+        
+        // Validate profile photo URL
+        if (!string.IsNullOrWhiteSpace(user.ProfilePhotoUrl))
+        {
+            if (Uri.TryCreate(user.ProfilePhotoUrl, UriKind.Absolute, out var uri) && 
+                (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps) &&
+                user.ProfilePhotoUrl.Length <= 500)
+            {
+                existingUser.ProfilePhotoUrl = user.ProfilePhotoUrl;
+            }
+        }
+        else
+        {
+            existingUser.ProfilePhotoUrl = null;
+        }
+
         existingUser.EmailNotificationsEnabled = user.EmailNotificationsEnabled;
         existingUser.InAppNotificationsEnabled = user.InAppNotificationsEnabled;
 
@@ -97,6 +136,13 @@ public class UserService : IUserService
         // Get users in the same department
         return await _context.Users
             .Where(u => u.Department == user.Department && u.UserId != userId)
+            .OrderBy(u => u.DisplayName)
+            .ToListAsync();
+    }
+
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        return await _context.Users
             .OrderBy(u => u.DisplayName)
             .ToListAsync();
     }

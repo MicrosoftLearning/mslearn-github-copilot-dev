@@ -214,7 +214,7 @@ GitHub Importer allows you to create a complete copy of an existing repository i
 1. On the **Import your project to GitHub** page, under **Your source repository details**, enter the following URL for the source repository:
 
     ```plaintext
-    https://github.com/MicrosoftLearning/ContosoDashboard-GitHub-Spec-Kit.git
+    https://github.com/MicrosoftLearning/ContosoDashboard-SSD
     ```
 
 1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.

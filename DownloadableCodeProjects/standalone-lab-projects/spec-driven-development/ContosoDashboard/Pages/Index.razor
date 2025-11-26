@@ -1,6 +1,8 @@
 @page "/"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject IDashboardService DashboardService
 @inject INotificationService NotificationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -123,22 +125,28 @@
     private List<Announcement>? announcements;
     private List<Notification>? recentNotifications;
     private string userName = "User";
-    private int currentUserId = 1; // This should come from authentication
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        // In a real application, get the current user from authentication
+        // Get the current user from authentication
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         userName = user.Identity?.Name ?? "User";
 
-        // For demo purposes, using hardcoded user ID
-        // In production, retrieve from authenticated user claims
-        currentUserId = 4; // Ni Kang
+        // Get user ID from claims
+        var userIdClaim = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
 
-        summary = await DashboardService.GetDashboardSummaryAsync(currentUserId);
-        announcements = await DashboardService.GetActiveAnnouncementsAsync();
-        recentNotifications = await NotificationService.GetUserNotificationsAsync(currentUserId);
+        if (currentUserId > 0)
+        {
+            summary = await DashboardService.GetDashboardSummaryAsync(currentUserId);
+            announcements = await DashboardService.GetActiveAnnouncementsAsync();
+            recentNotifications = await NotificationService.GetUserNotificationsAsync(currentUserId);
+        }
     }
 
     private string GetRelativeTime(DateTime dateTime)

@@ -1,7 +1,11 @@
 @page "/profile"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject IUserService UserService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>My Profile - ContosoDashboard</PageTitle>
 
@@ -133,24 +137,39 @@
 @code {
     private User? user;
     private bool showSuccessMessage = false;
-    private int currentUserId = 4; // Demo user
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserService.GetUserByIdAsync(currentUserId);
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var authUser = authState.User;
+        var userIdClaim = authUser.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            user = await UserService.GetUserByIdAsync(currentUserId);
+        }
     }
 
     private async Task HandleValidSubmit()
     {
-        if (user != null)
+        if (user != null && currentUserId > 0)
         {
-            await UserService.UpdateUserProfileAsync(user);
-            showSuccessMessage = true;
-            
-            // Hide success message after 3 seconds
-            await Task.Delay(3000);
-            showSuccessMessage = false;
-            StateHasChanged();
+            var success = await UserService.UpdateUserProfileAsync(user, currentUserId);
+            if (success)
+            {
+                showSuccessMessage = true;
+                
+                // Hide success message after 3 seconds
+                await Task.Delay(3000);
+                showSuccessMessage = false;
+                StateHasChanged();
+            }
         }
     }
 

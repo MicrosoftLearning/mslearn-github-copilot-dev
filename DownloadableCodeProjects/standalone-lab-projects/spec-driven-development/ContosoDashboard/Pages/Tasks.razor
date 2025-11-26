@@ -1,7 +1,11 @@
 @page "/tasks"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject ITaskService TaskService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>My Tasks - ContosoDashboard</PageTitle>
 
@@ -135,11 +139,23 @@
     private List<TaskItem>? tasks;
     private string filterStatus = "";
     private string filterPriority = "";
-    private int currentUserId = 4; // Demo user
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadTasks();
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            await LoadTasks();
+        }
     }
 
     private async Task LoadTasks()
@@ -157,8 +173,11 @@
 
     private async Task UpdateTaskStatus(int taskId, Models.TaskStatus newStatus)
     {
-        await TaskService.UpdateTaskStatusAsync(taskId, newStatus);
-        await LoadTasks();
+        if (currentUserId > 0)
+        {
+            await TaskService.UpdateTaskStatusAsync(taskId, currentUserId, newStatus);
+            await LoadTasks();
+        }
     }
 
     private void ShowCreateTaskModal()

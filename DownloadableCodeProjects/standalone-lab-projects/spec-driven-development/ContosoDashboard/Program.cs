@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ContosoDashboard.Data;
 using ContosoDashboard.Services;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,16 +10,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+// Add authentication state provider for Blazor
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
 // Configure Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure Authentication (Microsoft Entra ID)
-// Uncomment the following lines when Azure AD is configured
-/*
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
-*/
+// Configure Mock Authentication (Cookie-based for training purposes)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.LogoutPath = "/logout";
+        options.AccessDeniedPath = "/login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+    });
 
 // Add authorization
 builder.Services.AddAuthorization(options =>
@@ -64,13 +71,38 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+else
+{
+    // Use HSTS even in development for training purposes
+    app.UseHsts();
+}
+
+// Add security headers
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    
+    // Content Security Policy for Blazor Server
+    context.Response.Headers["Content-Security-Policy"] = 
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+        "font-src 'self' https://cdn.jsdelivr.net; " +
+        "img-src 'self' data: https:; " +
+        "connect-src 'self' wss: ws:;";
+    
+    await next();
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Uncomment when authentication is configured
-// app.UseAuthentication();
+// Enable authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapBlazorHub();

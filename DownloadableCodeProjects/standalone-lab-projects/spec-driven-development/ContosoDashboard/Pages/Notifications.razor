@@ -1,7 +1,11 @@
 @page "/notifications"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject INotificationService NotificationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Notifications - ContosoDashboard</PageTitle>
 
@@ -77,11 +81,23 @@
 
 @code {
     private List<Notification>? notifications;
-    private int currentUserId = 4; // Demo user
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadNotifications();
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            await LoadNotifications();
+        }
     }
 
     private async Task LoadNotifications()
@@ -91,17 +107,20 @@
 
     private async Task MarkAsRead(int notificationId)
     {
-        await NotificationService.MarkAsReadAsync(notificationId);
-        await LoadNotifications();
+        if (currentUserId > 0)
+        {
+            await NotificationService.MarkAsReadAsync(notificationId, currentUserId);
+            await LoadNotifications();
+        }
     }
 
     private async Task MarkAllAsRead()
     {
-        if (notifications != null)
+        if (notifications != null && currentUserId > 0)
         {
             foreach (var notification in notifications.Where(n => !n.IsRead))
             {
-                await NotificationService.MarkAsReadAsync(notification.NotificationId);
+                await NotificationService.MarkAsReadAsync(notification.NotificationId, currentUserId);
             }
             await LoadNotifications();
         }

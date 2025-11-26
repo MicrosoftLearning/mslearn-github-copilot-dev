@@ -1,4 +1,7 @@
 @inherits LayoutComponentBase
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="page">
     <div class="sidebar">
@@ -7,12 +10,27 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="/profile" class="ms-auto">
-                <i class="bi bi-person-circle"></i> Profile
-            </a>
-            <a href="/notifications" class="ms-3">
-                <i class="bi bi-bell"></i> Notifications
-            </a>
+            <AuthorizeView>
+                <Authorized>
+                    <span class="me-3">
+                        <i class="bi bi-person-circle"></i> @context.User.Identity?.Name
+                    </span>
+                    <a href="/profile" class="me-3">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                    <a href="/notifications" class="me-3">
+                        <i class="bi bi-bell"></i> Notifications
+                    </a>
+                    <a href="/logout" class="ms-auto">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/login" class="ms-auto">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">

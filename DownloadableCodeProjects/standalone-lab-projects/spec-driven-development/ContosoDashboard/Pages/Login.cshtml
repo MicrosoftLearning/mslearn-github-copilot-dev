@@ -1,0 +1,69 @@
+@page
+@model ContosoDashboard.Pages.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ContosoDashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 100px;">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2>ContosoDashboard</h2>
+                            <p class="text-muted">Training Environment - Mock Login</p>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @Model.ErrorMessage
+                            </div>
+                        }
+
+                        <form method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label class="form-label">Select User</label>
+                                <select class="form-select" name="selectedUserId" required>
+                                    <option value="0">-- Choose a user to login as --</option>
+                                    @if (Model.Users != null)
+                                    {
+                                        @foreach (var user in Model.Users)
+                                        {
+                                            <option value="@user.UserId">@user.DisplayName (@user.Role)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="alert alert-info mt-4" role="alert">
+                            <small>
+                                <strong>Note:</strong> This is a mock authentication system for training purposes only. 
+                                Simply select a user to simulate logging in with that account.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

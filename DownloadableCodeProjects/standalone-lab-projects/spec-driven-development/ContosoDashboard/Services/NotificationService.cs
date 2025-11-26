@@ -8,7 +8,7 @@ public interface INotificationService
 {
     Task<List<Notification>> GetUserNotificationsAsync(int userId, bool unreadOnly = false);
     Task<Notification> CreateNotificationAsync(Notification notification);
-    Task<bool> MarkAsReadAsync(int notificationId);
+    Task<bool> MarkAsReadAsync(int notificationId, int requestingUserId);
     Task<int> GetUnreadCountAsync(int userId);
 }
 
@@ -47,10 +47,16 @@ public class NotificationService : INotificationService
         return notification;
     }
 
-    public async Task<bool> MarkAsReadAsync(int notificationId)
+    public async Task<bool> MarkAsReadAsync(int notificationId, int requestingUserId)
     {
         var notification = await _context.Notifications.FindAsync(notificationId);
         if (notification == null) return false;
+
+        // Authorization: Users can only mark their own notifications as read
+        if (notification.UserId != requestingUserId)
+        {
+            return false; // User not authorized to mark this notification as read
+        }
 
         notification.IsRead = true;
         await _context.SaveChangesAsync();

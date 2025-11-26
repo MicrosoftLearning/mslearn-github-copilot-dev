@@ -1,7 +1,11 @@
 @page "/projects"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject IProjectService ProjectService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>My Projects - ContosoDashboard</PageTitle>
 
@@ -87,11 +91,23 @@
 
 @code {
     private List<Project>? projects;
-    private int currentUserId = 4; // Demo user
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        projects = await ProjectService.GetUserProjectsAsync(currentUserId);
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            projects = await ProjectService.GetUserProjectsAsync(currentUserId);
+        }
     }
 
     private string GetStatusColor(ProjectStatus status)

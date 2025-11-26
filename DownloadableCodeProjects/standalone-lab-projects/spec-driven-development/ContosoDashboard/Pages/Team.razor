@@ -1,8 +1,12 @@
 @page "/team"
 @using ContosoDashboard.Services
 @using ContosoDashboard.Models
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
 @inject IUserService UserService
 @inject ITaskService TaskService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Team - ContosoDashboard</PageTitle>
 
@@ -94,11 +98,23 @@
 
 @code {
     private List<User>? teamMembers;
-    private int currentUserId = 4; // Demo user
+    private int currentUserId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        teamMembers = await UserService.GetTeamMembersAsync(currentUserId);
+        // Get current user ID from authentication claims
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            currentUserId = userId;
+        }
+
+        if (currentUserId > 0)
+        {
+            teamMembers = await UserService.GetTeamMembersAsync(currentUserId);
+        }
     }
 
     private string GetInitials(string displayName)
