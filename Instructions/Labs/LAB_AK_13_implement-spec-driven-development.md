@@ -239,12 +239,14 @@ GitHub Importer allows you to create a complete copy of an existing repository i
 
 1. Explore the repository structure to familiarize yourself with the existing application:
 
-    - `Models/` - Contains 7 entity classes (User, TaskItem, Project, etc.)
-    - `Data/` - ApplicationDbContext with EF Core configuration
-    - `Services/` - 5 service implementations for business logic
-    - `Pages/` - 7 Blazor pages (Dashboard, Tasks, Projects, Team, Notifications, Profile, ProjectDetails)
-    - `Shared/` - Layout components and navigation
-    - `README.md` and `PROJECT_SUMMARY.md` - Application documentation
+    - `ContosoDashboard/` - The main application folder
+    - `ContosoDashboard/Models/` - 7 entity classes (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
+    - `ContosoDashboard/Data/` - ApplicationDbContext with EF Core configuration and seed data
+    - `ContosoDashboard/Services/` - 6 service implementations for business logic (TaskService, ProjectService, UserService, NotificationService, DashboardService, CustomAuthenticationStateProvider)
+    - `ContosoDashboard/Pages/` - 11 Blazor/Razor pages (Index, Tasks, Projects, ProjectDetails, Team, Notifications, Profile, Login, Logout, _Host)
+    - `ContosoDashboard/Shared/` - Layout components (MainLayout, NavMenu, RedirectToLogin)
+    - `StakeholderDocs/` - Business requirements documentation
+    - `README.md` - Application documentation with authentication details
 
 ### Step 2: Clone the repository and initialize GitHub Spec Kit
 
@@ -318,12 +320,10 @@ Now you'll clone your imported repository and initialize it with GitHub Spec Kit
     plan.md
     tasks.md
     .github/
-    Models/
-    Data/
-    Services/
-    Pages/
-    Shared/
-    (... other existing files ...)
+    ContosoDashboard/
+    StakeholderDocs/
+    README.md
+    LICENSE-CODE
     ```
 
 ### Step 3: Commit and push Spec Kit initialization
@@ -367,28 +367,32 @@ Open the project in VS Code to familiarize yourself with the existing applicatio
 1. Wait for VS Code to fully load the project. Explore the EXPLORER view to see the existing application structure:
 
     ```plaintext
-    CONTOSODASHBOARD
+    CONTOSODASHBOARD (root)
     ├── .github/
-    │   └── prompts/          (Spec Kit commands)
-    ├── constitution.md       (Spec Kit file)
-    ├── spec.md               (Spec Kit file)
-    ├── plan.md               (Spec Kit file)
-    ├── tasks.md              (Spec Kit file)
-    ├── Models/               (Existing: User, TaskItem, Project, etc.)
-    ├── Data/                 (Existing: ApplicationDbContext)
-    ├── Services/             (Existing: TaskService, ProjectService, etc.)
-    ├── Pages/                (Existing: Index, Tasks, Projects, etc.)
-    ├── Shared/               (Existing: MainLayout, NavMenu)
-    ├── Program.cs            (Existing: App configuration)
-    ├── README.md             (Existing: Documentation)
-    └── (other application files)
+    │   └── prompts/                (Spec Kit commands)
+    ├── constitution.md             (Spec Kit file)
+    ├── spec.md                     (Spec Kit file)
+    ├── plan.md                     (Spec Kit file)
+    ├── tasks.md                    (Spec Kit file)
+    ├── ContosoDashboard/           (Main application folder)
+    │   ├── Models/                 (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
+    │   ├── Data/                   (ApplicationDbContext.cs)
+    │   ├── Services/               (TaskService, ProjectService, UserService, NotificationService, DashboardService, CustomAuthenticationStateProvider)
+    │   ├── Pages/                  (Index, Tasks, Projects, ProjectDetails, Team, Notifications, Profile, Login, Logout, _Host)
+    │   ├── Shared/                 (MainLayout, NavMenu, RedirectToLogin)
+    │   ├── wwwroot/                (Static files, CSS)
+    │   ├── Program.cs              (App configuration)
+    │   └── ContosoDashboard.csproj (Project file)
+    ├── StakeholderDocs/            (Business requirements)
+    ├── README.md                   (Application documentation)
+    └── LICENSE-CODE
     ```
 
 1. Review the existing application documentation:
 
-    - Open `README.md` to understand the current application features
-    - Open `PROJECT_SUMMARY.md` to see the technical implementation details
-    - Browse the `Models/` folder to see the existing data entities
+    - Open `README.md` to understand the current application features, mock authentication system, and security implementation
+    - Browse the `ContosoDashboard/Models/` folder to see the existing data entities (7 entity models)
+    - Review the `StakeholderDocs/` folder for business requirements documentation
 
 1. Open the Copilot Chat view:
 
@@ -419,12 +423,19 @@ Open the project in VS Code to familiarize yourself with the existing applicatio
 
 **Understanding the Setup**: You now have a working ContosoDashboard application with GitHub Spec Kit initialized. The existing application provides:
 
-- User authentication and role-based access control (Employee, Team Lead, Project Manager, Administrator)
-- Task management with status tracking and assignments
-- Project management with team members and progress tracking
-- Team collaboration features
-- Notification system
-- User profile management
+- Mock authentication system for training (cookie-based with user selection login - no password required)
+- Role-based access control with 4 roles: Employee, Team Lead, Project Manager, Administrator
+- Claims-based authorization with `[Authorize]` attributes on all protected pages
+- Service-level security to prevent IDOR vulnerabilities
+- Task management with status tracking, priorities, and assignments (via TaskService)
+- Project management with team members, progress tracking, and completion percentages (via ProjectService)
+- Team directory with department filtering and status indicators (via UserService)
+- Notification center with read/unread status and priority badges (via NotificationService)
+- Dashboard home page with personalized summary cards (via DashboardService)
+- User profile management with availability status and notification preferences
+- 7 entity models: User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement
+- 6 business services with authorization checks
+- 11 Blazor/Razor pages including Login.cshtml and Logout.cshtml for authentication
 
 You'll use GitHub Spec Kit to plan and implement the new document upload and management feature as an addition to these existing capabilities. The spec-driven approach ensures the new feature integrates seamlessly with the existing architecture while maintaining code quality and security standards.
 
@@ -477,32 +488,39 @@ Use the `/speckit.constitution` command to create the project's governing princi
 
     **Existing Application Context:**
     - ContosoDashboard is a working ASP.NET Core 8.0 Blazor Server application
-    - Current features: task management, project tracking, team collaboration, notifications, user profiles
-    - Uses Entity Framework Core 8 with SQL Server LocalDB
+    - Current features: mock authentication (cookie-based user selection), task management, project tracking with team members, team directory, notifications center, user profiles, dashboard with summary cards
+    - Application structure: ContosoDashboard/ folder contains Models/, Data/, Services/, Pages/, Shared/, wwwroot/
+    - Uses Entity Framework Core 8 with SQL Server
     - Implements role-based access (Employee, Team Lead, Project Manager, Administrator)
-    - Already has 7 entity models, 5 services, and complete UI pages
+    - Already has 7 entity models (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
+    - Already has 6 services (TaskService, ProjectService, UserService, NotificationService, DashboardService, CustomAuthenticationStateProvider)
+    - Already has 11 pages including Login/Logout pages for authentication
 
     **Technology Stack (Must Match Existing):**
     - Backend: ASP.NET Core 8.0 with Entity Framework Core 8
-    - UI: Blazor Server with Bootstrap 5.3
+    - UI: Blazor Server with Bootstrap 5.3 and Bootstrap Icons
     - Cloud: Microsoft Azure (App Service, SQL Database, Blob Storage, Key Vault)
-    - Authentication: Microsoft Entra ID (infrastructure already in place)
+    - Authentication: Cookie-based for training (Microsoft Entra ID infrastructure ready)
     - Development: .NET 8.0 SDK
 
     **Architecture Principles (Must Follow Existing Patterns):**
-    - Repository pattern for data access (match existing services)
-    - Service layer for business logic (follow TaskService, ProjectService patterns)
+    - Service layer pattern for business logic with authorization checks (follow TaskService, ProjectService patterns)
+    - All data access through Entity Framework Core DbContext (ApplicationDbContext)
     - Dependency Injection (already configured in Program.cs)
     - Async/await for all I/O operations (existing standard)
-    - Entity models in Models/ folder with proper relationships
+    - Entity models in ContosoDashboard/Models/ folder with proper relationships
+    - Services in ContosoDashboard/Services/ folder with IDOR protection
+    - Pages in ContosoDashboard/Pages/ folder with [Authorize] attributes
+    - Integration with MainLayout.razor and NavMenu.razor in ContosoDashboard/Shared/
 
     **Security:**
     - TLS 1.3 encryption for data in transit
     - Encryption at rest for all stored data
     - Role-based access control (RBAC) matching existing roles
+    - Service-level authorization checks to prevent IDOR vulnerabilities
     - Virus scanning for uploaded files
     - Store sensitive configuration in Azure Key Vault
-    - Follow existing authentication patterns
+    - Follow existing authentication patterns (cookie-based claims identity)
 
     **Performance:**
     - Page loads under 2 seconds (match existing pages)
@@ -515,6 +533,7 @@ Use the `/speckit.constitution` command to create the project's governing princi
     - XML documentation for public APIs
     - WCAG 2.1 Level AA accessibility
     - Code style consistent with existing codebase
+    - Bootstrap 5.3 classes for UI consistency
     - Integration with existing navigation and layout components
     ```
 
@@ -592,11 +611,9 @@ In this task, you use GitHub Copilot's `/speckit.specify` command to generate a 
 
 Use the following steps to complete this task:
 
-1. Review the high-level requirements document located in the lab materials:
+1. Review the high-level requirements document:
 
-    Navigate to the following folder: spec-driven-development
-
-1. Open the upload-manage-docs-feature-requirements-simplified.md file in Visual Studio Code or a text editor.
+    In Visual Studio Code, open the `StakeholderDocs/document-upload-and-management-feature.md` file from your ContosoDashboard project.
 
 1. Take 1-2 minutes to read through the requirements document, paying particular attention to:
 
@@ -977,11 +994,11 @@ Use the following steps to complete this task:
 
 1. **Create the Document entity model:**
 
-    In Visual Studio Code, create a new file in the existing `Models/` folder: `Models/Document.cs`
+    In Visual Studio Code, create a new file in the existing `ContosoDashboard/Models/` folder: `ContosoDashboard/Models/Document.cs`
 
-    The Document entity will follow the same pattern as existing entities (User, TaskItem, Project, etc.) in the Models folder.
+    The Document entity will follow the same pattern as existing entities (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement) in the ContosoDashboard/Models/ folder.
 
-1. Create the `Models/Document.cs` file and use GitHub Copilot to generate the entity:
+1. Create the `ContosoDashboard/Models/Document.cs` file and use GitHub Copilot to generate the entity:
 
     Type the following comment in the file:
 
@@ -996,9 +1013,9 @@ Use the following steps to complete this task:
 
 1. **Implement the document upload service:**
 
-    Create a new file in the existing `Services/` folder: `Services/DocumentService.cs`
+    Create a new file in the existing `ContosoDashboard/Services/` folder: `ContosoDashboard/Services/DocumentService.cs`
 
-    This service will follow the same pattern as existing services (TaskService, ProjectService, etc.).
+    This service will follow the same pattern as existing services (TaskService, ProjectService, UserService, NotificationService, DashboardService) with authorization checks to prevent IDOR vulnerabilities.
 
     ```csharp
     // DocumentService for business logic
@@ -1016,7 +1033,7 @@ Use the following steps to complete this task:
 
 1. **Create the upload API endpoint:**
 
-    If using Blazor Server (like the existing ContosoDashboard), you may create a code-behind file for a page. If adding Web API support, create `Controllers/DocumentsController.cs`:
+    For the Blazor Server architecture used in ContosoDashboard, you'll implement upload functionality in the page's code-behind or inline code. If you choose to add Web API support for file uploads, create `ContosoDashboard/Controllers/DocumentsController.cs`:
 
     ```csharp
     // DocumentsController API endpoints
@@ -1029,11 +1046,18 @@ Use the following steps to complete this task:
     // Include XML documentation comments for Swagger
     ```
 
-1. **Create the upload UI component (Blazor example):**
+1. **Create the upload UI component (Blazor page):**
 
-    Create a new file in the existing `Pages/` folder: `Pages/Documents.razor`
+    Create a new file in the existing `ContosoDashboard/Pages/` folder: `ContosoDashboard/Pages/Documents.razor`
 
-    This page will follow the same pattern as existing pages (Tasks.razor, Projects.razor, etc.) and integrate with the existing MainLayout and NavMenu.
+    This page will follow the same pattern as existing pages (Tasks.razor, Projects.razor, ProjectDetails.razor, Team.razor, Notifications.razor, Profile.razor) and integrate with the existing MainLayout.razor and NavMenu.razor in the ContosoDashboard/Shared/ folder.
+
+    Don't forget to:
+    - Add `@page "/documents"` directive at the top
+    - Add `@attribute [Authorize]` for authentication enforcement
+    - Inject DocumentService using `@inject`
+    - Use Bootstrap 5.3 classes for consistent styling
+    - Add navigation link to ContosoDashboard/Shared/NavMenu.razor
 
     ```razor
     @* Document Upload Page *@
