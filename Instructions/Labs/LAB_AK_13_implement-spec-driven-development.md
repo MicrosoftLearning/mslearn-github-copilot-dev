@@ -70,22 +70,19 @@ If you're using a hosted lab environment for this exercise:
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm that's adopting spec-driven development (SDD) using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your client, Contoso Corporation, has tasked you with adding a new feature to their internal employee dashboard application called ContosoDashboard.
+You're a software developer working for a consulting firm that's adopting a spec-driven development (SDD) approach using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your client, Contoso Corporation, has tasked you with adding a new feature to their internal employee dashboard application (ContosoDashboard).
 
 Contoso's business stakeholders have provided high-level requirements for a document upload and management feature. Employees need the ability to upload work-related documents, organize them by category and project, and share them with team members. The feature must integrate seamlessly with the existing dashboard while maintaining security and compliance standards.
 
 Your assignment is to use the spec-driven development methodology to implement this feature. Rather than jumping directly into coding, you'll create structured specifications, plans, and tasks that guide the development process. This approach ensures the implementation aligns with business requirements and organizational constraints.
 
-You'll work with the following application:
-
-- **ContosoDashboard**: An internal web application that provides Contoso employees with a centralized platform for managing daily work activities, including tasks, projects, team collaboration, and notifications.
-
-**Application Context**: ContosoDashboard currently serves 5,000 Contoso employees. The application uses role-based access control (Employee, Team Lead, Project Manager, Administrator) and integrates with Contoso's Microsoft Entra ID for authentication. The existing application includes task management, project tracking, team collaboration features, and notification capabilities.
+The ContosoDashboard is an internal web application that provides Contoso employees with a centralized platform for managing daily work activities. The ContosoDashboard currently serves 5,000 Contoso employees. The application uses role-based access control (Employee, Team Lead, Project Manager, Administrator) and integrates with Contoso's Microsoft Entra ID for authentication. The existing application includes task management, project tracking, team collaboration features, and notification capabilities.
 
 This exercise includes the following tasks:
 
 1. Configure the GitHub Spec Kit in your development environment.
-1. Import and initialize the existing ContosoDashboard application repository.
+1. Import the ContosoDashboard repository and initialize GitHub Spec Kit.
+1. Review the ContosoDashboard project and GitHub Spec Kit files.
 1. Define the project Constitution (organizational constraints and development principles).
 1. Create the Spec for the document upload and management feature.
 1. Clarify the Spec (iterate on requirements with AI assistance).
@@ -99,6 +96,8 @@ This exercise includes the following tasks:
 The GitHub Spec Kit includes a command-line interface (CLI) tool called Specify that initializes projects for spec-driven development. It also integrates with Visual Studio Code through the GitHub Copilot Chat extension to provide AI-assisted generation of specifications, plans, and tasks.
 
 In this task, you install the GitHub Spec Kit CLI tool and configure Visual Studio Code for spec-driven development.
+
+Use the following steps to complete this task:
 
 1. Open a terminal window.
 
@@ -168,12 +167,7 @@ In this task, you install the GitHub Spec Kit CLI tool and configure Visual Stud
 
     - Command not found: If `specify` isn't recognized after installation, the `uv` tools directory may not be in your PATH. Run `uv tool list` to verify the installation. You may need to restart your terminal or manually add the tools directory to your PATH.
 
-    - SSL certificate errors in corporate environments: Corporate networks may intercept HTTPS connections. Configure `uv` to use your organization's certificate bundle:
-
-        ```powershell
-        $env:SSL_CERT_FILE = "C:\path\to\corporate-ca-bundle.crt"
-        uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
-        ```
+    - In corporate environments with SSL interception, you may need to configure certificates. Contact your IT department for assistance.
 
 1. Open Visual Studio Code, and then ensure that GitHub Copilot Chat is enabled.
 
@@ -181,7 +175,7 @@ In this task, you install the GitHub Spec Kit CLI tool and configure Visual Stud
 
     For GitHub Enterprise Server environments:
 
-    - Open VS Code Settings (Ctrl+,)
+    - Open Visual Studio Code Settings (Ctrl+,)
 
     - Search for "github.enterprise"
 
@@ -191,15 +185,13 @@ In this task, you install the GitHub Spec Kit CLI tool and configure Visual Stud
 
 Your GitHub Spec Kit development environment is now configured and ready. In the next task, you'll import the existing ContosoDashboard application and initialize it for spec-driven development.
 
-## Import and initialize the ContosoDashboard repository
+## Import the ContosoDashboard repository and initialize GitHub Spec Kit
 
-In this task, you import the existing ContosoDashboard application repository to your GitHub account and initialize it with GitHub Spec Kit. This mirrors a real-world scenario where you add a new feature to an existing application rather than building from scratch.
+GitHub Importer can be used to create a copy of an existing repository in your own GitHub account, giving you full control over the imported copy.
 
-The ContosoDashboard application is a fully functional ASP.NET Core 8.0 Blazor Server application with existing features including task management, project tracking, team collaboration, and notifications. You'll use GitHub Spec Kit to plan and implement the document upload and management feature as an addition to this working application.
+In this task, you import the existing ContosoDashboard application repository to your GitHub account and initialize GitHub Spec Kit in your project directory.
 
-### Step 1: Import the ContosoDashboard repository to your GitHub account
-
-GitHub Importer allows you to create a complete copy of an existing repository in your own GitHub account, giving you full control over the imported copy.
+Use the following steps to complete this task:
 
 1. Open a browser window and navigate to GitHub.com.
 
@@ -223,36 +215,19 @@ GitHub Importer allows you to create a complete copy of an existing repository i
 
     GitHub automatically checks the availability of the repository name. If this name is already taken, append a unique suffix (for example, your initials or a random number) to the repository name to make it unique.
 
-1. Ensure that the repository is set to **Public**.
-
-1. Select the **Begin import** button.
+1. To create a private repository, select **Private**, and then select **Begin import**.
 
     GitHub uses the import process to create the new repository in your account.
 
-    > **NOTE**: It can take a minute or two for the import process to finish.
-
-1. Wait for the import process to complete (typically 1-2 minutes).
+    > **NOTE**: It can take a minute or two for the import process to finish. Wait for the import process to complete (typically 1-2 minutes).
 
     GitHub will display a progress indicator and notify you when the import is complete.
 
-1. Once complete, select **View repository** or navigate to `https://github.com/YOUR-USERNAME/ContosoDashboard` to view your imported repository.
+1. Once the import is complete, open your new repository.
 
-1. Explore the repository structure to familiarize yourself with the existing application:
+    A link to your repository should be displayed. Your repository should be located at: `https://github.com/YOUR-USERNAME/ContosoDashboard`.
 
-    - `ContosoDashboard/` - The main application folder
-    - `ContosoDashboard/Models/` - 7 entity classes (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
-    - `ContosoDashboard/Data/` - ApplicationDbContext with EF Core configuration and seed data
-    - `ContosoDashboard/Services/` - 6 service implementations for business logic (TaskService, ProjectService, UserService, NotificationService, DashboardService, CustomAuthenticationStateProvider)
-    - `ContosoDashboard/Pages/` - 11 Blazor/Razor pages (Index, Tasks, Projects, ProjectDetails, Team, Notifications, Profile, Login, Logout, _Host)
-    - `ContosoDashboard/Shared/` - Layout components (MainLayout, NavMenu, RedirectToLogin)
-    - `StakeholderDocs/` - Business requirements documentation
-    - `README.md` - Application documentation with authentication details
-
-### Step 2: Clone the repository and initialize GitHub Spec Kit
-
-Now you'll clone your imported repository and initialize it with GitHub Spec Kit for spec-driven development.
-
-1. On your ContosoDashboard repository page in GitHub, select the **Code** button and copy the HTTPS URL.
+1. On your ContosoDashboard repository page, select the **Code** button, and then copy the HTTPS URL.
 
     The URL should be similar to: `https://github.com/YOUR-USERNAME/ContosoDashboard.git`
 
@@ -268,7 +243,7 @@ Now you'll clone your imported repository and initialize it with GitHub Spec Kit
 
     Replace `C:\TrainingProjects` with your preferred location. You can use any directory where you have write permissions, and you can create a new folder location if needed.
 
-1. Clone your ContosoDashboard repository:
+1. To clone your ContosoDashboard repository, enter the following command:
 
     ```powershell
     git clone https://github.com/YOUR-USERNAME/ContosoDashboard.git
@@ -276,23 +251,23 @@ Now you'll clone your imported repository and initialize it with GitHub Spec Kit
 
     Replace `YOUR-USERNAME` with your actual GitHub username.
 
-1. Navigate into the cloned repository:
+1. To navigate into your ContosoDashboard directory, enter the following command:
 
     ```powershell
     cd ContosoDashboard
     ```
 
-1. Initialize GitHub Spec Kit within the existing project:
+1. To initialize GitHub Spec Kit within your existing project, enter the following command:
 
     ```powershell
-    specify init --existing --ai copilot --script ps
+    specify init --here --ai copilot --script ps
     ```
 
-    The `specify init` command uses the following options:
+    The command uses the following components:
 
-    - `--existing` - Initializes Spec Kit in the current directory (existing project)
-    - `--ai copilot` - Configures the project for GitHub Copilot
-    - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux)
+    - `--here` - Initializes Spec Kit in the current directory (existing project).
+    - `--ai copilot` - Configures the project for GitHub Copilot.
+    - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux).
 
     > **Note**: If you're using macOS or Linux, replace `--script ps` with `--script sh`.
 
@@ -300,80 +275,45 @@ Now you'll clone your imported repository and initialize it with GitHub Spec Kit
 
     The CLI will:
 
-    - Detect the existing Git repository
-    - Add the `.github/prompts/` directory with Spec Kit commands
-    - Create template files: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`
-    - Preserve all existing application files
-    - Display a success message
+    - Detect the existing Git repository ("Current directory is not empty") and ask for confirmation to proceed.
+    - Add the `.github/prompts/` directory with Spec Kit commands.
+    - Create template files: `constitution.md`, `spec.md`, `plan.md`, `tasks.md`.
+    - Preserve all existing application files.
+    - Display a success message ("Project ready").
+    - Suggest some optional next steps.
 
-1. Verify the Spec Kit files were added:
+## Review the ContosoDashboard project and GitHub Spec Kit files
 
-    ```powershell
-    ls -Name
-    ```
+Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. After running `specify init --ai copilot`, the toolkit configures your workspace to recognize `/speckit.*` commands.
 
-    You should see the new files alongside existing application files:
+In this task, you explore the project files in Visual Studio Code, verify that GitHub Spec Kit is properly initialized, and then push the GitHub Spec Kit files to your GitHub repository.
 
-    ```plaintext
-    constitution.md
-    spec.md
-    plan.md
-    tasks.md
-    .github/
-    ContosoDashboard/
-    StakeholderDocs/
-    README.md
-    LICENSE-CODE
-    ```
+Use the following steps to complete this task:
 
-### Step 3: Commit and push Spec Kit initialization
-
-Commit the Spec Kit files to your repository to track the spec-driven development process.
-
-1. Stage the new Spec Kit files:
+1. In the terminal, to open the ContosoDashboard project in Visual Studio Code, enter the following commands:
 
     ```powershell
-    git add .github/ constitution.md spec.md plan.md tasks.md
-    ```
-
-1. Create a commit:
-
-    ```powershell
-    git commit -m "Initialize GitHub Spec Kit for document management feature"
-    ```
-
-1. Push to GitHub:
-
-    ```powershell
-    git push
-    ```
-
-    If prompted for GitHub credentials, sign in to authorize the push.
-
-1. Verify the push succeeded by refreshing your GitHub repository page in the browser. You should now see the Spec Kit files alongside the existing application code.
-
-### Step 4: Open the project in Visual Studio Code and explore
-
-Open the project in VS Code to familiarize yourself with the existing application and begin the spec-driven development process.
-
-1. Open the project in Visual Studio Code:
-
-    ```powershell
+    cd ContosoDashboard
     code .
     ```
 
-    This command opens the current directory (ContosoDashboard) in VS Code.
+    Wait for Visual Studio Code to fully load the project.
 
-1. Wait for VS Code to fully load the project. Explore the EXPLORER view to see the existing application structure:
+    The `code .` command opens the current directory (ContosoDashboard) in Visual Studio Code.
+
+1. Take a minute to familiarize yourself with the project structure.
+
+    Use Visual Studio Code's EXPLORER view to expand the application folders. You should see a folder structure that's similar to the following:
 
     ```plaintext
     CONTOSODASHBOARD (root)
     ├── .github/
-    │   └── prompts/                (Spec Kit commands)
-    ├── constitution.md             (Spec Kit file)
-    ├── spec.md                     (Spec Kit file)
-    ├── plan.md                     (Spec Kit file)
-    ├── tasks.md                    (Spec Kit file)
+    │   ├── agents/                 (GitHub Spec Kit executable workflows that can be triggered via commands)
+    │   └── prompts/                (GitHub Spec Kit prompt files that provide detailed instructions for each of the agent workflows)
+    ├── .specify/                   (GitHub Spec Kit configuration)
+    │   ├── memory/                 (GitHub Spec Kit stores the project constitution defining core principles and governance rules that all features must follow)
+    │   ├── scripts/powershell/     (GitHub Spec Kit uses automation utilities (scripts) for creating features, setting up plans, and managing the specification workflow)
+    │   └── templates/              (GitHub Spec Kit provides standardized markdown formats for specs, plans, tasks, and checklists to ensure consistent documentation across all features)
     ├── ContosoDashboard/           (Main application folder)
     │   ├── Models/                 (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
     │   ├── Data/                   (ApplicationDbContext.cs)
@@ -388,202 +328,154 @@ Open the project in VS Code to familiarize yourself with the existing applicatio
     └── LICENSE-CODE
     ```
 
-1. Review the existing application documentation:
+1. Open GitHub Copilot's Chat view:
 
-    - Open `README.md` to understand the current application features, mock authentication system, and security implementation
-    - Browse the `ContosoDashboard/Models/` folder to see the existing data entities (7 entity models)
-    - Review the `StakeholderDocs/` folder for business requirements documentation
+1. Ask GitHub Copilot to explain the current project and GitHub Spec Kit files.
 
-1. Open the Copilot Chat view:
+    For example, enter the following prompt in the Chat view:
 
-    - Press **Ctrl+Alt+I** (Windows/Linux) or **Cmd+Alt+I** (macOS)
-    - Or click the **Chat** icon in the Activity Bar
+    ```plaintext
+    Review the current codebase. Explain the ContosoDashboard application features and the purpose of the GitHub Spec Kit files. 
+    ```
 
-1. Verify that GitHub Spec Kit commands are available:
+1. Take a minute to review GitHub Copilot's response.
 
-    - In the Chat input field, type `/speckit`
-    - You should see autocomplete suggestions appear showing available commands:
-        - `/speckit.constitution`
-        - `/speckit.specify`
-        - `/speckit.clarify`
-        - `/speckit.plan`
-        - `/speckit.tasks`
-        - `/speckit.implement`
-        - `/speckit.analyze`
-        - `/speckit.checklist`
+    GitHub Copilot's response should summarize the application features and the purpose of the Spec Kit files.
 
-    > **Note**: If the `/speckit` commands don't appear, reload VS Code by pressing **Ctrl+Shift+P**, typing "Reload Window", and pressing Enter. Verify you opened the `ContosoDashboard` folder (not a parent or child directory) and that `.github/prompts/` exists in your workspace root.
+    You can also review the project's README.md file for a description of the current application features, mock authentication system, and security implementation.
+
+1. In the Chat view, to verify that GitHub Spec Kit commands are available, type **/speckit**
+
+    You should see autocomplete suggestions that show the available commands:
+
+    - `/speckit.analyze` - Audit implementation plans.
+    - `/speckit.checklist` - Validate specification completeness.
+    - `/speckit.clarify` - Refine specifications through Q&A.
+    - `/speckit.constitution` - Define project governing principles.
+    - `/speckit.implement` - Execute the implementation.
+    - `/speckit.plan` - Generate technical implementation plans.
+    - `/speckit.specify` - Create feature specifications.
+    - `/speckit.tasks` - Break down work into actionable tasks.
+
+    > **Note**: If the `/speckit` commands don't appear, try closing and then reopening the project in Visual Studio Code.
 
     **Troubleshooting**: If you encounter issues:
 
     - **"specify command not found"**: Ensure you completed Task 1 and installed the Specify CLI. Run `specify version` to verify installation.
     - **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
     - **Git clone errors**: Verify you're signed in to GitHub and have access to your imported repository.
-    - **Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading VS Code.
+    - **Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
 
-**Understanding the Setup**: You now have a working ContosoDashboard application with GitHub Spec Kit initialized. The existing application provides:
+1. In the EXPLORER view, right-click **ContosoDashboard** and then select **Open in Integrated Terminal**.
 
-- Mock authentication system for training (cookie-based with user selection login - no password required)
-- Role-based access control with 4 roles: Employee, Team Lead, Project Manager, Administrator
-- Claims-based authorization with `[Authorize]` attributes on all protected pages
-- Service-level security to prevent IDOR vulnerabilities
-- Task management with status tracking, priorities, and assignments (via TaskService)
-- Project management with team members, progress tracking, and completion percentages (via ProjectService)
-- Team directory with department filtering and status indicators (via UserService)
-- Notification center with read/unread status and priority badges (via NotificationService)
-- Dashboard home page with personalized summary cards (via DashboardService)
-- User profile management with availability status and notification preferences
-- 7 entity models: User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement
-- 6 business services with authorization checks
-- 11 Blazor/Razor pages including Login.cshtml and Logout.cshtml for authentication
+1. To build and run the application, run the following commands:
 
-You'll use GitHub Spec Kit to plan and implement the new document upload and management feature as an addition to these existing capabilities. The spec-driven approach ensures the new feature integrates seamlessly with the existing architecture while maintaining code quality and security standards.
+    ```dotnetcli
+    dotnet restore
+    dotnet build
+    dotnet run
+    ```
 
-Your ContosoDashboard project is now ready for spec-driven development. In the next task, you'll define the project constitution to establish development principles for adding the document management feature.
+    There will be some Warning messages, but there shouldn't be any errors.
+
+1. Open a browser window and then navigate to `https://localhost:5000`.
+
+    You should see a login page for the ContosoDashboard application.
+
+1. On the ContosoDashboard login page, select a user from the dropdown, and then select **Login**.
+
+1. Take a minute to explore the ContosoDashboard application, and then close the browser window.
+
+    It's good to verify that the application is working before you start developing a new feature.
+
+1. In Visual Studio Code's terminal panel, to stop the running application, press **Ctrl+C**  and then close the terminal.
+
+1. Use Visual Studio Code's Source Control view to commit and push the updated project files.
+
+    For example:
+
+    - Select the Source Control icon in the left-hand activity bar.
+    - Enter a commit message such as: "Add GitHub Spec Kit files to the ContosoDashboard project"
+    - Select the checkmark icon to commit the changes (and select Yes to stage the changes if prompted).
+    - Select **Sync Changes** to push the commit to GitHub (and select Ok if prompted).
+
+    Pushing the GitHub Spec Kit files to your repository enables you to track the spec-driven development process.
+
+1. Open your GitHub repository in a browser window and verify that the push succeeded.
+
+    You should now see the GitHub Spec Kit files alongside the existing application code.
+
+You now have a working ContosoDashboard application with GitHub Spec Kit initialized.
 
 ## Define the project Constitution
 
-The constitution establishes the governing principles and constraints that guide all development decisions for the ContosoDashboard project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
+The GitHub Spec Kit uses a "Constitution" to establish the governing principles and constraints that guide all development decisions for the ContosoDashboard project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
 
-In this task, you use GitHub Copilot's `/speckit.constitution` command to generate a comprehensive constitution based on Contoso Corporation's requirements.
+In this task, you use GitHub Copilot's `/speckit.constitution` command to generate a comprehensive constitution based on Contoso stakeholder requirements and the existing project files.
 
-### Step 1: Review the constitution template
+Use the following steps to complete this task:
 
-Before generating content, familiarize yourself with the constitution structure.
+1. Use Visual Studio Code's EXPLORER view to expand the **.github/agents** and **.specify/memory** folders.
 
-1. In Visual Studio Code, open the `constitution.md` file from the EXPLORER view.
+    These folders contain the GitHub Spec Kit resources used to create a constitution.md file. It might be helpful to familiarize yourself with these resource files before working on your constitution file.
 
-1. Observe the template structure (if present). The file may be empty or contain placeholder sections such as:
+1. In the **.github/agents** folder, open the **speckit.constitution.agent.md** file.
 
-    - Project Overview
-    - Development Principles
-    - Technical Constraints
-    - Security and Compliance Requirements
-    - Quality Standards
+1. Take a minute to review the **speckit.constitution.agent.md** file.
 
-1. Keep the file open - Copilot will populate it with generated content.
+    Notice the detailed instructions provided to GitHub Copilot. The agent follows a systematic approach to generate a constitution that captures key principles and constraints.
 
-### Step 2: Generate the constitution using GitHub Copilot
+1. In the **.specify/memory** folder, open the **constitution.md** file.
 
-Use the `/speckit.constitution` command to create the project's governing principles.
+1. Take a minute to review the constitution template.
 
-1. Ensure the Copilot Chat view is open (press **Ctrl+Alt+I** if needed).
+    Notice that the template provides examples that illustrate principles and constraints for security, performance, quality, technical standards, etc.
 
-1. Start a new chat session to ensure a clean context:
+    You can keep the constitution file open.
 
-    - Click the **New Chat** button (the **+** icon) at the top of the Chat panel
+1. Ensure that the Chat view is open, then start a new chat session.
 
-1. In the Chat input field, type the `/speckit.constitution` command:
+    Starting a new Chat session ensures a clean context.
+
+1. In the Chat view, to start a constitution workflow, enter the following command:
 
     ```plaintext
     /speckit.constitution
     ```
 
-    Press **Enter** to execute the command.
+    > **NOTE**: The GitHub Spec Kit supports "greenfield" and "brownfield" project types. Preliminary requirements are more significant for greenfield projects since there is no existing codebase. In this exercise, ContosoDashboard is a brownfield project with an existing codebase, so the agent analyzes the current project files when generating the constitution.
 
-1. GitHub Copilot will prompt you for information about the project principles and constraints. Provide the following context:
+1. Monitor GitHub Copilot's response.
 
-    ```plaintext
-    Create a constitution for the ContosoDashboard project document management feature:
+    GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
 
-    **Existing Application Context:**
-    - ContosoDashboard is a working ASP.NET Core 8.0 Blazor Server application
-    - Current features: mock authentication (cookie-based user selection), task management, project tracking with team members, team directory, notifications center, user profiles, dashboard with summary cards
-    - Application structure: ContosoDashboard/ folder contains Models/, Data/, Services/, Pages/, Shared/, wwwroot/
-    - Uses Entity Framework Core 8 with SQL Server
-    - Implements role-based access (Employee, Team Lead, Project Manager, Administrator)
-    - Already has 7 entity models (User, TaskItem, Project, ProjectMember, TaskComment, Notification, Announcement)
-    - Already has 6 services (TaskService, ProjectService, UserService, NotificationService, DashboardService, CustomAuthenticationStateProvider)
-    - Already has 11 pages including Login/Logout pages for authentication
+    It might take 30-60 seconds for GitHub Copilot to analyze the requirements and structure the constitution document.
 
-    **Technology Stack (Must Match Existing):**
-    - Backend: ASP.NET Core 8.0 with Entity Framework Core 8
-    - UI: Blazor Server with Bootstrap 5.3 and Bootstrap Icons
-    - Cloud: Microsoft Azure (App Service, SQL Database, Blob Storage, Key Vault)
-    - Authentication: Cookie-based for training (Microsoft Entra ID infrastructure ready)
-    - Development: .NET 8.0 SDK
+1. Review the updated constitution.md file in the editor.
 
-    **Architecture Principles (Must Follow Existing Patterns):**
-    - Service layer pattern for business logic with authorization checks (follow TaskService, ProjectService patterns)
-    - All data access through Entity Framework Core DbContext (ApplicationDbContext)
-    - Dependency Injection (already configured in Program.cs)
-    - Async/await for all I/O operations (existing standard)
-    - Entity models in ContosoDashboard/Models/ folder with proper relationships
-    - Services in ContosoDashboard/Services/ folder with IDOR protection
-    - Pages in ContosoDashboard/Pages/ folder with [Authorize] attributes
-    - Integration with MainLayout.razor and NavMenu.razor in ContosoDashboard/Shared/
+    Always review agent suggestions. After Copilot updates a constitution, review the document carefully to ensure it captures all requirements accurately.
 
-    **Security:**
-    - TLS 1.3 encryption for data in transit
-    - Encryption at rest for all stored data
-    - Role-based access control (RBAC) matching existing roles
-    - Service-level authorization checks to prevent IDOR vulnerabilities
-    - Virus scanning for uploaded files
-    - Store sensitive configuration in Azure Key Vault
-    - Follow existing authentication patterns (cookie-based claims identity)
+    Notice that GitHub Copilot recognizes the underlying principles of the ContosoDashboard project and incorporates them into the constitution. This includes enforcing a spec-driven development development approach and the distinction between a training and production code.
 
-    **Performance:**
-    - Page loads under 2 seconds (match existing pages)
-    - API responses under 500ms
-    - Support 1,000 concurrent users
-    - Database indexes on frequently queried fields (follow existing pattern)
-
-    **Quality:**
-    - 80% code coverage with unit tests
-    - XML documentation for public APIs
-    - WCAG 2.1 Level AA accessibility
-    - Code style consistent with existing codebase
-    - Bootstrap 5.3 classes for UI consistency
-    - Integration with existing navigation and layout components
-    ```
-
-1. Press **Enter** and wait for GitHub Copilot to process the information and generate the constitution.
-
-    This may take 30-60 seconds as Copilot analyzes the requirements and structures the constitution document.
-
-### Step 3: Review and refine the generated constitution
-
-After Copilot generates the constitution, review it carefully to ensure it captures all requirements.
-
-1. Copilot will update the `constitution.md` file. Review the generated content in the editor.
-
-1. Verify the constitution includes sections covering:
-
-    - **Project Identity**: Name, purpose, and scope of the ContosoDashboard application
-    - **Technology Stack**: Azure services, ASP.NET Core, Entity Framework Core, Entra ID
-    - **Security Requirements**: Encryption, RBAC, virus scanning, secure configuration
-    - **Performance Benchmarks**: Page load times, API response times, concurrent user support
-    - **Quality Standards**: Test coverage, documentation, accessibility, architecture patterns
-
-1. Check that each principle is clearly stated and actionable. For example:
+    Each principle should be clearly stated and actionable. For example:
 
     - ❌ Vague: "Use good security practices"
     - ✅ Clear: "All API endpoints must validate authentication tokens and enforce role-based permissions"
 
-1. If any critical requirements are missing or unclear, you can edit the `constitution.md` file directly to add or modify principles. For example, you might add:
+    If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
-    - All uploaded files must be scanned for malware before storage
-    - File size limits must be enforced (max 25 MB per file)
-    - Document management features must support PDF and Microsoft Office file formats
+1. Ensure that the constitution document is complete, and then save the `constitution.md` file.
 
-### Step 4: Validate and save the constitution
+    For a real-world project, it's important to review the constitution against the following criteria before saving:
 
-Ensure the constitution is complete and save it for use throughout the development process.
+    - Completeness: All major areas (security, performance, quality, technical standards) are covered.
+    - Clarity: Each principle is specific and unambiguous.
+    - Consistency: Principles don't contradict each other.
+    - Relevance: All principles relate to the ContosoDashboard project.
 
-1. Review the entire document one final time to check for:
+1. Commit and push the updated constitution.md file to your Git repository.
 
-    - Completeness: All major areas (security, performance, quality, technical standards) are covered
-    - Clarity: Each principle is specific and unambiguous
-    - Consistency: Principles don't contradict each other
-    - Relevance: All principles relate to the ContosoDashboard project
-
-1. Save the `constitution.md` file if it hasn't been saved automatically:
-
-    - Press **Ctrl+S** (Windows/Linux) or **Cmd+S** (macOS)
-
-1. Commit the constitution to your Git repository:
-
-    Open a new terminal in VS Code (Terminal > New Terminal) and run:
+    For example:
 
     ```powershell
     git add constitution.md
@@ -591,17 +483,15 @@ Ensure the constitution is complete and save it for use throughout the developme
     git push
     ```
 
-1. Verify the commit by checking your GitHub repository in the browser. The `constitution.md` file should now appear with your commit message.
+    You can verify the commit by checking your GitHub repository in the browser. The `constitution.md` file should now appear with your commit message.
 
-**Understanding the Constitution's Role**: The constitution you just created will guide all subsequent development decisions. When GitHub Copilot generates the spec, plan, and tasks in the following steps, it will reference these principles to ensure the implementation aligns with Contoso's requirements. For example:
+The constitution you just created will guide all subsequent development decisions. When GitHub Copilot generates the spec, plan, and tasks, it will reference these principles to ensure the implementation aligns with Contoso's requirements. For example:
 
-- When generating the technical plan, Copilot will ensure Azure services are specified (not AWS or GCP)
-- When creating tasks for file upload, Copilot will include validation and security scanning steps
-- When suggesting code implementations, Copilot will follow .NET conventions and include proper error handling
+- When generating the technical plan, Copilot will ensure Azure services are specified (not AWS or GCP).
+- When creating tasks for file upload, Copilot will include validation and security scanning steps.
+- When suggesting code implementations, Copilot will follow .NET conventions and include proper error handling.
 
 The constitution serves as a "contract" between business requirements and technical implementation, ensuring consistency throughout the spec-driven development process.
-
-You've successfully defined the project constitution. In the next task, you'll create a detailed specification for the document upload and management feature.
 
 ## Create the Spec for the document upload and management feature
 
@@ -611,11 +501,17 @@ In this task, you use GitHub Copilot's `/speckit.specify` command to generate a 
 
 Use the following steps to complete this task:
 
-1. Review the high-level requirements document:
+1. In Visual Studio Code's EXPLORER view, under the **.github/agents** folder, open the **speckit.specify.agent.md** file.
 
-    In Visual Studio Code, open the `StakeholderDocs/document-upload-and-management-feature.md` file from your ContosoDashboard project.
+1. Take a minute to review the **speckit.specify.agent.md** file.
 
-1. Take 1-2 minutes to read through the requirements document, paying particular attention to:
+    Notice the detailed instructions provided to GitHub Copilot. The agent follows a systematic approach to generate a spec file that clearly defines the requirements.
+
+1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocs** folder, and then open the **document-upload-and-management-feature.md** file:
+
+1. Take a couple minutes to read through the requirements document.
+
+    Pay particular attention to the following topics:
 
     - **Business Need**: Why Contoso needs this feature (centralized document storage, security)
     - **Target Users**: All Contoso employees with role-based permissions
@@ -624,13 +520,7 @@ Use the following steps to complete this task:
     - **Technical Constraints**: Azure infrastructure, 8-10 week timeline, security policies
     - **Out of Scope**: Features not included in this release
 
-1. In Visual Studio Code with the ContosoDashboard project open, open the Copilot Chat view (press **Ctrl+Alt+I**).
-
-1. Start a new chat session by clicking the **New Chat** button (the **+** icon at the top of the Chat panel).
-
-1. In the Chat input field, enter the `/speckit.specify` command and press **Enter**.
-
-1. When prompted to describe the feature you want to build, provide a comprehensive description based on the requirements document:
+    It's best to provide a comprehensive description of the feature. For example, if you didn't have the requirements document in the StakeholderDocs folder, you could provide the following description for the document upload and management feature:
 
     ```plaintext
     Feature: Document Upload and Management for ContosoDashboard
@@ -640,12 +530,12 @@ Use the following steps to complete this task:
     Target Users: All 5,000 Contoso employees with role-based access (Employee, Team Lead, Project Manager, Administrator).
     
     Core Capabilities:
-    1. Upload: Multiple files, max 25 MB each, supported types (PDF, Office docs, images, text), metadata (title, category, description, project, tags), progress indicator, virus scanning
-    2. Organization: My Documents view, Project Documents view, search by title/description/tags/uploader/project (results under 2 seconds)
-    3. Management: Download, in-browser preview (PDF/images), edit metadata, replace files, delete documents, sharing with notifications
-    4. Integration: Attach to tasks, dashboard Recent Documents widget, notifications for sharing/new project docs
-    5. Performance: Upload in 30s (25 MB files), list load in 2s (500 docs), search in 2s, preview in 3s
-    6. Audit: Log all uploads/downloads/deletions/sharing, admin reports
+    1. Upload: Multiple files, max 25 MB each, supported types (PDF, Office docs, images, text), metadata (title, category, description, project, tags), progress indicator, virus scanning.
+    2. Organization: My Documents view, Project Documents view, search by title/description/tags/uploader/project (results under 2 seconds).
+    3. Management: Download, in-browser preview (PDF/images), edit metadata, replace files, delete documents, sharing with notifications.
+    4. Integration: Attach to tasks, dashboard Recent Documents widget, notifications for sharing/new project docs.
+    5. Performance: Upload in 30s (25 MB files), list load in 2s (500 docs), search in 2s, preview in 3s.
+    6. Audit: Log all uploads/downloads/deletions/sharing, admin reports.
     
     Security: Azure Blob Storage encryption at rest, TLS 1.3 in transit, RBAC enforcement, virus scanning.
     
@@ -655,6 +545,19 @@ Use the following steps to complete this task:
     
     Out of Scope: Version history, storage quotas, soft delete/trash, collaborative editing, external integrations, mobile apps.
     ```
+
+1. Ensure that the Chat view is open, and then start a new chat session.
+
+    You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel).
+
+1. In the Chat view, to start a specify workflow, enter the following command:
+
+    ```plaintext
+    /speckit.specify --file StakeholderDocs/document-upload-and-management-feature.md
+    ```
+
+    If you don't specify a requirements document using the `--file` option, you'll be prompted to describe the feature that you want to build.
+
 
 1. Press **Enter** and wait 1-2 minutes for GitHub Copilot to generate the specification in the `spec.md` file.
 
