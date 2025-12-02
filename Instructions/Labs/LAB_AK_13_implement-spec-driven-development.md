@@ -464,7 +464,7 @@ Use the following steps to complete this task:
 
     If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
-1. Ensure that the constitution document is complete, and then save the `constitution.md` file.
+1. Ensure that the constitution document is complete, and then save the **constitution.md** file.
 
     For a real-world project, it's important to review the constitution against the following criteria before saving:
 
@@ -483,7 +483,7 @@ Use the following steps to complete this task:
     git push
     ```
 
-    You can verify the commit by checking your GitHub repository in the browser. The `constitution.md` file should now appear with your commit message.
+    You can verify the commit by checking your GitHub repository in the browser. The constitution.md file should now appear with your commit message.
 
 The constitution you just created will guide all subsequent development decisions. When GitHub Copilot generates the spec, plan, and tasks, it will reference these principles to ensure the implementation aligns with Contoso's requirements. For example:
 
@@ -520,7 +520,7 @@ Use the following steps to complete this task:
     - **Technical Constraints**: Azure infrastructure, 8-10 week timeline, security policies
     - **Out of Scope**: Features not included in this release
 
-    It's best to provide a comprehensive description of the feature. For example, if you didn't have the requirements document in the StakeholderDocs folder, you could provide the following description for the document upload and management feature:
+    It's best to prepare a comprehensive description of the feature ahead of time. However, if you didn't have a requirements document like the one in the StakeholderDocs folder, you can construct a shorter description that highlights the key points. For example, you can provide the following description for the document upload and management feature:
 
     ```plaintext
     Feature: Document Upload and Management for ContosoDashboard
@@ -550,7 +550,7 @@ Use the following steps to complete this task:
 
     You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel).
 
-1. In the Chat view, to start a specify workflow, enter the following command:
+1. In the Chat view, to start a specify workflow that generates a specification from the stakeholders document, enter the following command:
 
     ```plaintext
     /speckit.specify --file StakeholderDocs/document-upload-and-management-feature.md
@@ -558,20 +558,25 @@ Use the following steps to complete this task:
 
     If you don't specify a requirements document using the `--file` option, you'll be prompted to describe the feature that you want to build.
 
+1. Monitor GitHub Copilot's response and provide assistance as needed.
 
-1. Press **Enter** and wait 1-2 minutes for GitHub Copilot to generate the specification in the `spec.md` file.
+    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot might request permission to create a new repository branch for the specification. Grant permission by responding in the Chat view.
 
-1. Open the `spec.md` file from the EXPLORER view and verify it includes these sections:
+    It can take a few minutes for GitHub Copilot to generate the specification in the spec.md file.
 
-    - **Feature Summary**: High-level overview of the document upload and management feature
-    - **User Stories**: User-centric descriptions (e.g., "As an Employee, I want to upload documents...")
-    - **Functional Requirements**: Detailed capabilities organized by category
-    - **User Interface Requirements**: Description of the expected user experience
-    - **Security and Compliance**: Authentication, authorization, data protection requirements
-    - **Performance Requirements**: Specific benchmarks for load times and response times
-    - **Acceptance Criteria**: Testable conditions that must be met
+1. Once the specify workflow is complete, use Visual Studio Code's EXPLORER view to expand the **specs** and **checklists** folders.
 
-1. Check that key requirements from your input are captured:
+1. In the EXPLORER view, select **spec.md**, and then take a couple minutes to review the spec.md file.
+
+    Verify that the spec.md file includes the following sections:
+
+    - **User Scenarios & Testing**: User-focused descriptions of feature capabilities and how to test them.
+    - **Requirements**: Detailed requirements that must be met, organized by category.
+    - **Success Criteria**: Measurable outcomes, assumptions, and out-of-scope items.
+
+1. Verify that key requirements (from your feature description) are captured under the Requirements section.
+
+    For example:
 
     - File size limits (25 MB per file)
     - Supported file types (PDF, Office documents, images, text files)
@@ -579,21 +584,22 @@ Use the following steps to complete this task:
     - Security measures (virus scanning, encryption, RBAC)
     - Integration points (tasks, dashboard widgets, notifications)
 
-1. Verify acceptance criteria are specific and testable:
+1. Verify that acceptance scenarios (associated with user scenarios) are specific and testable:
 
-    - ✅ Good: "When an Employee uploads a PDF under 25 MB, the system accepts it and displays a success message"
-    - ✅ Good: "When a file exceeds 25 MB, the system rejects it with error message 'File size exceeds 25 MB limit'"
+    - ✅ Good: **Given** an employee attempts to upload a 30MB file, **When** validation occurs, **Then** they see an error message stating the 25MB limit
     - ❌ Avoid: Vague criteria like "Upload should work well" or "System should be fast"
 
-1. Save the `spec.md` file (press **Ctrl+S** or **Cmd+S**).
+1. In the EXPLORER view, select **requirements.md**, and then take a minute to review the requirements.md file.
 
-1. Commit the specification to your Git repository:
+    Verify that no issues are reported in the **requirements.md** file.
 
-    ```powershell
-    git add spec.md
-    git commit -m "Add specification for document upload and management feature"
-    git push
-    ```
+1. Save the **spec.md** and **requirements.md** files.
+
+1. Commit the specification files and publish the new branch to your Git repository.
+
+    For example:
+
+    Open Visual Studio Code's SOURCE CONTROL view, stage the changes, enter a commit message like "Add specification for document upload and management feature," and then publish the new branch to your Git repository.
 
 The specification defines the "what" without the "how." It doesn't specify programming languages, frameworks, database schemas, or code organization - those implementation details will be determined in the Plan and Tasks phases based on the constitution's technical constraints. The spec focuses on user needs and business requirements, making it easier to review with non-technical stakeholders.
 
@@ -605,71 +611,47 @@ In this task, you use the clarification process to refine the document upload an
 
 Use the following steps to complete this task:
 
-1. Ensure the Copilot Chat view is open (press **Ctrl+Alt+I** if needed).
+1. Ensure the Copilot Chat view is open.
 
-1. In the Chat input field, enter the `/speckit.clarify` command and press **Enter**.
-
-1. GitHub Copilot will analyze the `spec.md` file and generate clarification questions. You may receive questions such as:
-
-    - "Should drag-and-drop upload be supported in addition to the file selection dialog?"
-    - "What happens to documents when a user's employment ends?"
-    - "What specific virus scanning service should be used?"
-    - "Should document titles be unique within a user's library, or can duplicates exist?"
-    - "How should search results be ranked?"
-
-1. Answer each question thoughtfully. Here are example responses you can provide:
-
-    For drag-and-drop support:
+1. In the Chat view, to start the clarification process, enter the following command:
 
     ```plaintext
-    Yes, support drag-and-drop upload for better user experience. The same validation rules apply (file type, size limits, virus scanning).
+    /speckit.clarify
     ```
 
-    For user termination:
+1. Monitor GitHub Copilot's response.
 
-    ```plaintext
-    When an employee leaves, personal documents are deleted after 90 days. Project documents remain with the project. Team Leads are notified to review critical documents.
-    ```
+    GitHub Copilot will analyze the `spec.md` file and generate clarification questions.
 
-    For virus scanning:
+    For example, you may receive questions that are similar to the following:
 
-    ```plaintext
-    Use Microsoft Defender for Cloud since we're using Azure. Files must pass scanning before storage. Quarantine failed files and notify the uploader.
-    ```
+    - "When storing documents in Azure Blob Storage, how should files be organized?"
+    - "When a user uploads multiple files simultaneously, how should the system handle concurrent uploads?"
+    - "When a user replaces a document file with an updated version (FR-026), what happens to the original file?"
+    - "FR-048 states "Team Leads can view team documents" - what defines a team member's documents that a Team Lead can access?"
+    - "For the upload progress indicator (FR-004), what level of detail should be shown to users?"
 
-    For duplicate titles:
+    The questions will be presented one at a time.
 
-    ```plaintext
-    Allow duplicate titles. Use unique document IDs internally, and display upload date/category to distinguish duplicates in the UI.
-    ```
+1. Take the appropriate time to consider each question before answering.
 
-    For search ranking:
+    In a production environment, your answers should reflect careful analysis of business needs, user experience considerations, and technical constraints.
 
-    ```plaintext
-    Rank by relevance (title matches first, then tags, then description), with recent uploads as tiebreaker. Allow users to re-sort by date or file size.
-    ```
+    For this training, you can selected the recommended option for each question.
 
-1. After you provide each answer, GitHub Copilot updates the `spec.md` file with clarifications.
+    After you provide each answer, GitHub Copilot updates the `spec.md` file with clarifications.
 
-1. If Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed.
+    > **NOTE**: If Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed. The clarification process typically involves 1-2 rounds of questions as Copilot refines the specification.
 
-    The clarification process typically involves 1-2 rounds of questions as Copilot refines the specification.
-
-1. Once the clarification process is complete, review the updated `spec.md` file:
+1. Once the clarification process is complete, review the updated `spec.md` file, and then accept the changes.
 
     - Check that your answers are accurately reflected in the specification
     - Verify that previously ambiguous areas now have clear requirements
     - Look for any newly added acceptance criteria based on your clarifications
 
-1. Make any manual edits if needed. For example, if Copilot interpreted an answer differently than you intended, edit the spec directly to correct it.
+    You can make any manual edits if needed. For example, if GitHub Copilot interpreted an answer differently than you intended, edit the spec directly to correct it.
 
-1. Save the updated `spec.md` file and commit your changes:
-
-    ```powershell
-    git add spec.md
-    git commit -m "Clarify specification with detailed requirements for edge cases and workflows"
-    git push
-    ```
+1. Save the updated `spec.md` file and commit your changes.
 
 The clarified specification now provides comprehensive guidance for implementation. By addressing ambiguities upfront, you reduce the risk of building the wrong solution or having to make significant changes later in the development process.
 
