@@ -621,7 +621,7 @@ Use the following steps to complete this task:
 
 1. Monitor GitHub Copilot's response.
 
-    GitHub Copilot will analyze the `spec.md` file and generate clarification questions.
+    GitHub Copilot will analyze the spec.md file and generate clarification questions.
 
     For example, you may receive questions that are similar to the following:
 
@@ -633,17 +633,15 @@ Use the following steps to complete this task:
 
     The questions will be presented one at a time.
 
-1. Take the appropriate time to consider each question before answering.
+1. Consider each question appropriately before answering.
 
-    In a production environment, your answers should reflect careful analysis of business needs, user experience considerations, and technical constraints.
+    In a production environment, your answers should reflect careful analysis of business needs, user experience considerations, and technical constraints. However, for this training, you can selected the recommended option for each question.
 
-    For this training, you can selected the recommended option for each question.
-
-    After you provide each answer, GitHub Copilot updates the `spec.md` file with clarifications.
+    When you provide an answer, GitHub Copilot updates the spec.md file with clarifications.
 
     > **NOTE**: If Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed. The clarification process typically involves 1-2 rounds of questions as Copilot refines the specification.
 
-1. Once the clarification process is complete, review the updated `spec.md` file, and then accept the changes.
+1. Once the clarification process is complete, review the updated **spec.md** file, and then accept the changes.
 
     - Check that your answers are accurately reflected in the specification
     - Verify that previously ambiguous areas now have clear requirements
@@ -651,7 +649,7 @@ Use the following steps to complete this task:
 
     You can make any manual edits if needed. For example, if GitHub Copilot interpreted an answer differently than you intended, edit the spec directly to correct it.
 
-1. Save the updated `spec.md` file and commit your changes.
+1. Save the updated **spec.md** file and commit your changes.
 
 The clarified specification now provides comprehensive guidance for implementation. By addressing ambiguities upfront, you reduce the risk of building the wrong solution or having to make significant changes later in the development process.
 
@@ -663,110 +661,49 @@ In this task, you use GitHub Copilot's `/speckit.plan` command to generate a com
 
 Use the following steps to complete this task:
 
-1. Ensure the Copilot Chat view is open (press **Ctrl+Alt+I** if needed).
+1. Ensure the Copilot Chat view is open..
 
-1. In the Chat input field, enter the `/speckit.plan` command and press **Enter**.
+1. In the Chat view, to start the technical planning process, enter the following command:
 
-1. GitHub Copilot will analyze the `constitution.md` and `spec.md` files to generate the plan. It may prompt you for additional technical context. Provide the following information:
-
-    ```plaintext
-    Technology Stack Context:
-    
-    Backend: ASP.NET Core 8.0 Web API with C#, Entity Framework Core 8
-    Database: Azure SQL Database
-    Storage: Azure Blob Storage for document files
-    Authentication: Microsoft Entra ID with JWT tokens
-    Hosting: Azure App Service
-    
-    Architecture:
-    - Repository pattern for data access
-    - Service layer for business logic
-    - Dependency Injection
-    - DTOs for API contracts
-    
-    Development:
-    - Async/await for all I/O operations
-    - Unit tests with xUnit
-    - XML documentation for public APIs
-    - Application Insights for logging
+    ```dotnetcli
+    /speckit.plan
     ```
 
-1. Wait 2-3 minutes for GitHub Copilot to generate the technical plan in the `plan.md` file.
+1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
-1. Open the `plan.md` file from the EXPLORER view and verify it includes these sections:
+    GitHub Copilot will analyze the constitution.md and spec.md files to generate the plan. Provide permission and assistance when required.
 
-    - **Architecture Overview**: High-level system design and component interactions
-    - **Technology Stack**: Specific versions and frameworks to be used
-    - **Data Model**: Database schema, entities, and relationships
-    - **API Design**: RESTful endpoints, request/response formats
-    - **Azure Resources**: Required cloud services and configurations
-    - **Security Implementation**: Authentication, authorization, encryption details
-    - **File Processing Workflow**: Upload pipeline, virus scanning, storage
-    - **Frontend Components**: UI pages, components, and user flows
-    - **Integration Points**: How the feature connects with existing dashboard features
-    - **Testing Strategy**: Unit tests, integration tests, and performance tests
-    - **Deployment Approach**: CI/CD pipeline steps and environment configuration
+    It can take several minutes for GitHub Copilot to generate the technical plan in the plan.md file.
 
-1. Review the data model section. It should include entities such as:
+1. Once the plan workflow is complete, take a few minutes to review the following files:
 
-    - **Document**: DocumentId, Title, Description, FileName, FileSize, FileType, BlobStorageUrl, Category, UploadedBy, UploadDate, LastModifiedDate
-    - **DocumentTag**: TagId, DocumentId, TagName
-    - **DocumentShare**: ShareId, DocumentId, SharedBy, SharedWith, SharedDate
-    - **DocumentAuditLog**: LogId, DocumentId, Action (Upload/Download/Delete/Share), UserId, Timestamp
+    - **plan.md**
+    - **research.md**
+    - **quickstart.md**
+    - **data-model.md**
+    - **contracts/IBlobStorageService.md**
+    - **contracts/IDocumentService.md**
 
-1. Review the API design section. It should include endpoints such as:
+    Verify that the plan addresses all constitutional constraints.
 
-    ```plaintext
-    POST   /api/documents                  - Upload new document
-    GET    /api/documents                  - Get user's documents (with filtering/sorting)
-    GET    /api/documents/{id}             - Get document details
-    PUT    /api/documents/{id}             - Update document metadata or replace file
-    DELETE /api/documents/{id}             - Delete document
-    GET    /api/documents/{id}/download    - Download document
-    GET    /api/documents/{id}/preview     - Get preview URL
-    POST   /api/documents/{id}/share       - Share document with users
-    GET    /api/documents/project/{id}     - Get project documents
-    GET    /api/documents/search           - Search documents
-    ```
+    Verify the plan includes implementation phases or milestones.
 
-1. Check that the plan addresses all constitutional constraints:
+1. After reviewing the files, accept the updates.
 
-    - Uses Azure services (Blob Storage, SQL Database, Functions)
-    - Implements Entra ID authentication
-    - Includes encryption at rest and in transit
-    - Follows ASP.NET Core coding conventions
-    - Includes logging and audit trails
-    - Specifies Entity Framework Core with repository pattern
+    If the plan omits important details or makes assumptions you disagree with, you can:
 
-1. Verify the plan includes implementation phases or milestones. For example:
-
-    - **Phase 1**: Database schema and models (Week 1)
-    - **Phase 2**: Azure Blob Storage integration and file upload API (Week 2-3)
-    - **Phase 3**: Document listing, search, and filtering (Week 4)
-    - **Phase 4**: Version management and sharing features (Week 5-6)
-    - **Phase 5**: Dashboard integration and notifications (Week 7)
-    - **Phase 6**: Testing, security review, and deployment (Week 8-10)
-
-1. If the plan omits important details or makes assumptions you disagree with, you can:
-
-    - Edit the `plan.md` file directly, or
+    - Edit the plan.md file directly, or
     - Ask follow-up questions in Copilot Chat. For example:
 
     ```plaintext
     The plan should include a background job for processing virus scans. Add details about using Azure Functions with Queue Storage triggers to handle async file scanning after upload.
     ```
 
-1. Save the `plan.md` file and commit your changes:
-
-    ```powershell
-    git add plan.md
-    git commit -m "Add technical implementation plan for document management feature"
-    git push
-    ```
+1. Save the files, and then commit and sync your changes.
 
 The technical plan now serves as a blueprint for implementation. It translates business requirements into concrete technical decisions while respecting organizational constraints. This plan will guide the creation of actionable tasks in the next step.
 
-## Create the Task List
+## Create the task list
 
 The task list breaks down the technical plan into specific, actionable implementation steps. Each task should be small enough to complete in a reasonable timeframe (typically a few hours to a day) and have clear acceptance criteria.
 
@@ -774,59 +711,32 @@ In this task, you use GitHub Copilot's `/speckit.tasks` command to generate a co
 
 Use the following steps to complete this task:
 
-1. Ensure the Copilot Chat view is open (press **Ctrl+Alt+I** if needed).
+1. Ensure the Copilot Chat view is open.
 
-1. In the Chat input field, enter the `/speckit.tasks` command and press **Enter**.
+1. In the Chat view, to start generating the task list, enter the following command:
 
-1. GitHub Copilot will analyze the `plan.md` file and generate tasks in the `tasks.md` file. Wait 1-2 minutes for the generation to complete.
+    ```dotnetcli
+    /speckit.tasks
+    ```
 
-1. Open the `tasks.md` file from the EXPLORER view.
+1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
-1. Review the generated task list. It should include tasks such as:
+    GitHub Copilot will analyze the plan.md file and generate tasks in the tasks.md file.
 
-    **Data Model (5 tasks):**
-    - [ ] Task 1: Create Document entity with EF Core model
-    - [ ] Task 2: Create DocumentTag, DocumentShare, and DocumentAuditLog entities
-    - [ ] Task 3: Generate and apply EF Core migrations
-    - [ ] Task 4: Create repository interfaces
-    - [ ] Task 5: Implement repository classes
+    It can take several minutes for GitHub Copilot to generate the task list. Provide permission and assistance when required.
 
-    **Backend API (8 tasks):**
-    - [ ] Task 6: Create DocumentService with upload logic
-    - [ ] Task 7: Implement POST /api/documents endpoint for upload
-    - [ ] Task 8: Implement GET /api/documents endpoint with filtering/sorting
-    - [ ] Task 9: Implement GET /api/documents/{id}/download endpoint
-    - [ ] Task 10: Implement document preview generation
-    - [ ] Task 11: Implement document search endpoint
-    - [ ] Task 12: Implement sharing endpoints
-    - [ ] Task 13: Implement audit logging
+1. Once the plan workflow is complete, take a few minutes to review the **tasks.md** file.
 
-    **Frontend UI (5 tasks):**
-    - [ ] Task 14: Create DocumentUpload component with drag-drop
-    - [ ] Task 15: Create DocumentList component with table view
-    - [ ] Task 16: Create document preview viewer
-    - [ ] Task 17: Create sharing dialog
-    - [ ] Task 18: Create "Recent Documents" dashboard widget
+    Review the generated task list. It should provide a list of tasks organized by phase and user story.
 
-    **Testing (4 tasks):**
-    - [ ] Task 19: Write unit tests for DocumentService
-    - [ ] Task 20: Write integration tests for upload API
-    - [ ] Task 21: Write UI tests for upload workflow
-    - [ ] Task 22: Perform security testing
-
-    **Deployment (3 tasks):**
-    - [ ] Task 23: Configure CI/CD pipeline
-    - [ ] Task 24: Set up Application Insights monitoring
-    - [ ] Task 25: Perform final code review
-
-1. Verify that the task list covers all requirements from the specification:
+    Verify that the task list covers the requirements from the specification. For example:
 
     - Each functional requirement should map to one or more tasks
     - Security requirements should have corresponding implementation tasks
     - Performance requirements should have testing tasks
     - Integration points should have dedicated tasks
 
-1. Check that tasks are ordered logically:
+    Verify that tasks are ordered logically:
 
     - Foundation tasks (database, models) come first
     - Backend API tasks build on the foundation
@@ -839,12 +749,12 @@ Use the following steps to complete this task:
     - ✅ Good: "Create Document entity with properties: DocumentId, Title, Description, FileName, FileSize, BlobStorageUrl"
     - ❌ Vague: "Set up database stuff"
 
-1. Verify that tasks have reasonable scope:
+    Verify that tasks have reasonable scope:
 
     - Individual tasks should be completable in a few hours to a day
     - If a task seems too large, note that it may need to be broken down during implementation
 
-1. Add task dependencies or notes if needed. For example:
+    You can add task dependencies or notes if needed. For example:
 
     ```markdown
     - [ ] Task 12: Implement DocumentController POST /api/documents endpoint
@@ -852,13 +762,7 @@ Use the following steps to complete this task:
       - Note: Include comprehensive error handling for file size limits and unsupported types
     ```
 
-1. Save the `tasks.md` file and commit your changes:
-
-    ```powershell
-    git add tasks.md
-    git commit -m "Add comprehensive task list for document management implementation"
-    git push
-    ```
+1. Save the `tasks.md` file, and then commit and sync your changes.
 
 The task list now provides a clear roadmap for implementation. In the next task, you'll use GitHub Copilot to help implement these tasks systematically.
 
@@ -870,14 +774,14 @@ In this task, you'll implement a subset of the feature to demonstrate the spec-d
 
 Use the following steps to complete this task:
 
-1. Review the task list in `tasks.md` and identify foundational tasks to implement:
+1. Review the task list in tasks.md and identify foundational tasks to implement:
 
     - Task 1: Create Document entity
     - Task 6: Implement upload service
     - Task 7: Create upload API endpoint
     - Task 14: Create upload UI component
 
-1. **Create the Document entity model:**
+1. Create the Document entity model
 
     In Visual Studio Code, create a new file in the existing `ContosoDashboard/Models/` folder: `ContosoDashboard/Models/Document.cs`
 
@@ -896,7 +800,7 @@ Use the following steps to complete this task:
 
     Position your cursor after the comment and press **Enter**. GitHub Copilot should generate the entity class. Review and accept the suggestion, or refine it as needed.
 
-1. **Implement the document upload service:**
+1. Implement the document upload service
 
     Create a new file in the existing `ContosoDashboard/Services/` folder: `ContosoDashboard/Services/DocumentService.cs`
 
