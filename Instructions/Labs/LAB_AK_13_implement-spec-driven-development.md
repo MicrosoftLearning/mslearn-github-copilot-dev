@@ -1,8 +1,8 @@
-<!-- ---
+---
 lab:
     title: 'Exercise - Implement a product feature using GitHub Spec Kit'
     description: 'Learn how to implement a spec-driven development process using GitHub Spec Kit and GitHub Copilot in Visual Studio Code.'
---- -->
+---
 
 # Implement a product feature using GitHub Spec Kit
 
@@ -10,7 +10,7 @@ GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (
 
 In this exercise, you learn how to use the GitHub Spec Kit to implement a new feature for an existing application. You begin by initializing the GitHub Spec Kit for GitHub Copilot and an existing .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for the new feature. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial version of the new feature.
 
-This exercise should take approximately **60** minutes to complete.
+This exercise should take approximately **60-75** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
