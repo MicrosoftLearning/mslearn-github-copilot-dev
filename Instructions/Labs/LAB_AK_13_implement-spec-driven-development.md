@@ -8,9 +8,9 @@ lab:
 
 GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (SSD) by integrating specifications with AI coding assistants like GitHub Copilot.
 
-In this exercise, you learn how to use the GitHub Spec Kit to implement a new feature for an existing application. You begin by initializing the GitHub Spec Kit for GitHub Copilot and an existing .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for the new feature. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial version of the new feature.
+In this exercise, you learn how to use the GitHub Spec Kit to implement a new feature for an existing application. You begin by initializing the GitHub Spec Kit for an existing .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for a new app feature. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial MVP version of the app that includes the new feature.
 
-This exercise should take approximately **60-75** minutes to complete.
+This exercise should take approximately **75** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
@@ -72,9 +72,9 @@ If you're using a hosted lab environment for this exercise:
 
 You're a software developer working for a consulting firm. The firm is adopting a spec-driven development (SDD) approach using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your client, Contoso Corporation, has tasked you with adding a new "document upload and management" feature to their internal employee dashboard application (ContosoDashboard).
 
-Contoso's business stakeholders have provided a document that describes the requirements for the new feature. Essentially, employees need the ability to upload work-related documents, organize them by category and project, and share them with team members. The feature must integrate seamlessly with the existing dashboard while maintaining security and compliance standards.
+Contoso's business stakeholders have provided a document that describes the requirements for the new feature. Essentially, employees need the ability to upload work-related documents, organize them by category and project, and share them with team members. The new feature must integrate seamlessly with the existing dashboard interface while maintaining security and compliance standards.
 
-You need to use a spec-driven development methodology to implement the new feature. The GitHub Spec Kit enables you to create structured specifications, plans, and tasks that guide the development process. The SDD approach with GitHub Spec Kit ensures that the implementation aligns with business requirements and organizational constraints.
+You need to follow a spec-driven development methodology with GitHub Spec Kit to implement the new feature. The GitHub Spec Kit enables you to create the constitution.md, spec.md, plan.md, and tasks.md files that guide the development process. The SDD approach with GitHub Spec Kit ensures that the implementation aligns with business requirements and organizational constraints.
 
 This exercise includes the following tasks:
 
@@ -470,7 +470,7 @@ Use the following steps to complete this task:
 
     GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
 
-    > **NOTE**: It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document. If the workflow updates the templates for other Spec Kit files (spec.md, plan.md, tasks.md), you can ignore those changes for now. You'll generate those files in later tasks.
+    It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document. If the workflow updates the templates for other Spec Kit files (spec.md, plan.md, tasks.md), you can ignore those changes for now. You'll generate those files in later tasks.
 
 1. Review the updated constitution.md file in the editor.
 
@@ -514,7 +514,7 @@ The constitution serves as a "contract" between business requirements and techni
 
 ## Create the feature specification using stakeholder requirements and the constitution
 
-The specification (spec) defines what you're building from the user's perspective. It describes features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating implementation plans and tasks.
+The specification (spec.md) defines what you're building from the user's perspective. It describes features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating the implementation plan and tasks.
 
 In this task, you use GitHub Copilot's `/speckit.specify` command to generate a detailed specification for the "document upload and management feature" based on the requirements provided by Contoso's business stakeholders.
 
@@ -574,7 +574,7 @@ Use the following steps to complete this task:
 
 1. Monitor GitHub Copilot's response and provide assistance as needed.
 
-    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a new repository branch for the specification. Grant permission when required by responding in the Chat view.
+    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a repository branch for the new feature. Grant permission when required by responding in the Chat view.
 
     It can take 4-6 minutes to create and validate the spec.md file.
 
@@ -662,7 +662,7 @@ Use the following steps to complete this task:
 
     When you provide an answer, GitHub Copilot updates the spec.md file with clarifications.
 
-    > **NOTE**: If Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed. The clarification process typically involves 1-2 rounds of questions as Copilot refines the specification.
+    > **NOTE**: If GitHub Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed. The clarification process typically involves 1-2 rounds of questions as GitHub Copilot refines the specification.
 
     Once the clarification process is complete, review the updated **spec.md** file, and then accept the changes.
 
@@ -713,7 +713,7 @@ Use the following steps to complete this task:
     - **quickstart.md**
     - **data-model.md**
 
-    You might also see files under the **contracts** folder.
+    You might also see one or more files listed under a **contracts** folder.
 
 1. Take a few minutes to review the **research.md**, **plan.md**, **quickstart.md**, and **data-model.md** files.
 
@@ -786,7 +786,7 @@ Use the following steps to complete this task:
     - Testing tasks come after implementation.
     - Deployment tasks come last.
 
-1. Ensure each task is specific and actionable:
+1. Ensure that each task is specific and actionable:
 
     - ✅ Good: "Create Document entity with properties: DocumentId, Title, Description, FileName, FileSize, BlobStorageUrl"
     - ❌ Vague: "Set up database stuff"
@@ -804,9 +804,11 @@ Use the following steps to complete this task:
       - Note: Include comprehensive error handling for file size limits and unsupported types
     ```
 
-1. Save the `tasks.md` file, and then commit and sync your changes.
+1. Accept the suggested file updates, and then save the **tasks.md** file.
 
-The tasks list now provides a clear roadmap for implementation. In the next task, you'll use GitHub Copilot to help implement these tasks systematically.
+1. Commit the changes and then sync the updates.
+
+The tasks.md file now provides a clear roadmap for implementation.
 
 ## Implement the tasks required for an MVP application
 
@@ -833,6 +835,8 @@ Use the following steps to complete this task:
 
     Create a command that specifies the range of tasks required to implement the MVP version of the feature. Use the task range specified in the Implementation Strategy section of the tasks.md file.
 
+    > **IMPORTANT**:The command that you enter must reference the specific task range defined in your tasks.md file.
+
     For example (referencing the MVP implementation example from the previous step), you might enter the following command:
 
     ```dotnetcli
@@ -841,13 +845,11 @@ Use the following steps to complete this task:
 
     This command instructs GitHub Copilot to begin implementing the tasks required for the MVP version of the document upload and management feature.
 
-    > **IMPORTANT**:The command that you enter must reference the specific task range defined in your tasks.md file.
-
 1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
     The agent will build the feature incrementally, task by task, following the order defined in the tasks.md file.
 
-    > **IMPORTANT**: GitHub Copilot is diligent about checking its work. The agent might ask for permission to run certain tasks. Requests for assistance might occur frequently. The time required to complete the implementation can be affected by how quickly you respond to its requests for assistance.
+    > **NOTE**: GitHub Copilot is diligent about checking its work during the implementation, which is great. GitHub Copilot also keeps you involved during the implementation process. Requests for assistance occur frequently. The time required to complete the implementation can be affected by how quickly you respond to its requests for assistance.
 
 1. If manual testing is required to verify a task, perform the steps described in the Chat view, and then report the results back to GitHub Copilot.
 
@@ -869,29 +871,31 @@ Use the following steps to complete this task:
         I opened the application in the browser at http://localhost:5000. I was able to login as Ni Kang and navigate to the My Documents page. However, I encountered an issue where the application appears unresponsive with a "Loading documents..." message displayed in the UI. When I select the Upload Document button, nothing happens. I also tried logging out, but the application remains unresponsive and none of the buttons work. Can you help me troubleshoot this issue?
         ```
 
-    When you report an issue, GitHub Copilot uses the information you provided to begin debugging. A detailed description, including what is working, helps GitHub Copilot understand the problem better. GitHub Copilot may need additional details, such as error messages to resolve some issues. Provide any additional information requested by GitHub Copilot to help diagnose the problem.
+    When you report an issue, GitHub Copilot uses the information you provided to begin debugging. A detailed description, including what is working, helps GitHub Copilot understand the problem better. GitHub Copilot may need additional details, such as specific error messages to resolve some issues. Provide any additional information requested by GitHub Copilot to help diagnose (and resolve) the problem.
 
-    Provide assistance as required until the issue is resolved.
+    Continue to provide assistance until the issue is resolved. Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
 
-    Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
+1. Continue with the implement workflow until all tasks required for the MVP application are complete.
 
-1. Continue the implement workflow until all tasks required for the MVP application are complete.
+    GitHub Copilot should notify in the Chat view when the MVP implementation is complete.
 
 1. Review and accept all changes made to the project files.
 
-    For this lab exercise, it's okay to accept all changes made by GitHub Copilot without detailed review. However, in a production environment, it's important to review all code changes carefully to ensure they meet quality standards and align with project requirements.
+    For this lab exercise, it's okay to accept all changes made by GitHub Copilot without a detailed review. However, in a production environment, it's important to review all code changes carefully to ensure they meet quality standards and align with project requirements.
 
-1. Verify that users can upload and view their documents.
+1. Take a few minutes to verify the acceptance scenarios for the MVP application.
 
-    Use Visual Studio Code to run the application, and then manually test the document upload functionality to ensure it works as expected.
+    You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section. The MVP application is usually associated with the first user story (US1) in the spec.md file.
 
-    > **NOTE**: You can ask GitHub Copilot for the steps required to perform manual testing of your MVP implementation. For example, you might enter the following prompt in the Chat view:
+    You can also ask GitHub Copilot for the steps required to perform manual testing of your MVP implementation. For example, you could enter the following prompt in the Chat view:
 
     ```plaintext
-    Can you provide the steps required to manually test the document upload functionality for the MVP implementation?
+    Can you provide the steps required to manually test the MVP implementation?
     ```
 
-    Use the following steps to manually test the document upload functionality:
+    Use Visual Studio Code to run the application, and then manually test the document upload and management functionality to ensure that it works as expected.
+
+    For example, you can use the following steps to manually test document upload functionality:
 
     1. Navigate to http://localhost:5000
     1. Log in as Ni Kang (Employee).
@@ -902,7 +906,7 @@ Use the following steps to complete this task:
     1. Verify that an upload progress indicator appears.
     1. Verify that the document appears in your uploaded documents list.
 
-    > **NOTE**: Report the results of each test back to GitHub Copilot in the Chat view.
+1. Report back to GitHub Copilot with the results of your manual testing.
 
     For example:
 
@@ -914,11 +918,9 @@ Use the following steps to complete this task:
 
         For example: "I opened the application in the browser at http://localhost:5000. I was able to login as Ni Kang and navigate to the My Documents page. I can select a document and fill in the Title and Category fields, but there is an error when I try to upload the document. I see a progress indicator displayed on the Upload Document page, however, the My Documents page doesn't recognize that I uploaded a document. Can you help resolve the issue?
 
-    Try to upload file >25MB and verify error message "File size exceeds 25 MB limit."
+    GitHub Copilot can help you diagnose and fix issues, implement improvements to the user interface, or suggest next steps.
 
-    Try to upload an executable (.exe) file and verify error message "File type '.exe' is not allowed."
-
-    > **TIP**: GitHub Copilot can help you diagnose and fix issues, implement improvements to the user interface, or suggest next steps.
+1. Continue manual testing and reporting results until all acceptance scenarios for the MVP application pass successfully.
 
 1. After successfully testing your MVP application, commit and sync your implementation files.
 
