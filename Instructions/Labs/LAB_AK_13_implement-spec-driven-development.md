@@ -16,7 +16,7 @@ This exercise should take approximately **75** minutes to complete.
 
 ## Before you start
 
-Your lab environment must include the following resources: Python 3.11 or later, Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment must include the following resources: Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQL Server 2019 LocalDB, Python 3.11 or later, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
 
 If you're using a local PC as a lab environment for this exercise:
 
@@ -39,6 +39,53 @@ If you're using a hosted lab environment for this exercise:
     Expected output: `git version 2.48.0` or higher
 
     If needed, install Git from [git-scm.com](https://git-scm.com/downloads) or your corporate application catalog.
+
+1. Ensure that SQL Server 2019 LocalDB is installed:
+
+    Run the following command in a terminal window to check for LocalDB installation:
+
+    ```powershell
+    sqllocaldb info
+    ```
+
+    Expected output: List of LocalDB instances or an empty list if none exist. For example:
+
+    ```output
+    MSSQLLocalDB
+    ```
+
+    If the command fails or LocalDB is not installed, use the following steps to install SQL Server 2019 LocalDB:
+
+    1. To download the SQL Server 2019 Express edition installer file, open the following link in a browser: https://go.microsoft.com/fwlink/?LinkID=866658
+
+    1. After the download is complete, open the SQL Server 2019 installer file (for example, `SQL2019-SSEI-Expr.exe`).
+
+    1. On the SQL Server 2019 installation wizard, select **Download Media**.
+
+    1. Under **Specify SQL Server installer download**, select the **LocalDB** package, and then select the **Download** button.
+
+    1. When you see the **Download successful** message, select the **Open folder** button.
+
+    1. After the download is complete, run the LocalDB installer file (for example, `SqlLocalDB.msi`), and then follow the prompts to complete the installation.
+
+    1. To verify the installation, open PowerShell or Command Prompt, and then run the following command:
+
+        ```powershell
+        sqllocaldb info
+        ```
+
+        You should see a list of LocalDB instances (or an empty list if none exist yet). For example:
+
+        ```output
+        MSSQLLocalDB
+        ```
+
+        If you need to create the default instance of MSSQLLocalDB, run the following commands:
+
+        ```powershell
+        sqllocaldb create MSSQLLocalDB
+        sqllocaldb start MSSQLLocalDB
+        ```
 
 ### Configure your environment
 
@@ -100,7 +147,7 @@ Use the following steps to complete this task:
 
     You can use a Command Prompt, PowerShell, or Terminal window.
 
-1. Ensure that Python 3.11 or later is installed:
+1. Ensure that Python 3.11 or later is installed.
 
     GitHub Spec Kit's CLI tool is Python-based and requires Python 3.11+.
 
@@ -112,27 +159,34 @@ Use the following steps to complete this task:
 
     Required output: **Python 3.11.0** or later.
 
-    If you need to install Python, download from [python.org](https://www.python.org/downloads/) or use your organization's software distribution system.
+    If you need to install Python, you can download the installer from the following URL: [python.org](https://www.python.org/downloads/).
 
-1. Ensure that the uv package manager is installed:
+    If you're in a corporate environment, you can also use your organization's software distribution system.
+
+1. To install uv using Windows PowerShell, run the following command:
+
+    ```powershell
+    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+    ```
 
     GitHub Spec Kit uses uv for CLI installation and management.
 
-    - You can install uv by following the instructions at [docs.astral.sh/uv](https://docs.astral.sh/uv/)
+    You can find more installation instructions at the following URL: [docs.astral.sh/uv](https://docs.astral.sh/uv/)
 
-    - For Windows PowerShell:
-
-        ```powershell
-        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-        ```
-
-1. To ensure that uv is in your environment PATH, restart your terminal window, and then run the following command:
+1. To ensure that uv is in your environment PATH, restart your terminal window, and then run the following commands:
 
     ```powershell
+    cd C:\
     uv --version
     ```
 
-1. To install GitHub Spec Kit's Specify CLI tool, run the following command:
+    You should see output similar to the following sample:
+
+    ```output
+    uv 0.9.16 (a63e5b62e 2025-12-06)
+    ```
+
+1. To install GitHub Spec Kit's Specify CLI tool, run the following PowerShell command:
 
     ```powershell
     uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
@@ -152,9 +206,9 @@ Use the following steps to complete this task:
 
     ```output
          CLI Version    0.0.22
-    Template Version    0.0.89
-            Released    2025-11-15
-              Python    3.13.9
+    Template Version    0.0.90
+            Released    2025-121-04
+              Python    3.14.0
             Platform    Windows
         Architecture    AMD64
           OS Version    10.0.26200
@@ -191,6 +245,8 @@ In this task, you import the existing ContosoDashboard application repository to
 Use the following steps to complete this task:
 
 1. Open a browser window and navigate to GitHub.com.
+
+    You can log in to your GitHub account using the following URL: <a href="https://github.com/login" target="_blank">GitHub login</a>.
 
 1. Sign in to your GitHub account, and then open your repositories tab.
 
@@ -250,11 +306,15 @@ Use the following steps to complete this task:
     git clone https://github.com/YOUR-USERNAME/ContosoDashboard.git
     ```
 
+    You might be prompted to authenticate using your GitHub credentials during the clone operation. You can authenticate using your browser.
+
 1. To navigate into your ContosoDashboard directory, enter the following command:
 
     ```powershell
     cd ContosoDashboard
     ```
+
+    > **IMPORTANT**: GitHub Spec Kit must be initialized in the root directory of your cloned repository.
 
 1. To initialize GitHub Spec Kit within your existing project, enter the following command:
 
@@ -264,11 +324,11 @@ Use the following steps to complete this task:
 
     The command uses the following components:
 
-    - `--here` - Initializes GitHub Spec Kit in the current directory (existing project).
+    - `--here` - Initializes GitHub Spec Kit in the current directory (your existing ContosoDashboard project).
     - `--ai copilot` - Configures the project for GitHub Copilot.
     - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux).
 
-    > **Note**: If you're using macOS or Linux, replace `--script ps` with `--script sh`.
+    If you're using macOS or Linux, replace `--script ps` with `--script sh`.
 
     The CLI detects an existing Git repository ("Current directory isn't empty") and ask for confirmation to proceed.
 
@@ -294,7 +354,7 @@ Use the following steps to complete this task:
 
 1. Open the ContosoDashboard project in Visual Studio Code.
 
-    For example, enter the following command in the terminal window:
+    For example, if the terminal window is still open, you can use the following command to open the project:
 
     ```powershell
     code .
@@ -334,20 +394,6 @@ Use the following steps to complete this task:
 
     Using one of the newer language models might improve the quality of responses. This lab exercise was tested using the GPT-5 and Claude Sonnet 4.5 models. Results were comparable between the two models.
 
-1. Ask GitHub Copilot to explain the current project and GitHub Spec Kit files.
-
-    For example, enter the following prompt in the Chat view:
-
-    ```plaintext
-    Review the current codebase. Explain the ContosoDashboard application features and the purpose of the GitHub Spec Kit files located under the .github\ and .specify\ directories.
-    ```
-
-1. Take a couple minutes to review GitHub Copilot's response.
-
-    GitHub Copilot's response should summarize the application features and explain the purpose of the GitHub Spec Kit files.
-
-    You can also review the project's README.md file for a description of the current application features, mock authentication system, and security implementation.
-
 1. In the Chat view, to verify that GitHub Spec Kit commands are available, type **/speckit**
 
     You should see autocomplete suggestions that show the available commands:
@@ -370,6 +416,30 @@ Use the following steps to complete this task:
     - **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
     - **Git clone errors**: Verify that you're signed in to GitHub, and that you have access to your imported repository.
     - **GitHub Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
+
+1. Ask GitHub Copilot to explain the current project and GitHub Spec Kit files.
+
+    For example, enter the following prompt in the Chat view:
+
+    ```plaintext
+    Review the current codebase. Explain the ContosoDashboard application features and the purpose of the GitHub Spec Kit files located under the .github\ and .specify\ directories.
+    ```
+
+1. Take a couple minutes to review GitHub Copilot's response.
+
+    GitHub Copilot's response should summarize the application features and explain the purpose of the GitHub Spec Kit files.
+
+    You can also review the project's README.md file for a description of the current application features, mock authentication system, and security implementation.
+
+    > **NOTE**: The ContosoDashboard application is build using .NET 8. If your development environment uses .NET version 9 or .NET version 10, the project file must be updated accordingly.
+
+1. To ensure that the project is configured to use the .NET version installed in your development environment, update the ContosoDashboard.csproj file as needed.
+
+    You can use GitHub Copilot to update the project file. For example, enter the following prompt in the Chat view:
+
+    ```plaintext
+    I have the .NET 10 SDK installed. My project was written using .NET 8. Can you update the .csproj file for .NET 10 and ensure that the project builds correctly?
+    ```
 
 1. In the EXPLORER view, right-click **ContosoDashboard** and then select **Open in Integrated Terminal**.
 
