@@ -36,7 +36,7 @@ This exercise includes the following tasks:
 1. Create the feature specification using stakeholder requirements and the constitution.
 1. Update the specification with clarified requirements.
 1. Generate the technical plan using the specification and constitution.
-1. Generate the tasks file using the spec, plan, and constitution.
+1. Generate the tasks file using the specification, plan, and constitution.
 1. Implement the tasks required for an MVP application.
 
 ## Import the ContosoDashboard repository and initialize GitHub Spec Kit
@@ -149,7 +149,7 @@ Use the following steps to complete this task:
 
 ## Review the ContosoDashboard project and GitHub Spec Kit files
 
-GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run `specify init --ai copilot` in your project directory, the toolkit configures your workspace to recognize `/speckit.*` commands.
+GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --ai copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
 
 In this task, you explore the ContosoDashboard project files in Visual Studio Code, verify that GitHub Spec Kit is properly initialized, and then *push* the updated files to your GitHub repository.
 
@@ -211,7 +211,7 @@ Use the following steps to complete this task:
     - `/speckit.tasks` - Break down work into actionable tasks.
     - `/speckit.taskstoissues` - Convert the tasks in tasks.md into GitHub issues.
 
-    > **Note**: If the `/speckit` commands don't appear, try closing and then reopening the project in Visual Studio Code.
+    > **Note**: If the '/speckit.' commands don't appear, try closing and then reopening the project in Visual Studio Code.
 
     **Troubleshooting**: If you encounter issues:
 
@@ -614,7 +614,7 @@ Use the following steps to complete this task:
 
 The technical plan now serves as a blueprint for implementation. It translates business requirements into concrete technical decisions while respecting organizational constraints.
 
-## Generate the tasks file using the spec, plan, and constitution
+## Generate the tasks file using the specification, plan, and constitution
 
 The tasks.md file breaks down the technical plan into specific, actionable implementation steps. Each task should be small enough to complete in a reasonable timeframe (typically a few hours to a day when implemented without AI assistance) and have clear acceptance criteria.
 
@@ -803,9 +803,9 @@ Use the following steps to complete this task:
 
 Key Observations:
 
-- GitHub Copilot generates code that aligns with your spec because it references the `spec.md`, `plan.md`, and `tasks.md` files in your workspace.
+- GitHub Copilot generates code that aligns with your spec because it references the *spec.md*, *plan.md*, and *tasks.md* files in your workspace.
 - Detailed comments based on specification requirements guide GitHub Copilot to produce accurate implementations.
-- The spec-driven approach ensures you don't forget requirements (file size limits, supported types, etc.) because they're explicitly documented.
+- The spec-driven development approach ensures you don't forget requirements (file size limits, supported types, etc.) because they're explicitly documented.
 - Having clear acceptance criteria makes it easy to verify that your implementation meets requirements.
 
 In a full implementation, you would continue through all remaining tasks in the tasks.md file, using a phased approach to systematically build out the complete feature. The spec-driven development approach keeps you focused on requirements and prevents scope creep or missed functionality.
