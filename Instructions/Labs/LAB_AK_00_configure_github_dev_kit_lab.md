@@ -180,7 +180,7 @@ Complete the following steps to install and configure the GitHub Spec Kit tools 
     You should see output similar to the following sample:
 
     ```output
-    uv 0.9.16 (a63e5b62e 2025-12-06)
+    uv 0.9.17 (2b5d65e61 2025-12-09)
     ```
 
     To install uv using Windows PowerShell, run the following command:
