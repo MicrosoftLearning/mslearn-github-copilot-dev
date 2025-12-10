@@ -14,7 +14,7 @@ Your lab environment must include the following resources:
 - The .NET SDK version 8.0 or later.
 - Access to a GitHub account with GitHub Copilot enabled.
 - Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions.
-- SQL Server 2019 LocalDB.
+- SQL Server LocalDB.
 - Python version 3.11 or later.
 - The uv package manager.
 
@@ -96,7 +96,7 @@ Complete the following steps to ensure that the required GitHub, .NET, and Visua
 
     You can install the GitHub Copilot Chat extension using the Extensions view in Visual Studio Code.
 
-## Install lab application dependencies
+## Install the lab application dependencies
 
 The application that you're working on during the lab uses a SQL Server LocalDB database to store application data. SQL Server LocalDB is a lightweight version of SQL Server that's ideal for development and testing.
 
@@ -118,7 +118,7 @@ Complete the following steps to ensure that SQL Server LocalDB is installed in y
 
     If the command fails or LocalDB is not installed, use the following steps to install SQL Server 2019 LocalDB. Otherwise, skip to the "Install the GitHub Spec Kit tools and resources" section.
 
-1. To download the SQL Server 2019 Express edition installer file, open the following link in a browser: (SQL Server 2019 Express download)[https://go.microsoft.com/fwlink/?LinkID=866658]
+1. To download the SQL Server 2019 Express edition installer file, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?LinkID=866658" target="_blank">SQL Server 2019 Express download</a>
 
 1. After the download is complete, open the SQL Server 2019 installer file (for example, **SQL2019-SSEI-Expr.exe**).
 
@@ -167,7 +167,7 @@ Complete the following steps to install and configure the GitHub Spec Kit tools 
 
     Required output: **Python 3.11.0** or later.
 
-    If you need to install Python, you can download the installer from the following URL: [python.org](https://www.python.org/downloads/).
+    If you need to install Python, you can download the installer from the following URL: <a href="https://www.python.org/downloads/" target="_blank">python.org</a>.
 
     If you're in a corporate environment, you can also use your organization's software distribution system.
 
@@ -191,7 +191,7 @@ Complete the following steps to install and configure the GitHub Spec Kit tools 
 
     GitHub Spec Kit uses uv for CLI installation and management.
 
-    You can find more installation instructions at the following URL: [docs.astral.sh/uv](https://docs.astral.sh/uv/)
+    You can find more installation instructions at the following URL: <a href="https://docs.astral.sh/uv/" target="_blank">docs.astral.sh/uv</a>.
 
 1. To ensure that uv is in your environment PATH, restart your terminal window, and then run the following commands:
 
