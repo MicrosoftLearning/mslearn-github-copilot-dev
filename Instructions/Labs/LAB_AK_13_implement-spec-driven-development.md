@@ -236,7 +236,10 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoDashboard/ContosoDashboard.csproj** file in the editor.
 
-    > **NOTE**: The ContosoDashboard application was developed using .NET 8. If .NET 8 isn't installed in your development environment, but you have .NET 9 or .NET 10 installed, the ContosoDashboard.csproj file must be updated to target the installed .NET version before you build and run the application.
+    Notice the following:
+
+    - The project file specifies .NET 8 as the target framework. If your development environment has a different .NET SDK version installed (.NET 9 or .NET 10), you need to update the project file to target the installed version.
+    - The project file includes a reference to SQL Server LocalDB for local development. If you're using a PC with an ARM processor, you need to switch from SQL Server LocalDB to SQLite for local development.
 
 1. Ensure that the ContosoDashboard.csproj file specifies the .NET version installed in your development environment.
 
@@ -245,6 +248,24 @@ Use the following steps to complete this task:
     ```plaintext
     I have the .NET 10 SDK installed. My project was written using .NET 8. Update the .csproj file for .NET 10 and ensure that the project builds correctly?
     ```
+
+    > **NOTE**: The ContosoDashboard application was developed using .NET 8. If the .NET 8 SDK isn't installed in your development environment, but you have the .NET 9 or .NET 10 SDK installed, the ContosoDashboard.csproj file must be updated to target the installed .NET version before you build and run the application.
+
+1. Ensure that you're using the correct database provider for your development environment.
+
+    If you're using a PC with an ARM processor for your development environment, you need to switch from SQL Server LocalDB to SQLite for local development. The following files are affected by this change:
+
+    - ContosoDashboard.csproj: Update the database provider package reference.
+    - Program.cs: Update the database context configuration.
+    - appsettings.json: Update the connection string.
+
+    You can use GitHub Copilot to update the your project files (ContosoDashboard.csproj, Program.cs, and appsettings.json). For example, to update the codebase for SQLite, enter the following prompt in the Chat view:
+
+    ```plaintext
+    My PC uses an ARM64 processor. I need you to update the codebase to use SQLite rather than SQL Server LocalDB.
+    ```
+
+    > **NOTE**: If you're using a PC with an x64 processor or a Mac, you can skip this step since SQL Server LocalDB works correctly in those environments.
 
 1. In the EXPLORER view, right-click **ContosoDashboard** and then select **Open in Integrated Terminal**.
 
