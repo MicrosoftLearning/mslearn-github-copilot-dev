@@ -117,7 +117,7 @@ Use the following steps to complete this task:
     cd ContosoDashboard
     ```
 
-    > **IMPORTANT**: GitHub Spec Kit must be initialized in the root directory of your cloned repository.
+    > **IMPORTANT**: GitHub Spec Kit must be initialized in the root directory of your cloned repository. For example, if you cloned the repository to `C:\TrainingProjects\ContosoDashboard`, ensure that you run the `specify init` command from within the `C:\TrainingProjects\ContosoDashboard` directory.
 
 1. To initialize GitHub Spec Kit within your existing project, enter the following command:
 
