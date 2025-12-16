@@ -360,13 +360,15 @@ Use the following steps to complete this task:
     /speckit.constitution
     ```
 
-    > **NOTE**: The GitHub Spec Kit supports "greenfield" and "brownfield" project types. Preliminary requirements are more significant for greenfield projects since there's no existing codebase. In this exercise, ContosoDashboard is a brownfield project with an existing codebase, so the agent analyzes the current project files to generate the constitution.
+    The GitHub Spec Kit supports "greenfield" and "brownfield" project types. Preliminary requirements are more significant for greenfield projects since there's no existing codebase. In this exercise, ContosoDashboard is a brownfield project with an existing codebase, so the agent analyzes the current project files to generate the constitution.
 
 1. Monitor GitHub Copilot's response.
 
     GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
 
-    It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document. If the workflow updates the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md), you can ignore those changes for now. You generate those files in later tasks.
+    It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document. If the workflow updates the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md), you can accept the updates without reviewing the changes. You generate those files in later tasks.
+
+    > **NOTE**: If GitHub Copilot reports that it isn't able to access or edit files, open Visual Studio Code **Settings**, expand **Features**, select **Chat**, and then ensure that **Chat > Agent** is enabled.
 
 1. Review the updated constitution.md file in the editor.
 
