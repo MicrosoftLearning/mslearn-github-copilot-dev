@@ -738,7 +738,7 @@ Use the following steps to complete this task:
     For example (referencing the MVP implementation example from the previous step), you might enter the following command:
 
     ```dotnetcli
-    speckit/implement Implement the MVP first strategy (Tasks: T001 - T045)
+    /speckit.implement Implement the MVP first strategy (Tasks: T001 - T045)
     ```
 
     This command instructs GitHub Copilot to begin implementing the tasks required for the MVP version of the document upload and management feature.
