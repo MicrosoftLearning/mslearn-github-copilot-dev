@@ -5,7 +5,12 @@ on:
     branches:
       - 'main'
     paths:
-      - DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed/**
+      - DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed/**/*.md
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed/**/*.md
 
 defaults:
   run:
