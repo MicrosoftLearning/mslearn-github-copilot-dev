@@ -80,8 +80,6 @@ Use the following steps to complete this task:
 
     For brownfield projects, the `specify init` command recognizes that the current directory isn't empty and asks for confirmation to proceed.
 
-1. Take a minute to review the information presented in the terminal window.
-
     The `specify init` command completes the following actions:
 
     - Creates agent prompt files in the `.github/agents/` and `.github/prompts/` directories.
@@ -92,17 +90,7 @@ Use the following steps to complete this task:
     - Displays a success message ("Project ready").
     - Suggests some optional next steps.
 
-## Review the project files and prepare stakeholder documents
-
-GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --ai copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
-
-In this task, you verify that GitHub Spec Kit is properly initialized, review the RSSFeedReader documents provided by the Contoso stakeholders, and then add the stakeholder documents to a project folder.
-
-Use the following steps to complete this task:
-
-1. Open the RSSFeedReader project in Visual Studio Code.
-
-    For example, if the terminal window is still open, you can use the following command to open the project:
+1. To open the RSSFeedReader project in Visual Studio Code, enter the following command:
 
     ```powershell
     code .
@@ -110,7 +98,7 @@ Use the following steps to complete this task:
 
     The `code .` command opens the current directory (RSSFeedReader) in Visual Studio Code.
 
-    Wait for Visual Studio Code to fully load the project.
+1. Wait for Visual Studio Code to fully load the project.
 
 1. Take a minute to familiarize yourself with the project structure.
 
@@ -126,10 +114,11 @@ Use the following steps to complete this task:
     │   ├── scripts/powershell/     (GitHub Spec Kit uses automation utilities (scripts) for creating features, setting up plans, and managing the specification workflow)
     │   └── templates/              (GitHub Spec Kit provides standardized markdown formats for specs, plans, tasks, and checklists to ensure consistent documentation across all features)
     └── .vscode/                    (Visual Studio Code configuration)
-
     ```
 
 1. Ensure that GitHub Copilot's Chat view is open.
+
+    GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --ai copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
 
     > **NOTE:** This lab exercise was tested using the GPT-5.2 and Claude Sonnet 4.5 models. Results were similar between these two models. However, using GPT-4 and GPT-5 mini models produced inconsistent and unexpected results. We suggest using newer language models that are optimized for complex reasoning when running GitHub Spec Kit commands.
 
@@ -156,8 +145,33 @@ Use the following steps to complete this task:
     - **Git clone errors**: Verify that you're signed in to GitHub, and that you have access to your imported repository.
     - **GitHub Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
 
-1. In Visual Studio Code's EXPLORER view, create a new folder named **StakeholderDocs** in the root of the RSSFeedReader project.
-1. 
+## Download and review the stakeholder documents
+
+In this task, you download the RSSFeedReader documents provided by the Contoso stakeholders, add them to your project, and then evaluate how the documents relate to GitHub Spec Kit commands.
+
+Use the following steps to complete this task:
+
+1. To download the stakeholder documents, open the following link in a browser: [RSSFeedReader - stakeholder documents](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip).
+
+1. Open the folder containing the downloaded ZIP file.
+
+1. Extract the contents of the downloaded ZIP file to a temporary folder.
+
+1. In Visual Studio Code's EXPLORER view, right-click the RSSFeedReader project root folder, and then select **Reveal in File Explorer** (or **Reveal in Finder** on macOS).
+
+1. In File Explorer (or Finder), open the temporary folder where you extracted the ZIP file.
+
+1. Select all files in the temporary folder, copy them, and then paste them into the RSSFeedReader project root folder.
+
+    The stakeholder documents include the following files:
+
+    - **Project Goals.md** - High-level project goals, purpose, scope, delivery approach, rollout plan, quality goals, and standards/guidelines.
+    - **App Features.md** - Detailed user-facing feature requirements.
+    - **Tech Stack.md** - Technology choices and architectural rationale.
+    - **MVP System Rules.md** - MVP system behavior rules that inform specs.
+
+
+
 
 
 ## Generate a constitution based on standards and guidelines.

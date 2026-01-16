@@ -30,9 +30,15 @@ jobs:
         # Remove existing zip file
         rm -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip
 
-        # Create zip containing the entire folder (including StakeholderDocuments)
-        zip -r -q DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip \
-          DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed
+        # Zip only the contents of the sdd-get-started-rss-feed folder (not the parent path)
+        cd DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed
+        CONTENTS=$(ls -A)
+        if [ -z "$CONTENTS" ]; then
+          echo "No files to zip in sdd-get-started-rss-feed"
+          exit 1
+        fi
+        zip -r -q ../../Downloads/GHSpecKitEx14StakeholderDocuments.zip $CONTENTS
+        cd -
 
         # Verify zip file was created
         if [ ! -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip ]; then
