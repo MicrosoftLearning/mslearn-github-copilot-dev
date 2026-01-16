@@ -64,3 +64,4 @@ Notifications can be added later for high-priority feeds or keyword matches.
 Integrations and sharing features can come later as well. This includes sharing items to email and chat tools (for example Slack/Teams), sending items to read-later services (for example Pocket/Instapaper/OneNote), and offering quick actions like copying a clean link. It can also include opening links in the system browser or in an in-app browser view. For some workflows, RSS-to-email could be added so selected feeds (or filtered items) are forwarded to an email inbox.
 
 Finally, as privacy and data ownership features mature, we can explicitly focus on minimal tracking and clear data ownership/export (for example, ensuring users can always export their data in a usable form).
+

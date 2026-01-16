@@ -30,11 +30,25 @@ Next, we will iterate toward a solid “v1” by improving usability and reliabi
 
 Finally, we will add optional enhancements over time (search/filtering, integrations, sync, offline improvements) once the core experience is dependable.
 
-## Quality goals
+## Quality goals for this project
 
 Even in an MVP, the reader should be reliable and safe. It should tolerate real-world feed problems (redirects, timeouts, malformed XML) without crashing, avoid duplicating items unnecessarily, and render content safely.
 
 Local data should remain the user’s data. The design should make it easy to keep and export information as the project grows.
+
+## Standards and guidelines
+
+- **Code Quality**: Enforce linters/formatters; follow a clear style guide; require PR reviews; prefer small, incremental changes.
+- **Testing**: Unit and integration tests for critical paths; CI gates must run tests; target meaningful coverage on core modules (≈80%) and validate parsing/rendering edge cases.
+- **Security**: Sanitize all rendered HTML; validate and normalize inputs; keep secrets out of the repo; run SAST and dependency vulnerability scanning; fix high/critical issues promptly; adopt OWASP ASVS baseline controls.
+- **Privacy**: Minimize data collected; keep all user data local by default; make export/delete straightforward; exclude PII from logs.
+- **Accessibility**: Meet WCAG 2.2 AA (keyboard navigation, contrast, semantics); avoid motion that impairs readability.
+- **Performance**: Non-blocking UI during fetch/parse; cache feed metadata; use retry with backoff on timeouts; avoid excessive memory use on large feeds.
+- **Reliability**: Handle malformed/redirected feeds robustly; deduplicate items idempotently; persist safely to avoid corruption.
+- **Observability**: Use structured logs with levels; surface actionable error messages; collect minimal opt-in telemetry only.
+- **Release Management**: Use semantic versioning; maintain a changelog; ensure reproducible builds; enable quick rollback.
+- **Documentation & Process**: Keep README/user guide and architecture overview current; write brief specs with acceptance criteria via Spec Kit; definition of done includes tests, docs, and QA checklist.
+- **Dependency Management**: Pin versions; update regularly; track licenses; generate an SBOM (e.g., CycloneDX) and verify compliance.
 
 ## How this document fits with the others
 
