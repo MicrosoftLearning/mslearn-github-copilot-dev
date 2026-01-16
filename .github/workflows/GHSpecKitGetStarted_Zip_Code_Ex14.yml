@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - '**'
     paths:
       - DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed/**/*.md
   pull_request:
     branches:
-      - 'main'
+      - '**'
     paths:
       - DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed/**/*.md
 
@@ -25,23 +25,17 @@ jobs:
     - name: Create GHSpecKitEx14 Stakeholder Documents zip
       run: | 
         # Ensure Downloads directory exists
-        mkdir -p ./DownloadableCodeProjects/Downloads
-        
-        # Change to source directory
-        cd ./DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed
-        
-        # Check if there are any git-tracked files to zip
-        if [ -z "$(git ls-files)" ]; then
-          echo "No git-tracked files found in the source directory"
-          exit 1
-        fi
-        
-        # Remove existing zip file and create new one
-        rm -f ../../Downloads/GHSpecKitEx14StakeholderDocuments.zip
-        zip -r -q ../../Downloads/GHSpecKitEx14StakeholderDocuments.zip $(git ls-files)
+        mkdir -p DownloadableCodeProjects/Downloads
+
+        # Remove existing zip file
+        rm -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip
+
+        # Create zip containing the entire folder (including StakeholderDocuments)
+        zip -r -q DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip \
+          DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed
 
         # Verify zip file was created
-        if [ ! -f ../../Downloads/GHSpecKitEx14StakeholderDocuments.zip ]; then
+        if [ ! -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip ]; then
           echo "Failed to create zip file"
           exit 1
         fi
