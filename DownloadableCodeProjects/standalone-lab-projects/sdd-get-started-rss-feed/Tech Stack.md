@@ -1,4 +1,4 @@
-# Tech Stack for RSS Feed Reader
+# Tech stack for RSS Feed Reader
 
 Our RSS feed reader will use an ASP.NET Core Web API backend (with BackgroundService poller + EF Core + SQLite) and a Blazor WebAssembly frontend. 
 

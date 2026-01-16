@@ -1,5 +1,5 @@
 
-# App Features
+# App features
 
 This RSS feed reader is designed around three themes: making it easy to subscribe to sources, making it easy to keep up with new items, and giving you control so your feed doesn’t become overwhelming.
 

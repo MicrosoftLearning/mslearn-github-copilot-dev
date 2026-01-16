@@ -1,4 +1,4 @@
-# MVP System Rules (for specs)
+# MVP system rules (for specs)
 
 This is a compact reference for system behavior decisions that support the MVP described in [App Features.md](App%20Features.md). It is meant to be used as input when writing GitHub Spec Kit specs.
 
