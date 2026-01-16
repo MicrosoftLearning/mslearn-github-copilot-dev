@@ -163,22 +163,47 @@ Use the following steps to complete this task:
 
 1. Select all files in the temporary folder, copy them, and then paste them into the RSSFeedReader project root folder.
 
-    The stakeholder documents include the following files:
+    The extracted file folder contains the following:
+
+    ```plaintext
+    GHSpecKitEx14StakeholderDocuments (root)
+    ├── StakeholderDocuments        (folder containing stakeholder supplied documents)
+    └── README.md                   (a readme file describing the project)
+    ```
+
+1. Switch back to Visual Studio Code.
+
+1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocuments** folder.
+
+    The StakeholderDocuments folder includes the following files:
 
     - **Project Goals.md** - High-level project goals, purpose, scope, delivery approach, rollout plan, quality goals, and standards/guidelines.
     - **App Features.md** - Detailed user-facing feature requirements.
     - **Tech Stack.md** - Technology choices and architectural rationale.
     - **MVP System Rules.md** - MVP system behavior rules that inform specs.
 
+1. Take a few minutes to open and review each of the stakeholder documents.
 
+    These documents include natural language descriptions of the project's goals, features, technical requirements, and constraints. Understanding this context is essential for creating an effective specification, plan, and tasks. The level of detail varies between the documents, but the overall mix is typical of what you might find in many real-world projects.
 
+    The number of documents and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with the files and details available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process.
 
+1. Take a few minutes to consider how each document relates to GitHub Spec Kit commands.
 
-## Generate a constitution based on standards and guidelines.
+    Each of the stakeholder documents provide information that helps guide different aspects of the spec-driven development process.
 
-The GitHub Spec Kit uses a constitution.md file to establish the governing principles and constraints that guide all development decisions for the ContosoDashboard project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
+    For example:
 
-In this task, you use GitHub Copilot's `/speckit.constitution` command to generate a comprehensive constitution based on Contoso stakeholder requirements.
+    - **Project Goals.md**: This document provides high-level goals and standards that will inform the constitution.md file.
+    - **App Features.md**: This document contains detailed user-facing requirements that will help to create the spec.md file.
+    - **Tech Stack.md**: This document outlines technology choices and architectural rationale that will influence the plan.md file.
+    - **MVP System Rules.md**: This document defines system behavior rules that will guide the implementation tasks in tasks.md.
+
+## Generate a constitution based on standards and guidelines
+
+The GitHub Spec Kit uses a constitution.md file to establish the governing principles and constraints that guide all development decisions for the RSSFeedReader project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
+
+In this task, you use GitHub Copilot's `/speckit.constitution` command to generate a comprehensive constitution, first with user-supplied inline text input and then using the stakeholder documents.
 
 Use the following steps to complete this task:
 
@@ -206,13 +231,49 @@ Use the following steps to complete this task:
 
     You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
 
-1. In the Chat view, to start a constitution workflow, enter the following command:
+1. Take a moment to consider the options for running the `/speckit.constitution` command.
+
+    You can run the /speckit.constitution command with the following options:
+
+    - `/speckit.constitution --text "..."`: Use inline text to describe the standards, guidelines, principles, and constraints that should be included in the constitution.
+    - `/speckit.constitution --files ...`: Specify project documents that provide context for creating the constitution.
+
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. In this case, you first run the command using inline text input, and then you run it again using the stakeholder documents.
+
+1. In the Chat view, to start a constitution workflow using inline text that provides a broad scope of general coding principles, enter the following command:
 
     ```plaintext
-    /speckit.constitution
+    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context."
     ```
 
-    The GitHub Spec Kit supports "greenfield" and "brownfield" project types. Preliminary requirements are more significant for greenfield projects since there's no existing codebase. In this exercise, ContosoDashboard is a brownfield project with an existing codebase, so the agent analyzes the current project files to generate the constitution.
+    The GitHub Spec Kit supports "greenfield" and "brownfield" project types. When running GitHub Spec Kit commands, the inputs that you specify for greenfield projects can be more impactful since there's no existing codebase.
+
+1. Monitor GitHub Copilot's response in the Chat view.
+
+1. Take a minute to review the updated constitution.md file in the editor.
+
+    Notice that GitHub Copilot has updated the constitution.md file to include principles based on the inline text you provided. The principles should be clearly stated and actionable.
+
+    For a real-world project, it's important to review the constitution against the following criteria before saving:
+
+    - Completeness: All major areas (security, performance, quality, technical standards) are covered.
+    - Clarity: Each principle is specific and unambiguous.
+    - Consistency: Principles don't contradict each other.
+    - Relevance: All principles relate to the RSSFeedReader project.
+
+1. If the `/speckit.constitution` command updated files in the **templates** folder, take a minute to review those files as well.
+
+    The constitution workflow might update the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md). The updates should reflect the principles defined in the constitution.md file.
+
+1. To accept the changes to all updated files, select the **Keep** button in the Chat view.
+
+    You can also accept changes to individual files, or individual changes within a file, by selecting a **Keep** button in the editor.
+
+1. In the Chat view, to start a second constitution workflow using the stakeholder documents, enter the following command:
+
+    ```plaintext
+    /speckit.constitution --files StakeholderDocuments/Project\ Goals.md StakeholderDocuments/App\ Features.md StakeholderDocuments/Tech\ Stack.md StakeholderDocuments/MVP\ System\ Rules.md
+    ```
 
 1. Monitor GitHub Copilot's response.
 
