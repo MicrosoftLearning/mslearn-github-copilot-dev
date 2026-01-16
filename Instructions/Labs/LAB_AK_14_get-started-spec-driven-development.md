@@ -231,22 +231,24 @@ Use the following steps to complete this task:
 
     You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
 
-1. Take a moment to consider the options for running the `/speckit.constitution` command.
+1. Take a moment to consider the options for running the /speckit.constitution command.
 
     You can run the /speckit.constitution command with the following options:
 
     - `/speckit.constitution --text "..."`: Use inline text to describe the standards, guidelines, principles, and constraints that should be included in the constitution.
     - `/speckit.constitution --files ...`: Specify project documents that provide context for creating the constitution.
+    - `/speckit.constitution --text "..." --files ...`: Combine inline text input with project documents.
+    - `/speckit.constitution`: Run the command without any inputs. For brownfield projects, the workflow uses the codebase to identify standards/guidelines/requirements, and then generates a constitution.
 
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. In this case, you first run the command using inline text input, and then you run it again using the stakeholder documents.
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed inputs usually generates more accurate and comprehensive constitutions.
 
-1. In the Chat view, to start a constitution workflow using inline text that provides a broad scope of general coding principles, enter the following command:
+1. In the Chat view, to start a constitution workflow using inline text, enter the following command:
 
     ```plaintext
-    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context."
+    /speckit.constitution --text "Code projects emphasize security, accessibility, performance, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context."
     ```
 
-    The GitHub Spec Kit supports "greenfield" and "brownfield" project types. When running GitHub Spec Kit commands, the inputs that you specify for greenfield projects can be more impactful since there's no existing codebase.
+    In this case, the inline text provides high-level guidance for creating the constitution. This approach is useful when you want to quickly establish core principles without detailed project documents.
 
 1. Monitor GitHub Copilot's response in the Chat view.
 
@@ -254,25 +256,25 @@ Use the following steps to complete this task:
 
     Notice that GitHub Copilot has updated the constitution.md file to include principles based on the inline text you provided. The principles should be clearly stated and actionable.
 
-    For a real-world project, it's important to review the constitution against the following criteria before saving:
+    For a real-world project, it's important to review the constitution against the following criteria:
 
     - Completeness: All major areas (security, performance, quality, technical standards) are covered.
     - Clarity: Each principle is specific and unambiguous.
     - Consistency: Principles don't contradict each other.
     - Relevance: All principles relate to the RSSFeedReader project.
 
-1. If the `/speckit.constitution` command updated files in the **templates** folder, take a minute to review those files as well.
+1. If the /speckit.constitution workflow updated files in the **templates** folder, take a minute to review those files as well.
 
-    The constitution workflow might update the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md). The updates should reflect the principles defined in the constitution.md file.
+    The constitution workflow can update the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md). The updates should reflect the principles defined in the constitution.md file. This helps to ensure consistency across all project documentation.
 
 1. To accept the changes to all updated files, select the **Keep** button in the Chat view.
 
-    You can also accept changes to individual files, or individual changes within a file, by selecting a **Keep** button in the editor.
+    You can also accept changes to individual files, or individual changes within a file, by selecting **Keep** button options in the editor.
 
 1. In the Chat view, to start a second constitution workflow using the stakeholder documents, enter the following command:
 
     ```plaintext
-    /speckit.constitution --files StakeholderDocuments/Project\ Goals.md StakeholderDocuments/App\ Features.md StakeholderDocuments/Tech\ Stack.md StakeholderDocuments/MVP\ System\ Rules.md
+    /speckit.constitution --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md StakeholderDocuments/MVPSystemRules.md
     ```
 
 1. Monitor GitHub Copilot's response.
