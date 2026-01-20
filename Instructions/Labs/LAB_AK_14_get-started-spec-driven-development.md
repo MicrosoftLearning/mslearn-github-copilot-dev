@@ -10,7 +10,7 @@ GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (
 
 In this exercise, you learn how to use the GitHub Spec Kit to develop a new greenfield application. You begin by initializing the GitHub Spec Kit for a new .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for the new application. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial MVP version of the application.
 
-This exercise should take approximately **75** minutes to complete.
+This exercise should take approximately **60** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
@@ -22,15 +22,15 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. The firm is moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your client, Contoso Corporation, needs you to develop an RSS feed reader for internal employees. Your firm needs you to use the SDD methodology and GitHub Spec Kit to ensure that an MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly after customer sign-off.
+You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You need to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology for this greenfield project. Using a SDD methodology with GitHub Spec Kit ensures that an MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly.
 
-Contoso's stakeholders documented the project goals, features, and technical requirements. This information should be used to create the constitution, specification, plan, and tasks documents that guide the development process.
+Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. This information can be used to help generate the constitution, specification, plan, and tasks documents.
 
 This exercise includes the following tasks:
 
 1. Create a project folder and initialize GitHub Spec Kit.
-1. Review the project files and prepare stakeholder documents.
-1. Generate a constitution based on standards and guidelines.
+1. Examine GitHub Spec Kit's constitution command and files.
+1. Update the constitution using stakeholder documents.
 1. Generate the spec.md file using stakeholder requirements.
 1. Generate the plan.md file using stakeholder requirements and the specification.
 1. Generate the tasks.md file using the specification, plan, and constitution.
@@ -38,7 +38,7 @@ This exercise includes the following tasks:
 
 ## Create a project folder and initialize GitHub Spec Kit
 
-Although you're working on a greenfield project, a project folder is required before you can initialize GitHub Spec Kit.
+The Specify CLI is used to initialize GitHub Spec Kit in a project folder. GitHub Spec Kit uses the project folder to store configuration files, templates, scripts, and agents that support the spec-driven development workflows.
 
 In this task, you create a new project folder and initialize GitHub Spec Kit in your project directory.
 
@@ -72,23 +72,22 @@ Use the following steps to complete this task:
 
     > **NOTE:** If you're using macOS or Linux with bash/zsh, replace `--script ps` with `--script sh`.
 
-    This `specify init` command uses the following components:
+    This command specifies the following parameters:
 
     - `--here` - Initializes GitHub Spec Kit in the current directory (your existing RSSFeedReader project).
-    - `--ai copilot` - Configures the project for GitHub Copilot.
-    - `--script ps` - Uses PowerShell scripts.
-
-    For brownfield projects, the `specify init` command recognizes that the current directory isn't empty and asks for confirmation to proceed.
+    - `--ai copilot` - Configures the project to use GitHub Copilot as the AI assistant.
+    - `--script ps` - Specifies that PowerShell scripts will be used.
 
     The `specify init` command completes the following actions:
 
     - Creates agent prompt files in the `.github/agents/` and `.github/prompts/` directories.
     - Creates template files in the `.specify/memory/` and `.specify/templates/` directories.
     - Creates script files in the `.specify/scripts/powershell/` directory.
-    - Updates or creates a settings.json file in the `.vscode/` directory.
-    - Preserves any existing application files.
+    - Creates a settings.json file in the `.vscode/` directory.
     - Displays a success message ("Project ready").
     - Suggests some optional next steps.
+
+    When you use the `specify init` command for a brownfield project, it recognizes that the current directory isn't empty and asks for confirmation before proceeding. The command preserves any existing application files.
 
 1. To open the RSSFeedReader project in Visual Studio Code, enter the following command:
 
@@ -98,11 +97,9 @@ Use the following steps to complete this task:
 
     The `code .` command opens the current directory (RSSFeedReader) in Visual Studio Code.
 
-1. Wait for Visual Studio Code to fully load the project.
+1. Notice the folder structure created by the `specify init` command.
 
-1. Take a minute to familiarize yourself with the project structure.
-
-    Use Visual Studio Code's EXPLORER view to expand the application folders. You should see a folder structure that's similar to the following example:
+    Use Visual Studio Code's EXPLORER view to expand the .github and .specify folders. You should see a folder structure that's similar to the following example:
 
     ```plaintext
     RSSFEEDREADER (root)
@@ -145,9 +142,114 @@ Use the following steps to complete this task:
     - **Git clone errors**: Verify that you're signed in to GitHub, and that you have access to your imported repository.
     - **GitHub Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
 
-## Download and review the stakeholder documents
+1. Publish your project to a new GitHub repository.
 
-In this task, you download the RSSFeedReader documents provided by the Contoso stakeholders, add them to your project, and then evaluate how the documents relate to GitHub Spec Kit commands.
+    For example:
+
+    1. Open Visual Studio Code's SOURCE CONTROL view.
+
+    1. Select **Publish Branch**.
+
+        The repository name, RSSFeedReader, is suggested automatically based on the local folder name.
+
+    1. Select **Publish to GitHub private repository**.
+
+        > **IMPORTANT**: If prompted to sign in to GitHub, follow the sign-in process to authenticate your GitHub account.
+
+    1. Verify that the repository was created successfully.
+
+        Option 1: Open a browser and navigate to your GitHub profile page. You should see the new RSSFeedReader repository listed among your repositories. Refresh the page if necessary.
+        Option 2: Open Visual Studio Code's notifications (bottom right). You should see a notification confirming that the repository was published successfully, along with a link to view it on GitHub.
+
+## Examine GitHub Spec Kit's constitution command and files
+
+The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process. GitHub Spec Kit includes several resources that help to create and maintain the constitution.md file:
+
+- The .specify/memory/constitution.md file contains a template for the constitution document.
+- The .github/agents/speckit.constitution.agent.md file contains detailed instructions that guide the /speckit.constitution command.
+- The /speckit.constitution command is used to generate a constitution.md file for the project.
+- The .github/prompts/speckit.constitution.prompt.md file contains the prompt template that guides the /speckit.constitution command.
+
+In this task, you examine the resource files used to generate the constitution and evaluate the `/speckit.constitution` command.
+
+Use the following steps to complete this task:
+
+1. Use Visual Studio Code's EXPLORER view to expand the **.github/agents** and **.specify/memory** folders.
+
+    These folders contain the GitHub Spec Kit resources used to create a constitution.md file. It can be helpful to familiarize yourself with these resource files before attempting to generate your constitution file.
+
+1. In the **.specify/memory** folder, open the **constitution.md** file.
+
+    The initial version of the constitution.md file contains the default template for a constitution.
+
+1. Take a minute to review the **constitution.md** file.
+
+    Notice that the constitution template defines four main sections: Core Principles (located at the top), two unnamed sections, and Governance (located at the bottom). Placeholder tokens are used throughout the document to indicate where specific content should be added. The Core Principles section include placeholders for five key principles, and the template also contains example content for sections and subsections.
+
+1. In the **.github/agents** folder, open the **speckit.constitution.agent.md** file.
+
+1. Take a minute to review the **speckit.constitution.agent.md** file.
+
+    Notice the detailed instructions provided in this markdown file. The Outline section tells GitHub Copilot to use the constitution.md template as a starting point, describes how to use the placeholder tokens, and provides guidance on how to fill in each section of the constitution.
+
+1. Ensure that the Chat view is open, then start a new chat session.
+
+    You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
+
+1. Take a moment to consider your options for running the /speckit.constitution command.
+
+    You can run the /speckit.constitution command with the following options:
+
+    - `/speckit.constitution --text "..."`: Use inline text to describe the standards, guidelines, principles, and constraints that should be included in the constitution.
+    - `/speckit.constitution --files ...`: Specify project documents that provide context for creating the constitution.
+    - `/speckit.constitution --text "..." --files ...`: Specify a combination of inline text and project documents.
+    - `/speckit.constitution`: Run the command without any inputs. The workflow uses files in the codebase to identify standards, guidelines, and requirements, and then generates a constitution.
+
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed requirements helps to generate more accurate and comprehensive constitutions.
+
+1. To start a constitution workflow without any inputs, enter the following command in the Chat view:
+
+    ```plaintext
+    /speckit.constitution
+    ```
+
+    > **NOTE**: Running the constitution workflow on an empty project without supplying text or file inputs isn't recommended, but it does help to demonstrate how the template and workflow operate.
+
+1. Monitor GitHub Copilot's response.
+
+    GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
+
+    > **NOTE**: If GitHub Copilot reports that it isn't able to access or edit files, open Visual Studio Code **Settings**, expand **Features**, select **Chat**, and then ensure that **Chat > Agent** is enabled.
+
+1. Once GitHub Copilot is finished updating the constitution.md file, open the file, and then take a minute to review the suggested edits.
+
+    Notice that the workflow has successfully updated the constitution.md file, filling in the five key principles and creating the two unnamed sections. But what are the updates based on?
+
+    Here's a quick analysis:
+
+    - The original **constitution.md** file acts as a template for the updates. This document specifies that the constitution should include the following:
+
+        - Project Name
+        - Section 1: Core Principles. The Core Principles section needs to include five core principles. Examples for the principles and their descriptions are provided in the template.
+        - Section 2: unnamed. Examples for the section name and content are provided in the template.
+        - Section 3: unnamed. Examples for the section name and content are provided in the template.
+        - Section 4: Governance. Examples for how the governance section is applied and governance rules are provided in the template.
+
+    - The **speckit.constitution.agent.md** file provides instructions for updating the constitution.md file based on the text or file input provided with the `/speckit.constitution` command. When no guidance is provided, the agent uses what it can find in the codebase to fill in the constitution template. In this case, the only information available in the codebase is that you want to create an RSS Feed Reader, so the AI uses what it knows about RSS Feed Readers to update the constitution.md file.
+
+1. Notice that the constitution workflow can update files in the **templates** folder as well.
+
+    The constitution workflow can update the templates for other GitHub Spec Kit files (spec-template.md, plan-template.md, tasks-template.md). The updates should reflect the principles defined in the constitution.md file. This helps to ensure consistency across all project documentation.
+
+1. To save all of the file updates, select the **Keep** button in the Chat view.
+
+    You can also accept changes to individual files, or individual changes within a file, by selecting **Keep** button options in the editor.
+
+## Update the constitution using stakeholder documents
+
+The /speckit.constitution workflow can use text input, file input, or the codebase, to extract the policies, standards, requirements, and guidelines that go into the constitution.md file.
+
+In this task, you download the stakeholder documents for the RSSFeedReader project, evaluate their relationship to the GitHub Spec Kit commands, and use them to update the constitution.md file.
 
 Use the following steps to complete this task:
 
@@ -177,139 +279,65 @@ Use the following steps to complete this task:
 
     The StakeholderDocuments folder includes the following files:
 
-    - **Project Goals.md** - High-level project goals, purpose, scope, delivery approach, rollout plan, quality goals, and standards/guidelines.
-    - **App Features.md** - Detailed user-facing feature requirements.
-    - **Tech Stack.md** - Technology choices and architectural rationale.
-    - **MVP System Rules.md** - MVP system behavior rules that inform specs.
+    - **ProjectGoals.md** - High-level project goals, purpose, scope, delivery approach, rollout plan, quality goals, and standards/guidelines.
+    - **AppFeatures.md** - Detailed user-facing feature requirements.
+    - **TechStack.md** - Technology choices and architectural rationale.
+    - **MVPSystemRules.md** - MVP system behavior rules that inform specs.
 
-1. Take a few minutes to open and review each of the stakeholder documents.
+1. Take a few minutes to review the stakeholder documents.
 
     These documents include natural language descriptions of the project's goals, features, technical requirements, and constraints. Understanding this context is essential for creating an effective specification, plan, and tasks. The level of detail varies between the documents, but the overall mix is typical of what you might find in many real-world projects.
 
-    The number of documents and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with the files and details available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process.
+    Project documentation and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with the files and details available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process.
 
-1. Take a few minutes to consider how each document relates to GitHub Spec Kit commands.
+1. Consider the relationship between the stakeholder documents and the GitHub Spec Kit commands.
 
     Each of the stakeholder documents provide information that helps guide different aspects of the spec-driven development process.
 
     For example:
 
-    - **Project Goals.md**: This document provides high-level goals and standards that will inform the constitution.md file.
-    - **App Features.md**: This document contains detailed user-facing requirements that will help to create the spec.md file.
-    - **Tech Stack.md**: This document outlines technology choices and architectural rationale that will influence the plan.md file.
-    - **MVP System Rules.md**: This document defines system behavior rules that will guide the implementation tasks in tasks.md.
+    - **ProjectGoals.md**: This document provides high-level goals and standards that will inform the constitution.md file.
+    - **AppFeatures.md**: This document contains detailed user-facing requirements that will help to create the spec.md file.
+    - **TechStack.md**: This document outlines technology choices and architectural rationale that will influence the plan.md file.
+    - **MVPSystemRules.md**: This document defines system behavior rules that will guide the implementation tasks in tasks.md.
 
-## Generate a constitution based on standards and guidelines
-
-The GitHub Spec Kit uses a constitution.md file to establish the governing principles and constraints that guide all development decisions for the RSSFeedReader project. It captures organizational policies, technical standards, security requirements, and development practices that must be followed throughout implementation.
-
-In this task, you use GitHub Copilot's `/speckit.constitution` command to generate a comprehensive constitution, first with user-supplied inline text input and then using the stakeholder documents.
-
-Use the following steps to complete this task:
-
-1. Use Visual Studio Code's EXPLORER view to expand the **.github/agents** and **.specify/memory** folders.
-
-    These folders contain the GitHub Spec Kit resources used to create a constitution.md file. It might be helpful to familiarize yourself with these resource files before working on your constitution file.
-
-1. In the **.github/agents** folder, open the **speckit.constitution.agent.md** file.
-
-1. Take a minute to review the **speckit.constitution.agent.md** file.
-
-    Notice the detailed instructions provided in this markdown file. These instructions are used by GitHub Copilot to generate the constitution.md file. The agent follows a systematic approach to generate a constitution that captures key principles and constraints.
-
-1. In the **.specify/memory** folder, open the **constitution.md** file.
-
-    The initial version of the constitution.md file contains the default template for a constitution.
-
-1. Take a minute to review the **constitution.md** template.
-
-    Notice that the template is initialized with example content that illustrates principles and constraints. The template includes examples for security, performance, quality, technical standards, etc.
-
-    You can keep the constitution file open.
-
-1. Ensure that the Chat view is open, then start a new chat session.
-
-    You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
-
-1. Take a moment to consider the options for running the /speckit.constitution command.
-
-    You can run the /speckit.constitution command with the following options:
-
-    - `/speckit.constitution --text "..."`: Use inline text to describe the standards, guidelines, principles, and constraints that should be included in the constitution.
-    - `/speckit.constitution --files ...`: Specify project documents that provide context for creating the constitution.
-    - `/speckit.constitution --text "..." --files ...`: Combine inline text input with project documents.
-    - `/speckit.constitution`: Run the command without any inputs. For brownfield projects, the workflow uses the codebase to identify standards/guidelines/requirements, and then generates a constitution.
-
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed inputs usually generates more accurate and comprehensive constitutions.
-
-1. In the Chat view, to start a constitution workflow using inline text, enter the following command:
+1. In the Chat view, to start a constitution workflow using a combination of inline text and stakeholder documents, enter the following command:
 
     ```plaintext
-    /speckit.constitution --text "Code projects emphasize security, accessibility, performance, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context."
+    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md StakeholderDocuments/MVPSystemRules.md
     ```
 
-    In this case, the inline text provides high-level guidance for creating the constitution. This approach is useful when you want to quickly establish core principles without detailed project documents.
-
-1. Monitor GitHub Copilot's response in the Chat view.
-
-1. Take a minute to review the updated constitution.md file in the editor.
-
-    Notice that GitHub Copilot has updated the constitution.md file to include principles based on the inline text you provided. The principles should be clearly stated and actionable.
-
-    For a real-world project, it's important to review the constitution against the following criteria:
-
-    - Completeness: All major areas (security, performance, quality, technical standards) are covered.
-    - Clarity: Each principle is specific and unambiguous.
-    - Consistency: Principles don't contradict each other.
-    - Relevance: All principles relate to the RSSFeedReader project.
-
-1. If the /speckit.constitution workflow updated files in the **templates** folder, take a minute to review those files as well.
-
-    The constitution workflow can update the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md). The updates should reflect the principles defined in the constitution.md file. This helps to ensure consistency across all project documentation.
-
-1. To accept the changes to all updated files, select the **Keep** button in the Chat view.
-
-    You can also accept changes to individual files, or individual changes within a file, by selecting **Keep** button options in the editor.
-
-1. In the Chat view, to start a second constitution workflow using the stakeholder documents, enter the following command:
-
-    ```plaintext
-    /speckit.constitution --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md StakeholderDocuments/MVPSystemRules.md
-    ```
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed inputs should generate more accurate and comprehensive constitutions.
 
 1. Monitor GitHub Copilot's response.
 
-    GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
+    It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document.
 
-    It can take a minute or two for GitHub Copilot to analyze the project requirements and then construct the constitution document. If the workflow updates the templates for other GitHub Spec Kit files (spec.md, plan.md, tasks.md), you can accept the updates without reviewing the changes. You generate those files in later tasks.
+1. Once GitHub Copilot is finished updating the constitution.md file, take a minute to review the suggested edits.
 
-    > **NOTE**: If GitHub Copilot reports that it isn't able to access or edit files, open Visual Studio Code **Settings**, expand **Features**, select **Chat**, and then ensure that **Chat > Agent** is enabled.
+    Notice that the constitution workflow extracts the underlying principles specified in the stakeholder documents and uses them to add details to the constitution.
 
-1. Review the updated constitution.md file in the editor.
-
-    Best practice: Always review the suggestions created by an agent.
-
-    After GitHub Copilot updates the constitution, review the document to ensure it captures requirements accurately. This step is important when you're working in a production environment where the constitution represents your business requirements and technical governance. For a training exercise, this review is mainly to help you become familiar with the constitution content.
-
-    Notice that GitHub Copilot recognizes the underlying principles of the ContosoDashboard project and incorporates them into the constitution. The constitution enforces a spec-driven development approach and recognizes the distinction between a training app and production code.
+    Developers should review the constitution to ensure it captures requirements accurately. This step is important when you're working in a production environment where the constitution represents your business requirements and technical governance. For a training exercise, this review is mainly to help you become familiar with the constitution content.
 
     Each principle should be clearly stated and actionable. For example:
 
     - ❌ Vague: "Use good security practices" is too general.
-    - ✅ Clear: "All API endpoints must validate authentication tokens and enforce role-based permissions" is specific and actionable.
+    - ✅ Clear: "The system MUST sanitize any HTML from feeds before rendering and MUST NOT execute active content (scripts, inline event handlers, dangerous URLs)." is specific and actionable.
 
     If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
-1. Ensure that the constitution document is complete, and then accept the changes.
+    For a real-world project, it's important to review the constitution against the following criteria:
 
-    For a real-world project, it's important to review the constitution against the following criteria before saving:
-
-    - Completeness: All major areas (security, performance, quality, technical standards) are covered.
+    - Completeness: All major areas (security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality) are covered.
     - Clarity: Each principle is specific and unambiguous.
     - Consistency: Principles don't contradict each other.
-    - Relevance: All principles relate to the ContosoDashboard project.
+    - Relevance: All principles relate to the RSSFeedReader project.
 
-1. Save and then close the **constitution.md** file.
+1. If the /speckit.constitution workflow updated files in the **templates** folder, take a minute to review those updates as well.
+
+1. To accept the changes to all updated files, select the **Keep** button in the Chat view.
+
+1. Save and then close the updated files.
 
 1. Commit and push the updated files to your Git repository.
 
@@ -325,53 +353,29 @@ Use the following steps to complete this task:
 
 The constitution serves as a "contract" between business requirements and technical implementation, ensuring consistency throughout the spec-driven development process. When you use the GitHub Spec Kit to generate the spec, plan, and tasks, it references these principles to ensure the implementation aligns with specified requirements.
 
-## Create the feature specification using stakeholder requirements and the constitution
+## Create the spec.md file using stakeholder requirements
 
-The specification (spec.md) defines what you're building from the user's perspective. It describes features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating the implementation plan and tasks.
+The specification (spec.md) defines what you're building from the user's perspective. It describes the features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating the implementation plan and tasks.
 
-In this task, you use GitHub Copilot's `/speckit.specify` command to generate a detailed specification for the "document upload and management feature" based on the requirements provided by Contoso's business stakeholders.
+In this task, you use GitHub Copilot's `/speckit.specify` command to generate a detailed specification for the RSS Feed Reader based on the requirements provided by Contoso's business stakeholders.
 
 Use the following steps to complete this task:
 
-1. In Visual Studio Code's EXPLORER view, under the **.github/agents** folder, open the **speckit.specify.agent.md** file.
+1. Use Visual Studio Code's EXPLORER view to open the **spec-template.md** and **speckit.specify.agent.md** files.
 
-1. Take a minute to review the **speckit.specify.agent.md** file.
+1. Take a minute to review the **spec-template.md** and **speckit.specify.agent.md** files.
 
-    Notice the detailed instructions provided to GitHub Copilot. The agent follows a systematic approach to generate a spec file that clearly defines the requirements.
+    Notice the following:
 
-1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocs** folder, and then open the **document-upload-and-management-feature.md** file.
+    - The spec-template.md file defines the structure and sections of a specification document. It includes examples and/or placeholders for feature descriptions, user stories, acceptance criteria, and other relevant information.
+    - The speckit.specify.agent.md file provides detailed instructions for the /speckit.specify command. It guides GitHub Copilot on how to create a specification based on the provided requirements.
+    - The speckit.specify.agent.md file generates a repository branch at the beginning of the workflow. Creating a branch generally requires user permissions, so GitHub Copilot prompts for permission when the workflow is run.
 
-1. Take a couple minutes to read through the **document-upload-and-management-feature.md** file.
+1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocs** folder, and then open the **AppFeatures.md** and **MVPSystemRules.md** files.
 
-    The document-upload-and-management-feature.md file includes detailed stakeholder requirements for the feature that you're adding to the ContosoDashboard application. Clear and detailed requirements are essential for creating an effective specification.
+1. Take a couple minutes to read through the two documents.
 
-    The document explains that Contoso Corporation employees need a feature that allows them to upload, organize, and share work-related documents within the ContosoDashboard application. The feature must address current challenges with scattered document storage across multiple locations by providing a centralized, secure, role-based document management solution. The document indicates that the feature must work offline for training purposes while maintaining clean abstractions for future Azure cloud migration. The specification defines six core requirement areas (upload capabilities, organization and browsing, access management, integration with existing features, performance requirements, and reporting) along with detailed technical constraints ensuring the implementation follows the offline-first architecture pattern with interface-based abstractions for production deployment. Performance targets and success metrics are provided to ensure the feature meets user needs and business goals.
-
-    It's best to prepare a comprehensive description of the feature ahead of time. However, if you didn't have a detailed requirements document like the one in the StakeholderDocs folder, you can try using a shorter description that highlights the key features, constraints, and success criteria. For example, the following (simplified) description could be used for the document upload and management feature:
-
-    ```plaintext
-    Feature: Document Upload and Management for ContosoDashboard
-    
-    Enable employees to upload work-related documents (PDF, Office, images, text), organize by category/project, share with team members, and search efficiently. Must integrate with existing dashboard features while maintaining security.
-    
-    Target Users: All 5,000 Contoso employees with role-based access (Employee, Team Lead, Project Manager, Administrator).
-    
-    Core Capabilities:
-    1. Upload: Multiple files, max 25 MB each, supported types (PDF, Office docs, images, text), metadata (title, category, description, project, tags), progress indicator, virus scanning.
-    2. Organization: My Documents view, Project Documents view, search by title/description/tags/uploader/project (results under 2 seconds).
-    3. Management: Download, in-browser preview (PDF/images), edit metadata, replace files, delete documents, sharing with notifications.
-    4. Integration: Attach to tasks, dashboard Recent Documents widget, notifications for sharing/new project docs.
-    5. Performance: Upload in 30s (25 MB files), list load in 2s (500 docs), search in 2s, preview in 3s.
-    6. Audit: Log all uploads/downloads/deletions/sharing, admin reports.
-    
-    Security: Azure Blob Storage encryption at rest, TLS 1.3 in transit, RBAC enforcement, virus scanning.
-    
-    Success Criteria: 70% adoption in 3 months, find docs under 30s, 90% properly categorized, zero security incidents.
-    
-    Constraints: Azure Blob Storage, ASP.NET Core integration, 8-10 week timeline, Entra ID authentication.
-    
-    Out of Scope: Version history, storage quotas, soft delete/trash, collaborative editing, external integrations, mobile apps.
-    ```
+    These documents are your primary resources for user-facing feature requirements and provide the context needed to create a comprehensive specification.
 
 1. Ensure that the Chat view is open.
 
@@ -380,26 +384,24 @@ Use the following steps to complete this task:
 1. In the Chat view, to start a specify workflow that generates a specification from your stakeholders document, enter the following command:
 
     ```plaintext
-    /speckit.specify --file StakeholderDocs/document-upload-and-management-feature.md
+    /speckit.specify --files StakeholderDocs/AppFeatures.md StakeholderDocs/MVPSystemRules.md
     ```
 
     If you don't specify a requirements document using the `--file` option, you're prompted to describe the feature that you want to build.
 
 1. Monitor GitHub Copilot's response and provide assistance as needed.
 
-    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a repository branch for the new feature. Grant permission when required by responding in the Chat view.
+    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a repository branch. Grant permission when required by responding in the Chat view.
 
-    It can take 4-6 minutes to create and validate the spec.md file.
+    It can take 4-6 minutes to create and validate the spec.md file. If the workflow process stops before the spec.md file is created, you can use GitHub Copilot's **retry** command to restart the workflow.
 
 1. Once the specify workflow is complete, use Visual Studio Code's EXPLORER view to expand the **specs** and **checklists** folders.
 
 1. In the EXPLORER view, select **spec.md**, and then take a couple minutes to review the spec.md file.
 
-    The spec.md file should include a detailed specification for the document upload and management feature based on the stakeholder requirements.
+    The spec.md file is based on the template located in the **.specify/templates/spec-template.md** file. The updated spec.md file should include a detailed specification for the RSS Feed Reader app based on the stakeholder requirements that you provided.
 
-    The specification should be clear, comprehensive, and well-structured. It should provide a solid foundation for creating the technical plan and tasks.
-
-    The spec.md file is based on the template located in the **.specify/templates/spec-template.md** file. The updated spec.md file should include a detailed specification for the 'document upload and management feature' based on the stakeholder requirements that you provided.
+    The specification should be clear, comprehensive, and well-structured. It should also provide a solid foundation for creating the technical plan and tasks.
 
     Ensure that the spec.md file includes the mandatory sections defined in the spec template. For example:
 
@@ -407,27 +409,29 @@ Use the following steps to complete this task:
     - **Requirements**: Detailed requirements that must be met, organized by category.
     - **Success Criteria**: Measurable outcomes, assumptions, and out-of-scope items.
 
-1. Review the **spec.md** file and verify that key requirements (from your stakeholder requirements document) are captured under the Requirements section.
-
-    For example, you should see requirements related to:
-
-    - File size limits (25 MB per file)
-    - Supported file types (PDF, Office documents, images, text files)
-    - Performance targets (2-second page loads, 30-second uploads)
-
-1. Review the **spec.md** file and verify that acceptance scenarios (associated with user scenarios) are specific and testable:
+1. Verify that the User Stories (and Acceptance Scenarios) in the **spec.md** file are specific and testable:
 
     The acceptance scenarios should follow the **Given-When-Then** format. The scenarios should provide clear conditions for success or failure. For example:
 
-    - ✅ Good: **Given** I'm logged in as an employee, **When** I navigate to the documents page and select a PDF file under 25 MB with valid metadata (title and category), **Then** the document uploads successfully and appears in my "My Documents" list with all metadata displayed correctly
+    - ✅ Good: **Given** the user has no subscriptions, **When** they add a valid feed URL, **Then** the feed appears in their subscriptions list.
 
-    - ✅ Good: **Given** an employee attempts to upload a 30MB file, **When** validation occurs, **Then** they see an error message stating the 25MB limit
+    - ✅ Good: **Given** the user is subscribed to a feed, **When** they trigger "refresh now", **Then** the system fetches the feed and shows a newest-first list of items.
 
-    - ❌ Avoid: Vague criteria like "Upload should work well" or "System should be fast"
+    - ❌ Avoid: Vague criteria like "Upload should work well" or "System should be fast".
+
+1. Verify that the Requirements section of the **spec.md** file includes key requirements from your stakeholder requirements document.
+
+    For example, you should see requirements that are similar to the following:
+
+    - System MUST allow a single user to add a feed subscription by pasting a feed URL.
+    - System MUST allow a user to remove a feed subscription.
+    - System MUST provide a manual "refresh now" action per feed.
 
 1. In the EXPLORER view, select **requirements.md**, and then take a minute to review the requirements.md file.
 
     Verify that no issues are reported in the **requirements.md** file. You should see that all checklist items passed successfully.
+
+    > **NOTE**: The `/speckit.clarify` command can be used to identify ambiguities, gaps, and underspecified areas in your specification. In a production environment, it's recommended to run the clarification process after generating the initial specification to ensure all requirements are clear and complete before moving to the technical planning phase. For this lab exercise, you'll skip the clarification step.
 
 1. Accept the suggested file updates, and then save the **spec.md** and **requirements.md** files.
 
@@ -439,56 +443,6 @@ Use the following steps to complete this task:
 
 The specification defines the "what" without the "how." It doesn't specify programming languages, frameworks, database schemas, or code organization - those implementation details are determined in the Plan and Tasks phases based on the constitution's technical constraints. The spec focuses on user needs and business requirements, making it easier to review with nontechnical stakeholders.
 
-## Update the specification with clarified requirements
-
-The `/speckit.clarify` command helps identify ambiguities, gaps, and underspecified areas in your specification. GitHub Copilot analyzes the spec and asks targeted questions to ensure all requirements are clear and complete before moving to the technical planning phase.
-
-In this task, you use the clarification process to refine the document upload and management specification.
-
-Use the following steps to complete this task:
-
-1. Ensure the GitHub Copilot Chat view is open.
-
-1. In the Chat view, to start the clarification process, enter the following command:
-
-    ```plaintext
-    /speckit.clarify
-    ```
-
-1. Monitor GitHub Copilot's response and provide assistance as needed.
-
-    GitHub Copilot analyzes the spec.md file and evaluates whether clarification questions are necessary.
-
-    For example, you might receive questions that are similar to the following sample questions:
-
-    - "When a user is removed from a project after uploading documents to that project, what should happen to those documents?"
-    - "When a project is deleted, what should happen to all documents associated with that project?"
-    - "When a shared document is deleted by the owner, what happens to recipients who had access to it?"
-    - "When a user uploads a document with a filename that contains special characters (for example, Q4 Report (2025) - Finance & Ops.pdf), how should the system handle it?"
-    - "When disk storage becomes full during a document upload, how should the system respond?"
-
-    The questions are presented one at a time.
-
-1. If clarifications are needed, consider each question appropriately before answering.
-
-    In a production environment, your answers should reflect careful analysis of business needs, user experience considerations, and technical constraints. However, for this training, you can select the recommended option for each question.
-
-    When you provide an answer, GitHub Copilot updates the spec.md file with clarifications.
-
-    > **NOTE**: If GitHub Copilot presents additional rounds of questions, continue answering until it indicates there are no further clarifications needed. The clarification process typically involves 1-2 rounds of questions as GitHub Copilot refines the specification.
-
-    Once the clarification process is complete, review the updated **spec.md** file, and then accept the changes.
-
-    - Check that your answers are accurately reflected in the specification
-    - Verify that previously ambiguous areas now have clear requirements
-    - Look for any newly added acceptance criteria based on your clarifications
-
-    You can make any manual edits if needed. For example, if GitHub Copilot interpreted an answer differently than you intended, edit the spec directly to correct it.
-
-1. If the clarification process resulted in changes, save the updated **spec.md** file, and then commit and sync the changes.
-
-Ensuring that specification provides clear and comprehensive guidance is important. By addressing ambiguities upfront, you reduce the risk of building the wrong solution or having to make significant changes later in the development process.
-
 ## Generate the technical plan using the specification and constitution
 
 The technical plan bridges the gap between the "what" (specification) and the "how" (implementation). It defines the architecture, technology choices, data models, API designs, and implementation approach while adhering to the constraints defined in the constitution.
@@ -497,15 +451,14 @@ In this task, you use GitHub Copilot's `/speckit.plan` command to generate a com
 
 Use the following steps to complete this task:
 
-1. In Visual Studio Code's EXPLORER view, under the **.github/agents** folder, open the **speckit.plan.agent.md** file.
+1. Use Visual Studio Code's EXPLORER view to open the **plan-template.md** and **speckit.plan.agent.md** files.
 
-1. Take a minute to review the **speckit.plan.agent.md** file.
+1. Take a minute to review the **plan-template.md** and **speckit.plan.agent.md** files.
 
-    Notice the detailed instructions provided to GitHub Copilot. The agent follows a systematic approach to generate a plan file that outlines the technical implementation strategy.
+    Notice the following:
 
-    If you're interested, you can also review the **.specify/templates/plan-template.md** file to see the structure that's used for the plan.md file.
-
-1. Ensure the GitHub Copilot Chat view is open.
+    - The plan-template.md file defines the structure and sections of a technical plan document.
+    - The speckit.plan.agent.md file provides detailed instructions for the /speckit.plan command. It guides GitHub Copilot on how to create a technical plan based on the specification and constitution.
 
 1. In the Chat view, to start the technical planning process, enter the following command:
 
@@ -560,13 +513,17 @@ In this task, you use the GitHub Spec Kit's `/speckit.tasks` command to generate
 
 Use the following steps to complete this task:
 
-1. In Visual Studio Code's EXPLORER view, under the **.github/agents** folder, open the **speckit.tasks.agent.md** file.
+1. Use Visual Studio Code's EXPLORER view to open the **tasks-template.md** and **speckit.tasks.agent.md** files.
 
-1. Take a minute to review the **speckit.tasks.agent.md** file.
+1. Take a minute to review the **tasks-template.md** and **speckit.tasks.agent.md** files.
 
-    Notice the detailed instructions provided to GitHub Copilot. The agent follows a systematic approach to generate a tasks.md file that breaks down the implementation plan into manageable tasks.
+    Notice that the tasks-template.md file organizes tasks into logical phases, while the speckit.tasks.agent.md file describes the steps that the /speckit.tasks workflow should follow:
 
-1. Ensure the GitHub Copilot Chat view is open.
+    - What inputs to read (spec.md, plan.md, etc.)
+    - What to produce (tasks.md)
+    - How to sequence the tasks (by phase, user story, etc.)
+    - How to define each task (specific, actionable, testable)
+    - What checks/gates to apply (coverage, ordering, scope)
 
 1. In the Chat view, to start generating the tasks.md file, enter the following command:
 
@@ -582,27 +539,26 @@ Use the following steps to complete this task:
 
 1. Once the tasks workflow is complete, take a few minutes to review the **tasks.md** file.
 
-    The tasks.md file should provide a list of tasks organized by phase and user story.
+    Verify that tasks are ordered logically by phase and user story. For example:
 
-    Verify that the tasks cover the requirements from the specification and plan. For example:
-
-    - Each functional requirement should map to one or more tasks.
-    - Security requirements should have corresponding implementation tasks.
-    - Performance requirements should have testing tasks.
-    - Integration points should have dedicated tasks.
-
-    Verify that tasks are ordered logically. For example:
-
-    - Foundation tasks (database, models) come first.
+    - Setup and Foundation tasks come first.
     - Backend API tasks build on the foundation.
     - Frontend tasks reference backend endpoints.
     - Testing tasks come after implementation.
     - Deployment tasks come last.
 
+    In a production scenario, you should also take the time to verify that every requirement (from spec.md) and every key design commitment (from plan.md) maps to at least one concrete task (usually several). For example:
+
+    - Design commitments from the plan.md file should have corresponding implementation tasks.
+    - User story acceptance criteria should have corresponding implementation and verification tasks.
+    - Functional requirements should have corresponding implementation tasks.
+    - Security requirements should have corresponding implementation tasks.
+    - Performance requirements should have testing tasks.
+
 1. Ensure that each task is specific and actionable:
 
-    - ✅ Good: "Create Document entity with properties: DocumentId, Title, Description, FileName, FileSize, BlobStorageUrl"
-    - ❌ Vague: "Set up database stuff"
+    - ✅ Good: "Implement safe HTTP fetcher (http/https only, timeout, size limits, content-type checks) in backend/src/RssFeedReader.Infrastructure/Http/FeedHttpClient.cs"
+    - ❌ Vague: "Enforce security and reliability requirements in the HTTP client"
 
     Verify that tasks have reasonable scope:
 
@@ -612,9 +568,9 @@ Use the following steps to complete this task:
     You can add task dependencies or notes if needed. For example:
 
     ```markdown
-    - [ ] Task 12: Implement DocumentController POST /api/documents endpoint
-      - Depends on: Task 11 (DocumentService)
-      - Note: Include comprehensive error handling for file size limits and unsupported types
+    - [ ] T026 Implement refresh pipeline orchestration (fetch -> parse -> sanitize -> persist -> status update) in backend/src/RssFeedReader.Domain/Services/FeedRefreshService.cs
+      - Depends on: T021, T022, T024, T025
+      - Note: This task implicitly depends on several earlier foundational tasks (HTTP fetcher, parser, sanitizer, identity hashing)
     ```
 
 1. Accept the suggested file updates, and then save the **tasks.md** file.
@@ -639,9 +595,8 @@ Use the following steps to complete this task:
 
     ```plaintext
     **Phases**: Setup → Foundation → US1 only  
-    **Tasks**: T001 - T045 (45 tasks)  
-    **Estimated Time**: 6-8 hours for developer familiar with ASP.NET Core/Blazor  
-    **Deliverable**: Users can upload and view their documents
+    **Tasks**: T001 - T044 (44 tasks)  
+    **Deliverable**: Users can subscribe to a feed by URL, manually refresh, view newest-first items, open original link, and see clear per-feed errors.
     ```
 
 1. In the Chat view, enter a command that starts the implement workflow using the MVP first strategy:
@@ -653,7 +608,7 @@ Use the following steps to complete this task:
     For example (referencing the MVP implementation example from the previous step), you might enter the following command:
 
     ```dotnetcli
-    /speckit.implement Implement the MVP first strategy (Tasks: T001 - T045)
+    /speckit.implement Implement the MVP first strategy (Tasks: T001 - T044)
     ```
 
     This command instructs GitHub Copilot to begin implementing the tasks required for the MVP version of the document upload and management feature.
@@ -668,12 +623,22 @@ Use the following steps to complete this task:
 
     You might encounter issues during manual testing. For example:
 
-    1. GitHub Copilot tells you that manual testing is required to verify that file uploads are working correctly.
-    1. The application is already running locally. The Chat view provides the URL to open in the browser (for example, `http://localhost:5000`).
-    1. You open the application in the browser, login as Ni Kang, and then navigate to the My Documents page.
-    1. The app appears to be unresponsive with a message "Loading documents..." displayed in the user interface.
-    1. You select the Upload Document button, but nothing happens.
-    1. You try logging out, but the application remains unresponsive. None of the buttons work.
+    1. GitHub Copilot tells you that manual testing is required to verify Feed URLs are working correctly.
+    1. The backend application is already running locally on `http://localhost:5000`.
+    1. You start the frontend application using Visual Studio Code's terminal. The frontend application starts successfully and is running on `http://localhost:5239`.
+    1. You open a browser and navigate to the frontend application (for example, `http://localhost:5239`).
+    1. When the page loads, it reports an error: "An unhandled error has occurred. Reload".
+    1. You open the browser's developer tools to investigate further.
+    1. In the developer tools console, you see the following error message:
+
+        ```plaintext
+        "Unhandled exception rendering component: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'.
+        System.InvalidOperationException: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'.
+        at Microsoft.AspNetCore.Components.Reflection.ComponentProperties.ThrowForUnknownIncomingParameterName(:5239/Type targetTyp…tring parameterName)
+        at Microsoft.AspNetCore.Components.Reflection.ComponentProperties.SetProperties(:5239/ParameterView&…ters, Object target)
+        at Microsoft.AspNetCore.Components.ParameterView.SetParameterProperties(:5239/Object target)
+        at Microsoft.AspNetCore.Components.Routing.Router.SetParametersAsync(:5239/ParameterView parameters)"
+        ```
 
     At this point you need to report the issue to GitHub Copilot:
 
@@ -681,14 +646,14 @@ Use the following steps to complete this task:
     1. You report the issue in the Chat view. For example:
 
         ```plaintext
-        I opened the application in the browser at http://localhost:5000. I was able to login as Ni Kang and navigate to the My Documents page. However, I encountered an issue where the application appears unresponsive with a "Loading documents..." message displayed in the UI. When I select the Upload Document button, nothing happens. I also tried logging out, but the application remains unresponsive and none of the buttons work. Can you help me troubleshoot this issue?
+        I opened the application in the browser at http://localhost:5239. When the page opens, I see an error message: "An unhandled error has occurred. Reload". When I check the browser's developer tools console, I see the following error message: "Unhandled exception rendering component: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'". Can you help me troubleshoot this issue?
         ```
 
     When you report an issue, GitHub Copilot uses the information you provided to begin debugging. A detailed description, including what is working, helps GitHub Copilot understand the problem better. GitHub Copilot might need extra details, such as specific error messages to resolve some issues. Provide any additional information requested by GitHub Copilot to help diagnose (and resolve) the problem.
 
     Continue to provide assistance until the issue is resolved. Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
 
-1. Continue with the implement workflow until all tasks required for the MVP application are complete.
+1. Continue with the implementation workflow until all tasks required for the MVP application are complete.
 
     GitHub Copilot should notify in the Chat view when the MVP implementation is complete.
 
@@ -700,6 +665,17 @@ Use the following steps to complete this task:
 
     You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section. The MVP application is usually associated with the first user story (US1) in the spec.md file.
 
+    For example, the acceptance scenarios for the MVP application might be similar to the following example:
+
+    1. **Given** the user has no subscriptions, **When** they add a valid feed URL,
+      **Then** the feed appears in their subscriptions list.
+    2. **Given** the user is subscribed to a feed, **When** they trigger "refresh now",
+      **Then** the system fetches the feed and shows a newest-first list of items.
+    3. **Given** the user is viewing an item, **When** they choose "open original",
+       **Then** the system opens the item's canonical link.
+    4. **Given** a feed fetch fails, **When** refresh completes, **Then** the system
+      shows a clear error for that feed and the app does not crash.
+
     You can also ask GitHub Copilot for the steps required to perform manual testing of your MVP implementation. For example, you could enter the following prompt in the Chat view:
 
     ```plaintext
@@ -708,30 +684,7 @@ Use the following steps to complete this task:
 
     Use Visual Studio Code to run the application, and then manually test the document upload and management functionality to ensure that it works as expected.
 
-    For example, you can use the following steps to manually test document upload functionality:
-
-    1. Navigate to http://localhost:5000
-    1. Log in as Ni Kang (Employee).
-    1. Select **Documents** from the navigation menu.
-    1. Use the provided interface to open a file selection dialog.
-    1. Locate and select a PDF file that's less than 25 MB, then fill the Title ("Test Document") and Category ("Personal Files") fields.
-    1. Select the "Upload" option to start the upload process.
-    1. Verify that an upload progress indicator appears.
-    1. Verify that the document appears in your uploaded documents list.
-
 1. Report back to GitHub Copilot with the results of your manual testing.
-
-    For example:
-
-    - If your test succeeded, you can either continue to the next test or provide a report similar to the following example:
-
-        "I opened the application in the browser at http://localhost:5000. I was able to login as Ni Kang and navigate to the My Documents page. I can upload a PDF file less than 25 MB with the Title 'Test Document' and Category 'Personal Files.' The upload progress indicator appeared, and the document shows up in my uploaded documents list. Task T041 passed successfully."
-
-    - If your task failed, you need to report the issue to GitHub Copilot for assistance.
-
-        For example: "I opened the application in the browser at http://localhost:5000. I was able to login as Ni Kang and navigate to the My Documents page. I can select a document and fill in the Title and Category fields, but there's an error when I try to upload the document. I see a progress indicator displayed on the Upload Document page, however, the My Documents page doesn't recognize that I uploaded a document. Can you help resolve the issue?
-
-    GitHub Copilot can help you diagnose and fix issues, implement improvements to the user interface, or suggest next steps.
 
 1. Continue manual testing and reporting results until all acceptance scenarios for the MVP application pass successfully.
 

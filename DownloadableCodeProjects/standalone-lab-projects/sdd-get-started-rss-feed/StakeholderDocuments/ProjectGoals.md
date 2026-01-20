@@ -16,9 +16,38 @@ Multi-device sync, first-class mobile support, and expanded offline capabilities
 
 ## Delivery approach
 
-Development will follow a spec-driven workflow using GitHub Spec Kit. Each meaningful slice of work should have a lightweight spec that describes the user outcome, acceptance criteria, and any important edge cases (for example, malformed feeds or duplicate items).
+We will build in small increments, validating behavior at each step, rather than attempting a large implementation in a single pass.
 
-We will build in small increments, validating behavior at each step, rather than attempting a large implementation in a single pass. Specs will guide implementation order and help keep scope under control.
+Each increment should be described in a short, testable way:
+
+- One primary user outcome.
+- A handful of acceptance scenarios (a clear success-path plus 2–3 high-value failures).
+- The edge cases we are *not* solving yet.
+
+To keep delivery fast and predictable:
+
+- Start with the smallest end-to-end MVP slice first (manual subscribe → refresh → items).
+- Treat discovery, background polling, folders, and read/unread as post-MVP unless explicitly pulled in.
+- Use a known-good feed for the first success-path verification before testing stricter or rate-limited sources.
+- Keep work items small and single-purpose; when a change affects behavior, add/adjust tests first.
+
+When writing a work breakdown (tasks):
+
+- Prefer tasks that touch one file or one concern.
+- If a task changes multiple concerns, split it.
+- Put test changes first for each behavior change.
+- If you use a marker for parallelizable tasks (for example `[P]`), only mark tasks that do not touch the same files.
+- Keep local dev ports and base URLs explicit and configurable to avoid unnecessary debugging churn.
+
+## What "MVP working" means in practice
+
+For the first MVP slice, "working" should be validated on a known-good RSS/Atom feed with this flow:
+
+1. Add subscription
+2. Trigger manual refresh
+3. View items
+
+Only after this success-path works reliably should we use stricter sites (rate-limited/blocked sources) as robustness tests.
 
 ## Rollout plan
 
@@ -47,15 +76,17 @@ Local data should remain the user’s data. The design should make it easy to ke
 - **Reliability**: Handle malformed/redirected feeds robustly; deduplicate items idempotently; persist safely to avoid corruption.
 - **Observability**: Use structured logs with levels; surface actionable error messages; collect minimal opt-in telemetry only.
 - **Release Management**: Use semantic versioning; maintain a changelog; ensure reproducible builds; enable quick rollback.
-- **Documentation & Process**: Keep README/user guide and architecture overview current; write brief specs with acceptance criteria via Spec Kit; definition of done includes tests, docs, and QA checklist.
+- **Documentation & Process**: Keep README/user guide and architecture overview current; write brief requirements with acceptance criteria; definition of done includes tests, docs, and a short QA checklist.
 - **Dependency Management**: Pin versions; update regularly; track licenses; generate an SBOM (e.g., CycloneDX) and verify compliance.
+
+## “MVP first” rule of thumb
+
+If a requirement introduces background scheduling, concurrency orchestration, or cross-cutting UI state (examples: polling, folders, read/unread), it is probably post-MVP unless the app cannot demonstrate the core workflow without it.
 
 ## How this document fits with the others
 
 This document describes the project at a high level and sets constraints, methodology, and rollout expectations.
 
-Detailed, user-facing requirements live in [App Features.md](App%20Features.md).
+Detailed, user-facing requirements live in [AppFeatures.md](AppFeatures.md).
 
-The technology choices and architectural rationale live in [Tech Stack.md](Tech%20Stack.md).
-
-MVP system behavior rules that inform our specs live in [MVP System Rules.md](MVP%20System%20Rules.md).
+The technology choices and architectural rationale live in [TechStack.md](TechStack.md).
