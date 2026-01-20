@@ -16,7 +16,7 @@ This exercise should take approximately **60** minutes to complete.
 
 ## Before you start
 
-Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQL Server LocalDB, Python 3.11 or later, the uv package manager, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQL Server LocalDB, Python 3.11 or later, the uv package manager, Specify CLI, and access to a GitHub account with GitHub Copilot enabled.
 
 For help with configuring your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2345907" target="_blank">Configure your GitHub Spec Kit lab environment</a>.
 
@@ -32,8 +32,8 @@ This exercise includes the following tasks:
 1. Examine GitHub Spec Kit's constitution command and files.
 1. Update the constitution using stakeholder documents.
 1. Generate the spec.md file using stakeholder requirements.
-1. Generate the plan.md file using stakeholder requirements and the specification.
-1. Generate the tasks.md file using the specification, plan, and constitution.
+1. Generate the plan.md file using stakeholder requirements and spec.md.
+1. Generate the tasks.md file using the spec.md, plan.md, and constitution.md.
 1. Implement the tasks required for an MVP application.
 
 ## Create a project folder and initialize GitHub Spec Kit
@@ -89,6 +89,13 @@ Use the following steps to complete this task:
 
     When you use the `specify init` command for a brownfield project, it recognizes that the current directory isn't empty and asks for confirmation before proceeding. The command preserves any existing application files.
 
+    **Troubleshooting**: If you encounter issues:
+
+    - **"specify command not found"**: To ensure that you installed the Specify CLI, run `specify version`.
+    - **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
+    - **Git clone errors**: Verify that you're signed in to GitHub, and that you have access to your imported repository.
+    - **GitHub Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
+
 1. To open the RSSFeedReader project in Visual Studio Code, enter the following command:
 
     ```powershell
@@ -135,13 +142,6 @@ Use the following steps to complete this task:
 
     > **Note**: If the '/speckit.' commands don't appear, try closing and then reopening the project in Visual Studio Code.
 
-    **Troubleshooting**: If you encounter issues:
-
-    - **"specify command not found"**: Ensure you completed Task 1 and installed the Specify CLI. Run `specify version` to verify installation.
-    - **Permission denied errors**: On Windows, ensure you're running PowerShell with appropriate permissions. On macOS/Linux, check file permissions.
-    - **Git clone errors**: Verify that you're signed in to GitHub, and that you have access to your imported repository.
-    - **GitHub Spec Kit commands not appearing**: Ensure `.github/prompts/` exists in your workspace root. Try reloading Visual Studio Code.
-
 1. Publish your project to a new GitHub repository.
 
     For example:
@@ -156,19 +156,24 @@ Use the following steps to complete this task:
 
         > **IMPORTANT**: If prompted to sign in to GitHub, follow the sign-in process to authenticate your GitHub account.
 
-    1. Verify that the repository was created successfully.
+1. Verify that the repository was created successfully.
 
-        Option 1: Open a browser and navigate to your GitHub profile page. You should see the new RSSFeedReader repository listed among your repositories. Refresh the page if necessary.
-        Option 2: Open Visual Studio Code's notifications (bottom right). You should see a notification confirming that the repository was published successfully, along with a link to view it on GitHub.
+    For example:
+
+    Option 1: Open a browser and navigate to your GitHub profile page. You should see the new RSSFeedReader repository listed among your repositories. Refresh the page if necessary.
+
+    Option 2: Open Visual Studio Code's notifications (bottom right). You should see a notification confirming that the repository was published successfully, along with a link to view it on GitHub.
+
+With the project folder created, GitHub Spec Kit initialized, and source control configured, you're ready to begin using GitHub Spec Kit to create the constitution, specification, plan, and tasks for the RSS Feed Reader application.
 
 ## Examine GitHub Spec Kit's constitution command and files
 
 The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process. GitHub Spec Kit includes several resources that help to create and maintain the constitution.md file:
 
 - The .specify/memory/constitution.md file contains a template for the constitution document.
-- The .github/agents/speckit.constitution.agent.md file contains detailed instructions that guide the /speckit.constitution command.
+- The .github/agents/speckit.constitution.agent.md file contains detailed instructions that are used to generate (or update) the constitution.md file.
+- The .github/prompts/speckit.constitution.prompt.md file contains a "routing stub" that tells Copilot Chat to run the agent named speckit.constitution when the /speckit.constitution command is invoked.
 - The /speckit.constitution command is used to generate a constitution.md file for the project.
-- The .github/prompts/speckit.constitution.prompt.md file contains the prompt template that guides the /speckit.constitution command.
 
 In this task, you examine the resource files used to generate the constitution and evaluate the `/speckit.constitution` command.
 
@@ -205,7 +210,7 @@ Use the following steps to complete this task:
     - `/speckit.constitution --text "..." --files ...`: Specify a combination of inline text and project documents.
     - `/speckit.constitution`: Run the command without any inputs. The workflow uses files in the codebase to identify standards, guidelines, and requirements, and then generates a constitution.
 
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed requirements helps to generate more accurate and comprehensive constitutions.
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed (input) requirements helps to generate a more accurate and comprehensive constitution.
 
 1. To start a constitution workflow without any inputs, enter the following command in the Chat view:
 
@@ -213,7 +218,7 @@ Use the following steps to complete this task:
     /speckit.constitution
     ```
 
-    > **NOTE**: Running the constitution workflow on an empty project without supplying text or file inputs isn't recommended, but it does help to demonstrate how the template and workflow operate.
+    > **NOTE**: Running the constitution workflow on an empty project without supplying text or file inputs isn't recommended, but it does help to demonstrate how the workflow uses the template and instructions.
 
 1. Monitor GitHub Copilot's response.
 
@@ -237,9 +242,9 @@ Use the following steps to complete this task:
 
     - The **speckit.constitution.agent.md** file provides instructions for updating the constitution.md file based on the text or file input provided with the `/speckit.constitution` command. When no guidance is provided, the agent uses what it can find in the codebase to fill in the constitution template. In this case, the only information available in the codebase is that you want to create an RSS Feed Reader, so the AI uses what it knows about RSS Feed Readers to update the constitution.md file.
 
-1. Notice that the constitution workflow can update files in the **templates** folder as well.
+1. Notice that the constitution workflow updates files in the **templates** folder.
 
-    The constitution workflow can update the templates for other GitHub Spec Kit files (spec-template.md, plan-template.md, tasks-template.md). The updates should reflect the principles defined in the constitution.md file. This helps to ensure consistency across all project documentation.
+    The constitution workflow updates related GitHub Spec Kit files. In this case, that means one or more of the files in the templates folder (spec-template.md, plan-template.md, tasks-template.md). The updates should reflect the principles defined in the constitution.md file. Updating the related files helps to ensure consistency across all project documentation.
 
 1. To save all of the file updates, select the **Keep** button in the Chat view.
 
@@ -247,7 +252,7 @@ Use the following steps to complete this task:
 
 ## Update the constitution using stakeholder documents
 
-The /speckit.constitution workflow can use text input, file input, or the codebase, to extract the policies, standards, requirements, and guidelines that go into the constitution.md file.
+The /speckit.constitution workflow can use text input, file input, or the codebase, to extract the policies, standards, requirements, and guidelines that go into the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
 In this task, you download the stakeholder documents for the RSSFeedReader project, evaluate their relationship to the GitHub Spec Kit commands, and use them to update the constitution.md file.
 
@@ -265,15 +270,23 @@ Use the following steps to complete this task:
 
 1. Select all files in the temporary folder, copy them, and then paste them into the RSSFeedReader project root folder.
 
-    The extracted file folder contains the following:
+1. Switch back to Visual Studio Code.
+
+    The updated RSSFeedReader project should resemble the following:
 
     ```plaintext
-    GHSpecKitEx14StakeholderDocuments (root)
+    RSSFEEDREADER (root)
+    ├── .github/
+    │   ├── agents/                 (GitHub Spec Kit executable workflows that can be triggered via commands)
+    │   └── prompts/                (GitHub Spec Kit prompt files that provide detailed instructions for each of the agent workflows)
+    ├── .specify/                   (GitHub Spec Kit configuration)
+    │   ├── memory/                 (GitHub Spec Kit stores the project constitution defining core principles and governance rules that all features must follow)
+    │   ├── scripts/powershell/     (GitHub Spec Kit uses automation utilities (scripts) for creating features, setting up plans, and managing the specification workflow)
+    │   └── templates/              (GitHub Spec Kit provides standardized markdown formats for specs, plans, tasks, and checklists to ensure consistent documentation across all features)
+    ├── .vscode/                    (Visual Studio Code configuration)    
     ├── StakeholderDocuments        (folder containing stakeholder supplied documents)
-    └── README.md                   (a readme file describing the project)
+    └── README.md                   (a readme file describing the project documentation)
     ```
-
-1. Switch back to Visual Studio Code.
 
 1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocuments** folder.
 
@@ -282,13 +295,12 @@ Use the following steps to complete this task:
     - **ProjectGoals.md** - High-level project goals, purpose, scope, delivery approach, rollout plan, quality goals, and standards/guidelines.
     - **AppFeatures.md** - Detailed user-facing feature requirements.
     - **TechStack.md** - Technology choices and architectural rationale.
-    - **MVPSystemRules.md** - MVP system behavior rules that inform specs.
 
 1. Take a few minutes to review the stakeholder documents.
 
-    These documents include natural language descriptions of the project's goals, features, technical requirements, and constraints. Understanding this context is essential for creating an effective specification, plan, and tasks. The level of detail varies between the documents, but the overall mix is typical of what you might find in many real-world projects.
+    These documents include natural language descriptions of the project goals and constraints, app features, and technical requirements. Understanding this context is essential for creating an effective specification, plan, and tasks. The level of detail is typical of what you might find in preliminary documentation for many real-world projects.
 
-    Project documentation and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with the files and details available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process.
+    Project documentation and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with any level of detail that's available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process. However, detailed inputs lead to more predictable results.
 
 1. Consider the relationship between the stakeholder documents and the GitHub Spec Kit commands.
 
@@ -299,15 +311,16 @@ Use the following steps to complete this task:
     - **ProjectGoals.md**: This document provides high-level goals and standards that will inform the constitution.md file.
     - **AppFeatures.md**: This document contains detailed user-facing requirements that will help to create the spec.md file.
     - **TechStack.md**: This document outlines technology choices and architectural rationale that will influence the plan.md file.
-    - **MVPSystemRules.md**: This document defines system behavior rules that will guide the implementation tasks in tasks.md.
+
+    > **NOTE**: A one-to-one mapping between the stakeholder documents and the GitHub Spec Kit commands isn't necessary. For example, a single ProjectDescription.md file could provide context that's used to generate the constitution.md, spec.md, and plan.md files.
 
 1. In the Chat view, to start a constitution workflow using a combination of inline text and stakeholder documents, enter the following command:
 
     ```plaintext
-    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md StakeholderDocuments/MVPSystemRules.md
+    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md
     ```
 
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or expand the constitution.md file. Providing detailed inputs should generate more accurate and comprehensive constitutions.
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed inputs should generate a more accurate and comprehensive constitution.
 
 1. Monitor GitHub Copilot's response.
 
@@ -341,19 +354,18 @@ Use the following steps to complete this task:
 
 1. Commit and push the updated files to your Git repository.
 
-    For example, if the constitution.md file is the only file that was updated, you can use the following commands in the terminal:
+    For example:
 
-    ```powershell
-    git add constitution.md
-    git commit -m "Add project constitution with development principles and constraints"
-    git push
-    ```
+    1. Open Visual Studio Code's SOURCE CONTROL view.
+    1. Enter a commit message like "Updated constitution using stakeholder requirements."
+    1. Stage and commit the changes.
+    1. Push the changes to your Git repository.
 
-    You can verify the commit by checking your GitHub repository in the browser. The constitution.md file should now appear with your commit message.
+    You can verify the commit by checking your GitHub repository in the browser. The updated constitution.md file should now appear with your commit message.
 
 The constitution serves as a "contract" between business requirements and technical implementation, ensuring consistency throughout the spec-driven development process. When you use the GitHub Spec Kit to generate the spec, plan, and tasks, it references these principles to ensure the implementation aligns with specified requirements.
 
-## Create the spec.md file using stakeholder requirements
+## Generate the spec.md file using stakeholder requirements
 
 The specification (spec.md) defines what you're building from the user's perspective. It describes the features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating the implementation plan and tasks.
 
@@ -361,9 +373,7 @@ In this task, you use GitHub Copilot's `/speckit.specify` command to generate a 
 
 Use the following steps to complete this task:
 
-1. Use Visual Studio Code's EXPLORER view to open the **spec-template.md** and **speckit.specify.agent.md** files.
-
-1. Take a minute to review the **spec-template.md** and **speckit.specify.agent.md** files.
+1. Use Visual Studio Code's EXPLORER view to examine the **spec-template.md** and **speckit.specify.agent.md** files.
 
     Notice the following:
 
@@ -371,23 +381,21 @@ Use the following steps to complete this task:
     - The speckit.specify.agent.md file provides detailed instructions for the /speckit.specify command. It guides GitHub Copilot on how to create a specification based on the provided requirements.
     - The speckit.specify.agent.md file generates a repository branch at the beginning of the workflow. Creating a branch generally requires user permissions, so GitHub Copilot prompts for permission when the workflow is run.
 
-1. In Visual Studio Code's EXPLORER view, expand the **StakeholderDocs** folder, and then open the **AppFeatures.md** and **MVPSystemRules.md** files.
+1. Use Visual Studio Code's EXPLORER view to examine the **AppFeatures.md** stakeholder document.
 
-1. Take a couple minutes to read through the two documents.
-
-    These documents are your primary resources for user-facing feature requirements and provide the context needed to create a comprehensive specification.
+    This document is your primary resource for user-facing feature requirements and provides the context needed to create a comprehensive specification.
 
 1. Ensure that the Chat view is open.
 
     Notice that GitHub Copilot retains the context of previous interactions in the current chat session. If you generated the constitution.md file in the current session, GitHub Copilot provides a **Build Specification** button near the bottom of the Chat view that could be used to start generating the specification. In this case, you want to provide the requirements document explicitly, so you don't use the Build Specification button.
 
-1. In the Chat view, to start a specify workflow that generates a specification from your stakeholders document, enter the following command:
+1. In the Chat view, to start a specification workflow that generates a spec.md file from your stakeholders document, enter the following command:
 
     ```plaintext
-    /speckit.specify --files StakeholderDocs/AppFeatures.md StakeholderDocs/MVPSystemRules.md
+    /speckit.specify --files StakeholderDocs/AppFeatures.md
     ```
 
-    If you don't specify a requirements document using the `--file` option, you're prompted to describe the feature that you want to build.
+    If you don't specify a requirements document using the `--file` option, you're prompted to describe the app features that you want to build.
 
 1. Monitor GitHub Copilot's response and provide assistance as needed.
 
@@ -443,7 +451,7 @@ Use the following steps to complete this task:
 
 The specification defines the "what" without the "how." It doesn't specify programming languages, frameworks, database schemas, or code organization - those implementation details are determined in the Plan and Tasks phases based on the constitution's technical constraints. The spec focuses on user needs and business requirements, making it easier to review with nontechnical stakeholders.
 
-## Generate the technical plan using the specification and constitution
+## Generate the plan.md file using stakeholder requirements and spec.md
 
 The technical plan bridges the gap between the "what" (specification) and the "how" (implementation). It defines the architecture, technology choices, data models, API designs, and implementation approach while adhering to the constraints defined in the constitution.
 
@@ -505,7 +513,7 @@ Use the following steps to complete this task:
 
 The technical plan now serves as a blueprint for implementation. It translates business requirements into concrete technical decisions while respecting organizational constraints.
 
-## Generate the tasks file using the specification, plan, and constitution
+## Generate the tasks.md file using the spec.md, plan.md, and constitution.md
 
 The tasks.md file breaks down the technical plan into specific, actionable implementation steps. Each task should be small enough to complete in a reasonable timeframe (typically a few hours to a day when implemented without AI assistance) and have clear acceptance criteria.
 

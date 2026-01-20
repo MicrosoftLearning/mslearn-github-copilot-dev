@@ -3,6 +3,5 @@ The "Get started with spec-driven development and GitHub Spec Kit" module includ
 - Project Goals.md
 - App Features.md
 - Tech Stack.md
-- MVP System Rules.md
 
 GitHub Spec Kits commands will use these files to help you generate the constitution, spec, plan, and tasks files.
