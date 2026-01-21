@@ -1,6 +1,6 @@
 # App features
 
-This RSS feed reader is designed around three themes: making it easy to subscribe to sources, making it easy to keep up with new items, and giving you control so your feed doesn’t become overwhelming.
+This RSS feed reader is designed around three themes: making it easy to subscribe to sources, making it easy to keep up with new items, and giving you control so your feed doesn't become overwhelming.
 
 ## MVP cutline (deliver first)
 
@@ -10,7 +10,7 @@ For the MVP, the app MUST:
 
 - Let a user add a feed subscription by pasting a feed URL (and remove it later).
 - Let a user manually refresh a feed and see a newest-first list of items.
-- Let a user open an item’s original link.
+- Let a user open an item's original link.
 - Store subscriptions and items locally so they remain available after restart.
 - Show clear per-feed errors (fetch/parse/etc.) without crashing.
 
@@ -21,9 +21,9 @@ For the MVP, the app MAY:
 
 ## MVP behavior rules (defaults)
 
-To keep behavior predictable and avoid “mystery waiting”, the MVP follows a few simple rules:
+To keep behavior predictable and avoid "mystery waiting", the MVP follows a few simple rules:
 
-- Refresh is manual: clicking “refresh now” fetches the selected feed immediately.
+- Refresh is manual: clicking "refresh now" fetches the selected feed immediately.
 - The system should not fetch a feed repeatedly in a tight loop. If a feed was refreshed very recently, the backend should throttle additional refresh attempts.
 - Network calls must have timeouts so one slow feed does not stall the system.
 
@@ -39,7 +39,7 @@ Background polling and scheduling are intentionally post-MVP.
 
 At a minimum, the app will let a single user subscribe to RSS/Atom feeds, fetch updates, and read items with a clean read/unread workflow. Subscriptions can be managed directly, including removing feeds you no longer want.
 
-The app will support adding feeds in two ways: by pasting a feed URL directly, or by pasting a website URL and letting the app discover the site’s feed automatically. Users will be able to manually fetch updates with a “refresh now” action, and the backend will also poll feeds in the background on a schedule.
+The app will support adding feeds in two ways: by pasting a feed URL directly, or by pasting a website URL and letting the app discover the site's feed automatically. Users will be able to manually fetch updates with a "refresh now" action, and the backend will also poll feeds in the background on a schedule.
 
 All data is stored locally. Feeds and feed items are persisted in a local database, so items remain available between sessions and read/unread state is remembered.
 
@@ -51,7 +51,7 @@ Finally, the app will support basic organization by allowing feeds to be grouped
 
 ### Website-to-feed discovery behavior (post-MVP)
 
-When a user pastes a website URL (not a direct feed URL), the system should attempt to discover the site’s RSS/Atom feed by:
+When a user pastes a website URL (not a direct feed URL), the system should attempt to discover the site's RSS/Atom feed by:
 
 - Following redirects.
 - Looking for standard feed link tags in the HTML (for example `<link rel="alternate">` RSS/Atom entries).
@@ -75,7 +75,7 @@ If a feed returns caching headers (ETag / Last-Modified), the backend may use co
 
 For the first working version, we will focus on the MVP cutline described above.
 
-Sequencing: deliver the manual end-to-end flow first (subscribe → refresh → items). Only once that success-path works reliably should we add discovery, background polling, read/unread, folders, and other “daily use” features.
+Sequencing: deliver the manual end-to-end flow first (subscribe → refresh → items). Only once that success-path works reliably should we add discovery, background polling, read/unread, folders, and other "daily use" features.
 
 For the MVP, we are intentionally keeping scope tight. We will not build accounts, sync, notifications, OPML import/export, advanced filtering rules, background polling, discovery, folders, or read/unread until the core reader experience is stable.
 
@@ -104,11 +104,20 @@ The following are explicitly post-MVP (V1) features:
 - Items appear only after a refresh has successfully run at least once for that subscription.
 - Feed URLs should be treated as user input: trim whitespace and normalize before storing to avoid hard-to-debug issues (for example, a trailing space).
 
+### MVP-first safety fallback
+
+- If HTML sanitization introduces dependency/tooling friction, MVP is allowed to render **plain text only** (title + summary + original link) and defer HTML rendering until the dependency story is stable.
+
+### Newest-first ordering note (SQLite)
+
+- Newest-first should be defined as: order by `PublishedAt` (if present) then fallback to the stored `CreatedAt`.
+- When implementing with EF Core + SQLite, be mindful of provider translation limitations for timestamp types (especially `DateTimeOffset`) in `ORDER BY`.
+
 ## Practical verification flow (developer-facing)
 
 Use at least one known-good feed for the first success-path verification before trying stricter or rate-limited sources.
 
-Example “known-good” feeds:
+Example "known-good" feeds:
 
 - <https://devblogs.microsoft.com/dotnet/feed/>
 - <https://devblogs.microsoft.com/visualstudio/feed/>
@@ -120,17 +129,17 @@ Golden path:
 2. Add the feed URL.
 3. Click refresh.
 4. Verify items appear newest-first.
-5. Open an item’s original link.
+5. Open an item's original link.
 
 Some popular sources may block or rate-limit automated clients (commonly returning 403/429 or HTML instead of RSS). Treat those as robustness tests, not the first success-path test.
 
 ## Nice to have features
 
-Once the core reader experience is stable, we can improve organization and reading flow with tags/labels, saved/starred (“read later”) items, and strong keyboard shortcuts. We can also offer multiple layouts (compact list, magazine/cards, etc.) so users can choose how dense the UI feels.
+Once the core reader experience is stable, we can improve organization and reading flow with tags/labels, saved/starred ("read later") items, and strong keyboard shortcuts. We can also offer multiple layouts (compact list, magazine/cards, etc.) so users can choose how dense the UI feels.
 
-Search and filtering is another high-impact upgrade. This includes fast searching across titles and summaries (and potentially full text later), along with rule-based filtering such as including/excluding keywords, authors, or categories. Users may want “mute” rules to hide items containing certain terms, and priority/highlighting rules to surface important items.
+Search and filtering is another high-impact upgrade. This includes fast searching across titles and summaries (and potentially full text later), along with rule-based filtering such as including/excluding keywords, authors, or categories. Users may want "mute" rules to hide items containing certain terms, and priority/highlighting rules to surface important items.
 
-We can also improve freshness controls by allowing configurable refresh intervals, a clearer “refresh now” experience, and smarter backoff/throttling when feeds are failing or rate limiting.
+We can also improve freshness controls by allowing configurable refresh intervals, a clearer "refresh now" experience, and smarter backoff/throttling when feeds are failing or rate limiting.
 
 For portability, we can add OPML import/export so users can move subscriptions between readers, and we can detect duplicate feeds and help merge them.
 

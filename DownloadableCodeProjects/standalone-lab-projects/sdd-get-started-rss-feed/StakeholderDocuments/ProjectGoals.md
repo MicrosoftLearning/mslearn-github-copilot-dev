@@ -10,7 +10,7 @@ The app exists to help a user keep up with content from many sources in one plac
 
 This is initially a single-user, local-only application. It is designed to be developed and tested on Windows, macOS, or Linux.
 
-Because the development timeline is intentionally short, we will prioritize an MVP that proves the full workflow (subscribe → fetch → store → read) and defer “power features” until the basics are stable.
+Because the development timeline is intentionally short, we will prioritize an MVP that proves the full workflow (subscribe → fetch → store → read) and defer "power features" until the basics are stable.
 
 Multi-device sync, first-class mobile support, and expanded offline capabilities are intentionally out of scope for the MVP. The initial goal is a reliable local reader, with a clear path to add those capabilities later.
 
@@ -39,6 +39,15 @@ When writing a work breakdown (tasks):
 - If you use a marker for parallelizable tasks (for example `[P]`), only mark tasks that do not touch the same files.
 - Keep local dev ports and base URLs explicit and configurable to avoid unnecessary debugging churn.
 
+## Implementation guardrails
+
+These are "sharp edges" we've already hit once; future tasks should proactively avoid them.
+
+- **Solution file**: Ensure the backend solution is `backend/RssFeedReader.sln` (not `.slnx`).
+- **Schema initialization**: Do not mix EF Core `Migrate()` and `EnsureCreated()` against the same database; pick one strategy (prefer migrations) and reflect it in integration test setup.
+- **SQLite timestamp sorting**: Avoid EF `OrderBy` over `DateTimeOffset` on SQLite unless you've validated translation; prefer UTC `DateTime` for sortable columns or sort in-memory.
+- **Dependencies**: If the plan requires HTML sanitization or Swagger, specify the exact package(s) and version policy (including how to handle NU190x vulnerability advisories) so implementation doesn't stall mid-flight.
+
 ## What "MVP working" means in practice
 
 For the first MVP slice, "working" should be validated on a known-good RSS/Atom feed with this flow:
@@ -55,7 +64,7 @@ Feature rollout will be staged:
 
 First, we will deliver the MVP: the smallest set of features that provides a functional reader experience end-to-end.
 
-Next, we will iterate toward a solid “v1” by improving usability and reliability (better organization, clearer error handling, and incremental quality improvements) while keeping the system simple.
+Next, we will iterate toward a solid "v1" by improving usability and reliability (better organization, clearer error handling, and incremental quality improvements) while keeping the system simple.
 
 Finally, we will add optional enhancements over time (search/filtering, integrations, sync, offline improvements) once the core experience is dependable.
 
@@ -63,7 +72,7 @@ Finally, we will add optional enhancements over time (search/filtering, integrat
 
 Even in an MVP, the reader should be reliable and safe. It should tolerate real-world feed problems (redirects, timeouts, malformed XML) without crashing, avoid duplicating items unnecessarily, and render content safely.
 
-Local data should remain the user’s data. The design should make it easy to keep and export information as the project grows.
+Local data should remain the user's data. The design should make it easy to keep and export information as the project grows.
 
 ## Standards and guidelines
 
@@ -79,7 +88,7 @@ Local data should remain the user’s data. The design should make it easy to ke
 - **Documentation & Process**: Keep README/user guide and architecture overview current; write brief requirements with acceptance criteria; definition of done includes tests, docs, and a short QA checklist.
 - **Dependency Management**: Pin versions; update regularly; track licenses; generate an SBOM (e.g., CycloneDX) and verify compliance.
 
-## “MVP first” rule of thumb
+## "MVP first" rule of thumb
 
 If a requirement introduces background scheduling, concurrency orchestration, or cross-cutting UI state (examples: polling, folders, read/unread), it is probably post-MVP unless the app cannot demonstrate the core workflow without it.
 
