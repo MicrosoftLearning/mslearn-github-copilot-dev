@@ -1,6 +1,6 @@
 # Project goals
 
-This project is to build a practical RSS/Atom feed reader with a clean end-to-end architecture and a clear, testable set of requirements. The goal is to deliver a usable first version quickly, then grow capability over time without rewriting the foundation.
+Build a practical RSS/Atom feed reader with a clean end-to-end architecture and a clear, testable set of requirements. The goal is to deliver a usable first version quickly, then grow capability over time without rewriting the foundation.
 
 ## Purpose
 

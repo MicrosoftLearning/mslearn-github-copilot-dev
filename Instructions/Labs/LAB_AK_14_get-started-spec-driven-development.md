@@ -16,7 +16,7 @@ This exercise should take approximately **60** minutes to complete.
 
 ## Before you start
 
-Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQL Server LocalDB, Python 3.11 or later, the uv package manager, Specify CLI, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later (.NET 10 is the default), Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQLite, Python 3.11 or later, the uv package manager, Specify CLI, and access to a GitHub account with GitHub Copilot enabled.
 
 For help with configuring your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2345907" target="_blank">Configure your GitHub Spec Kit lab environment</a>.
 
@@ -197,6 +197,8 @@ Use the following steps to complete this task:
 
     Notice the detailed instructions provided in this markdown file. The Outline section tells GitHub Copilot to use the constitution.md template as a starting point, describes how to use the placeholder tokens, and provides guidance on how to fill in each section of the constitution.
 
+1. Close any files that you have open in the editor.
+
 1. Ensure that the Chat view is open, then start a new chat session.
 
     You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
@@ -252,7 +254,7 @@ Use the following steps to complete this task:
 
 ## Update the constitution using stakeholder documents
 
-The /speckit.constitution workflow can use text input, file input, or the codebase, to extract the policies, standards, requirements, and guidelines that go into the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
+The /speckit.constitution workflow uses text input, file input, and the codebase to extract the policies, standards, requirements, and guidelines that go into the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
 In this task, you download the stakeholder documents for the RSSFeedReader project, evaluate their relationship to the GitHub Spec Kit commands, and use them to update the constitution.md file.
 
@@ -304,13 +306,13 @@ Use the following steps to complete this task:
 
 1. Consider the relationship between the stakeholder documents and the GitHub Spec Kit commands.
 
-    Each of the stakeholder documents provide information that helps guide different aspects of the spec-driven development process.
+    Each of the stakeholder documents provide information that helps guide the spec-driven development process.
 
     For example:
 
-    - **ProjectGoals.md**: This document provides high-level goals and standards that will inform the constitution.md file.
-    - **AppFeatures.md**: This document contains detailed user-facing requirements that will help to create the spec.md file.
-    - **TechStack.md**: This document outlines technology choices and architectural rationale that will influence the plan.md file.
+    - **ProjectGoals.md**: This document provides project information that could help to create the constitution.md, spec.md, and plan.md files.
+    - **AppFeatures.md**: This document contains detailed user-facing requirements that could help to create the spec.md file.
+    - **TechStack.md**: This document outlines technology choices and architectural rationale that could help to create the plan.md file.
 
     > **NOTE**: A one-to-one mapping between the stakeholder documents and the GitHub Spec Kit commands isn't necessary. For example, a single ProjectDescription.md file could provide context that's used to generate the constitution.md, spec.md, and plan.md files.
 
@@ -334,8 +336,8 @@ Use the following steps to complete this task:
 
     Each principle should be clearly stated and actionable. For example:
 
-    - ❌ Vague: "Use good security practices" is too general.
-    - ✅ Clear: "The system MUST sanitize any HTML from feeds before rendering and MUST NOT execute active content (scripts, inline event handlers, dangerous URLs)." is specific and actionable.
+    - ❌ Vague: "Apply security best practices." is too general.
+    - ✅ Clear: "HTML content MUST be sanitized before rendering." is specific and actionable.
 
     If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
@@ -381,25 +383,35 @@ Use the following steps to complete this task:
     - The speckit.specify.agent.md file provides detailed instructions for the /speckit.specify command. It guides GitHub Copilot on how to create a specification based on the provided requirements.
     - The speckit.specify.agent.md file generates a repository branch at the beginning of the workflow. Creating a branch generally requires user permissions, so GitHub Copilot prompts for permission when the workflow is run.
 
-1. Use Visual Studio Code's EXPLORER view to examine the **AppFeatures.md** stakeholder document.
+1. Use Visual Studio Code's EXPLORER view to examine the **ProjectGoals.md** and **AppFeatures.md** stakeholder documents.
 
-    This document is your primary resource for user-facing feature requirements and provides the context needed to create a comprehensive specification.
+    The AppFeatures.md file is your primary resource for user-facing feature requirements and provides the context needed to create a comprehensive specification. The ProjectGoals.md file provides information about the MVP and rollout plan that can also help to inform the specification.
+
+1. Create a summary description of the RSS Feed Reader app based on the stakeholder documents.
+
+    The summary description should be concise (a couple sentences) and capture the core functionality of the RSS Feed Reader app. For example:
+
+    ```plaintext
+    "MVP RSS reader: a local-first RSS/Atom reader where users can subscribe and manage feeds, add them via URL or website discovery, refresh to see updates, and read items with a clear newest-first, read/unread flow. Data and state persist on the device, with an item view, open-original links, and the ability to mark items (or all) as read. Reliability and safety are core: the system handles common feed issues gracefully, avoids duplicates, shows clear errors, and renders content securely with HTTPS and HTML sanitization."
+    ```
+
+1. Close any files that you have open in the editor.
 
 1. Ensure that the Chat view is open.
 
     Notice that GitHub Copilot retains the context of previous interactions in the current chat session. If you generated the constitution.md file in the current session, GitHub Copilot provides a **Build Specification** button near the bottom of the Chat view that could be used to start generating the specification. In this case, you want to provide the requirements document explicitly, so you don't use the Build Specification button.
 
-1. In the Chat view, to start a specification workflow that generates a spec.md file from your stakeholders document, enter the following command:
+1. In the Chat view, to start a specification workflow that generates a spec.md file using information from your stakeholders document, enter the following command:
 
     ```plaintext
-    /speckit.specify --files StakeholderDocs/AppFeatures.md
+    /speckit.specify --text "MVP RSS reader: a local-first RSS/Atom reader where users can subscribe and manage feeds, add them via URL or website discovery, refresh to see updates, and read items with a clear newest-first, read/unread flow. Data and state persist on the device, with an item view, open-original links, and the ability to mark items (or all) as read. Reliability and safety are core: the system handles common feed issues gracefully, avoids duplicates, shows clear errors, and renders content securely with HTTPS and HTML sanitization." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md
     ```
 
-    If you don't specify a requirements document using the `--file` option, you're prompted to describe the app features that you want to build.
+    If you don't specify the `--text` option, you might be asked to provide a description of the app features before you can continue.
 
 1. Monitor GitHub Copilot's response and provide assistance as needed.
 
-    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a repository branch. Grant permission when required by responding in the Chat view.
+    > **IMPORTANT**: GitHub Copilot asks for assistance when generating the spec.md file. For example, GitHub Copilot requests permission to create a new branch for the repository. Grant permission when required by responding in the Chat view.
 
     It can take 4-6 minutes to create and validate the spec.md file. If the workflow process stops before the spec.md file is created, you can use GitHub Copilot's **retry** command to restart the workflow.
 
@@ -468,10 +480,12 @@ Use the following steps to complete this task:
     - The plan-template.md file defines the structure and sections of a technical plan document.
     - The speckit.plan.agent.md file provides detailed instructions for the /speckit.plan command. It guides GitHub Copilot on how to create a technical plan based on the specification and constitution.
 
+1. Close any files that you have open in the editor.
+
 1. In the Chat view, to start the technical planning process, enter the following command:
 
     ```dotnetcli
-    /speckit.plan
+    /speckit.plan --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/TechStack.md
     ```
 
 1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
@@ -491,12 +505,14 @@ Use the following steps to complete this task:
 
 1. Take a few minutes to review the **research.md**, **plan.md**, **quickstart.md**, and **data-model.md** files.
 
-    - The research.md file captures research findings and technology decisions for the document upload and management feature.
-    - The plan.md file outlines the technical implementation plan for the document upload and management feature.
+    - The research.md file captures research findings and technology decisions for the RSS Feed Reader app.
+    - The plan.md file outlines the technical implementation plan for the RSS Feed Reader app.
     - The quickstart.md file provides setup instructions and a high-level overview of how to get started with the implementation.
-    - The data-model.md file defines the data entities, properties, and relationships needed for the document upload and management feature.
+    - The data-model.md file defines the data entities, properties, and relationships needed for the RSS Feed Reader app.
 
-    > **NOTE**: For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new feature. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
+    For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new feature. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
+
+    > **IMPORTANT**: This lab supports using .NET 8 or later. However, .NET 10 is specified as the target framework in the stakeholder documents. If your environment uses .NET 8 or .NET 9, you need to update the plan.md and quickstart.md files accordingly.
 
 1. After reviewing the files, accept the updates.
 
@@ -532,6 +548,8 @@ Use the following steps to complete this task:
     - How to sequence the tasks (by phase, user story, etc.)
     - How to define each task (specific, actionable, testable)
     - What checks/gates to apply (coverage, ordering, scope)
+
+1. Close any files that you have open in the editor.
 
 1. In the Chat view, to start generating the tasks.md file, enter the following command:
 
@@ -589,25 +607,33 @@ The tasks.md file now provides a clear roadmap for implementation.
 
 ## Implement the tasks required for an MVP application
 
-With a clear specification, technical plan, and tasks document in place, you're ready to implement the document upload and management feature. The implement workflow demonstrates how spec-driven development guides implementation and how GitHub Copilot assists with code generation based on the context you established.
+With a clear specification, technical plan, and tasks document in place, you're ready to implement the RSS Feed Reader app.
+
+The tasks.md file provides a phased implementation strategy that breaks down the work into manageable chunks. The implementation can be approached in different ways, depending on project priorities and constraints. For example, you could consider one of the following strategies:
+
+- Implementing the feature incrementally, phase by phase.
+- Implementing the entire feature set at once.
+- Implementing the MVP app features first, then building out additional features.
+
+GitHub Spec Kit's implement workflow demonstrates how to use the tasks.md file to guide the implementation process.
 
 In this task, you review the implementation strategy and then use `speckit/implement` to implement the MVP version of the application.
 
 Use the following steps to complete this task:
 
-1. Open the **tasks.md** file, locate the **Implementation Strategy** section, and then review the suggested "MVP first" strategy.
+1. Open the **tasks.md** file, locate the **Implementation Strategy** section, and then review the suggested MVP strategy.
 
-    The MVP first strategy is intended to deliver working feature as quickly as possible. It should focus on completing the critical blocking phases first to establish a functional foundation before building out the first user story (US1).
+    The MVP strategy is intended to deliver a working feature as quickly as possible. It should focus on completing the Setup (initialization) and Foundational (blocking) phases first before building out the first User Story (US1).
 
     For example, the MVP implementation strategy might be similar to the following example:
 
     ```plaintext
     **Phases**: Setup → Foundation → US1 only  
-    **Tasks**: T001 - T044 (44 tasks)  
-    **Deliverable**: Users can subscribe to a feed by URL, manually refresh, view newest-first items, open original link, and see clear per-feed errors.
+    **Tasks**: T001 - T037 (37 tasks)  
+    **Deliverable**: Users can add a known-good feed URL; refresh; see items; restart and confirm persistence.
     ```
 
-1. In the Chat view, enter a command that starts the implement workflow using the MVP first strategy:
+1. In the Chat view, enter a command that starts the implement workflow for the MVP strategy:
 
     Create a command that specifies the range of tasks required to implement the MVP version of the feature. Use the task range specified in the Implementation Strategy section of the tasks.md file.
 
@@ -616,22 +642,24 @@ Use the following steps to complete this task:
     For example (referencing the MVP implementation example from the previous step), you might enter the following command:
 
     ```dotnetcli
-    /speckit.implement Implement the MVP first strategy (Tasks: T001 - T044)
+    /speckit.implement Implement the MVP strategy (Tasks: T001 - T037)
     ```
 
     This command instructs GitHub Copilot to begin implementing the tasks required for the MVP version of the document upload and management feature.
 
+    > **NOTE**: If you wanted to follow a phased approach, you could implement the tasks for the Setup and Foundational phases first, and then implement the tasks for User Story 1 (US1).
+
 1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
-    The agent builds the feature incrementally, task by task, following the order defined in the tasks.md file.
+    The agent builds the app incrementally, task by task, following the order defined in the tasks.md file.
 
-    > **NOTE**: GitHub Copilot is diligent about checking its work during the implementation, which is great. GitHub Copilot also keeps you involved during the implementation process. Requests for assistance occur frequently. The time required to complete the implementation can be affected by how quickly you respond to its requests for assistance.
+    > **NOTE**: GitHub Copilot is diligent about checking its work during the implementation, which is great. GitHub Copilot also keeps you involved during the implementation process. Requests for assistance occur frequently. The time required to complete the implementation can be affected by how quickly you respond to requests for assistance.
 
 1. If manual testing is required to verify a task, perform the steps described in the Chat view, and then report the results back to GitHub Copilot.
 
     You might encounter issues during manual testing. For example:
 
-    1. GitHub Copilot tells you that manual testing is required to verify Feed URLs are working correctly.
+    1. GitHub Copilot tells you that manual testing is required to verify that Feed URLs are working correctly.
     1. The backend application is already running locally on `http://localhost:5000`.
     1. You start the frontend application using Visual Studio Code's terminal. The frontend application starts successfully and is running on `http://localhost:5239`.
     1. You open a browser and navigate to the frontend application (for example, `http://localhost:5239`).
@@ -669,20 +697,40 @@ Use the following steps to complete this task:
 
     For this lab exercise, it's okay to accept all changes made by GitHub Copilot without a detailed review. However, in a production environment, it's important to review all code changes carefully to ensure they meet quality standards and align with project requirements.
 
+1. Save all updated files.
+
+1. Ask GitHub Copilot to create a VS Code "Run and Debug" launch configuration that you can use to start both apps with one click.
+
+    For example, you could enter the following prompt in the Chat view:
+
+    ```plaintext
+    Create a VS Code "Run and Debug" launch configuration that I can use to start both apps with one click. Provide instructions for running the apps using the launch configuration.
+    ```
+
+1. Use the launch configuration to run the backend and frontend applications.
+
+1. Open a browser and navigate to the Subscriptions page of the frontend application (for example, `http://localhost:5239/subscriptions`).
+
+    Here are some feeds that you can use to test the application:
+
+    - https://devblogs.microsoft.com/dotnet/feed/ (The .NET Blog)
+    - https://devblogs.microsoft.com/visualstudio/feed/ (Visual Studio Blog)
+    - https://devblogs.microsoft.com/powershell/feed/ (PowerShell Team Blog)
+    - https://devblogs.microsoft.com/azure-sdk/feed/ (Azure SDK Blog)
+    - https://devblogs.microsoft.com/commandline/feed/ (Windows Command Line / Terminal)
+    - https://devblogs.microsoft.com/oldnewthing/feed/ (The Old New Thing)
+    - https://learn.microsoft.com/en-us/shows/feed.xml (Microsoft Learn / Shows)
+
 1. Take a few minutes to verify the acceptance scenarios for the MVP application.
 
     You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section. The MVP application is usually associated with the first user story (US1) in the spec.md file.
 
     For example, the acceptance scenarios for the MVP application might be similar to the following example:
 
-    1. **Given** the user has no subscriptions, **When** they add a valid feed URL,
-      **Then** the feed appears in their subscriptions list.
-    2. **Given** the user is subscribed to a feed, **When** they trigger "refresh now",
-      **Then** the system fetches the feed and shows a newest-first list of items.
-    3. **Given** the user is viewing an item, **When** they choose "open original",
-       **Then** the system opens the item's canonical link.
-    4. **Given** a feed fetch fails, **When** refresh completes, **Then** the system
-      shows a clear error for that feed and the app does not crash.
+    1. **Given** the app has no subscriptions, **When** the user adds a valid feed URL and triggers “refresh now”, **Then** the app stores the subscription, fetches the feed, stores items locally, and shows the items newest-first.
+    2. **Given** a subscription exists, **When** the user closes and reopens the app, **Then** the subscription and previously fetched items are still available without requiring a refresh.
+    3. **Given** a subscription was refreshed very recently, **When** the user triggers “refresh now” again immediately, **Then** the app throttles the request and explains why refresh did not run.
+    4. **Given** the feed fetch fails (timeout/redirect/forbidden/malformed response), **When** the user triggers “refresh now”, **Then** the app shows a clear per-feed error and remains usable.
 
     You can also ask GitHub Copilot for the steps required to perform manual testing of your MVP implementation. For example, you could enter the following prompt in the Chat view:
 

@@ -14,7 +14,7 @@ Your lab environment must include the following resources:
 - The .NET SDK version 8.0 or later.
 - Access to a GitHub account with GitHub Copilot enabled.
 - Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions.
-- SQL Server LocalDB.
+- SQL Server LocalDB or SQLite.
 - Python version 3.11 or later.
 - The uv package manager.
 
@@ -98,7 +98,7 @@ Complete the following steps to ensure that the required GitHub, .NET, and Visua
 
 ## Install the lab application dependencies
 
-The application that you're working on during the lab uses a SQL Server LocalDB database to store application data. SQL Server LocalDB is a lightweight version of SQL Server that's ideal for development and testing.
+The application that you're working on during the lab uses either a SQL Server LocalDB database or a SQLite database to store application data. SQL Server LocalDB is a lightweight version of SQL Server that's ideal for development and testing. SQLite is a self-contained, serverless database engine that's easy to set up and use.
 
 Complete the following steps to ensure that SQL Server LocalDB is installed in your lab environment.
 
@@ -148,6 +148,8 @@ Complete the following steps to ensure that SQL Server LocalDB is installed in y
     sqllocaldb create MSSQLLocalDB
     sqllocaldb start MSSQLLocalDB
     ```
+
+1. To download SQLite, follow the instructions at the following URL: <a href="https://www.sqlite.org/download.html" target="_blank">Download SQLite</a>.
 
 ## Install the GitHub Spec Kit tools and resources
 
