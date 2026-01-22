@@ -41,7 +41,7 @@ When writing a work breakdown (tasks):
 
 ## Implementation guardrails
 
-These are "sharp edges" we've already hit once; future tasks should proactively avoid them.
+These are "sharp edges" we've identified when working on similar projects. They should be proactively avoided.
 
 - **Solution file**: Ensure the backend solution is `backend/RssFeedReader.sln` (not `.slnx`).
 - **Schema initialization**: Do not mix EF Core `Migrate()` and `EnsureCreated()` against the same database; pick one strategy (prefer migrations) and reflect it in integration test setup.
