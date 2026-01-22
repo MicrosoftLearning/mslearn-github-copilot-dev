@@ -30,9 +30,9 @@ This exercise includes the following tasks:
 
 1. Create a project folder and initialize GitHub Spec Kit.
 1. Examine GitHub Spec Kit's constitution command and files.
-1. Update the constitution using stakeholder documents.
-1. Generate the spec.md file using stakeholder requirements.
-1. Generate the plan.md file using stakeholder requirements and spec.md.
+1. Update the constitution using stakeholder documentation.
+1. Generate the spec.md file using stakeholder documentation.
+1. Generate the plan.md file using stakeholder documentation and spec.md.
 1. Generate the tasks.md file using the spec.md, plan.md, and constitution.md.
 1. Implement the tasks required for an MVP application.
 
@@ -252,7 +252,7 @@ Use the following steps to complete this task:
 
     You can also accept changes to individual files, or individual changes within a file, by selecting **Keep** button options in the editor.
 
-## Update the constitution using stakeholder documents
+## Update the constitution using stakeholder documentation
 
 The /speckit.constitution workflow uses text input, file input, and the codebase to extract the policies, standards, requirements, and guidelines that go into the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
@@ -367,7 +367,7 @@ Use the following steps to complete this task:
 
 The constitution serves as a "contract" between business requirements and technical implementation, ensuring consistency throughout the spec-driven development process. When you use the GitHub Spec Kit to generate the spec, plan, and tasks, it references these principles to ensure the implementation aligns with specified requirements.
 
-## Generate the spec.md file using stakeholder requirements
+## Generate the spec.md file using stakeholder documentation
 
 The specification (spec.md) defines what you're building from the user's perspective. It describes the features, user stories, acceptance criteria, and business requirements without prescribing how to implement them. A well-written spec serves as the foundation for creating the implementation plan and tasks.
 
@@ -463,7 +463,7 @@ Use the following steps to complete this task:
 
 The specification defines the "what" without the "how." It doesn't specify programming languages, frameworks, database schemas, or code organization - those implementation details are determined in the Plan and Tasks phases based on the constitution's technical constraints. The spec focuses on user needs and business requirements, making it easier to review with nontechnical stakeholders.
 
-## Generate the plan.md file using stakeholder requirements and spec.md
+## Generate the plan.md file using stakeholder documentation and spec.md
 
 The technical plan bridges the gap between the "what" (specification) and the "how" (implementation). It defines the architecture, technology choices, data models, API designs, and implementation approach while adhering to the constraints defined in the constitution.
 
