@@ -47,8 +47,41 @@ These choices make development fast while keeping the architecture clean for fut
 
 ## Local development
 
-- The backend API and frontend UI run on separate localhost ports
-- The UI needs to know the API URL (configure via `ApiBaseUrl` setting)
+### Port configuration
+
+The backend API and frontend UI run on separate localhost ports. **Port consistency is critical** - the ports must be coordinated between three locations:
+
+1. **Backend port** (defined in `backend/RSSFeedReader.Api/Properties/launchSettings.json`):
+   - Default: `http://localhost:5151`
+   - This is where the API listens for requests
+
+2. **Frontend port** (defined in `frontend/RSSFeedReader.UI/Properties/launchSettings.json`):
+   - Default: `http://localhost:5213`
+   - This is where the Blazor app runs
+
+3. **API base URL** (configured in `frontend/RSSFeedReader.UI/wwwroot/appsettings.json`):
+   - Must match the backend port from step 1
+   - Example: `{"ApiBaseUrl": "http://localhost:5151/api/"}`
+
+4. **CORS policy** (configured in `backend/RSSFeedReader.Api/Program.cs`):
+   - Must allow the frontend port from step 2
+   - Example: `.WithOrigins("http://localhost:5213", "https://localhost:7025")`
+
+### Configuration best practices
+
+- **Frontend Program.cs**: Read API URL from configuration, don't hardcode:
+  ```csharp
+  var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5151/api/";
+  builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
+  ```
+
+- **Backend CORS**: Allow the actual frontend ports from launchSettings.json
+
+- **Testing setup**: Before testing, verify:
+  1. Backend is running and accessible at the configured port
+  2. Frontend appsettings.json points to the correct backend port
+  3. CORS allows the frontend origin
+  
 - Test with a known-good feed like <https://devblogs.microsoft.com/dotnet/feed/>
 
 ## Future enhancements (post-MVP)

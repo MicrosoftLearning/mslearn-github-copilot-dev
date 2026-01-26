@@ -41,6 +41,16 @@ The MVP is complete when:
 
 Test with a known-good RSS feed like <https://devblogs.microsoft.com/dotnet/feed/>.
 
+### Local development checklist
+
+Before testing the MVP, verify:
+
+- [ ] Backend runs without errors and listens on the configured port
+- [ ] Frontend runs without errors and loads in the browser
+- [ ] Frontend configuration (`wwwroot/appsettings.json`) points to the correct backend URL
+- [ ] Backend CORS allows the frontend origin
+- [ ] Browser DevTools console shows no connection errors when loading the page
+
 ## Future enhancements (post-MVP)
 
 Once the basic demonstration is working, these features could be added:

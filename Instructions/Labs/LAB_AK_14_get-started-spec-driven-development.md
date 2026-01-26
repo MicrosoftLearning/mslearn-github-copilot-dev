@@ -10,19 +10,19 @@ GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (
 
 In this exercise, you learn how to use the GitHub Spec Kit to develop a new greenfield application. You begin by initializing the GitHub Spec Kit for a new .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for the new application. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial MVP version of the application.
 
-This exercise should take approximately **75** minutes to complete.
+This exercise should take approximately **60** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
 ## Before you start
 
-Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later (.NET 10 is the default), Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, SQLite, Python 3.11 or later, the uv package manager, Specify CLI, and access to a GitHub account with GitHub Copilot enabled.
+Your lab environment MUST include the following resources: Git 2.48 or later, .NET SDK 8.0 or later, Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions, Python 3.11 or later, the uv package manager, Specify CLI, and access to a GitHub account with GitHub Copilot enabled.
 
 For help with configuring your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2345907" target="_blank">Configure your GitHub Spec Kit lab environment</a>.
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your firm has asked you to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology for this greenfield project. Using a SDD methodology with GitHub Spec Kit ensures that an MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly.
+You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your firm has asked you to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology to create an MVP version of the application that can be used as a proof-of-concept. Using a SDD methodology with GitHub Spec Kit ensures that an MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
 
 Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. This information can be used to help generate the constitution, specification, plan, and tasks documents.
 
@@ -319,7 +319,7 @@ Use the following steps to complete this task:
 1. In the Chat view, to start a constitution workflow using a combination of inline text and stakeholder documents, enter the following command:
 
     ```plaintext
-    /speckit.constitution --text "Code projects emphasize security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md
+    /speckit.constitution --text "Code projects emphasize security, privacy, reliability, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md
     ```
 
     > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed inputs should generate a more accurate and comprehensive constitution.
@@ -337,7 +337,7 @@ Use the following steps to complete this task:
     Each principle should be clearly stated and actionable. For example:
 
     - ❌ Vague: "Apply security best practices." is too general.
-    - ✅ Clear: "HTML content MUST be sanitized before rendering." is specific and actionable.
+    - ✅ Clear: "Validate feed URLs (reject file://, data:, javascript: schemes)." is specific and actionable.
 
     If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
@@ -389,10 +389,10 @@ Use the following steps to complete this task:
 
 1. Create a summary description of the RSS Feed Reader app based on the stakeholder documents.
 
-    The summary description should be concise (a couple sentences) and capture the core functionality of the RSS Feed Reader app. For example:
+    The summary description should be concise (a sentence or two) and capture the core functionality of the RSS Feed Reader app. For example:
 
     ```plaintext
-    "MVP RSS reader: a local-first RSS/Atom reader where users can subscribe and manage feeds, add them via URL or website discovery, refresh to see updates, and read items with a clear newest-first, read/unread flow. Data and state persist on the device, with an item view, open-original links, and the ability to mark items (or all) as read. Reliability and safety are core: the system handles common feed issues gracefully, avoids duplicates, shows clear errors, and renders content securely with HTTPS and HTML sanitization."
+    "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (subscribe and view items) without the complexity of a production-ready application."
     ```
 
 1. Close any files that you have open in the editor.
@@ -404,7 +404,7 @@ Use the following steps to complete this task:
 1. In the Chat view, to start a specification workflow that generates a spec.md file using information from your stakeholders document, enter the following command:
 
     ```plaintext
-    /speckit.specify --text "MVP RSS reader: a local-first RSS/Atom reader where users can subscribe and manage feeds, add them via URL or website discovery, refresh to see updates, and read items with a clear newest-first, read/unread flow. Data and state persist on the device, with an item view, open-original links, and the ability to mark items (or all) as read. Reliability and safety are core: the system handles common feed issues gracefully, avoids duplicates, shows clear errors, and renders content securely with HTTPS and HTML sanitization." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md
+    /speckit.specify --text "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (subscribe and view items) without the complexity of a production-ready application." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md
     ```
 
     If you don't specify the `--text` option, you might be asked to provide a description of the app features before you can continue.
@@ -512,8 +512,6 @@ Use the following steps to complete this task:
 
     For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new feature. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
 
-    > **IMPORTANT**: This lab supports environments with .NET 8 or .NET 9 installed. However, .NET 10 is specified as the target framework in the stakeholder documents. If your environment includes .NET 8 or .NET 9 (but not .NET 10), you need to update the plan.md and quickstart.md files accordingly.
-
 1. After reviewing the files, accept the updates.
 
     If the plan omits important details or makes assumptions you disagree with, you can:
@@ -581,24 +579,6 @@ Use the following steps to complete this task:
     - Security requirements should have corresponding implementation tasks.
     - Performance requirements should have testing tasks.
 
-1. Ensure that each task is specific and actionable:
-
-    - ✅ Good: "Implement safe HTTP fetcher (http/https only, timeout, size limits, content-type checks) in backend/src/RssFeedReader.Infrastructure/Http/FeedHttpClient.cs"
-    - ❌ Vague: "Enforce security and reliability requirements in the HTTP client"
-
-    Verify that tasks have reasonable scope:
-
-    - Developers should be able to complete individual tasks in a few hours to a day.
-    - If a task seems too large it might need to be broken down during implementation.
-
-    You can add task dependencies or notes if needed. For example:
-
-    ```markdown
-    - [ ] T026 Implement refresh pipeline orchestration (fetch -> parse -> sanitize -> persist -> status update) in backend/src/RssFeedReader.Domain/Services/FeedRefreshService.cs
-      - Depends on: T021, T022, T024, T025
-      - Note: This task implicitly depends on several earlier foundational tasks (HTTP fetcher, parser, sanitizer, identity hashing)
-    ```
-
 1. Accept the suggested file updates, and then save the **tasks.md** file.
 
 1. Commit the changes and then sync the updates.
@@ -629,7 +609,7 @@ Use the following steps to complete this task:
 
     ```plaintext
     **Phases**: Setup → Foundation → US1 only  
-    **Tasks**: T001 - T057 (57 tasks)  
+    **Tasks**: T001 - T048 (48 tasks)  
     **Deliverable**: Users can add a known-good feed URL; refresh; see items; restart and confirm persistence.
     ```
 
@@ -701,21 +681,13 @@ Use the following steps to complete this task:
 
 1. Save all updated files.
 
-1. Ask GitHub Copilot to create a VS Code "Run and Debug" launch configuration that you can use to start both apps with one click.
+1. Start the backend application and then the frontend application.
 
-    For example, you could enter the following prompt in the Chat view:
+    Ensure that both applications are running locally without errors.
 
-    ```plaintext
-    Create a VS Code "Run and Debug" launch configuration that I can use to start both apps with one click. Provide instructions for running the apps using the launch configuration.
-    ```
+1. Open a browser and navigate to the frontend application.
 
-1. Use the launch configuration to run the backend and frontend applications.
-
-    If you encounter any errors, provide a detailed description of the error message and any relevant logs to GitHub Copilot for assistance. You can launch the backend and frontend separately if needed.
-
-1. Open a browser and navigate to the Subscriptions page of the frontend application.
-
-    The frontend URL should be similar to the following: `http://localhost:5239/subscriptions`.
+    The frontend URL should be similar to the following: `http://localhost:5239`.
 
 1. Take a few minutes to verify the acceptance scenarios for the MVP application.
 
@@ -723,11 +695,7 @@ Use the following steps to complete this task:
 
     - https://devblogs.microsoft.com/dotnet/feed/ (The .NET Blog)
     - https://devblogs.microsoft.com/visualstudio/feed/ (Visual Studio Blog)
-    - https://devblogs.microsoft.com/powershell/feed/ (PowerShell Team Blog)
-    - https://devblogs.microsoft.com/azure-sdk/feed/ (Azure SDK Blog)
-    - https://devblogs.microsoft.com/commandline/feed/ (Windows Command Line / Terminal)
-    - https://devblogs.microsoft.com/oldnewthing/feed/ (The Old New Thing)
-    - https://learn.microsoft.com/en-us/shows/feed.xml (Microsoft Learn / Shows)
+
 
     You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section.
 
