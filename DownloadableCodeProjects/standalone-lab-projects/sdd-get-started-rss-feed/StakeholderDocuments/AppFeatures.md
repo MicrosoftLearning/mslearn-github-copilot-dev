@@ -59,12 +59,14 @@ After developing a successful Extended-MVP app, the following features could be 
 ### Practical notes for developers
 
 **For MVP (subscription management only):**
+
 - Use simple in-memory storage (List in C#)
 - No need for feed parsing libraries yet
 - No HTTP client needed for MVP
 - Focus on basic UI and state management
 
 **For Extended-MVP (add feed fetching):**
+
 - Use `System.ServiceModel.Syndication` for parsing
 - Test with known-good feeds (e.g., <https://devblogs.microsoft.com/dotnet/feed/>)
 - Avoid complex parsing edge cases - handle basic RSS/Atom formats only
