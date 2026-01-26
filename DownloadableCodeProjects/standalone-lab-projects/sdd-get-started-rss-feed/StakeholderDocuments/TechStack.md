@@ -73,6 +73,38 @@ This incremental approach makes development extremely fast while keeping the arc
 
 ## Local development
 
+### Blazor project initialization
+
+When creating a new Blazor WebAssembly project from the template, the project includes demonstration pages that must be removed to avoid conflicts with MVP features.
+
+**Required cleanup steps:**
+
+1. **Remove template demo pages** from `frontend/[ProjectName].UI/Pages/`:
+   - Delete `Home.razor` (conflicts with root route)
+   - Delete `Counter.razor` (demo page)
+   - Delete `Weather.razor` (demo page)
+
+2. **Update navigation menu** in `frontend/[ProjectName].UI/Layout/NavMenu.razor`:
+   - Remove navigation links to deleted demo pages
+   - Update menu items to reflect MVP features only
+   - Change root navigation link text to match your landing page (e.g., "Subscriptions")
+
+3. **Verify routing**:
+   - Ensure only ONE page uses `@page "/"` directive (your main MVP page)
+   - All other pages should use unique routes (e.g., `@page "/settings"`)
+
+**Why this matters:**
+
+Blazor templates include demonstration pages with pre-configured routes. If you create new pages with the same routes (especially the root route `/`), you'll encounter **ambiguous route exceptions** at runtime. The error message will look like:
+
+```
+System.InvalidOperationException: The following routes are ambiguous:
+'' in '[ProjectName].UI.Pages.Home'
+'' in '[ProjectName].UI.Pages.YourFeature'
+```
+
+Cleaning up template pages before implementing MVP features prevents these conflicts and ensures a clean project structure focused on business requirements.
+
 ### Port configuration
 
 The backend API and frontend UI run on separate localhost ports. **Port consistency is critical** - the ports must be coordinated between three locations:

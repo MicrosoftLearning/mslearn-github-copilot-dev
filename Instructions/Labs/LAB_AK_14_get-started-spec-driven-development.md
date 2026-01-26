@@ -10,7 +10,7 @@ GitHub Spec Kit is an open-source toolkit that enables Spec-Driven Development (
 
 In this exercise, you learn how to use the GitHub Spec Kit to develop a new greenfield application. You begin by initializing the GitHub Spec Kit for a new .NET project. You then use GitHub Spec Kit workflows to create the constitution, specification, plan, and tasks documents for the new application. Finally, you use GitHub Spec Kit's implementation workflow to implement an initial MVP version of the application.
 
-This exercise should take approximately **60** minutes to complete.
+This exercise takes approximately **60** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
@@ -22,9 +22,9 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your firm has asked you to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology to create an MVP version of the application that can be used as a proof-of-concept. Using a SDD methodology with GitHub Spec Kit ensures that an MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
+You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your firm has asked you to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology to create an MVP version of the application. Using an SDD methodology with GitHub Spec Kit ensures that the MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
 
-Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. This information can be used to help generate the constitution, specification, plan, and tasks documents.
+Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You can use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
 
 This exercise includes the following tasks:
 
@@ -232,7 +232,7 @@ Use the following steps to complete this task:
 
 1. Once GitHub Copilot is finished updating the constitution.md file, open the file, and then take a minute to review the suggested edits.
 
-    Notice that the workflow has successfully updated the constitution.md file, filling in the five key principles and creating the two unnamed sections. But what are the updates based on?
+    Notice that the workflow has successfully updated the constitution.md file, filling in the five key principles and populating the two previously unnamed sections. But what are the suggested updates based on?
 
     Here's a quick analysis:
 
@@ -264,7 +264,7 @@ Use the following steps to complete this task:
 
 1. Open the folder containing the downloaded ZIP file.
 
-1. Extract the contents of the downloaded ZIP file to a temporary folder, and then add them to the root folder of the RSSFeedReader project.
+1. Extract the contents of the downloaded ZIP file to a temporary folder, copy the files, and then add them to the root folder of the RSSFeedReader project.
 
     The updated RSSFeedReader project should resemble the following:
 
@@ -296,18 +296,6 @@ Use the following steps to complete this task:
 
     Project documentation and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with any level of detail that's available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process. However, detailed inputs lead to more predictable results.
 
-1. Consider the relationship between the stakeholder documents and the GitHub Spec Kit commands.
-
-    Each of the documents provide information that helps guide the spec-driven development process.
-
-    For example:
-
-    - **ProjectGoals.md**: This document provides project information that could help to create the constitution.md, spec.md, and plan.md files.
-    - **AppFeatures.md**: This document contains detailed user-facing requirements that could help to create the spec.md file.
-    - **TechStack.md**: This document outlines technology choices and architectural rationale that could help to create the plan.md file.
-
-    > **NOTE**: A one-to-one mapping between the stakeholder documents and the GitHub Spec Kit commands isn't necessary. For example, a single ProjectDescription.md file could provide context that's used to generate the constitution.md, spec.md, and plan.md files.
-
 1. In the Chat view, to start a constitution workflow using a combination of inline text and stakeholder documents, enter the following command:
 
     ```plaintext
@@ -318,7 +306,7 @@ Use the following steps to complete this task:
 
 1. Monitor GitHub Copilot's response.
 
-    It can take a few minutes for GitHub Copilot to analyze the project requirements and then update the constitution.md file.
+    It can take several minutes for GitHub Copilot to analyze the project requirements and then update the constitution.md file.
 
 1. Once GitHub Copilot is finished updating the constitution.md file, take a minute to review the suggested edits.
 
@@ -329,7 +317,7 @@ Use the following steps to complete this task:
     Each principle should be clearly stated and actionable. For example:
 
     - ❌ Vague: "Apply security best practices." is too general.
-    - ✅ Clear: "Feed URLs MUST be validated as proper URIs before fetching (reject malformed, file://, javascript: schemes)." is specific and actionable.
+    - ✅ Clear: "All API endpoints MUST validate inputs before processing (URL format validation, length limits, null checks)." is specific and actionable.
 
     If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
@@ -384,7 +372,7 @@ Use the following steps to complete this task:
     The summary description should be concise (a sentence or two) and capture the core functionality of the RSS Feed Reader app. For example:
 
     ```plaintext
-    "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (subscribe and view items) without the complexity of a production-ready application."
+    "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (add subscriptions) without the complexity of a production-ready application."
     ```
 
 1. Close any files that you have open in the editor.
@@ -396,7 +384,7 @@ Use the following steps to complete this task:
 1. In the Chat view, to start a specification workflow that generates a spec.md file using information from your stakeholders document, enter the following command:
 
     ```plaintext
-    /speckit.specify --text "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (subscribe and view items) without the complexity of a production-ready application." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md
+    /speckit.specify --text "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (add subscriptions) without the complexity of a production-ready application." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md
     ```
 
     If you don't specify the `--text` option, you might be asked to provide a description of the app features before you can continue.
@@ -436,7 +424,6 @@ Use the following steps to complete this task:
     For example, you should see requirements that are similar to the following:
 
     - System MUST allow users to add a feed subscription by providing a feed URL.
-    - System MUST validate feed URLs as proper URIs before attempting to fetch (reject malformed, file://, javascript: schemes).
 
 1. In the EXPLORER view, select **requirements.md**, and then take a minute to review the requirements.md file.
 
@@ -501,17 +488,19 @@ Use the following steps to complete this task:
     - The quickstart.md file provides setup instructions and a high-level overview of how to get started with the implementation.
     - The data-model.md file defines the data entities, properties, and relationships needed for the RSS Feed Reader app.
 
-    For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new feature. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
+    For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new app/features. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
 
-1. After reviewing the files, accept the updates.
+1. After reviewing the files, accept the edits.
 
     If the plan omits important details or makes assumptions you disagree with, you can:
 
     - Edit the plan.md file directly, or
-    - Ask follow-up questions in GitHub Copilot Chat. For example:
+    - Ask follow-up questions in GitHub Copilot Chat.
+
+    For example:
 
     ```plaintext
-    The plan should include a section on how to handle feed parsing errors gracefully. Please update the plan.md file to include this information.
+    The plan should include a section on how to handle feed parsing errors gracefully. Can you update the plan.md file to include this information?
     ```
 
 1. Save the files, and then commit and sync your changes.
@@ -628,40 +617,6 @@ Use the following steps to complete this task:
 
     > **NOTE**: GitHub Copilot is diligent about checking its work during the implementation, which is great, but can be time-consuming. GitHub Copilot also keeps you involved during the implementation process. Requests for assistance occur frequently. The time required to complete the implementation can be affected by how quickly you respond to requests for assistance/permission.
 
-1. If manual testing is required to verify a task, perform the steps described in the Chat view, and then report the results back to GitHub Copilot.
-
-    You might encounter issues during manual testing. For example:
-
-    1. GitHub Copilot tells you that manual testing is required to verify that subscriptions can be added successfully.
-    1. The backend application is already running locally on `http://localhost:5000`.
-    1. You start the frontend application using Visual Studio Code's terminal. The frontend application starts successfully and is running on `http://localhost:5239`.
-    1. You open a browser and navigate to the URL specified for the frontend application.
-    1. When the page loads, it reports an error: "An unhandled error has occurred. Reload".
-    1. You open the browser's developer tools to investigate further.
-    1. In the developer tools console, you see the following error message:
-
-        ```plaintext
-        "Unhandled exception rendering component: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'.
-        System.InvalidOperationException: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'.
-        at Microsoft.AspNetCore.Components.Reflection.ComponentProperties.ThrowForUnknownIncomingParameterName(:5239/Type targetTyp…tring parameterName)
-        at Microsoft.AspNetCore.Components.Reflection.ComponentProperties.SetProperties(:5239/ParameterView&…ters, Object target)
-        at Microsoft.AspNetCore.Components.ParameterView.SetParameterProperties(:5239/Object target)
-        at Microsoft.AspNetCore.Components.Routing.Router.SetParametersAsync(:5239/ParameterView parameters)"
-        ```
-
-    At this point you need to report the issue to GitHub Copilot:
-
-    1. You return to Visual Studio Code's Chat view.
-    1. You report the issue in the Chat view. For example:
-
-        ```plaintext
-        I opened the application in the browser at http://localhost:5239. When the page opens, I see an error message: "An unhandled error has occurred. Reload". When I check the browser's developer tools console, I see the following error message: "Unhandled exception rendering component: Object of type 'Microsoft.AspNetCore.Components.Routing.Router' does not have a property matching the name 'NotFoundPage'". Can you help me troubleshoot this issue?
-        ```
-
-    When you report an issue, GitHub Copilot uses the information you provided to begin debugging. A detailed description, including what is working, helps GitHub Copilot understand the problem better. GitHub Copilot might need extra details, such as specific error messages to resolve some issues. Provide any additional information requested by GitHub Copilot to help diagnose (and resolve) the problem.
-
-    Continue to provide assistance until the issue is resolved. Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
-
 1. Continue with the implementation workflow until all tasks required for the MVP application are complete and the application is fully functional.
 
     GitHub Copilot should notify in the Chat view when the backend and frontend applications are fully functional.
@@ -672,19 +627,83 @@ Use the following steps to complete this task:
 
 1. Save all updated files.
 
-1. Start the backend application and then the frontend application.
+1. First start the backend application, and then start the frontend application.
 
-    Ensure that both applications are running locally without errors.
+    Ensure that both applications start without errors.
 
-    Ask GitHub Copilot for the commands required to start both applications if you're unsure. For example, you could enter the following prompt in the Chat view:
+    You can ask GitHub Copilot for the commands required to start both applications if you're unsure. For example, you could enter the following prompt in the Chat view:
 
     ```plaintext
-    Can you provide the commands required to start both the backend and frontend applications locally?
+    Can you provide the commands required to start both the backend and frontend applications?
     ```
 
 1. Open a browser and navigate to the frontend application.
 
-    The frontend URL should be similar to the following: `http://localhost:5239`.
+    The frontend URL should be similar to the following: `http://localhost:5213`.
+
+    Report back to GitHub Copilot if you encounter any issues. For example:
+
+    1. You start the backend application. The backend application is running locally on `http://localhost:5151`.
+    1. You start the frontend application. The frontend application is running locally on `http://localhost:5213`.
+    1. You open a browser and navigate to the URL specified for the frontend application.
+    1. When the page loads, it reports an error: "An unhandled error has occurred. Reload".
+    1. You select the "Reload" option, but the error persists.
+    1. You open the browser's developer tools console to investigate further.
+    1. In the developer tools console, you see the following error message:
+
+        ```plaintext
+        "Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
+        Unhandled exception rendering component: The following routes are ambiguous:
+        '' in 'RSSFeedReader.UI.Pages.Home'
+        '' in 'RSSFeedReader.UI.Pages.Subscriptions'
+        
+        System.InvalidOperationException: The following routes are ambiguous:
+        '' in 'RSSFeedReader.UI.Pages.Home'
+        '' in 'RSSFeedReader.UI.Pages.Subscriptions'
+        
+        at Microsoft.AspNetCore.Components.RouteTableFactory.DetectAmbiguousRoutes(:5213/TreeRouteBuilder builder)
+        at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/Dictionary2 templatesByHandler, IServiceProvider serviceProvider)    at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/List1 componentTypes, IServiceProvider serviceProvider)
+        at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/RouteKey routeKey, IServiceProvider serviceProvider)
+        at Microsoft.AspNetCore.Components.Routing.Router.RefreshRouteTable((index))
+        at Microsoft.AspNetCore.Components.Routing.Router.Refresh(:5213/Boolean isNavigationIntercepted)
+        at Microsoft.AspNetCore.Components.Routing.Router.RunOnNavigateAsync(:5213/String path, Boolean isNavigationIntercepted)
+        at Microsoft.AspNetCore.Components.Routing.Router.<>c__DisplayClass82_0.<RunOnNavigateAsync>b__1(:5213/RenderTreeBuilder builder)
+        at Microsoft.AspNetCore.Components.Rendering.ComponentState.RenderIntoBatch(:5213/RenderBatchBuilder batchBuilder, RenderFragment renderFragment, Exception& renderFragmentException)"
+        ```
+
+        At this point you need to report the issue to GitHub Copilot:
+
+    1. You report the issue in the Chat view.
+
+        For example:
+
+        ```plaintext
+        I was able to start the backend and frontend apps successfully. I opened the frontend app in the browser at http://localhost:5213. When the page opens, I see an error message: "An unhandled error has occurred. Reload". Selecting reload doesn't resolve the issue. When I check the browser's developer tools console, I see the following error message: 
+
+        "Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
+        Unhandled exception rendering component: The following routes are ambiguous:
+        '' in 'RSSFeedReader.UI.Pages.Home'
+        '' in 'RSSFeedReader.UI.Pages.Subscriptions'
+        
+        System.InvalidOperationException: The following routes are ambiguous:
+        '' in 'RSSFeedReader.UI.Pages.Home'
+        '' in 'RSSFeedReader.UI.Pages.Subscriptions'
+        
+        at Microsoft.AspNetCore.Components.RouteTableFactory.DetectAmbiguousRoutes(:5213/TreeRouteBuilder builder)
+        at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/Dictionary2 templatesByHandler, IServiceProvider serviceProvider)    at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/List1 componentTypes, IServiceProvider serviceProvider)
+        at Microsoft.AspNetCore.Components.RouteTableFactory.Create(:5213/RouteKey routeKey, IServiceProvider serviceProvider)
+        at Microsoft.AspNetCore.Components.Routing.Router.RefreshRouteTable((index))
+        at Microsoft.AspNetCore.Components.Routing.Router.Refresh(:5213/Boolean isNavigationIntercepted)
+        at Microsoft.AspNetCore.Components.Routing.Router.RunOnNavigateAsync(:5213/String path, Boolean isNavigationIntercepted)
+        at Microsoft.AspNetCore.Components.Routing.Router.<>c__DisplayClass82_0.<RunOnNavigateAsync>b__1(:5213/RenderTreeBuilder builder)
+        at Microsoft.AspNetCore.Components.Rendering.ComponentState.RenderIntoBatch(:5213/RenderBatchBuilder batchBuilder, RenderFragment renderFragment, Exception& renderFragmentException)".
+        ```
+
+    1. GitHub Copilot analyzes the information you provided and begins debugging the issue.
+
+        When you report an issue, GitHub Copilot uses the information you provided to begin debugging. A detailed description, including what is working, helps GitHub Copilot understand the problem better. GitHub Copilot might need extra details, such as specific error messages to resolve some issues. Provide any additional information requested by GitHub Copilot to help diagnose (and resolve) the problem.
+
+        Continue to provide assistance until the issue is resolved. Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
 
 1. Take a few minutes to verify the acceptance scenarios for the MVP application.
 
@@ -693,15 +712,16 @@ Use the following steps to complete this task:
     - https://devblogs.microsoft.com/dotnet/feed/ (The .NET Blog)
     - https://devblogs.microsoft.com/visualstudio/feed/ (Visual Studio Blog)
 
-
     You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section.
 
     For example, the acceptance scenarios for the MVP application might be similar to the following example:
 
-    1. **Given** the app has no subscriptions, **When** the user adds a valid feed URL and triggers “refresh now”, **Then** the app stores the subscription, fetches the feed, stores items locally, and shows the items newest-first.
-    2. **Given** a subscription exists, **When** the user closes and reopens the app, **Then** the subscription and previously fetched items are still available without requiring a refresh.
-    3. **Given** a subscription was refreshed very recently, **When** the user triggers “refresh now” again immediately, **Then** the app throttles the request and explains why refresh did not run.
-    4. **Given** the feed fetch fails (timeout/redirect/forbidden/malformed response), **When** the user triggers “refresh now”, **Then** the app shows a clear per-feed error and remains usable.
+    1. **Given** the subscription management interface is loaded, **When** the user enters a valid feed URL in the input field and clicks "Add Subscription", **Then** the system accepts the URL and confirms the subscription was added
+    2. **Given** the user has entered a feed URL, **When** the user submits the form, **Then** the input field is cleared and ready for another URL
+    3. **Given** the user enters an empty string or whitespace-only input, **When** they attempt to add the subscription, **Then** the system prevents submission (basic client-side validation)
+    4. **Given** no subscriptions have been added, **When** the user loads the page, **Then** an empty state is shown (e.g., "No subscriptions yet" message)
+    5. **Given** the user has added one subscription, **When** the page displays, **Then** the subscription URL is visible in the list
+    6. **Given** the user has added multiple subscriptions, **When** the page displays, **Then** all subscription URLs are visible in the list in the order they were added (newest last)
 
     You can also ask GitHub Copilot for the steps required to perform manual testing of your MVP implementation. For example, you could enter the following prompt in the Chat view:
 
@@ -711,22 +731,13 @@ Use the following steps to complete this task:
 
     Use Visual Studio Code to run the application, and then manually test the RSS Feed Reader functionality to ensure that it works as expected.
 
-1. Report back to GitHub Copilot with the results of your manual testing.
-
 1. Continue manual testing and reporting results until all acceptance scenarios for the MVP application pass successfully.
 
-1. After successfully testing your MVP application, commit and sync your implementation files.
+    Key Observations:
 
-> **NOTE**: If time permits, you can continue implementing additional tasks beyond the MVP scope. You can either instruct GitHub Copilot to proceed with the next set of tasks or manually select specific tasks to implement next.
-
-Key Observations:
-
-- GitHub Copilot generates code that aligns with your spec because it references the *spec.md*, *plan.md*, and *tasks.md* files in your workspace.
-- Detailed comments based on specification requirements guide GitHub Copilot to produce accurate implementations.
-- The spec-driven development approach ensures you don't forget requirements (file size limits, supported types, etc.) because they're explicitly documented.
-- Having clear acceptance criteria makes it easy to verify that your implementation meets requirements.
-
-In a full implementation, you would continue through all remaining tasks in the tasks.md file, using a phased approach to systematically build out the complete feature. The spec-driven development approach keeps you focused on requirements and prevents scope creep or missed functionality.
+    - The implementation process is iterative and may require multiple rounds of testing and debugging.
+    - Clear communication with GitHub Copilot is essential for effective troubleshooting.
+    - Thorough testing ensures that the MVP application meets the specified requirements and functions as intended.
 
 ## Clean up
 
