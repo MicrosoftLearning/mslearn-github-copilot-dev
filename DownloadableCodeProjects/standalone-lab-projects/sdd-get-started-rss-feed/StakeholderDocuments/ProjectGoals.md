@@ -1,101 +1,63 @@
 # Project goals
 
-Build a practical RSS/Atom feed reader with a clean end-to-end architecture and a clear, testable set of requirements. The goal is to deliver a usable first version quickly, then grow capability over time without rewriting the foundation.
+Build a simple RSS/Atom feed reader. The goal is to demonstrate the most basic capability (subscribe and view items) without the complexity of a production-ready application.
 
 ## Purpose
 
-The app exists to help a user keep up with content from many sources in one place, without relying on social algorithms. The reader should make it easy to subscribe to feeds, stay on top of new items, and control the flow of information.
+The app exists to demonstrate how a user can subscribe to RSS feeds and view their content in one place. This is a proof-of-concept focused on showing the core functionality quickly.
 
-## Target scope (today)
+## Target scope (MVP only)
 
-This is initially a single-user, local-only application. It is designed to be developed and tested on Windows, macOS, or Linux.
+This is a minimal POC application for a single user, running locally. It is designed to be developed and tested on Windows, macOS, or Linux.
 
-Because the development timeline is intentionally short, we will prioritize an MVP that proves the full workflow (subscribe → fetch → store → read) and defer "power features" until the basics are stable.
+The MVP includes only:
 
-Multi-device sync, first-class mobile support, and expanded offline capabilities are intentionally out of scope for the MVP. The initial goal is a reliable local reader, with a clear path to add those capabilities later.
+- Adding a feed subscription by URL
+- Manually refreshing a subscription to see items
+
+All other features (persistence between sessions, removing subscriptions, background polling, etc.) are deferred to post-MVP.
 
 ## Delivery approach
 
-We will build in small increments, validating behavior at each step, rather than attempting a large implementation in a single pass.
+The focus is on rapid development of the MVP features. Build the minimal functionality first:
 
-Each increment should be described in a short, testable way:
+- Add a subscription by URL
+- Manual refresh to fetch and display items
 
-- One primary user outcome.
-- A handful of acceptance scenarios (a clear success-path plus 2–3 high-value failures).
-- The edge cases we are *not* solving yet.
+To keep development fast:
 
-To keep delivery fast and predictable:
+- Use a known-good feed for testing (e.g., a Microsoft DevBlog feed)
+- Avoid complex error handling beyond basic "something went wrong" messages
+- Skip features that add complexity (persistence, background operations, extensive validation)
+- Keep the UI simple and functional rather than polished
 
-- Start with the smallest end-to-end MVP slice first (manual subscribe → refresh → items).
-- Treat discovery, background polling, folders, and read/unread as post-MVP unless explicitly pulled in.
-- Use a known-good feed for the first success-path verification before testing stricter or rate-limited sources.
-- Keep work items small and single-purpose; when a change affects behavior, add/adjust tests first.
+## What "MVP working" means
 
-When writing a work breakdown (tasks):
+The MVP is complete when:
 
-- Prefer tasks that touch one file or one concern.
-- If a task changes multiple concerns, split it.
-- Put test changes first for each behavior change.
-- If you use a marker for parallelizable tasks (for example `[P]`), only mark tasks that do not touch the same files.
-- Keep local dev ports and base URLs explicit and configurable to avoid unnecessary debugging churn.
+1. A user can add a feed subscription by pasting a URL
+2. A user can click a button to manually refresh the feed
+3. Items from the feed are displayed (title and link minimum)
 
-## Implementation guardrails
+Test with a known-good RSS feed like <https://devblogs.microsoft.com/dotnet/feed/>.
 
-These are "sharp edges" we've identified when working on similar projects. They should be proactively avoided.
+## Future enhancements (post-MVP)
 
-- **Solution file**: Ensure the backend solution is `backend/RssFeedReader.sln` (not `.slnx`).
-- **Schema initialization**: Do not mix EF Core `Migrate()` and `EnsureCreated()` against the same database; pick one strategy (prefer migrations) and reflect it in integration test setup.
-- **SQLite timestamp sorting**: Avoid EF `OrderBy` over `DateTimeOffset` on SQLite unless you've validated translation; prefer UTC `DateTime` for sortable columns or sort in-memory.
-- **Dependencies**: If the plan requires HTML sanitization or Swagger, specify the exact package(s) and version policy (including how to handle NU190x vulnerability advisories) so implementation doesn't stall mid-flight.
+Once the basic demonstration is working, these features could be added:
 
-## What "MVP working" means in practice
+- **Persistence**: Save subscriptions and items between sessions (requires database implementation)
+- **Remove subscriptions**: Allow users to delete feeds they no longer want
+- **Background polling**: Automatically refresh feeds on a schedule
+- **Better error handling**: Show detailed error messages for different failure scenarios
+- **Content rendering**: Display full item content, not just title and link
+- **Read/unread tracking**: Mark items as read and filter accordingly
+- **Organization**: Group feeds into folders or categories
 
-For the first MVP slice, "working" should be validated on a known-good RSS/Atom feed with this flow:
+## Technology selection note
 
-1. Add subscription
-2. Trigger manual refresh
-3. View items
-
-Only after this success-path works reliably should we use stricter sites (rate-limited/blocked sources) as robustness tests.
-
-## Rollout plan
-
-Feature rollout will be staged:
-
-First, we will deliver the MVP: the smallest set of features that provides a functional reader experience end-to-end.
-
-Next, we will iterate toward a solid "v1" by improving usability and reliability (better organization, clearer error handling, and incremental quality improvements) while keeping the system simple.
-
-Finally, we will add optional enhancements over time (search/filtering, integrations, sync, offline improvements) once the core experience is dependable.
-
-## Quality goals for this project
-
-Even in an MVP, the reader should be reliable and safe. It should tolerate real-world feed problems (redirects, timeouts, malformed XML) without crashing, avoid duplicating items unnecessarily, and render content safely.
-
-Local data should remain the user's data. The design should make it easy to keep and export information as the project grows.
-
-## Standards and guidelines
-
-- **Code Quality**: Enforce linters/formatters; follow a clear style guide; require PR reviews; prefer small, incremental changes.
-- **Testing**: Unit and integration tests for critical paths; CI gates must run tests; target meaningful coverage on core modules (≈80%) and validate parsing/rendering edge cases.
-- **Security**: Sanitize all rendered HTML; validate and normalize inputs; keep secrets out of the repo; run SAST and dependency vulnerability scanning; fix high/critical issues promptly; adopt OWASP ASVS baseline controls.
-- **Privacy**: Minimize data collected; keep all user data local by default; make export/delete straightforward; exclude PII from logs.
-- **Accessibility**: Meet WCAG 2.2 AA (keyboard navigation, contrast, semantics); avoid motion that impairs readability.
-- **Performance**: Non-blocking UI during fetch/parse; cache feed metadata; use retry with backoff on timeouts; avoid excessive memory use on large feeds.
-- **Reliability**: Handle malformed/redirected feeds robustly; deduplicate items idempotently; persist safely to avoid corruption.
-- **Observability**: Use structured logs with levels; surface actionable error messages; collect minimal opt-in telemetry only.
-- **Release Management**: Use semantic versioning; maintain a changelog; ensure reproducible builds; enable quick rollback.
-- **Documentation & Process**: Keep README/user guide and architecture overview current; write brief requirements with acceptance criteria; definition of done includes tests, docs, and a short QA checklist.
-- **Dependency Management**: Pin versions; update regularly; track licenses; generate an SBOM (e.g., CycloneDX) and verify compliance.
-
-## "MVP first" rule of thumb
-
-If a requirement introduces background scheduling, concurrency orchestration, or cross-cutting UI state (examples: polling, folders, read/unread), it is probably post-MVP unless the app cannot demonstrate the core workflow without it.
+While this MVP is intentionally simple, the technology choices (ASP.NET Core + Blazor) should support future production-ready features without requiring a complete rewrite. The architecture allows for adding persistence, background operations, and enhanced UI capabilities as needed.
 
 ## How this document fits with the others
 
-This document describes the project at a high level and sets constraints, methodology, and rollout expectations.
-
-Detailed, user-facing requirements live in [AppFeatures.md](AppFeatures.md).
-
-The technology choices and architectural rationale live in [TechStack.md](TechStack.md).
+- [AppFeatures.md](AppFeatures.md) describes the specific user-facing features for the MVP
+- [TechStack.md](TechStack.md) explains the technology choices and how they support the MVP goals
