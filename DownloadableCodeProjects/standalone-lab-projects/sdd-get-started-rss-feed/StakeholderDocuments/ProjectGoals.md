@@ -1,10 +1,10 @@
 # Project goals
 
-Build a simple RSS/Atom feed reader. The goal is to demonstrate the most basic capability (subscribe and view items) without the complexity of a production-ready application.
+Build a simple RSS/Atom feed reader. The goal is to demonstrate the most basic capability (managing a subscription list) without the complexity of fetching and displaying feed content.
 
 ## Purpose
 
-The app exists to demonstrate how a user can subscribe to RSS feeds and view their content in one place. This is a proof-of-concept focused on showing the core functionality quickly.
+The app exists to demonstrate how a user can build a subscription list for RSS feeds. This is a proof-of-concept focused on the subscription management UI.
 
 ## Target scope (MVP only)
 
@@ -13,22 +13,22 @@ This is a minimal POC application for a single user, running locally. It is desi
 The MVP includes only:
 
 - Adding a feed subscription by URL
-- Manually refreshing a subscription to see items
+- Displaying the list of subscriptions in the UI
 
-All other features (persistence between sessions, removing subscriptions, background polling, etc.) are deferred to post-MVP.
+All other features (fetching feeds, displaying items, persistence, removing subscriptions, etc.) are deferred to Extended-MVP or post-MVP.
 
 ## Delivery approach
 
-The focus is on rapid development of the MVP features. Build the minimal functionality first:
+The focus is on rapid development of the MVP feature. Build the minimal functionality first:
 
 - Add a subscription by URL
-- Manual refresh to fetch and display items
+- Display the list of subscriptions
 
 To keep development fast:
 
-- Use a known-good feed for testing (e.g., a Microsoft DevBlog feed)
-- Avoid complex error handling beyond basic "something went wrong" messages
-- Skip features that add complexity (persistence, background operations, extensive validation)
+- No feed fetching or parsing needed for MVP
+- No validation of feed URLs (assume user provides valid URLs)
+- Store subscriptions in memory only (simplest approach)
 - Keep the UI simple and functional rather than polished
 
 ## What "MVP working" means
@@ -36,8 +36,16 @@ To keep development fast:
 The MVP is complete when:
 
 1. A user can add a feed subscription by pasting a URL
-2. A user can click a button to manually refresh the feed
-3. Items from the feed are displayed (title and link minimum)
+2. The UI displays the updated list of subscriptions
+
+No actual feed fetching, parsing, or item display is required for MVP.
+
+## Extended-MVP (next phase)
+
+After the basic MVP is working, the Extended-MVP adds feed fetching and display capabilities:
+
+1. A user can click a button to manually refresh the feed
+2. Items from the feed are displayed (title and link minimum)
 
 Test with a known-good RSS feed like <https://devblogs.microsoft.com/dotnet/feed/>.
 
@@ -53,7 +61,7 @@ Before testing the MVP, verify:
 
 ## Future enhancements (post-MVP)
 
-Once the basic demonstration is working, these features could be added:
+Once the Extended-MVP is working (subscription management + feed fetching + item display), these features could be added:
 
 - **Persistence**: Save subscriptions and items between sessions (requires database implementation)
 - **Remove subscriptions**: Allow users to delete feeds they no longer want

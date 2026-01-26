@@ -1,36 +1,43 @@
 # App features
 
-This RSS feed reader demonstrates the most basic functionality: subscribing to a feed and viewing its content.
+This RSS feed reader demonstrates subscription management as the foundation for a feed reader application.
 
 ## MVP scope (proof-of-concept version)
 
-The MVP demonstrates the minimal viable workflow: subscribe to a feed and see its items.
+The MVP demonstrates the minimal viable functionality: managing a subscription list.
 
 For the MVP, the app MUST:
 
 - Let a user add a feed subscription by pasting a feed URL
-- Let a user manually refresh the feed to fetch and display items
-- Display items with at least title and link
-- Show a simple error message if the feed fails to load
+- Display the list of subscriptions in the UI
 
 For the MVP, the app MAY:
 
 - Store data only in memory (data is lost when the app closes)
-- Render items as plain text only (title + link)
-- Show items in the order they appear in the feed (sorting is optional)
+- Accept any URL without validation (assume valid RSS/Atom feed URLs)
+- Display subscriptions in a simple list format
 
 ## MVP behavior
 
 The MVP follows simple rules:
 
-- Users manually click "refresh" to fetch feed content
-- No automatic polling or background updates
-- Basic error handling: show "Failed to load feed" if something goes wrong
-- No throttling or rate limiting in MVP (keep it simple)
+- Users can add subscriptions by entering a URL
+- The subscription list updates immediately when a subscription is added
+- No feed fetching, parsing, or validation
+- No error handling needed (no network operations)
+
+## Extended-MVP features
+
+After the basic MVP (subscription management) is working, the Extended-MVP adds feed fetching and display:
+
+- **Manual refresh**: Users can click "refresh" to fetch feed content
+- **Item display**: Show items with title and link
+- **Basic error handling**: Show "Failed to load feed" if something goes wrong
+- **No automatic polling**: Manual refresh only, no background updates
 
 ## Post-MVP features
 
-After developing a successful MVP app, the following features could be considered for future versions:
+After developing a successful Extended-MVP app, the following features could be considered for future versions:
 
 ### Essential improvements
 
@@ -51,9 +58,16 @@ After developing a successful MVP app, the following features could be considere
 
 ### Practical notes for developers
 
-- Use simple in-memory storage for MVP (List/Dictionary in C#)
+**For MVP (subscription management only):**
+- Use simple in-memory storage (List in C#)
+- No need for feed parsing libraries yet
+- No HTTP client needed for MVP
+- Focus on basic UI and state management
+
+**For Extended-MVP (add feed fetching):**
+- Use `System.ServiceModel.Syndication` for parsing
 - Test with known-good feeds (e.g., <https://devblogs.microsoft.com/dotnet/feed/>)
-- Avoid complex parsing edge cases in MVP - handle basic RSS/Atom formats only
+- Avoid complex parsing edge cases - handle basic RSS/Atom formats only
 
 ## Additional features (longer-term)
 
