@@ -167,7 +167,9 @@ With the project folder created, GitHub Spec Kit initialized, and source control
 
 ## Generate the constitution using stakeholder documentation
 
-The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process. GitHub Spec Kit includes several resources that help you create and maintain the constitution.md file:
+The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process.
+
+GitHub Spec Kit includes several resources that help you create and maintain the constitution.md file:
 
 - The .specify/memory/constitution.md file contains a template for the constitution document.
 - The .github/agents/speckit.constitution.agent.md file contains detailed instructions that are used to generate (or update) the constitution.md file.
@@ -644,10 +646,10 @@ Use the following steps to complete this task:
 
     For example, the acceptance scenarios for the MVP application might be similar to the following example:
 
-    1. **Given** the subscription management interface is loaded, **When** the user enters a valid feed URL in the input field and clicks "Add Subscription", **Then** the system accepts the URL and confirms the subscription was added
-    2. **Given** the user has entered a feed URL, **When** the user submits the form, **Then** the input field is cleared and ready for another URL
-    3. **Given** the user enters an empty string or whitespace-only input, **When** they attempt to add the subscription, **Then** the system prevents submission (basic client-side validation)
-    4. **Given** no subscriptions have been added, **When** the user loads the page, **Then** an empty state is shown (e.g., "No subscriptions yet" message)
+    1. **Given** no subscriptions have been added, **When** the user loads the page, **Then** an empty state is shown (e.g., "No subscriptions yet" message)
+    2. **Given** the subscription management interface is loaded, **When** the user enters a valid feed URL in the input field and clicks "Add Subscription", **Then** the system accepts the URL and confirms the subscription was added
+    3. **Given** the user has entered a feed URL, **When** the user submits the form, **Then** the input field is cleared and ready for another URL
+    4. **Given** the user enters an empty string or whitespace-only input, **When** they attempt to add the subscription, **Then** the system prevents submission (basic client-side validation)
     5. **Given** the user has added one subscription, **When** the page displays, **Then** the subscription URL is visible in the list
     6. **Given** the user has added multiple subscriptions, **When** the page displays, **Then** all subscription URLs are visible in the list in the order they were added (newest last)
 
