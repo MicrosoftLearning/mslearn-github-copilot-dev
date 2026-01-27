@@ -22,9 +22,9 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You've been asked to start using SDD and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an MVP version of RSS feed reader app. Using the SDD methodology with GitHub Spec Kit will help to ensure that the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
+You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You're asked to start using SDD and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an MVP version of RSS feed reader app. Using the SDD methodology with GitHub Spec Kit helps to ensure that the application is delivered quickly, and that other features can be rolled out seamlessly when needed.
 
-Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You'll use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
+Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You can use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
 
 This exercise includes the following tasks:
 
@@ -198,7 +198,7 @@ Use the following steps to complete this task:
 
 1. Extract the contents of the downloaded ZIP file to a temporary folder, copy the files, and then paste them into the root folder of the RSSFeedReader project.
 
-    The updated RSSFeedReader project should resemble the following:
+    The updated RSSFeedReader project should resemble the following example:
 
     ```plaintext
     RSSFEEDREADER (root)
@@ -253,7 +253,7 @@ Use the following steps to complete this task:
 
     For a real-world project, it's important to review the constitution against the following criteria:
 
-    - Completeness: All major areas (security, privacy, accessibility, performance, reliability, observability, release management, documentation, dependency management, and code quality) are covered.
+    - Completeness: All major areas are covered.
     - Clarity: Each principle is specific and unambiguous.
     - Consistency: Principles don't contradict each other.
     - Relevance: All principles relate to the RSSFeedReader project.
@@ -287,7 +287,7 @@ Use the following steps to complete this task:
 
 1. Use Visual Studio Code's EXPLORER view to examine the **spec-template.md** and **speckit.specify.agent.md** files.
 
-    Notice the following:
+    Notice the following things about these files:
 
     - The spec-template.md file defines the structure and sections of a specification document. It includes examples and/or placeholders for feature descriptions, user stories, acceptance criteria, and other relevant information.
     - The speckit.specify.agent.md file provides detailed instructions for the /speckit.specify command. It guides GitHub Copilot on how to create a specification based on the provided requirements.
@@ -351,7 +351,7 @@ Use the following steps to complete this task:
 
 1. Verify that the Requirements section of the **spec.md** file includes key requirements from your stakeholder requirements document.
 
-    For example, you should see requirements that are similar to the following:
+    For example, you should see requirements that are similar to the following example:
 
     - System MUST allow users to add a feed subscription by providing a feed URL.
 
@@ -467,7 +467,7 @@ Use the following steps to complete this task:
 
 1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
-    GitHub Copilot analyzes the spec.md and plan.md files and generate tasks in the tasks.md file.
+    GitHub Copilot analyzes the spec.md and plan.md files and generates tasks in the tasks.md file.
 
     It can take 4-6 minutes for GitHub Copilot to generate the tasks.md file. Provide permission and assistance when required.
 
@@ -646,7 +646,7 @@ Use the following steps to complete this task:
 
     For example, the acceptance scenarios for the MVP application might be similar to the following example:
 
-    1. **Given** no subscriptions have been added, **When** the user loads the page, **Then** an empty state is shown (e.g., "No subscriptions yet" message)
+    1. **Given** no subscriptions have been added, **When** the user loads the page, **Then** an empty state is shown (for example, "No subscriptions yet" message)
     2. **Given** the subscription management interface is loaded, **When** the user enters a valid feed URL in the input field and clicks "Add Subscription", **Then** the system accepts the URL and confirms the subscription was added
     3. **Given** the user has entered a feed URL, **When** the user submits the form, **Then** the input field is cleared and ready for another URL
     4. **Given** the user enters an empty string or whitespace-only input, **When** they attempt to add the subscription, **Then** the system prevents submission (basic client-side validation)
@@ -665,7 +665,7 @@ Use the following steps to complete this task:
 
     Key Observations:
 
-    - The implementation process is iterative and may require multiple rounds of testing and debugging.
+    - The implementation process is iterative and might require multiple rounds of testing and debugging.
     - Clear communication with GitHub Copilot is essential for effective troubleshooting.
     - Thorough testing ensures that the MVP application meets the specified requirements and functions as intended.
 
