@@ -77,6 +77,8 @@ This incremental approach makes development extremely fast while keeping the arc
 
 When creating a new Blazor WebAssembly project from the template, the project includes demonstration pages that must be removed to avoid conflicts with MVP features.
 
+**⚠️ CRITICAL: This cleanup must be completed in Phase 2 (Foundational) and VERIFIED before any UI feature implementation begins. Runtime errors from incomplete cleanup will waste development time.**
+
 **Required cleanup steps:**
 
 1. **Remove template demo pages** from `frontend/[ProjectName].UI/Pages/`:
@@ -93,6 +95,32 @@ When creating a new Blazor WebAssembly project from the template, the project in
    - Ensure only ONE page uses `@page "/"` directive (your main MVP page)
    - All other pages should use unique routes (e.g., `@page "/settings"`)
 
+4. **Verify cleanup completion** before proceeding with implementation:
+
+   ```powershell
+   # List all Razor pages - should show ONLY your MVP pages (e.g., NotFound.razor, Subscriptions.razor)
+   Get-ChildItem frontend/[ProjectName].UI/Pages/ -Filter *.razor | Select-Object Name
+   ```
+
+   **STOP: Do not proceed with feature implementation until:**
+   - ✗ Home.razor is GONE
+   - ✗ Counter.razor is GONE  
+   - ✗ Weather.razor is GONE
+   - ✓ Only your MVP pages remain
+
+5. **Test for routing conflicts immediately** after cleanup:
+
+   ```powershell
+   # Clean build to remove cached assemblies
+   dotnet clean frontend/[ProjectName].UI/[ProjectName].UI.csproj
+   dotnet build frontend/[ProjectName].UI/[ProjectName].UI.csproj
+   
+   # Start frontend to verify no routing errors
+   dotnet run --project frontend/[ProjectName].UI
+   ```
+
+   Navigate to the frontend URL in your browser. If you see an "ambiguous route" error in the browser console (F12 Developer Tools), cleanup is incomplete. **Fix the issue before implementing any features.**
+
 **Why this matters:**
 
 Blazor templates include demonstration pages with pre-configured routes. If you create new pages with the same routes (especially the root route `/`), you'll encounter **ambiguous route exceptions** at runtime. The error message will look like:
@@ -102,6 +130,8 @@ System.InvalidOperationException: The following routes are ambiguous:
 '' in '[ProjectName].UI.Pages.Home'
 '' in '[ProjectName].UI.Pages.YourFeature'
 ```
+
+These errors only appear at runtime after you've already implemented features, making them costly to debug. The verification steps above catch this issue immediately during Phase 2 cleanup, before any feature work begins.
 
 Cleaning up template pages before implementing MVP features prevents these conflicts and ensures a clean project structure focused on business requirements.
 

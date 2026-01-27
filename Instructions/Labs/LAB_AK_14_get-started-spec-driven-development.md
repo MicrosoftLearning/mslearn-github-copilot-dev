@@ -22,15 +22,14 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm that's moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. Your firm has asked you to start using the SDD methodology and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an RSS feed reader app for internal employees. You decide to use the SDD methodology to create an MVP version of the application. Using an SDD methodology with GitHub Spec Kit ensures that the MVP version of the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
+You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You've been asked to start using SDD and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an MVP version of RSS feed reader app. Using the SDD methodology with GitHub Spec Kit will help to ensure that the application is delivered quickly, and that additional features can be rolled out seamlessly when needed.
 
-Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You can use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
+Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You'll use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
 
 This exercise includes the following tasks:
 
 1. Create a project folder and initialize GitHub Spec Kit.
-1. Examine GitHub Spec Kit's constitution command and files.
-1. Update the constitution using stakeholder documentation.
+1. Generate the constitution using stakeholder documentation.
 1. Generate the spec.md file using stakeholder documentation.
 1. Generate the plan.md file using stakeholder documentation and spec.md.
 1. Generate the tasks.md file using the spec.md, plan.md, and constitution.md.
@@ -104,9 +103,9 @@ Use the following steps to complete this task:
 
     The `code .` command opens the current directory (RSSFeedReader) in Visual Studio Code.
 
-1. Notice the folder structure created by the `specify init` command.
+1. Use Visual Studio Code's EXPLORER view to expand the .github and .specify folders.
 
-    Use Visual Studio Code's EXPLORER view to expand the .github and .specify folders. You should see a folder structure that's similar to the following example:
+    You should see a folder structure that's similar to the following example:
 
     ```plaintext
     RSSFEEDREADER (root)
@@ -166,97 +165,28 @@ Use the following steps to complete this task:
 
 With the project folder created, GitHub Spec Kit initialized, and source control configured, you're ready to begin using GitHub Spec Kit to create the constitution, specification, plan, and tasks for the RSS Feed Reader application.
 
-## Examine GitHub Spec Kit's constitution command and files
+## Generate the constitution using stakeholder documentation
 
-The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process. GitHub Spec Kit includes several resources that help to create and maintain the constitution.md file:
+The constitution.md file defines policies, requirements, and technical standards that must be followed throughout the development process. GitHub Spec Kit includes several resources that help you create and maintain the constitution.md file:
 
 - The .specify/memory/constitution.md file contains a template for the constitution document.
 - The .github/agents/speckit.constitution.agent.md file contains detailed instructions that are used to generate (or update) the constitution.md file.
 - The .github/prompts/speckit.constitution.prompt.md file contains a "routing stub" that tells Copilot Chat to run the agent named speckit.constitution when the /speckit.constitution command is invoked.
 - The /speckit.constitution command is used to generate a constitution.md file for the project.
 
-In this task, you examine the resource files used to generate the constitution and evaluate the `/speckit.constitution` command.
+The initial version of the **constitution.md** file specifies that the constitution should include the following:
 
-Use the following steps to complete this task:
+- Project Name
+- Section 1: Core Principles. The Core Principles section needs to include five core principles. Examples for the principles and their descriptions are provided in the template.
+- Section 2: unnamed. Examples for the section name and content are provided in the template.
+- Section 3: unnamed. Examples for the section name and content are provided in the template.
+- Section 4: Governance. Examples for how the governance section is applied and governance rules are provided in the template.
 
-1. Use Visual Studio Code's EXPLORER view to expand the **.github/agents** and **.specify/memory** folders.
-
-    These folders contain the GitHub Spec Kit resources used to create a constitution.md file. It can be helpful to familiarize yourself with these resource files before attempting to generate your constitution file.
-
-1. In the **.specify/memory** folder, open the **constitution.md** file.
-
-    The initial version of the constitution.md file contains the default template for a constitution.
-
-1. Take a minute to review the **constitution.md** file.
-
-    Notice that the constitution template defines four main sections: Core Principles (located at the top), two unnamed sections, and Governance (located at the bottom). Placeholder tokens are used throughout the document to indicate where specific content should be added. The Core Principles section include placeholders for five key principles, and the template also contains example content for sections and subsections.
-
-1. In the **.github/agents** folder, open the **speckit.constitution.agent.md** file.
-
-1. Take a minute to review the **speckit.constitution.agent.md** file.
-
-    Notice the detailed instructions provided in this markdown file. The Outline section tells GitHub Copilot to use the constitution.md template as a starting point, describes how to use the placeholder tokens, and provides guidance on how to fill in each section of the constitution.
-
-1. Close all of the files that you have open in the editor.
-
-1. Ensure that the Chat view is open, then start a new chat session.
-
-    You can start a new session by selecting the **New Chat** button (the **+** icon at the top of the Chat panel). Starting a new Chat session ensures a clean context.
-
-    > **NOTE:** This lab exercise was tested successfully using the GPT-5.2 and Claude Sonnet 4.5 models. The results generated by these models were similar, although the Claude model tended to generate a longer list of tasks in the tasks.md file. Testing with older models, such as GPT-4 and GPT-5 mini, often resulted in inconsistent and unexpected results. If possible, we suggest using newer language models that are optimized for complex reasoning when running GitHub Spec Kit commands.
-
-1. Take a moment to consider your options for running the /speckit.constitution command.
-
-    You can run the /speckit.constitution command with the following options:
-
-    - `/speckit.constitution --text "..."`: Use inline text to describe the standards, guidelines, principles, and constraints that should be included in the constitution.
-    - `/speckit.constitution --files ...`: Specify project documents that provide context for creating the constitution.
-    - `/speckit.constitution --text "..." --files ...`: Specify a combination of inline text and project documents.
-    - `/speckit.constitution`: Run the command without any inputs. The workflow uses files in the codebase to identify standards, guidelines, and requirements, and then generates a constitution.
-
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed (input) requirements helps to generate a more accurate and comprehensive constitution.
-
-1. To start a constitution workflow without any inputs, enter the following command in the Chat view:
-
-    ```plaintext
-    /speckit.constitution
-    ```
-
-    > **NOTE**: Running the constitution workflow on an empty project without supplying text or file inputs isn't recommended, but it does help to demonstrate how the workflow uses the template and instructions.
-
-1. Monitor GitHub Copilot's response.
-
-    GitHub Copilot uses the Chat view to communicate progress as it updates the constitution.md file.
-
-    > **NOTE**: If GitHub Copilot reports that it isn't able to access or edit files, open Visual Studio Code **Settings**, expand **Features**, select **Chat**, and then ensure that **Chat > Agent** is enabled.
-
-1. Once GitHub Copilot is finished updating the constitution.md file, open the file, and then take a minute to review the suggested edits.
-
-    Notice that the workflow has successfully updated the constitution.md file, filling in the five key principles and populating the two previously unnamed sections. But what are the suggested updates based on?
-
-    Here's a quick analysis:
-
-    - The original **constitution.md** file acts as a template for the updates. This document specifies that the constitution should include the following:
-
-        - Project Name
-        - Section 1: Core Principles. The Core Principles section needs to include five core principles. Examples for the principles and their descriptions are provided in the template.
-        - Section 2: unnamed. Examples for the section name and content are provided in the template.
-        - Section 3: unnamed. Examples for the section name and content are provided in the template.
-        - Section 4: Governance. Examples for how the governance section is applied and governance rules are provided in the template.
-
-    - The **speckit.constitution.agent.md** file provides instructions for updating the constitution.md file based on the text or file input provided with the `/speckit.constitution` command. When no guidance is provided, the agent uses what it can find in the codebase to fill in the constitution template. In this case, the only information available in the codebase is that you want to create an RSS Feed Reader, so the AI uses what it knows about RSS Feed Readers to update the constitution.md file.
-
-    The constitution workflow can also update related GitHub Spec Kit files. This helps to ensure consistency across all project documentation. At this early stage of a greenfield project, the files in the templates folder (spec-template.md, plan-template.md, tasks-template.md) could be updated. If any of the files are updated, the changes should reflect the principles defined in the constitution.md file.
-
-1. To accept all of the suggested updates, select the **Keep** button in the Chat view.
-
-    You can also accept changes to individual files, or individual changes within a file, by selecting **Keep** button options in the editor.
-
-## Update the constitution using stakeholder documentation
+The **speckit.constitution.agent.md** file provides instructions for updating the constitution.md file based on the text or file input provided with the `/speckit.constitution` command. When no guidance is provided, the agent uses what it can find in the codebase to fill in the constitution template.
 
 The /speckit.constitution workflow uses text input, file input, and the codebase to collect the policies, standards, requirements, and guidelines that go into the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
-In this task, you download the stakeholder documents for the RSSFeedReader project, evaluate their relationship to the GitHub Spec Kit commands, and use them to update the constitution.md file.
+In this task, you download the stakeholder documents for the RSSFeedReader project, evaluate their relationship to the GitHub Spec Kit commands, and then use the stakeholder documents to generate the constitution.md file.
 
 Use the following steps to complete this task:
 
@@ -264,7 +194,7 @@ Use the following steps to complete this task:
 
 1. Open the folder containing the downloaded ZIP file.
 
-1. Extract the contents of the downloaded ZIP file to a temporary folder, copy the files, and then add them to the root folder of the RSSFeedReader project.
+1. Extract the contents of the downloaded ZIP file to a temporary folder, copy the files, and then paste them into the root folder of the RSSFeedReader project.
 
     The updated RSSFeedReader project should resemble the following:
 
@@ -290,8 +220,6 @@ Use the following steps to complete this task:
     - **AppFeatures.md** - Detailed user-facing feature requirements.
     - **TechStack.md** - Technology choices and architectural rationale.
 
-1. Take a few minutes to review the stakeholder documents.
-
     These documents include natural language descriptions of the project goals and constraints, app features, and technical requirements. Understanding this context is essential for creating an effective specification, plan, and tasks. The level of detail is typical of what you might find in preliminary documentation for many real-world projects.
 
     Project documentation and the details provided by the documents can vary greatly depending on company policies and project complexity. The GitHub Spec Kit commands are designed to work with any level of detail that's available, and use that information to create the constitution, spec, plan, and tasks documents required for a successful spec-driven development process. However, detailed inputs lead to more predictable results.
@@ -302,13 +230,13 @@ Use the following steps to complete this task:
     /speckit.constitution --text "Code projects emphasize security, maintainability, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md
     ```
 
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed inputs should generate a more accurate and comprehensive constitution.
+    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
 1. Monitor GitHub Copilot's response.
 
     It can take several minutes for GitHub Copilot to analyze the project requirements and then update the constitution.md file.
 
-1. Once GitHub Copilot is finished updating the constitution.md file, take a minute to review the suggested edits.
+1. Once GitHub Copilot is finished generating the constitution, take a minute to review the suggested edits.
 
     Notice that the constitution workflow extracts underlying principles from your inputs (both text and files) and uses that information to add details to the constitution.
 
@@ -319,7 +247,7 @@ Use the following steps to complete this task:
     - ❌ Vague: "Apply security best practices." is too general.
     - ✅ Clear: "All API endpoints MUST validate inputs before processing (URL format validation, length limits, null checks)." is specific and actionable.
 
-    If any critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
+    If critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
     For a real-world project, it's important to review the constitution against the following criteria:
 
@@ -472,7 +400,7 @@ Use the following steps to complete this task:
 
     It can take 6-8 minutes for GitHub Copilot to generate the technical plan and associated markdown files.
 
-1. Once the plan workflow is complete, verify that the following files were added to the **specs** folder:
+1. Once the plan workflow is complete, verify that the following files were added to the root of the **specs** folder:
 
     - **plan.md**
     - **research.md**
@@ -490,7 +418,7 @@ Use the following steps to complete this task:
 
     For a production scenario, you need to ensure that the plan provides a comprehensive description of the technical context and a clearly defined implementation strategy for the new app/features. The research, quickstart, and data model files should complement the plan by providing additional context and details. For this exercise, focus on becoming familiar with the content associated with each of the files.
 
-1. After reviewing the files, accept the edits.
+1. After reviewing the files, accept all of the suggested edits.
 
     If the plan omits important details or makes assumptions you disagree with, you can:
 
@@ -609,13 +537,13 @@ Use the following steps to complete this task:
 
     This command instructs GitHub Copilot to begin implementing the tasks required for the MVP First strategy of the RSS Feed Reader app.
 
-    In this exercise, you implement all of the tasks for the MVP First strategy using a single /speckit.implement command. In part, this is because we can't predict how many tasks and phases will be associated with the MVP First strategy in your tasks.md file. Although the RSS feed reader scenario is relatively simple, it still include a significant task scope and can take 15 minutes for the implementation to complete. In a production environment, you would probably follow a phased approach, such as implementing the tasks for the Setup and Foundational phases first, and then implementing the tasks for each User Story phase one at a time.
+    In this exercise, you implement all of the tasks for the MVP First strategy using a single /speckit.implement command. In a production environment, you would probably follow a phased approach, such as implementing the tasks for the Setup and Foundational phases first, and then implementing the tasks for each User Story phase one at a time.
 
 1. Monitor GitHub Copilot's response and provide assistance in the Chat view.
 
     The agent builds the app incrementally, task by task, following the order defined in the tasks.md file.
 
-    > **NOTE**: GitHub Copilot is diligent about checking its work during the implementation, which is great, but can be time-consuming. GitHub Copilot also keeps you involved during the implementation process. Requests for assistance occur frequently. The time required to complete the implementation can be affected by how quickly you respond to requests for assistance/permission.
+    > **NOTE**: GitHub Copilot displays frequent requests for assistance during the implementation phase. The time required to complete the implementation can be affected by how quickly you respond to requests for assistance/permission.
 
 1. Continue with the implementation workflow until all tasks required for the MVP application are complete and the application is fully functional.
 
