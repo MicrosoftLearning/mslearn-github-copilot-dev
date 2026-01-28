@@ -22,9 +22,11 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development (SDD) methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You're asked to start using SDD and GitHub Spec Kit as soon as possible. One of your clients, Contoso Corporation, needs you to develop an MVP version of RSS feed reader app. Using the SDD methodology with GitHub Spec Kit helps to ensure that the application is delivered quickly, and that other features can be rolled out seamlessly when needed.
+You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You're asked to start using SDD and GitHub Spec Kit as soon as possible.
 
-Contoso's stakeholders documented the project goals, features, and technical requirements for the RSS feed reader app. You can use stakeholder documents to help generate the constitution, specification, plan, and tasks documents.
+One of your clients, Contoso Corporation, needs you to develop an initial MVP version for an RSS feed reader app. Contoso stakeholders documented the project goals, initial features, and technical requirements for the app. You'll use the stakeholder documents to help generate the constitution, specification, plan, and tasks documents. Contoso has indicated that additional features will be requested after initial sign-off.
+
+Implementing the SDD methodology with GitHub Spec Kit ensures that the MVP app is delivered quickly, that it meets stakeholder requirements, and that new features can be rolled out seamlessly when needed.
 
 This exercise includes the following tasks:
 
@@ -242,7 +244,7 @@ Use the following steps to complete this task:
 
     Notice that the constitution workflow extracts underlying principles from your inputs (both text and files) and uses that information to add details to the constitution.
 
-    Developers should review the constitution to ensure it captures requirements accurately. This step is important when you're working in a production environment where the constitution represents your business requirements and technical governance. For a training exercise, this review is mainly to help you become familiar with the constitution content.
+    You should review the constitution to ensure it captures requirements accurately. This step is important when you're working in a production environment where the constitution represents your business requirements and technical governance. For a training exercise, this review is mainly to help you become familiar with the constitution content.
 
     Each principle should be clearly stated and actionable. For example:
 
@@ -251,7 +253,7 @@ Use the following steps to complete this task:
 
     If critical requirements are missing or unclear, you can edit the constitution.md file directly to add or modify principles.
 
-    For a real-world project, it's important to review the constitution against the following criteria:
+    In a production scenario, it's important to review the constitution against the following criteria:
 
     - Completeness: All major areas are covered.
     - Clarity: Each principle is specific and unambiguous.
@@ -301,9 +303,7 @@ Use the following steps to complete this task:
 
     The summary description should be concise (a sentence or two) and capture the core functionality of the RSS Feed Reader app. For example:
 
-    ```plaintext
     "MVP RSS reader: a simple RSS/Atom feed reader that demonstrates the most basic capability (add subscriptions) without the complexity of a production-ready application."
-    ```
 
 1. Close any files that you have open in the editor.
 
@@ -390,7 +390,7 @@ Use the following steps to complete this task:
 
 1. Close any files that you have open in the editor.
 
-1. In the Chat view, to start the technical planning process, enter the following command:
+1. In the Chat view, to start a workflow that generates the plan.md file, enter the following command:
 
     ```dotnetcli
     /speckit.plan --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/TechStack.md
@@ -426,12 +426,6 @@ Use the following steps to complete this task:
 
     - Edit the plan.md file directly, or
     - Ask follow-up questions in GitHub Copilot Chat.
-
-    For example:
-
-    ```plaintext
-    The plan should include a section on how to handle feed parsing errors gracefully. Can you update the plan.md file to include this information?
-    ```
 
 1. Save the files, and then commit and sync your changes.
 
@@ -501,13 +495,13 @@ With a clear specification, technical plan, and tasks document in place, you're 
 
 The tasks.md file provides a phased implementation strategy that breaks down the work into manageable chunks. The implementation can be approached in different ways, depending on project priorities and constraints. For example, you could consider one of the following strategies:
 
-- Implementing the feature incrementally, phase by phase.
-- Implementing the entire feature set at once.
+- Implementing the app features incrementally, one phase at a time.
+- Implementing the entire app in a single pass.
 - Implementing the MVP app features first, then building out additional features.
 
 GitHub Spec Kit's implement workflow demonstrates how to use the tasks.md file to guide the implementation process.
 
-In this task, you review the implementation strategy and then use `speckit/implement` to implement the MVP version of the application.
+In this task, you review the implementation strategy and then use `speckit/implement` to implement the MVP version of the application (the ability to add and view subscriptions).
 
 Use the following steps to complete this task:
 
@@ -515,7 +509,7 @@ Use the following steps to complete this task:
 
     The MVP (or MVP First) strategy is intended to deliver a working app as quickly as possible. It should focus on completing the Setup (initialization) and Foundational (blocking) phases first before building out the first User Story (US1).
 
-    For example, the MVP implementation strategy might be similar to the following example:
+    For example, the MVP implementation strategy (the ability to add and view subscriptions) might be similar to the following example:
 
     ```plaintext
     **Phases**: Setup → Foundation → US1 only  
@@ -547,9 +541,9 @@ Use the following steps to complete this task:
 
     > **NOTE**: GitHub Copilot displays frequent requests for assistance during the implementation phase. The time required to complete the implementation can be affected by how quickly you respond to requests for assistance/permission.
 
-1. Continue with the implementation workflow until all tasks required for the MVP application are complete and the application is fully functional.
+1. Continue monitoring the implementation workflow until all tasks required for the MVP application are complete.
 
-    GitHub Copilot should notify in the Chat view when the backend and frontend applications are fully functional.
+    GitHub Copilot should notify in the Chat view when the backend and frontend applications are complete.
 
 1. Accept all changes made to the project files.
 
@@ -557,9 +551,9 @@ Use the following steps to complete this task:
 
 1. Save all updated files.
 
-1. First start the backend application, and then start the frontend application.
+1. Start the backend application, and then start the frontend application.
 
-    Ensure that both applications start without errors.
+    You can use a split terminal to run both applications side by side. Ensure that both applications start without errors.
 
     You can ask GitHub Copilot for the commands required to start both applications if you're unsure. For example, you could enter the following prompt in the Chat view:
 
@@ -567,11 +561,13 @@ Use the following steps to complete this task:
     Can you provide the commands required to start both the backend and frontend applications?
     ```
 
-1. Open a browser and navigate to the frontend application.
+1. Verify that the frontend application opens successfully in the browser.
 
-    The frontend URL should be similar to the following: `http://localhost:5213`.
+    GitHub Copilot should specify a frontend URL in the Chat view that's similar to the following: `http://localhost:5213`.
 
-    Report back to GitHub Copilot if you encounter any issues. For example:
+    If the frontend application reports an error in the UI when it opens, report a detailed description of the issue to GitHub Copilot.
+
+    For example:
 
     1. You start the backend application. The backend application is running locally on `http://localhost:5151`.
     1. You start the frontend application. The frontend application is running locally on `http://localhost:5213`.
@@ -601,9 +597,7 @@ Use the following steps to complete this task:
         at Microsoft.AspNetCore.Components.Rendering.ComponentState.RenderIntoBatch(:5213/RenderBatchBuilder batchBuilder, RenderFragment renderFragment, Exception& renderFragmentException)"
         ```
 
-        At this point you need to report the issue to GitHub Copilot:
-
-    1. You report the issue in the Chat view.
+    1. You report the issue to GitHub Copilot in the Chat view.
 
         For example:
 
@@ -635,14 +629,14 @@ Use the following steps to complete this task:
 
         Continue to provide assistance until the issue is resolved. Once the issue is resolved, GitHub Copilot should ask you to resume manual testing.
 
-1. Take a few minutes to verify the acceptance scenarios for the MVP application.
+1. Take a couple minutes to verify that the frontend application is working as expected.
 
-    Here are some feeds that you can use to test the application:
+    Use the following feed URLs to test the application:
 
-    - https://devblogs.microsoft.com/dotnet/feed/ (The .NET Blog)
-    - https://devblogs.microsoft.com/visualstudio/feed/ (Visual Studio Blog)
+    - https://devblogs.microsoft.com/dotnet/feed/
+    - https://devblogs.microsoft.com/visualstudio/feed/
 
-    You can find the acceptance scenarios in the spec.md file. The acceptance scenarios listed under the **User Scenarios & Testing** section.
+    You can find the acceptance scenarios in the spec.md file, under the **User Scenarios & Testing** section.
 
     For example, the acceptance scenarios for the MVP application might be similar to the following example:
 
@@ -661,13 +655,13 @@ Use the following steps to complete this task:
 
     Use Visual Studio Code to run the application, and then manually test the RSS Feed Reader functionality to ensure that it works as expected.
 
-1. Continue manual testing and reporting results until all acceptance scenarios for the MVP application pass successfully.
+1. Continue testing the frontend (and reporting any issues to GitHub Copilot) until all acceptance scenarios for the MVP application pass successfully.
 
-    Key Observations:
+Key observations:
 
-    - The implementation process is iterative and might require multiple rounds of testing and debugging.
-    - Clear communication with GitHub Copilot is essential for effective troubleshooting.
-    - Thorough testing ensures that the MVP application meets the specified requirements and functions as intended.
+- The implementation process can be iterative and might require multiple rounds of testing and debugging.
+- Clear communication with GitHub Copilot is essential for effective troubleshooting.
+- Thorough testing ensures that the MVP application meets the specified requirements and functions as intended.
 
 ## Clean up
 
