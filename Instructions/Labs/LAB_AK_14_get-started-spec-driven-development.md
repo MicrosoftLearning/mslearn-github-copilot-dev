@@ -1,8 +1,8 @@
-<!-- ---
+---
 lab:
     title: 'Exercise - Develop a greenfield application using GitHub Spec Kit'
-    description: 'Learn how to apply the spec-driven development methodology with GitHub Spec Kit for a greenfield application project. in Visual Studio Code.'
---- -->
+    description: 'Learn how to install GitHub Spec Kit and how to use GitHub Spec Kit workflows to implement the spec-driven development methodology for a greenfield application.'
+---
 
 # Develop a greenfield application using GitHub Spec Kit
 

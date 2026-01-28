@@ -1,7 +1,7 @@
 ---
 lab:
     title: 'Exercise - Implement a product feature using GitHub Spec Kit'
-    description: 'Learn how to implement a spec-driven development process using GitHub Spec Kit and GitHub Copilot in Visual Studio Code.'
+    description: 'Learn how to add new features to existing applications using GitHub Spec Kit workflows, Visual Studio Code, and GitHub Copilot.'
 ---
 
 # Implement a product feature using GitHub Spec Kit
