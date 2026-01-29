@@ -24,7 +24,7 @@ For help with configuring your lab environment, open the following link in a bro
 
 You're a software developer working for a consulting firm. Your firm is moving to a spec-driven development methodology using GitHub Spec Kit and GitHub Copilot in Visual Studio Code. You're asked to start using SDD and GitHub Spec Kit as soon as possible.
 
-One of your clients, Contoso Corporation, needs you to develop an initial MVP version for an RSS feed reader app. Contoso stakeholders documented the project goals, initial features, and technical requirements for the app. You'll use the stakeholder documents to help generate the constitution, specification, plan, and tasks documents. Contoso has indicated that additional features will be requested after initial sign-off.
+One of your clients, Contoso Corporation, needs you to develop an initial MVP version for an RSS feed reader app. Contoso stakeholders documented the project goals, initial features, and technical requirements for the app. You'll use the stakeholder documents to generate the constitution, spec, plan, and tasks documents, then implement the initial MVP version of the application. Contoso has indicated that additional features will be requested after initial sign-off.
 
 Implementing the SDD methodology with GitHub Spec Kit ensures that the MVP app is delivered quickly, that it meets stakeholder requirements, and that new features can be rolled out seamlessly when needed.
 
@@ -139,7 +139,9 @@ Use the following steps to complete this task:
     - `/speckit.tasks` - Break down work into actionable tasks.
     - `/speckit.taskstoissues` - Convert the tasks in tasks.md into GitHub issues.
 
-    > **Note**: If the '/speckit.' commands don't appear, try closing and then reopening the project in Visual Studio Code.
+    If the '/speckit.' commands don't appear, try closing and then reopening the project in Visual Studio Code.
+
+    > **IMPORTANT**: This lab exercise was tested successfully using the GPT-5.2 and Claude Sonnet 4.5 models. Although both models were able to generate working applications, we did notice some differences. The Claude Sonnet 4.5 model tended to generate more detailed output. For example, the tasks.md file tended to have a larger number of tasks and phases. The Claude model's responses were consistent and performance was reliable. The GPT-5.2 model tended to generate less detailed output. For example, a shorter list of more broadly scoped tasks, organized under fewer phases. The GPT model was able to implement tasks successfully, but might have used extra iterations to resolve bugs. The GPT model's performance was generally good, but less consistent during our testing. For example, there were a couple times when the AI became unresponsive while processing a /speckit command. Restarting the command in the Chat view got things back on track quickly. Testing with older models, such as GPT-4 and GPT-5 mini, often generated unexpected results. If possible, we suggest using newer language models that are optimized for complex reasoning when running GitHub Spec Kit commands.
 
 1. Publish your project to a new GitHub repository.
 
@@ -233,8 +235,6 @@ Use the following steps to complete this task:
     ```plaintext
     /speckit.constitution --text "Code projects emphasize security, maintainability, and code quality. Ensure that all principles are specific, actionable, and relevant to the project context." --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/AppFeatures.md StakeholderDocuments/TechStack.md
     ```
-
-    > **NOTE**: The /speckit.constitution command can be run multiple times in the same project to refine or extend the constitution.md file. Providing detailed inputs helps to generate a more accurate and comprehensive constitution.
 
 1. Monitor GitHub Copilot's response.
 
@@ -511,11 +511,9 @@ Use the following steps to complete this task:
 
     For example, the MVP implementation strategy (the ability to add and view subscriptions) might be similar to the following example:
 
-    ```plaintext
     **Phases**: Setup → Foundation → US1 only  
     **Tasks**: T001 - T050 (50 tasks)  
     **Deliverable**: Users can add a known-good feed URL; refresh; see items; restart and confirm persistence.
-    ```
 
     The MVP First strategy isn't always limited to the first user story. Depending on the feature complexity, it might include several user stories. They should be listed sequentially after the foundational phase and clearly marked as part of the MVP implementation strategy.
 
@@ -553,13 +551,9 @@ Use the following steps to complete this task:
 
 1. Start the backend application, and then start the frontend application.
 
-    You can use a split terminal to run both applications side by side. Ensure that both applications start without errors.
+    You can use a split terminal to run both applications side by side. Ensure that both applications start without errors. You can ask GitHub Copilot for the commands required to start both applications if you're unsure.
 
-    You can ask GitHub Copilot for the commands required to start both applications if you're unsure. For example, you could enter the following prompt in the Chat view:
-
-    ```plaintext
-    Can you provide the commands required to start both the backend and frontend applications?
-    ```
+    If either application fails to start, report the issue to GitHub Copilot in the Chat view. Provide a detailed description of the problem, including any error messages or logs that can help diagnose the issue. GitHub Copilot will use this information to begin debugging and resolving the problem.
 
 1. Verify that the frontend application opens successfully in the browser.
 
