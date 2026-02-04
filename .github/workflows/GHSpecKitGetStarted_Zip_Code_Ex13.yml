@@ -1,4 +1,4 @@
-name: CreateGHSpecKitEx14Zip
+name: CreateGHSpecKitEx13Zip
 on:
   workflow_dispatch:
   push:
