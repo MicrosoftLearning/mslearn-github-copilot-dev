@@ -196,7 +196,7 @@ In this task, you download the stakeholder documents for the RSSFeedReader proje
 
 Use the following steps to complete this task:
 
-1. To download the stakeholder documents, open the following link in a browser: [RSSFeedReader - stakeholder documents](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip).
+1. To download the stakeholder documents, open the following link in a browser: [RSSFeedReader - stakeholder documents](https://github.com/MicrosoftLearning/mslearn-github-copilot-dev/raw/refs/heads/main/DownloadableCodeProjects/Downloads/GHSpecKitEx13StakeholderDocuments.zip).
 
 1. Open the folder containing the downloaded ZIP file.
 

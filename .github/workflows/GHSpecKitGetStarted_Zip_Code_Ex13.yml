@@ -22,13 +22,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Create GHSpecKitEx14 Stakeholder Documents zip
+    - name: Create GHSpecKitEx13 Stakeholder Documents zip
       run: | 
         # Ensure Downloads directory exists
         mkdir -p DownloadableCodeProjects/Downloads
 
         # Remove existing zip file
-        rm -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip
+        rm -f DownloadableCodeProjects/Downloads/GHSpecKitEx13StakeholderDocuments.zip
 
         # Zip only the contents of the sdd-get-started-rss-feed folder (not the parent path)
         cd DownloadableCodeProjects/standalone-lab-projects/sdd-get-started-rss-feed
@@ -37,19 +37,19 @@ jobs:
           echo "No files to zip in sdd-get-started-rss-feed"
           exit 1
         fi
-        zip -r -q ../../Downloads/GHSpecKitEx14StakeholderDocuments.zip $CONTENTS
+        zip -r -q ../../Downloads/GHSpecKitEx13StakeholderDocuments.zip $CONTENTS
         cd -
 
         # Verify zip file was created
-        if [ ! -f DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip ]; then
+        if [ ! -f DownloadableCodeProjects/Downloads/GHSpecKitEx13StakeholderDocuments.zip ]; then
           echo "Failed to create zip file"
           exit 1
         fi
 
-        echo "Successfully created GHSpecKitEx14StakeholderDocuments.zip"
+        echo "Successfully created GHSpecKitEx13StakeholderDocuments.zip"
     - name: Commit and push
       uses: Endbug/add-and-commit@v7
       with:
-        add: '["DownloadableCodeProjects/Downloads/GHSpecKitEx14StakeholderDocuments.zip"]'
+        add: '["DownloadableCodeProjects/Downloads/GHSpecKitEx13StakeholderDocuments.zip"]'
         message: 'Updating Zip with sample app source files'
         push: true
