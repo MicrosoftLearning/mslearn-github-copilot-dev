@@ -6,11 +6,11 @@ lab:
 
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
 
-The GitHub Copilot SDK exposes the same engine behind Copilot CLI as a programmable SDK. It allows you to embed agentic AI workflows in your applications — including custom tools that let the AI call your code.
+The GitHub Copilot SDK exposes the same engine behind GitHub Copilot CLI as a programmable SDK. It allows you to embed agentic AI workflows in your applications — including custom tools that let the AI call your code.
 
 In this exercise, you integrate an AI-powered customer support agent into the ContosoShop E-commerce Support Portal. By the end, the "Contact Support" page will allow a user to ask questions (for example, "Where is my order?" or "I need to return an item") and receive helpful, automated answers from an AI agent. The agent uses backend tools (like checking order status or initiating a return) to resolve queries.
 
-This exercise should take approximately **45** minutes to complete.
+This exercise should take approximately **60** minutes to complete.
 
 > **IMPORTANT**: To complete this exercise, you must provide your own GitHub account and GitHub Copilot subscription. If you don't have a GitHub account, you can <a href="https://github.com/" target="_blank">sign up</a> for a free individual account and use a GitHub Copilot Free plan to complete the exercise. If you have access to a GitHub Copilot Pro, GitHub Copilot Pro+, GitHub Copilot Business, or GitHub Copilot Enterprise subscription from within your lab environment, you can use your existing GitHub Copilot subscription to complete this exercise.
 
@@ -23,11 +23,22 @@ Your lab environment MUST include the following resources:
 - Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions
 - GitHub Copilot CLI installed and in your PATH
 
+
+
+
+
+
+**TODO: Update with instructions for installing GitHub Copilot CLI if not present in the environment.**
 For help with configuring your lab environment, open the following link in a browser: <a href="https://go.microsoft.com/fwlink/?linkid=2345907" target="_blank">Configure your GitHub Copilot SDK lab environment</a>.
+
+
+
+
+
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. The firm has built the ContosoShop E-commerce Support Portal — a Blazor WebAssembly application with an ASP.NET Core backend. The application includes order management, item returns, and inventory tracking. The client needs you to enhance the existing "Contact Support" page with an AI-powered chat agent that can look up order details and initiate returns on behalf of customers.
+You're a software developer working for a consulting firm. The firm developed the ContosoShop E-commerce Support Portal (a Blazor WebAssembly application with an ASP.NET Core backend) for a client named Contoso Corporation. The application includes order management, item returns, and inventory tracking. Contoso needs you to enhance the existing "Contact Support" page with an AI-powered customer support agent that can look up order details and initiate returns on behalf of customers.
 
 The ContosoShop application uses a three-project architecture:
 
@@ -35,11 +46,11 @@ The ContosoShop application uses a three-project architecture:
 - **ContosoShop.Client**: Blazor WebAssembly SPA that runs in the browser and calls the server API.
 - **ContosoShop.Shared**: Shared class library containing models, DTOs, and enums.
 
-The application includes two demo users (Mateo Gomez and Megan Bowen) with 20 sample orders across various statuses (Processing, Shipped, Delivered, and Returned).
+For the purposes of this lab, the application can be tested using two demo users (Mateo Gomez and Megan Bowen) with 20 sample orders across various statuses (Processing, Shipped, Delivered, and Returned).
 
 This exercise includes the following tasks:
 
-1. Review the starter application and verify it runs correctly.
+1. Review the starter application and verify that it runs correctly.
 1. Add the GitHub Copilot SDK NuGet package and create the agent tools service.
 1. Configure the Copilot SDK agent and expose an API endpoint.
 1. Update the Blazor frontend to interact with the agent.
@@ -51,13 +62,74 @@ Before integrating the AI agent, you need to become familiar with the existing c
 
 Use the following steps to complete this task:
 
-1. Open the ContosoShop solution in Visual Studio Code.
+1. Open a browser window and navigate to GitHub.com.
 
-    If you haven't already cloned the repository, use the following commands:
+    You can log in to your GitHub account using the following URL: <a href="https://github.com/login" target="_blank">GitHub login</a>.
+
+1. Sign in to your GitHub account, and then open your repositories tab.
+
+    You can open your repositories tab by clicking on your profile icon in the top-right corner, then selecting **Repositories**.
+
+1. On the Repositories tab, select the **New** button.
+
+1. Under the **Create a new repository** section, select **Import a repository**.
+
+1. On the **Import your project to GitHub** page, under **Your source repository details**, enter the following URL for the source repository:
+
+    ```plaintext
+    https://github.com/MicrosoftLearning/github-copilot-sdk-starter-app
+    ```
+
+1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
+
+1. In the **Repository name** field, enter **ContosoShop**
+
+    GitHub automatically checks the availability of the repository name. If this name is already taken, append a unique suffix (for example, your initials or a random number) to the repository name to make it unique.
+
+1. To create a private repository, select **Private**, and then select **Begin import**.
+
+    GitHub uses the import process to create the new repository in your account.
+
+    > **NOTE**: It can take a minute or two for the import process to finish. Wait for the import process to complete.
+
+    GitHub displays a progress indicator and notify you when the import is complete.
+
+1. Once the import is complete, open your new repository.
+
+    A link to your repository should be displayed. Your repository should be located at: `https://github.com/YOUR-USERNAME/ContosoShop`.
+
+    You can create a local clone of your ContosoShop repository and then initialize GitHub Spec Kit within the project directory.
+
+1. On your ContosoShop repository page, select the **Code** button, and then copy the HTTPS URL.
+
+    The URL should be similar to: `https://github.com/YOUR-USERNAME/ContosoShop.git`
+
+1. Open a terminal window in your development environment, and then navigate to the location where you want to create the local clone of the repository.
+
+    For example:
+
+    Open a terminal window (Command Prompt, PowerShell, or Terminal), and then run:
 
     ```powershell
-    git clone https://github.com/MicrosoftLearning/github-copilot-sdk-starter-app.git
-    cd github-copilot-sdk-starter-app
+    cd C:\TrainingProjects
+    ```
+
+    Replace `C:\TrainingProjects` with your preferred location. You can use any directory where you have write permissions, and you can create a new folder location if needed.
+
+1. To clone your ContosoShop repository, enter the following command:
+
+    Be sure to replace `YOUR-USERNAME` with your actual GitHub username before running the command.
+
+    ```powershell
+    git clone https://github.com/YOUR-USERNAME/ContosoShop.git
+    ```
+
+    You might be prompted to authenticate using your GitHub credentials during the clone operation. You can authenticate using your browser.
+
+1. To navigate into your ContosoShop directory and open it in Visual Studio Code, enter the following commands:
+
+    ```powershell
+    cd ContosoShop
     code .
     ```
 
@@ -68,10 +140,12 @@ Use the following steps to complete this task:
     ```plaintext
     github-copilot-sdk-starter-app (root)
     ├── ContosoShop.Client/               (Blazor WebAssembly frontend)
+    │   ├── Layout/                       (MainLayout, NavMenu)
     │   ├── Pages/                        (Home, Login, Orders, OrderDetails, Support, Inventory)
     │   ├── Services/                     (OrderService, CookieAuthenticationStateProvider)
-    │   └── Layout/                       (MainLayout, NavMenu)
+    │   └── Shared/                       (OrderStatusBadge)
     ├── ContosoShop.Server/               (ASP.NET Core backend)
+    │   ├── App_Data/                     (used for the SQLite database file)
     │   ├── Controllers/                  (AuthController, OrdersController, InventoryController)
     │   ├── Data/                         (ContosoContext, DbInitializer, Migrations)
     │   ├── Services/                     (OrderService, InventoryService, EmailServiceDev)
@@ -82,11 +156,13 @@ Use the following steps to complete this task:
     └── ContosoShopSupportPortal.slnx     (Solution file)
     ```
 
+    > **NOTE**: Ensure that the App_Data folder in the ContosoShop.Server project is included in your local clone, as it is required for the SQLite database. If you don't see the App_Data folder, create it manually. The application will create the SQLite database file in this folder when it runs the first time.
+
 1. Open the **ContosoShop.Server/Program.cs** file and review the application configuration.
 
     Notice the following key configuration areas:
 
-    - Entity Framework Core with SQLite (connection string: `Data Source=App_Data/ContosoShop.db`)
+    - Entity Framework Core with SQLite for data access
     - ASP.NET Core Identity for authentication with cookie-based sessions
     - Service registrations for `IEmailService`, `IInventoryService`, and `IOrderService`
     - Database seeding via `DbInitializer.InitializeAsync` at startup
@@ -96,13 +172,13 @@ Use the following steps to complete this task:
 
     The orders controller provides:
 
-    - `GET /api/orders` — Gets all orders for the authenticated user
-    - `GET /api/orders/{id}` — Gets a specific order with items (verifies ownership)
-    - `POST /api/orders/{id}/return-items` — Processes item-level returns for a delivered order
+    - `GetOrders` — Gets all orders for the authenticated user
+    - `GetOrder` — Gets a specific order with items (verifies ownership)
+    - `ReturnOrderItems` — Processes item-level returns for a delivered order
 
 1. Open the **ContosoShop.Server/Services/OrderService.cs** file and review the `ProcessItemReturnAsync` method.
 
-    This existing method validates that an order is in Delivered or Returned status, creates `OrderItemReturn` records, updates inventory, recalculates order status, and sends email confirmation. The AI agent you build will leverage similar logic.
+    This existing method validates that an order is in Delivered or (partially) Returned status, creates `OrderItemReturn` records, updates inventory, recalculates order status, and sends email confirmation. The AI agent you build will leverage similar logic.
 
 1. Open the **ContosoShop.Client/Pages/Support.razor** file.
 
@@ -115,7 +191,9 @@ Use the following steps to complete this task:
     dotnet build
     ```
 
-    The build should complete successfully without errors.
+    > **IMPORTANT**: The project uses .NET 8 by default. If you have a later version of the .NET SDK installed (.NET 9 or .NET 10), but not .NET 8, you need to update the project to target the installed version. To update to a later version of .NET, open the GitHub Copilot Chat view and ask GitHub Copilot to update your project files to the version of .NET that you have installed in your environment. For example, you can ask: "I need you to update the project to target .NET 10. Be sure to update all related resources such as NuGet packages and project references. After completing all required updates, ensure that all projects build successfully." The AI assistant will help update your solution.
+
+    The build should complete successfully without errors (there might be some warnings).
 
 1. Start the server application.
 
@@ -123,11 +201,9 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-    The server starts listening on `https://localhost:7202` and `http://localhost:5266`.
+    The server starts listening on `http://localhost:5266`.
 
-    > **NOTE**: HTTP requests are automatically redirected to HTTPS. Use `https://localhost:7202` in your browser.
-
-1. Open a browser and navigate to `https://localhost:7202`.
+1. Open a browser and navigate to `http://localhost:5266`.
 
     You should see the ContosoShop login page. Accept any certificate warnings for the localhost development certificate.
 
@@ -141,7 +217,9 @@ Use the following steps to complete this task:
 
 1. Navigate to the **Contact Support** page.
 
-    You should see the "AI Chat Support Coming Soon" placeholder. This is the page you will enhance in subsequent tasks.
+    You should see the "Interactive AI Chat Support Coming Soon" placeholder. This is the page you will enhance in subsequent tasks.
+
+1. On the navigation menu, select **Logout**.
 
 1. Return to the terminal where the server is running and press **Ctrl+C** to stop the application.
 
@@ -151,7 +229,7 @@ Use the following steps to complete this task:
     copilot --version
     ```
 
-    You should see a version number (for example, `1.x.x`). If the command is not found, install the Copilot CLI by following the <a href="https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli" target="_blank">Copilot CLI installation guide</a>.
+    You should see a version number (for example, `0.0.399`). If the command is not found, install the Copilot CLI by following the <a href="https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli" target="_blank">Copilot CLI installation guide</a>.
 
     > **NOTE**: The GitHub Copilot SDK communicates with the Copilot CLI in server mode. The SDK manages the CLI process lifecycle automatically, but the CLI must be installed and accessible in your PATH.
 
@@ -161,9 +239,7 @@ In this task, you add the GitHub Copilot SDK NuGet package to the server project
 
 Use the following steps to complete this task:
 
-### Step 2.1: Add the GitHub Copilot SDK NuGet package
-
-1. Open a terminal in the **ContosoShop.Server** directory.
+1. Open Visual Studio Code's integrated terminal, and then navigate to the **ContosoShop.Server** directory.
 
 1. To add the GitHub Copilot SDK NuGet package, enter the following command:
 
@@ -173,13 +249,15 @@ Use the following steps to complete this task:
 
     This installs the latest preview version of the SDK. The SDK provides `CopilotClient`, `CopilotSession`, and related types for building AI agents.
 
-    > **NOTE**: The GitHub Copilot SDK is currently in Technical Preview. The `--prerelease` flag is required to install it.
+    > **NOTE**: While the GitHub Copilot SDK is in Technical Preview, the `--prerelease` flag is required to install it.
 
-1. The GitHub Copilot SDK uses `Microsoft.Extensions.AI` for defining custom tools. To add the required package, enter the following command:
+1. To add the `Microsoft.Extensions.AI` package, enter the following command:
 
     ```powershell
     dotnet add package Microsoft.Extensions.AI
     ```
+
+    The GitHub Copilot SDK uses `Microsoft.Extensions.AI` for defining custom tools. This package provides the `AIFunctionFactory` and related types for creating tools that the AI agent can call.
 
 1. To verify the packages installed correctly, build the project:
 
@@ -189,9 +267,9 @@ Use the following steps to complete this task:
 
     The build should succeed without errors.
 
-### Step 2.2: Create the SupportAgentTools service class
-
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Server/Services** folder, and then select **New File**.
+
+    You'll use this file to create the SupportAgentTools service class.
 
 1. Name the file **SupportAgentTools.cs**.
 
@@ -388,16 +466,31 @@ Use the following steps to complete this task:
     }
     ```
 
-    This class implements four tool methods:
+1. Take a couple minutes to review the code in the `SupportAgentTools` class.
 
-    - **GetOrderDetailsAsync**: Looks up a single order by ID and returns a human-readable status summary including items, dates, and total amount. The method queries the database using Entity Framework Core and verifies that the order belongs to the authenticated user.
-    - **GetUserOrdersSummaryAsync**: Returns a list of all orders for the authenticated user. This is useful when the user asks about their orders without specifying a particular order number.
-    - **ProcessReturnAsync**: Initiates a return for all unreturned items in a delivered order. It delegates to the existing `IOrderService.ProcessItemReturnAsync` method, which handles inventory updates, status changes, and email notifications.
-    - **SendCustomerEmailAsync**: Sends a follow-up email to the customer. It uses the existing `IEmailService` to send the message.
+    This class provides AI support agent tools for customer service automation. Key features:
 
-### Step 2.3: Register SupportAgentTools in dependency injection
+    Order Information Tools:
+
+    - **GetOrderDetailsAsync**: Retrieves status, shipping dates, and item details for a specific order with natural language responses
+    - **GetUserOrdersSummaryAsync**: Lists all orders for a user when they don't specify an order number
+
+    Order Management Tools:
+
+    - **ProcessReturnAsync**: Automates return processing for delivered orders, validates return eligibility based on order status, creates return records for all unreturned items, and calculates refund amounts
+    - **SendCustomerEmailAsync**: Sends follow-up emails to customers with order-related information
+
+    Design Characteristics:
+
+    - All methods return human-readable strings formatted for AI conversation
+    - Built-in validation and error handling with contextual error messages
+    - Integrates with existing services (OrderService, EmailService) and database context
+    - Comprehensive logging for all tool invocations
+    - User-scoped operations with userId verification for security
 
 1. Open the **ContosoShop.Server/Program.cs** file.
+
+    You'll use the Program.cs file to register SupportAgentTools in dependency injection.
 
 1. Locate the service registration section (after the existing `builder.Services.AddScoped<IOrderService, OrderService>();` line).
 
@@ -408,9 +501,7 @@ Use the following steps to complete this task:
     builder.Services.AddScoped<SupportAgentTools>();
     ```
 
-1. Save the file.
-
-### Step 2.4: Build the project to verify there are no errors
+1. Save the two updated files.
 
 1. In the terminal, build the project:
 
@@ -418,7 +509,7 @@ Use the following steps to complete this task:
     dotnet build
     ```
 
-    The build should succeed. If there are errors, review the `SupportAgentTools.cs` file to ensure all `using` statements and references are correct.
+    The build should succeed. If there are errors, review the `SupportAgentTools.cs` file to ensure all `using` statements and references are correct. You can use GitHub Copilot to help debug if needed.
 
 ## Task 3: Configure the Copilot SDK agent and expose an API endpoint
 
@@ -426,9 +517,9 @@ In this task, you create a `CopilotClient` singleton, register it in dependency 
 
 Use the following steps to complete this task:
 
-### Step 3.1: Register CopilotClient as a singleton in Program.cs
-
 1. Open the **ContosoShop.Server/Program.cs** file.
+
+    You'll use the Program.cs file to register CopilotClient as a singleton in dependency injection.
 
 1. Add the following `using` statement at the top of the file, after the existing `using` statements:
 
@@ -462,8 +553,6 @@ Use the following steps to complete this task:
     ```
 
 1. Save the file.
-
-### Step 3.2: Create the SupportQuery model
 
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Shared/Models** folder, and then select **New File**.
 
@@ -501,7 +590,23 @@ Use the following steps to complete this task:
     }
     ```
 
-### Step 3.3: Create the SupportAgentController
+1. Take a minute to review the `SupportQuery` and `SupportResponse` models.
+
+    This file defines data transfer models for AI support agent communication:
+
+    SupportQuery
+
+    - Represents customer questions sent to the AI support agent
+    - Contains a Question property with validation: required, 1-1000 characters
+    - Used as the request payload from client to server
+
+    SupportResponse
+
+    - Represents AI agent responses back to the customer
+    - Contains an Answer property with the agent's reply
+    - Used as the response payload from server to client
+
+    These are lightweight DTOs for the support chat interface, enabling structured communication between the Blazor client and the AI-powered support endpoint. The simple design focuses on text-based question-and-answer exchanges with basic input validation.
 
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Server/Controllers** folder, and then select **New File**.
 
@@ -606,26 +711,24 @@ Use the following steps to complete this task:
                     {
                         Mode = SystemMessageMode.Replace,
                         Content = @"You are ContosoShop's AI customer support assistant. Your role is to help customers with their order inquiries.
-
-CAPABILITIES:
-- Look up order status and details using the get_order_details tool
-- List all customer orders using the get_user_orders tool
-- Process returns for delivered orders using the process_return tool
-- Send follow-up emails using the send_customer_email tool
-
-RULES:
-- ALWAYS use the available tools to look up real data. Never guess or make up order information.
-- Be friendly, concise, and professional in your responses.
-- If a customer asks about an order, use get_order_details with the order number they provide.
-- If a customer asks about their orders without specifying a number, use get_user_orders to list them.
-- If a customer wants to return an order, confirm the order number first, then use process_return.
-- Only process returns when the customer explicitly requests one.
-- If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
-- Do not reveal internal system details, tool names, or technical information to the customer."
-                    },
+                        
+                            CAPABILITIES:
+                            - Look up order status and details using the get_order_details tool
+                            - List all customer orders using the get_user_orders tool
+                            - Process returns for delivered orders using the process_return tool
+                            - Send follow-up emails using the send_customer_email tool
+                            
+                            RULES:
+                            - ALWAYS use the available tools to look up real data. Never guess or make up order information.
+                            - Be friendly, concise, and professional in your responses.
+                            - If a customer asks about an order, use get_order_details with the order number they provide.
+                            - If a customer asks about their orders without specifying a number, use get_user_orders to list them.
+                            - If a customer wants to return an order, confirm the order number first, then use process_return.
+                            - Only process returns when the customer explicitly requests one.
+                            - If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
+                            - Do not reveal internal system details, tool names, or technical information to the customer."
+                            },
                     Tools = tools,
-                    AvailableTools = new List<string>(),
-                    ExcludedTools = new List<string> { "*" },
                     InfiniteSessions = new InfiniteSessionConfig { Enabled = false }
                 });
 
@@ -685,45 +788,67 @@ RULES:
     }
     ```
 
-    This controller:
+1. Take a few minutes to review the `SupportAgentController` code.
 
-    - Requires authentication (the `[Authorize]` attribute ensures only logged-in users can access the agent).
-    - Extracts the authenticated user's ID from claims to pass to the tools, ensuring users can only access their own orders.
-    - Defines four tools using `AIFunctionFactory.Create` from `Microsoft.Extensions.AI`. Each tool has a name, description, and a handler delegate that calls the corresponding method on `SupportAgentTools`.
-    - Creates a new `CopilotSession` for each request with a system prompt that defines the agent's persona, capabilities, and behavioral rules.
-    - Uses the `SessionConfig.ExcludedTools` property set to `"*"` to disable all built-in Copilot CLI tools (file system, git, etc.) and only expose the custom tools. This is a security measure.
-    - Subscribes to session events using `session.On()` to capture the agent's response and detect errors.
-    - Implements a 30-second timeout to prevent requests from hanging indefinitely.
+    This controller implements an AI-powered customer support agent using the GitHub Copilot SDK. Key features:
 
-### Step 3.4: Update Program.cs to allow the POST method for the agent endpoint
+    AI Agent Integration:
+
+    - Uses CopilotClient to create AI sessions with GPT-4.1
+    - Configures a custom system prompt defining the agent's role as ContosoShop support assistant
+    - Provides explicit rules and capabilities for the AI agent
+
+    Custom Tools (Function Calling):
+
+    - get_order_details - Looks up specific orders by ID
+    - get_user_orders - Lists all orders for the current user
+    - process_return - Automates return processing for delivered orders
+    - send_customer_email - Sends follow-up emails to customers
+
+    Security & User Context:
+
+    - Requires [Authorize] - only authenticated users can access
+    - Extracts userId from claims to ensure user-scoped operations
+    - All tool calls are bound to the authenticated user's ID
+
+    Session Management:
+
+    - Creates event-driven sessions with the Copilot SDK
+    - Handles AssistantMessageEvent, SessionIdleEvent, and SessionErrorEvent
+    - 30-second timeout protection for long-running requests
+    - Comprehensive error handling and logging
+
+    API Design:
+
+    - Single endpoint: POST /api/supportagent/ask
+    - Accepts SupportQuery, returns SupportResponse
+    - Returns friendly error messages on failures
+
+    This enables conversational AI support where customers can ask natural language questions and the agent autonomously decides which tools to invoke to help them.
 
 1. Open the **ContosoShop.Server/Program.cs** file.
 
-1. Locate the CORS configuration section. The existing configuration only allows `GET` and `POST` methods, which is sufficient. However, ensure the `POST` method is included:
+1. Verify that the CORS configuration section allows the `GET` and `POST` methods required by the API endpoint you just created.
+
+   The existing configuration allows `GET` and `POST` methods, which is sufficient.
 
     ```csharp
     .WithMethods("GET", "POST") // Only required methods
     ```
 
-    No change should be needed if the POST method is already listed.
-
-### Step 3.5: Build the project to verify the code compiles
-
-1. In the terminal, build the project:
+1. To build the project, enter the following command in the terminal:
 
     ```powershell
     dotnet build
     ```
 
-    The build should succeed without errors. If you see errors related to `GitHub.Copilot.SDK` types, verify that the NuGet package was installed correctly in Step 2.1.
+    The build should succeed without errors. If you see errors related to `GitHub.Copilot.SDK` types, verify that the NuGet package was installed correctly.
 
 ## Task 4: Update the Blazor frontend to interact with the agent
 
 In this task, you create a client-side service to call the agent API and update the Support.razor page with an interactive chat interface.
 
 Use the following steps to complete this task:
-
-### Step 4.1: Create the SupportAgentService client
 
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Client/Services** folder, and then select **New File**.
 
@@ -773,7 +898,34 @@ Use the following steps to complete this task:
     }
     ```
 
-### Step 4.2: Register the SupportAgentService in the client's Program.cs
+1. Take a minute to review the `SupportAgentService` code.
+
+    This is a client-side HTTP service that interfaces with the AI support agent backend. Key features:
+
+    Simple API Wrapper:
+
+    - Single method AskAsync(string question) - sends user questions to the support agent API endpoint
+    - Posts to POST /api/supportagent/ask on the server
+
+    Communication Handling:
+
+    - Wraps the question in a SupportQuery DTO
+    - Uses HttpClient.PostAsJsonAsync for automatic JSON serialization
+    - Deserializes the response into a SupportResponse object
+
+    Error Management:
+
+    - Checks HTTP status codes for failures
+    - Throws HttpRequestException with detailed error information on non-success responses
+    - Provides fallback message if response parsing fails
+
+    Design Pattern:
+
+    - Thin client wrapper following the service layer pattern
+    - Injected HttpClient for testability and proper lifetime management
+    - Used by Blazor components (like Support.razor) to interact with the AI agent without handling HTTP details directly
+
+    This service abstracts away the HTTP communication complexity, providing a clean interface for Blazor components to ask questions to the AI support agent.
 
 1. Open the **ContosoShop.Client/Program.cs** file.
 
@@ -996,29 +1148,53 @@ Use the following steps to complete this task:
     }
     ```
 
-    This updated Support.razor page:
+1. Take a few minutes to review the updated `Support.razor` code.
 
-    - Injects the `SupportAgentService` to communicate with the backend.
-    - Displays a chat window with example prompts to help users get started.
-    - Maintains a list of conversation entries (question/answer pairs).
-    - Shows a "Thinking..." indicator while waiting for the agent's response.
-    - Supports both the Send button and pressing Enter to submit questions.
-    - Displays error messages when the agent encounters issues.
-    - Preserves the existing contact information and quick links cards below the chat interface.
+    This Blazor page provides an AI-powered chat support interface for customers. Key features:
 
-### Step 4.4: Build the entire solution to verify everything compiles
+    Chat Interface:
 
-1. In the terminal, navigate to the solution root and build:
+    - Real-time conversational UI with message history showing user questions and AI agent responses
+    - Loading indicator ("Thinking...") during agent processing
+    - Auto-scrolling chat area with 300-500px height
+    - Enter key support for quick message submission
+    - Helpful example prompts when chat is empty
+
+    User Interaction:
+
+    - Input field with send button (disabled during loading)
+    - Shows conversation history with badge-labeled messages (You/Agent)
+    - Clears input after submission
+    - Error handling with user-friendly messages
+
+    Additional Support Options:
+
+    - Contact Information Card - Email (support@contososhop.com) and phone number (1-800-CONTOSO) with response time details
+    - Quick Links Card - Links to view orders, return information, and tracking details
+
+    State Management:
+
+    - Maintains conversation history as a list of Q&A pairs
+    - Tracks loading state to prevent duplicate submissions
+    - Preserves chat history during the session
+
+    Security:
+
+    - [Authorize] attribute - requires authentication
+    - Integrates with SupportAgentService for secure backend communication
+
+    UI/UX:
+
+    - Bootstrap styling with info/primary color scheme
+    - Robot icon for AI chat, headset icon for contact info
+    - Responsive layout with centered column on large screens
+    - Pre-formatted text support for multi-line agent responses
+
+    This page serves as the complete customer support hub combining autonomous AI assistance with traditional contact methods.
+
+1. Open the ContosoShop.Server directory in the terminal, and then enter the following command:
 
     ```powershell
-    cd ..
-    dotnet build ContosoShopSupportPortal.slnx
-    ```
-
-    Or build from the server directory (which includes the client):
-
-    ```powershell
-    cd ContosoShop.Server
     dotnet build
     ```
 
@@ -1030,16 +1206,15 @@ In this task, you run the application and test the AI agent with various support
 
 Use the following steps to complete this task:
 
-1. Start the server application.
+1. To start the server application from the terminal, enter the following command:
 
     ```powershell
-    cd ContosoShop.Server
     dotnet run
     ```
 
     Watch the console output for any errors during startup. You should see the application listening on the HTTPS and HTTP ports.
 
-1. Open a browser and navigate to `https://localhost:7202`.
+1. Open a browser and navigate to `http://localhost:5266`.
 
 1. Sign in with the demo credentials.
 
@@ -1049,17 +1224,17 @@ Use the following steps to complete this task:
 
     You should now see the interactive AI Chat Support interface instead of the "Coming Soon" placeholder. The chat area displays example prompts to help you get started.
 
-1. **Test 1 — Check order status**: Type the following question and select **Send** (or press Enter):
+1. To test the agent's ability to **Check order status**, enter the following question and select **Send** (or press Enter):
 
     ```plaintext
-    What is the status of order #1001?
+    What's the status of order #1001?
     ```
 
     The agent should respond with details about order #1001, including its status, order date, items, and total amount. The response should reflect the actual data in the database.
 
     Verify the response matches what you see on the Orders page for order #1001.
 
-1. **Test 2 — List all orders**: Type the following question:
+1. To test the agent's ability to **List all orders**, enter the following question:
 
     ```plaintext
     Show me all my orders
@@ -1067,7 +1242,7 @@ Use the following steps to complete this task:
 
     The agent should use the `get_user_orders` tool and return a summary list of all 10 of Mateo's orders with their statuses and amounts.
 
-1. **Test 3 — Process a return**: Type the following question:
+1. To test the agent's ability to **Process a return**, enter the following question:
 
     ```plaintext
     I want to return order #1005
@@ -1078,7 +1253,7 @@ Use the following steps to complete this task:
     - Navigate to the **Orders** page and verify that order #1005 now shows a "Returned" status.
     - Check the server console output for the email notification log from `EmailServiceDev`.
 
-1. **Test 4 — Handle an order that can't be returned**: Type the following question:
+1. To test the agent's ability to **Handle an order that can't be returned**, enter the following question:
 
     ```plaintext
     Can I return order #1010?
@@ -1086,7 +1261,7 @@ Use the following steps to complete this task:
 
     Order #1010 has "Processing" status and cannot be returned. The agent should explain that the order must be delivered before it can be returned.
 
-1. **Test 5 — Handle a non-existent order**: Type the following question:
+1. To test the agent's ability to **Handle a non-existent order**, enter the following question:
 
     ```plaintext
     Where is my order #9999?
@@ -1094,7 +1269,7 @@ Use the following steps to complete this task:
 
     The agent should respond that it could not find order #9999 associated with the user's account.
 
-1. **Test 6 — Handle an off-topic question**: Type the following question:
+1. To test the agent's ability to **Handle an off-topic question**, enter the following question:
 
     ```plaintext
     What's the weather like today?
