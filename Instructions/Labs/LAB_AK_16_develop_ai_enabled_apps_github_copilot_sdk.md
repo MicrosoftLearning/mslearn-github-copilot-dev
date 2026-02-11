@@ -2,7 +2,17 @@
 lab:
     title: 'Exercise - Integrate an AI Agent into existing apps using GitHub Copilot SDK'
     description: 'Learn how to integrate an AI Agent into existing applications using GitHub Copilot SDK to automate tasks and enhance functionality.'
+    level: 200
+    duration: 60 minutes
 --- -->
+
+
+<!--
+Edit the metadata above to manage the list of exercises in the home page of the GitHub site that gets generated.
+You can delete the module and edit index.md in the root of the repo to customize the display so that only the exercises are listed
+To enable GitHub page publishing, edit the Page settings for the repo and publish from the main branch
+-->
+
 
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
 
@@ -50,15 +60,16 @@ For the purposes of this lab, the application can be tested using two demo users
 
 This exercise includes the following tasks:
 
-1. Review the starter application and verify that it runs correctly.
-1. Add the GitHub Copilot SDK NuGet package and create the agent tools service.
+1. Review the starter application.
+1. Install the GitHub Copilot SDK components.
+1. Create the agent tools service.
 1. Configure the Copilot SDK agent and expose an API endpoint.
 1. Update the Blazor frontend to interact with the agent.
 1. Test the end-to-end AI agent experience.
 
-## Task 1: Review the starter application and verify it runs correctly
+## Review the starter application
 
-Before integrating the AI agent, you need to become familiar with the existing codebase and ensure the application runs correctly.
+Before developing the AI customer support agent, you need to become familiar with the existing codebase and ensure the application runs correctly.
 
 Use the following steps to complete this task:
 
@@ -133,7 +144,7 @@ Use the following steps to complete this task:
     code .
     ```
 
-1. Take a few minutes to review the project structure.
+1. Take a moment to review the project structure.
 
     Use Visual Studio Code's EXPLORER view to expand the project folders. You should see a folder structure that's similar to the following example:
 
@@ -156,8 +167,6 @@ Use the following steps to complete this task:
     └── ContosoShopSupportPortal.slnx     (Solution file)
     ```
 
-    > **NOTE**: Ensure that the App_Data folder in the ContosoShop.Server project is included in your local clone, as it is required for the SQLite database. If you don't see the App_Data folder, create it manually. The application will create the SQLite database file in this folder when it runs the first time.
-
 1. Open the **ContosoShop.Server/Program.cs** file and review the application configuration.
 
     Notice the following key configuration areas:
@@ -170,7 +179,7 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoShop.Server/Controllers/OrdersController.cs** file and note the existing API endpoints.
 
-    The orders controller provides:
+    The orders controller provides the following endpoints for managing orders:
 
     - `GetOrders` — Gets all orders for the authenticated user
     - `GetOrder` — Gets a specific order with items (verifies ownership)
@@ -178,11 +187,16 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoShop.Server/Services/OrderService.cs** file and review the `ProcessItemReturnAsync` method.
 
-    This existing method validates that an order is in Delivered or (partially) Returned status, creates `OrderItemReturn` records, updates inventory, recalculates order status, and sends email confirmation. The AI agent you build will leverage similar logic.
+    The ProcessItemReturnAsync method processes customer returns for order items. It performs several critical operations to ensure that returns are handled correctly while maintaining data integrity and providing a good customer experience.
 
-1. Open the **ContosoShop.Client/Pages/Support.razor** file.
+    Key Operations:
 
-    Notice that the Support page currently displays static contact information and an "AI Chat Support Coming Soon" placeholder. This is where you will add the interactive AI chat interface.
+    - Validates order exists and is returnable (Delivered/Returned/PartialReturn status)
+    - Verifies return quantities don't exceed available amounts
+    - Creates OrderItemReturn records with refund calculations
+    - Restores inventory stock via _inventoryService
+    - Updates order status (Returned or PartialReturn based on items)
+    - Sends email confirmation with refund details
 
 1. Open a terminal in the **ContosoShop.Server** directory and build the solution.
 
@@ -191,9 +205,9 @@ Use the following steps to complete this task:
     dotnet build
     ```
 
-    > **IMPORTANT**: The project uses .NET 8 by default. If you have a later version of the .NET SDK installed (.NET 9 or .NET 10), but not .NET 8, you need to update the project to target the installed version. To update to a later version of .NET, open the GitHub Copilot Chat view and ask GitHub Copilot to update your project files to the version of .NET that you have installed in your environment. For example, you can ask: "I need you to update the project to target .NET 10. Be sure to update all related resources such as NuGet packages and project references. After completing all required updates, ensure that all projects build successfully." The AI assistant will help update your solution.
+    > **IMPORTANT**: The project uses .NET 8 by default. If you have the .NET 9 or .NET 10 SDK installed, but not .NET 8, you need to update the project to target the version of .NET that you have installed. To update to a later version of .NET, open the GitHub Copilot Chat view and ask GitHub Copilot to update your project files to the version of .NET that you have installed in your environment. For example, you can ask: "I need you to update the project to target .NET 10. Be sure to update all related resources such as NuGet packages and project references. After completing all required updates, ensure that all projects build successfully." The AI assistant will help update your solution.
 
-    The build should complete successfully without errors (there might be some warnings).
+    The build should complete successfully without errors (there might be warnings).
 
 1. Start the server application.
 
@@ -201,7 +215,7 @@ Use the following steps to complete this task:
     dotnet run
     ```
 
-    The server starts listening on `http://localhost:5266`.
+    > **NOTE**: The first time you run the application, it may take a minute to apply database migrations and seed the database with sample data. You should see console output indicating that the database has been initialized and seeded. You should also see a message that the server starts listening on `http://localhost:5266`.
 
 1. Open a browser and navigate to `http://localhost:5266`.
 
@@ -211,47 +225,47 @@ Use the following steps to complete this task:
 
     Enter `mateo@contoso.com` for the email and `Password123!` for the password, and then select **Login**.
 
-1. Navigate to the **Orders** page and verify that orders are displayed.
+1. Verify that orders are displayed on the **Orders** page.
 
-    You should see 10 orders for Mateo with various statuses (Delivered, Shipped, Processing, Returned).
+    You should see 10 orders for Mateo with various statuses (Delivered, Shipped, Processing, Returned). You can select the **View Details** button for an order to view the order details page.
 
 1. Navigate to the **Contact Support** page.
 
-    You should see the "Interactive AI Chat Support Coming Soon" placeholder. This is the page you will enhance in subsequent tasks.
+    You should see contact information and a message that states "Interactive AI Chat Support Coming Soon". This Customer Support page is the page that you'll enhance in subsequent tasks. The corresponding project file is: **ContosoShop.Client/Pages/Support.razor**.
 
 1. On the navigation menu, select **Logout**.
 
 1. Return to the terminal where the server is running and press **Ctrl+C** to stop the application.
 
-1. Verify that the GitHub Copilot CLI is installed and authenticated.
+## Install the GitHub Copilot SDK components
+
+In this task, you add the GitHub Copilot SDK NuGet package and the Microsoft.Extensions.AI package to the server project. The GitHub Copilot SDK provides the core components for building AI agents, while Microsoft.Extensions.AI provides types for defining custom tools that the agent can call.
+
+Use the following steps to complete this task:
+
+1. Ensure that you have Visual Studio Code's integrated terminal open and that you are in the **ContosoShop.Server** directory.
+
+1. In terminal, to verify that the GitHub Copilot CLI is installed and authenticated, enter the following command:
 
     ```powershell
     copilot --version
     ```
 
-    You should see a version number (for example, `0.0.399`). If the command is not found, install the Copilot CLI by following the <a href="https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli" target="_blank">Copilot CLI installation guide</a>.
+    You should see a version number (for example, `0.0.403`). If the command is not found, install the Copilot CLI by following the <a href="https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli" target="_blank">Copilot CLI installation guide</a>.
 
     > **NOTE**: The GitHub Copilot SDK communicates with the Copilot CLI in server mode. The SDK manages the CLI process lifecycle automatically, but the CLI must be installed and accessible in your PATH.
 
-## Task 2: Add the GitHub Copilot SDK and create the agent tools service
-
-In this task, you add the GitHub Copilot SDK NuGet package to the server project and create a service class that implements the tools the AI agent will use to look up orders and process returns.
-
-Use the following steps to complete this task:
-
-1. Open Visual Studio Code's integrated terminal, and then navigate to the **ContosoShop.Server** directory.
-
-1. To add the GitHub Copilot SDK NuGet package, enter the following command:
+1. To configure the GitHub Copilot SDK NuGet package to your project, enter the following command:
 
     ```powershell
     dotnet add package GitHub.Copilot.SDK --prerelease
     ```
 
-    This installs the latest preview version of the SDK. The SDK provides `CopilotClient`, `CopilotSession`, and related types for building AI agents.
+    This command installs the latest preview version of the SDK. The SDK provides `CopilotClient`, `CopilotSession`, and related types for building AI agents.
 
     > **NOTE**: While the GitHub Copilot SDK is in Technical Preview, the `--prerelease` flag is required to install it.
 
-1. To add the `Microsoft.Extensions.AI` package, enter the following command:
+1. To add the `Microsoft.Extensions.AI` package to your project, enter the following command:
 
     ```powershell
     dotnet add package Microsoft.Extensions.AI
@@ -266,6 +280,12 @@ Use the following steps to complete this task:
     ```
 
     The build should succeed without errors.
+
+## Create the agent tools service
+
+In this task, you create a new service class in the server project that implements the tools the AI agent will use to look up orders and process returns. This service will be registered in dependency injection and called by the AI agent when handling user queries.
+
+Use the following steps to complete this task:
 
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Server/Services** folder, and then select **New File**.
 
@@ -306,6 +326,245 @@ Use the following steps to complete this task:
             _logger = logger;
         }
 
+        // add the `GetOrderDetailsAsync` method here
+
+
+        // add the `GetUserOrdersSummaryAsync` method here
+
+
+        // add the `ProcessReturnAsync` method here
+
+
+        // add the `SendCustomerEmailAsync` method here
+
+    }
+    ```
+
+    This code sets up the class skeleton with dependency injection. The constructor receives four dependencies:
+
+    - `ContosoContext` — the Entity Framework Core database context for querying orders and users directly.
+    - `IOrderService` — the existing service that handles return processing logic, inventory updates, and email confirmations.
+    - `IEmailService` — the service used to send follow-up emails to customers.
+    - `ILogger<SupportAgentTools>` — a logger for recording each tool invocation, which is useful for debugging and monitoring agent behavior.
+
+    These dependencies allow the tools to access real data and leverage existing business logic rather than duplicating it.
+
+1. Inside the `SupportAgentTools` class (after the constructor's closing brace), add the `GetOrderDetailsAsync` method:
+
+    ```csharp
+    /// <summary>
+    /// Gets the status and details of a specific order by order ID.
+    /// The AI agent calls this tool when a user asks about their order status.
+    /// </summary>
+    public async Task<string> GetOrderDetailsAsync(int orderId, int userId)
+    {
+        _logger.LogInformation("Agent tool invoked: GetOrderDetails for orderId {OrderId}, userId {UserId}", orderId, userId);
+
+        var order = await _context.Orders
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+
+        if (order == null)
+        {
+            return $"I could not find order #{orderId} associated with your account. Please double-check the order number.";
+        }
+
+        var statusMessage = order.Status switch
+        {
+            OrderStatus.Processing => "is currently being processed and has not shipped yet",
+            OrderStatus.Shipped => order.ShipDate.HasValue
+                ? $"was shipped on {order.ShipDate.Value:MMMM dd, yyyy} and is on its way"
+                : "has been shipped and is on its way",
+            OrderStatus.Delivered => order.DeliveryDate.HasValue
+                ? $"was delivered on {order.DeliveryDate.Value:MMMM dd, yyyy}"
+                : "has been delivered",
+            OrderStatus.Returned => "has been returned and a refund was issued",
+            _ => "has an unknown status"
+        };
+
+        var itemSummary = string.Join(", ", order.Items.Select(i =>
+            $"{i.ProductName} (qty: {i.Quantity}, ${i.Price:F2} each)"));
+
+        return $"Order #{order.Id} {statusMessage}. " +
+                $"Order date: {order.OrderDate:MMMM dd, yyyy}. " +
+                $"Total: ${order.TotalAmount:F2}. " +
+                $"Items: {itemSummary}.";
+    }
+    ```
+
+    This is the first agent tool. The AI agent calls this method when a customer asks about a specific order. The method queries the database for the order (including its items), verifies that the order belongs to the authenticated user via `userId`, and builds a natural language response. A C# `switch` expression translates the `OrderStatus` enum into human-readable phrases, and the item summary lists each product with its quantity and price. If the order isn't found, the method returns a friendly error message rather than throwing an exception — this is important because the AI agent will present the return value directly to the customer.
+
+1. After the `GetOrderDetailsAsync` method, add the `GetUserOrdersSummaryAsync` method:
+
+    ```csharp
+    /// <summary>
+    /// Gets a summary of all orders for a given user.
+    /// The AI agent calls this tool when a user asks about their orders
+    /// without specifying a particular order number.
+    /// </summary>
+    public async Task<string> GetUserOrdersSummaryAsync(int userId)
+    {
+        _logger.LogInformation("Agent tool invoked: GetUserOrdersSummary for userId {UserId}", userId);
+
+        var orders = await _context.Orders
+            .Where(o => o.UserId == userId)
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
+
+        if (!orders.Any())
+        {
+            return "You don't have any orders on file.";
+        }
+
+        var summaries = orders.Select(o =>
+        {
+            var status = o.Status switch
+            {
+                OrderStatus.Processing => "Processing",
+                OrderStatus.Shipped => "Shipped",
+                OrderStatus.Delivered => "Delivered",
+                OrderStatus.Returned => "Returned",
+                _ => "Unknown"
+            };
+            return $"Order #{o.Id} - {status} - ${o.TotalAmount:F2} - Placed {o.OrderDate:MMM dd, yyyy}";
+        });
+
+        return $"You have {orders.Count} orders:\n" + string.Join("\n", summaries);
+    }
+    ```
+
+    This tool complements `GetOrderDetailsAsync` by handling cases where the customer asks about their orders without specifying a particular order number (for example, "What are my recent orders?"). It retrieves all orders for the user, sorted by date in descending order, and formats each one as a concise summary line showing the order number, status, total, and date. The AI agent uses this overview to help the customer identify the order they're interested in.
+
+1. After the `GetUserOrdersSummaryAsync` method, add the `ProcessReturnAsync` method:
+
+    ```csharp
+    /// <summary>
+    /// Processes a return for specific items in a delivered order.
+    /// The AI agent calls this tool when a user wants to return items.
+    /// </summary>
+    public async Task<string> ProcessReturnAsync(int orderId, int userId)
+    {
+        _logger.LogInformation("Agent tool invoked: ProcessReturn for orderId {OrderId}, userId {UserId}", orderId, userId);
+
+        var order = await _context.Orders
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+
+        if (order == null)
+        {
+            return $"I could not find order #{orderId} associated with your account.";
+        }
+
+        if (order.Status != OrderStatus.Delivered && order.Status != OrderStatus.Returned)
+        {
+            return order.Status switch
+            {
+                OrderStatus.Processing => $"Order #{orderId} is still being processed and cannot be returned yet. It must be delivered first.",
+                OrderStatus.Shipped => $"Order #{orderId} is currently in transit and cannot be returned until it has been delivered.",
+                _ => $"Order #{orderId} has a status of {order.Status} and cannot be returned."
+            };
+        }
+
+        // Build return items list for all unreturned items
+        var returnItems = order.Items
+            .Where(i => i.RemainingQuantity > 0)
+            .Select(i => new ReturnItem
+            {
+                OrderItemId = i.Id,
+                Quantity = i.RemainingQuantity,
+                Reason = "Customer requested return via AI support agent"
+            })
+            .ToList();
+
+        if (!returnItems.Any())
+        {
+            return $"All items in order #{orderId} have already been returned.";
+        }
+
+        var success = await _orderService.ProcessItemReturnAsync(orderId, returnItems);
+
+        if (!success)
+        {
+            return $"I was unable to process the return for order #{orderId}. Please contact our support team for assistance.";
+        }
+
+        var refundAmount = order.Items
+            .Where(i => i.RemainingQuantity > 0)
+            .Sum(i => i.Price * i.RemainingQuantity);
+
+        return $"I've processed the return for order #{orderId}. " +
+                $"A refund of ${refundAmount:F2} will be issued to your original payment method within 5-7 business days. " +
+                $"You will receive a confirmation email shortly.";
+    }
+    ```
+
+    This is the most complex tool because it performs a state-changing operation. The method includes several validation layers before processing a return: it verifies the order exists and belongs to the user, checks that the order status is either `Delivered` or `Returned` (partially returned orders can still have unreturned items), and confirms there are items with remaining quantity to return. If validation passes, it builds a list of `ReturnItem` objects for all unreturned items and delegates the actual return processing to the existing `IOrderService.ProcessItemReturnAsync` method, which handles inventory updates and email confirmations. The method calculates and reports the refund amount in the response. Each validation failure returns a specific, helpful message explaining why the return can't be processed.
+
+1. After the `ProcessReturnAsync` method, add the `SendCustomerEmailAsync` method:
+
+    ```csharp
+    /// <summary>
+    /// Sends a follow-up email to the customer regarding their order.
+    /// The AI agent calls this tool to send additional information by email.
+    /// </summary>
+    public async Task<string> SendCustomerEmailAsync(int orderId, int userId, string message)
+    {
+        _logger.LogInformation("Agent tool invoked: SendCustomerEmail for orderId {OrderId}", orderId);
+
+        var order = await _context.Orders
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+
+        if (order == null)
+        {
+            return $"Could not find order #{orderId} to send an email about.";
+        }
+
+        // Get the user's email from Identity
+        var user = await _context.Users.FindAsync(userId);
+        var email = user?.Email ?? "customer@contoso.com";
+
+        await _emailService.SendEmailAsync(email, $"Regarding your order #{orderId}", message);
+
+        return $"I've sent an email to {email} with the details about order #{orderId}.";
+    }
+    ```
+
+    This tool enables the AI agent to send follow-up emails to customers. The method verifies that the order exists and belongs to the user, retrieves the user's email address from the Identity system, and sends the email using `IEmailService`. The `message` parameter is generated by the AI agent itself, allowing it to compose context-appropriate email content based on the conversation. A fallback email address is provided in case the user's email cannot be retrieved.
+
+1. Your completed SupportAgentTools.cs file should look like the following code:
+
+    ```csharp
+    using ContosoShop.Server.Data;
+    using ContosoShop.Shared.Models;
+    using ContosoShop.Shared.DTOs;
+    using Microsoft.EntityFrameworkCore;
+    
+    namespace ContosoShop.Server.Services;
+    
+    /// <summary>
+    /// Provides tool functions that the AI support agent can invoke
+    /// to look up order information and process returns.
+    /// </summary>
+    public class SupportAgentTools
+    {
+        private readonly ContosoContext _context;
+        private readonly IOrderService _orderService;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<SupportAgentTools> _logger;
+    
+        public SupportAgentTools(
+            ContosoContext context,
+            IOrderService orderService,
+            IEmailService emailService,
+            ILogger<SupportAgentTools> logger)
+        {
+            _context = context;
+            _orderService = orderService;
+            _emailService = emailService;
+            _logger = logger;
+        }
+    
+        // add the `GetOrderDetailsAsync` method here
         /// <summary>
         /// Gets the status and details of a specific order by order ID.
         /// The AI agent calls this tool when a user asks about their order status.
@@ -313,16 +572,16 @@ Use the following steps to complete this task:
         public async Task<string> GetOrderDetailsAsync(int orderId, int userId)
         {
             _logger.LogInformation("Agent tool invoked: GetOrderDetails for orderId {OrderId}, userId {UserId}", orderId, userId);
-
+    
             var order = await _context.Orders
                 .Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-
+    
             if (order == null)
             {
                 return $"I could not find order #{orderId} associated with your account. Please double-check the order number.";
             }
-
+    
             var statusMessage = order.Status switch
             {
                 OrderStatus.Processing => "is currently being processed and has not shipped yet",
@@ -332,19 +591,29 @@ Use the following steps to complete this task:
                 OrderStatus.Delivered => order.DeliveryDate.HasValue
                     ? $"was delivered on {order.DeliveryDate.Value:MMMM dd, yyyy}"
                     : "has been delivered",
-                OrderStatus.Returned => "has been returned and a refund was issued",
+                OrderStatus.PartialReturn => "has been partially returned (some items have been returned, others are still with you)",
+                OrderStatus.Returned => "has been fully returned and a refund was issued",
                 _ => "has an unknown status"
             };
-
+    
             var itemSummary = string.Join(", ", order.Items.Select(i =>
-                $"{i.ProductName} (qty: {i.Quantity}, ${i.Price:F2} each)"));
-
+            {
+                var itemInfo = $"{i.ProductName} (Id: {i.Id}, qty: {i.Quantity}, ${i.Price:F2} each";
+                if (i.ReturnedQuantity > 0)
+                {
+                    itemInfo += $", {i.ReturnedQuantity} returned, {i.RemainingQuantity} remaining";
+                }
+                itemInfo += ")";
+                return itemInfo;
+            }));
+    
             return $"Order #{order.Id} {statusMessage}. " +
-                   $"Order date: {order.OrderDate:MMMM dd, yyyy}. " +
-                   $"Total: ${order.TotalAmount:F2}. " +
-                   $"Items: {itemSummary}.";
+                    $"Order date: {order.OrderDate:MMMM dd, yyyy}. " +
+                    $"Total: ${order.TotalAmount:F2}. " +
+                    $"Items: {itemSummary}.";
         }
-
+    
+        // add the `GetUserOrdersSummaryAsync` method here
         /// <summary>
         /// Gets a summary of all orders for a given user.
         /// The AI agent calls this tool when a user asks about their orders
@@ -353,17 +622,17 @@ Use the following steps to complete this task:
         public async Task<string> GetUserOrdersSummaryAsync(int userId)
         {
             _logger.LogInformation("Agent tool invoked: GetUserOrdersSummary for userId {UserId}", userId);
-
+    
             var orders = await _context.Orders
                 .Where(o => o.UserId == userId)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
-
+    
             if (!orders.Any())
             {
                 return "You don't have any orders on file.";
             }
-
+    
             var summaries = orders.Select(o =>
             {
                 var status = o.Status switch
@@ -376,28 +645,41 @@ Use the following steps to complete this task:
                 };
                 return $"Order #{o.Id} - {status} - ${o.TotalAmount:F2} - Placed {o.OrderDate:MMM dd, yyyy}";
             });
-
+    
             return $"You have {orders.Count} orders:\n" + string.Join("\n", summaries);
         }
-
+    
+        // add the `ProcessReturnAsync` method here
         /// <summary>
         /// Processes a return for specific items in a delivered order.
         /// The AI agent calls this tool when a user wants to return items.
+        /// Supports returning all items, specific items by ID, or specific quantities.
         /// </summary>
-        public async Task<string> ProcessReturnAsync(int orderId, int userId)
+        /// <param name="orderId">The order ID to process returns for</param>
+        /// <param name="userId">The authenticated user ID</param>
+        /// <param name="orderItemIds">Optional: Specific order item IDs to return (comma-separated, e.g., "123,456"). If empty, returns all unreturned items.</param>
+        /// <param name="quantities">Optional: Quantities for each item (comma-separated, e.g., "1,2" for items 123 and 456). Must match orderItemIds length. If empty, returns full remaining quantity for each item.</param>
+        /// <param name="reason">Optional: Reason for the return</param>
+        public async Task<string> ProcessReturnAsync(
+            int orderId, 
+            int userId, 
+            string orderItemIds = "", 
+            string quantities = "",
+            string reason = "Customer requested return via AI support agent")
         {
-            _logger.LogInformation("Agent tool invoked: ProcessReturn for orderId {OrderId}, userId {UserId}", orderId, userId);
-
+            _logger.LogInformation("Agent tool invoked: ProcessReturn for orderId {OrderId}, userId {UserId}, items: {Items}", 
+                orderId, userId, string.IsNullOrEmpty(orderItemIds) ? "all" : orderItemIds);
+    
             var order = await _context.Orders
                 .Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-
+    
             if (order == null)
             {
                 return $"I could not find order #{orderId} associated with your account.";
             }
-
-            if (order.Status != OrderStatus.Delivered && order.Status != OrderStatus.Returned)
+    
+            if (order.Status != OrderStatus.Delivered && order.Status != OrderStatus.Returned && order.Status != OrderStatus.PartialReturn)
             {
                 return order.Status switch
                 {
@@ -406,39 +688,131 @@ Use the following steps to complete this task:
                     _ => $"Order #{orderId} has a status of {order.Status} and cannot be returned."
                 };
             }
-
-            // Build return items list for all unreturned items
-            var returnItems = order.Items
-                .Where(i => i.RemainingQuantity > 0)
-                .Select(i => new ReturnItem
+    
+            List<ReturnItem> returnItems;
+    
+            // Parse specific items if provided
+            if (!string.IsNullOrWhiteSpace(orderItemIds))
+            {
+                var itemIdStrings = orderItemIds.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                var itemIds = new List<int>();
+                
+                foreach (var idStr in itemIdStrings)
                 {
-                    OrderItemId = i.Id,
-                    Quantity = i.RemainingQuantity,
-                    Reason = "Customer requested return via AI support agent"
-                })
-                .ToList();
-
+                    if (int.TryParse(idStr.Trim(), out int itemId))
+                    {
+                        itemIds.Add(itemId);
+                    }
+                    else
+                    {
+                        return $"Invalid item ID format: '{idStr}'. Please provide valid item IDs.";
+                    }
+                }
+    
+                // Parse quantities if provided
+                var itemQuantities = new List<int>();
+                if (!string.IsNullOrWhiteSpace(quantities))
+                {
+                    var quantityStrings = quantities.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var qtyStr in quantityStrings)
+                    {
+                        if (int.TryParse(qtyStr.Trim(), out int qty) && qty > 0)
+                        {
+                            itemQuantities.Add(qty);
+                        }
+                        else
+                        {
+                            return $"Invalid quantity format: '{qtyStr}'. Quantities must be positive numbers.";
+                        }
+                    }
+    
+                    if (itemQuantities.Count != itemIds.Count)
+                    {
+                        return "The number of quantities must match the number of items.";
+                    }
+                }
+    
+                // Build return items for specific items
+                returnItems = new List<ReturnItem>();
+                for (int i = 0; i < itemIds.Count; i++)
+                {
+                    var orderItem = order.Items.FirstOrDefault(item => item.Id == itemIds[i]);
+                    if (orderItem == null)
+                    {
+                        return $"Item ID {itemIds[i]} was not found in order #{orderId}.";
+                    }
+    
+                    if (orderItem.RemainingQuantity <= 0)
+                    {
+                        return $"{orderItem.ProductName} has already been fully returned.";
+                    }
+    
+                    var quantityToReturn = itemQuantities.Count > 0 ? itemQuantities[i] : orderItem.RemainingQuantity;
+                    
+                    if (quantityToReturn > orderItem.RemainingQuantity)
+                    {
+                        return $"Cannot return {quantityToReturn} of {orderItem.ProductName}. Only {orderItem.RemainingQuantity} available to return.";
+                    }
+    
+                    returnItems.Add(new ReturnItem
+                    {
+                        OrderItemId = orderItem.Id,
+                        Quantity = quantityToReturn,
+                        Reason = reason
+                    });
+                }
+            }
+            else
+            {
+                // Return all unreturned items (original behavior)
+                returnItems = order.Items
+                    .Where(i => i.RemainingQuantity > 0)
+                    .Select(i => new ReturnItem
+                    {
+                        OrderItemId = i.Id,
+                        Quantity = i.RemainingQuantity,
+                        Reason = reason
+                    })
+                    .ToList();
+            }
+    
             if (!returnItems.Any())
             {
                 return $"All items in order #{orderId} have already been returned.";
             }
-
+    
             var success = await _orderService.ProcessItemReturnAsync(orderId, returnItems);
-
+    
             if (!success)
             {
+                _logger.LogError("Failed to process return for orderId {OrderId}, userId {UserId}", orderId, userId);
                 return $"I was unable to process the return for order #{orderId}. Please contact our support team for assistance.";
             }
-
-            var refundAmount = order.Items
-                .Where(i => i.RemainingQuantity > 0)
-                .Sum(i => i.Price * i.RemainingQuantity);
-
-            return $"I've processed the return for order #{orderId}. " +
-                   $"A refund of ${refundAmount:F2} will be issued to your original payment method within 5-7 business days. " +
-                   $"You will receive a confirmation email shortly.";
+    
+            _logger.LogInformation("Successfully processed return for orderId {OrderId}, userId {UserId}, items: {ItemCount}", 
+                orderId, userId, returnItems.Count);
+    
+            // Calculate refund amount for the items being returned
+            var refundAmount = returnItems.Sum(ri =>
+            {
+                var item = order.Items.First(i => i.Id == ri.OrderItemId);
+                return item.Price * ri.Quantity;
+            });
+    
+            // Build response message
+            var itemsSummary = string.Join(", ", returnItems.Select(ri =>
+            {
+                var item = order.Items.First(i => i.Id == ri.OrderItemId);
+                return $"{item.ProductName} (qty: {ri.Quantity})";
+            }));
+    
+            return $"I've successfully processed the return for the following items from order #{orderId}: {itemsSummary}. " +
+                    $"A refund of ${refundAmount:F2} will be issued to your original payment method within 5-7 business days. " +
+                    $"You will receive a confirmation email shortly. " +
+                    $"To view the updated return status, please visit the Order Details page for order #{orderId}.";
         }
-
+    
+        // add the `SendCustomerEmailAsync` method here
         /// <summary>
         /// Sends a follow-up email to the customer regarding their order.
         /// The AI agent calls this tool to send additional information by email.
@@ -446,64 +820,56 @@ Use the following steps to complete this task:
         public async Task<string> SendCustomerEmailAsync(int orderId, int userId, string message)
         {
             _logger.LogInformation("Agent tool invoked: SendCustomerEmail for orderId {OrderId}", orderId);
-
+    
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-
+    
             if (order == null)
             {
                 return $"Could not find order #{orderId} to send an email about.";
             }
-
+    
             // Get the user's email from Identity
             var user = await _context.Users.FindAsync(userId);
             var email = user?.Email ?? "customer@contoso.com";
-
+    
             await _emailService.SendEmailAsync(email, $"Regarding your order #{orderId}", message);
-
+    
             return $"I've sent an email to {email} with the details about order #{orderId}.";
         }
     }
     ```
 
-1. Take a couple minutes to review the code in the `SupportAgentTools` class.
+    The completed **SupportAgentTools.cs** file has the following structure:
 
-    This class provides AI support agent tools for customer service automation. Key features:
+    - The `using` statements, namespace, and class declaration at the top
+    - The constructor with four injected dependencies
+    - Four public methods: `GetOrderDetailsAsync`, `GetUserOrdersSummaryAsync`, `ProcessReturnAsync`, and `SendCustomerEmailAsync`
 
-    Order Information Tools:
-
-    - **GetOrderDetailsAsync**: Retrieves status, shipping dates, and item details for a specific order with natural language responses
-    - **GetUserOrdersSummaryAsync**: Lists all orders for a user when they don't specify an order number
-
-    Order Management Tools:
-
-    - **ProcessReturnAsync**: Automates return processing for delivered orders, validates return eligibility based on order status, creates return records for all unreturned items, and calculates refund amounts
-    - **SendCustomerEmailAsync**: Sends follow-up emails to customers with order-related information
-
-    Design Characteristics:
-
-    - All methods return human-readable strings formatted for AI conversation
-    - Built-in validation and error handling with contextual error messages
-    - Integrates with existing services (OrderService, EmailService) and database context
-    - Comprehensive logging for all tool invocations
-    - User-scoped operations with userId verification for security
+    All four methods follow a consistent design pattern: they accept a `userId` parameter for security verification, log the tool invocation, query the database, perform validation, and return human-readable strings that the AI agent presents directly to the customer.
 
 1. Open the **ContosoShop.Server/Program.cs** file.
 
     You'll use the Program.cs file to register SupportAgentTools in dependency injection.
 
-1. Locate the service registration section (after the existing `builder.Services.AddScoped<IOrderService, OrderService>();` line).
+1. Scroll down to locate the service registration section.
 
-1. Add the following line to register the `SupportAgentTools` service:
+    You can search for the following code comment: `// Register order business logic service`.
+
+1. Create a blank line after the code used to register the `OrderService`.
+
+1. To register the `SupportAgentTools` service, add the following code:
 
     ```csharp
     // Register AI agent tools service
     builder.Services.AddScoped<SupportAgentTools>();
     ```
 
-1. Save the two updated files.
+1. Save your updated files.
 
-1. In the terminal, build the project:
+1. Build the ContosoShop.Server project and verify that there are no errors.
+
+    For example, you can build the project by entering the following command in the terminal:
 
     ```powershell
     dotnet build
@@ -511,7 +877,7 @@ Use the following steps to complete this task:
 
     The build should succeed. If there are errors, review the `SupportAgentTools.cs` file to ensure all `using` statements and references are correct. You can use GitHub Copilot to help debug if needed.
 
-## Task 3: Configure the Copilot SDK agent and expose an API endpoint
+## Configure the Copilot SDK agent and expose an API endpoint
 
 In this task, you create a `CopilotClient` singleton, register it in dependency injection, and create a new API controller that accepts user questions and returns the AI agent's responses.
 
@@ -527,7 +893,15 @@ Use the following steps to complete this task:
     using GitHub.Copilot.SDK;
     ```
 
-1. Locate the service registration section (near the other `builder.Services.Add...` lines). Add the following code to create and register a `CopilotClient` singleton:
+1. Locate the service registration section.
+
+    You can search for the code comment that you added earlier: `// Register AI agent tools service`.
+
+1. Create a blank line after the code used to register the `SupportAgentTools` service.
+
+    This is where you'll add the code to register the `CopilotClient` singleton.
+
+1. Add the following code to create and register a `CopilotClient` singleton:
 
     ```csharp
     // Register GitHub Copilot SDK client as a singleton
@@ -544,13 +918,23 @@ Use the following steps to complete this task:
 
     The `CopilotClient` manages the Copilot CLI process lifecycle. Setting `AutoStart = true` means the CLI server starts automatically when the first session is created.
 
-1. To ensure the `CopilotClient` is properly disposed when the application shuts down, add the following code after the `var app = builder.Build();` line (but before the database initialization block):
+1. Scroll down to locate the following code line:
+
+    ```csharp
+    var app = builder.Build();
+    ```
+
+1. Create a blank code line above the database initialization block.
+
+1. To initialize and start the GitHub Copilot SDK client, add the following code:
 
     ```csharp
     // Ensure CopilotClient is started
     var copilotClient = app.Services.GetRequiredService<CopilotClient>();
     await copilotClient.StartAsync();
     ```
+
+    This code also ensures that the `CopilotClient` is properly disposed when the application shuts down.
 
 1. Save the file.
 
@@ -612,9 +996,10 @@ Use the following steps to complete this task:
 
 1. Name the file **SupportAgentController.cs**.
 
-1. Add the following code:
+1. Add the following code to the **SupportAgentController.cs** file:
 
     ```csharp
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.AI;
@@ -670,39 +1055,297 @@ Use the following steps to complete this task:
             }
 
             _logger.LogInformation("Support agent query from user {UserId}: {Question}", userId, query.Question);
+        }
+    }
 
+    ```
+
+    This code establishes the controller skeleton. Key design decisions in this code:
+
+    - The `[Authorize]` attribute ensures only authenticated users can reach the endpoint, which is critical since the agent accesses user-specific order data.
+    - The `[ApiController]` and `[Route("api/[controller]")]` attributes configure the endpoint at `POST /api/supportagent/ask`.
+    - The constructor injects three dependencies: `CopilotClient` (the SDK client for creating AI sessions), `SupportAgentTools` (the tools service you created earlier), and `ILogger` for diagnostics.
+    - The method starts by validating the input and extracting the authenticated user's ID from the claims. The `userId` is extracted once and then passed to each tool call — this ensures the agent can only access the current user's data, preventing cross-user data leaks.
+
+1. Inside the `AskQuestion` method, after the logging statement, add the following code:
+
+    > **NOTE**: The following code doesn't include the entire `try` block — you will add more code in the following steps.
+
+    ```csharp
+
+    try
+    {
+        // Define the tools the AI agent can use
+        var tools = new[]
+        {
+            AIFunctionFactory.Create(
+                async ([Description("The order ID number")] int orderId) =>
+                    await _agentTools.GetOrderDetailsAsync(orderId, userId),
+                "get_order_details",
+                "Look up the status and details of a specific order by its order number. Returns order status, items, dates, and total amount."),
+
+            AIFunctionFactory.Create(
+                async () =>
+                    await _agentTools.GetUserOrdersSummaryAsync(userId),
+                "get_user_orders",
+                "Get a summary list of all orders for the current user. Use this when the user asks about their orders without specifying an order number."),
+
+            AIFunctionFactory.Create(
+                async ([Description("The order ID number to return")] int orderId) =>
+                    await _agentTools.ProcessReturnAsync(orderId, userId),
+                "process_return",
+                "Process a return for a delivered order. Returns all unreturned items in the order and initiates a refund. Only works for orders with Delivered status."),
+
+            AIFunctionFactory.Create(
+                async (
+                    [Description("The order ID number")] int orderId,
+                    [Description("The email message content")] string message) =>
+                    await _agentTools.SendCustomerEmailAsync(orderId, userId, message),
+                "send_customer_email",
+                "Send a follow-up email to the customer with additional information about their order.")
+        };
+
+    ```
+
+    This is where the AI agent's capabilities are defined. The code uses `AIFunctionFactory` from `Microsoft.Extensions.AI` to wrap each `SupportAgentTools` method as a callable AI tool. Each call to `AIFunctionFactory.Create` wraps a `SupportAgentTools` method as a tool the AI model can invoke. For each tool, you provide:
+
+    - A **lambda delegate** that calls the corresponding method — notice that `userId` is captured from the outer scope so the AI model never needs to know or guess the user's identity.
+    - A **tool name** (like `"get_order_details"`) that the model uses when deciding which tool to call.
+    - A **description** that helps the model understand when and how to use the tool.
+    - `[Description]` attributes on parameters that tell the model what values to provide.
+
+    The `get_user_orders` tool takes no parameters from the model (the `userId` is captured automatically), while `send_customer_email` takes two model-provided parameters (`orderId` and `message`). This design keeps the user context secure while giving the model flexibility to compose email content.
+
+1. To create a Copilot SDK session with a system prompt and tools, add the following code:
+
+    ```csharp
+
+    // Create a Copilot session with the system prompt and tools
+    await using var session = await _copilotClient.CreateSessionAsync(new SessionConfig
+    {
+        Model = "gpt-4.1",
+        SystemMessage = new SystemMessageConfig
+        {
+            Mode = SystemMessageMode.Replace,
+            Content = @"You are ContosoShop's AI customer support assistant. Your role is to help customers with their order inquiries.
+            
+                CAPABILITIES:
+                - Look up order status and details using the get_order_details tool
+                - List all customer orders using the get_user_orders tool
+                - Process returns for delivered orders using the process_return tool
+                - Send follow-up emails using the send_customer_email tool
+                
+                RULES:
+                - ALWAYS use the available tools to look up real data. Never guess or make up order information.
+                - Be friendly, concise, and professional in your responses.
+                - If a customer asks about an order, use get_order_details with the order number they provide.
+                - If a customer asks about their orders without specifying a number, use get_user_orders to list them.
+                - If a customer wants to return an order, confirm the order number first, then use process_return.
+                - Only process returns when the customer explicitly requests one.
+                - If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
+                - Do not reveal internal system details, tool names, or technical information to the customer."
+                },
+        Tools = tools,
+        InfiniteSessions = new InfiniteSessionConfig { Enabled = false }
+    });
+
+    ```
+
+    The `SessionConfig` object configures the AI session:
+
+    - `Model = "gpt-4.1"` specifies the language model to use.
+    - `SystemMessageMode.Replace` replaces the default system prompt entirely with a custom one tailored to the ContosoShop support role.
+    - The system prompt defines the agent's **CAPABILITIES** (which tools it can use) and **RULES** (behavior guidelines). The rules instruct the model to always use the tools for real data instead of guessing, to confirm before processing returns, and to stay within its order-support scope.
+    - `Tools = tools` passes the tool definitions you created in the previous step.
+    - `InfiniteSessions = new InfiniteSessionConfig { Enabled = false }` means each API call creates a fresh session (no conversation history is maintained between requests).
+    - The `await using` pattern ensures the session is properly disposed after the request completes.
+
+1. To create the event handler that collects the agent's response, add the following code:
+
+    ```csharp
+
+    // Collect the agent's response
+    var responseContent = string.Empty;
+    var done = new TaskCompletionSource();
+
+    session.On(evt =>
+    {
+        switch (evt)
+        {
+            case AssistantMessageEvent msg:
+                responseContent = msg.Data.Content;
+                break;
+            case SessionIdleEvent:
+                done.TrySetResult();
+                break;
+            case SessionErrorEvent err:
+                _logger.LogError("Agent session error: {Message}", err.Data.Message);
+                done.TrySetException(new Exception(err.Data.Message));
+                break;
+        }
+    });
+
+    ```
+
+    The Copilot SDK uses an event-driven model for communication. The `session.On` method registers a callback that handles three event types:
+
+    - `AssistantMessageEvent` — fired when the AI model produces a response. The message content is captured in `responseContent`.
+    - `SessionIdleEvent` — fired when the session has finished processing (including any tool calls). This signals that the response is complete by resolving the `TaskCompletionSource`.
+    - `SessionErrorEvent` — fired if something goes wrong during the session. The error is logged and propagated as an exception via `done.TrySetException`.
+
+    The `TaskCompletionSource` pattern converts the event-driven flow into an awaitable task, allowing the controller to wait for the agent to finish before returning the HTTP response.
+
+1. To send the user's question, wait for the response with a timeout, and return the result, add the following code:
+
+    ```csharp
+
+    // Send the user's question
+    await session.SendAsync(new MessageOptions { Prompt = query.Question });
+
+    // Wait for the response with a timeout
+    var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
+    var completedTask = await Task.WhenAny(done.Task, timeoutTask);
+
+    if (completedTask == timeoutTask)
+    {
+        _logger.LogWarning("Agent session timed out for user {UserId}", userId);
+        return Ok(new SupportResponse
+        {
+            Answer = "I'm sorry, the request took too long. Please try again or contact our support team."
+        });
+    }
+
+    // Rethrow if the task faulted
+    await done.Task;
+
+    _logger.LogInformation("Agent response for user {UserId}: {Answer}", userId, responseContent);
+
+    return Ok(new SupportResponse { Answer = responseContent });
+
+    ```
+
+    This code sends the customer's question and handles the asynchronous response:
+
+    - `session.SendAsync` dispatches the user's question to the AI model, which may invoke zero or more tools before composing a final response.
+    - A **30-second timeout** protects against long-running requests. If the agent takes too long (perhaps due to multiple tool calls or network delays), the user gets a friendly timeout message rather than the request hanging indefinitely.
+    - `Task.WhenAny` races the agent's completion against the timeout. If the `done.Task` completes first, `await done.Task` is called again to propagate any exception that may have been set by `SessionErrorEvent`.
+    - The successful response is wrapped in a `SupportResponse` DTO and returned as HTTP 200.
+
+1. To complete the `try-catch` block, add the following code:
+
+    ```csharp
+
+    }
+
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error processing support agent query for user {UserId}", userId);
+        return StatusCode(500, new SupportResponse
+        {
+            Answer = "I'm sorry, I encountered an error processing your request. Please try again or contact our support team at support@contososhop.com."
+        });
+    }
+
+    ```
+
+    The `catch` block provides a safety net for any unhandled exceptions — including errors from the Copilot SDK, tool execution failures, or network issues. Rather than exposing a raw error to the customer, it logs the full exception for debugging and returns a friendly error message with a fallback contact option. This ensures the API always returns a valid `SupportResponse` regardless of what goes wrong internally.
+
+1. Your completed **SupportAgentController.cs** file should look like the following code:
+
+    ```csharp
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.AI;
+    using GitHub.Copilot.SDK;
+    using ContosoShop.Server.Services;
+    using ContosoShop.Shared.Models;
+    using System.ComponentModel;
+    using System.Security.Claims;
+    
+    namespace ContosoShop.Server.Controllers;
+    
+    /// <summary>
+    /// API controller that handles AI support agent queries.
+    /// Accepts user questions, creates a Copilot SDK session with custom tools,
+    /// and returns the agent's response.
+    /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class SupportAgentController : ControllerBase
+    {
+        private readonly CopilotClient _copilotClient;
+        private readonly SupportAgentTools _agentTools;
+        private readonly ILogger<SupportAgentController> _logger;
+    
+        public SupportAgentController(
+            CopilotClient copilotClient,
+            SupportAgentTools agentTools,
+            ILogger<SupportAgentController> logger)
+        {
+            _copilotClient = copilotClient;
+            _agentTools = agentTools;
+            _logger = logger;
+        }
+    
+        /// <summary>
+        /// Accepts a support question from the user and returns the AI agent's response.
+        /// POST /api/supportagent/ask
+        /// </summary>
+        [HttpPost("ask")]
+        public async Task<IActionResult> AskQuestion([FromBody] SupportQuery query)
+        {
+            if (query == null || string.IsNullOrWhiteSpace(query.Question))
+            {
+                return BadRequest(new SupportResponse { Answer = "Please enter a question." });
+            }
+    
+            // Get the authenticated user's ID from claims
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized(new SupportResponse { Answer = "Unable to identify user." });
+            }
+    
+            _logger.LogInformation("Support agent query from user {UserId}: {Question}", userId, query.Question);
+    
             try
             {
                 // Define the tools the AI agent can use
                 var tools = new[]
                 {
-                    AIFunctionFactory.Create(
-                        async ([Description("The order ID number")] int orderId) =>
-                            await _agentTools.GetOrderDetailsAsync(orderId, userId),
-                        "get_order_details",
-                        "Look up the status and details of a specific order by its order number. Returns order status, items, dates, and total amount."),
+                AIFunctionFactory.Create(
+                    async ([Description("The order ID number")] int orderId) =>
+                        await _agentTools.GetOrderDetailsAsync(orderId, userId),
+                    "get_order_details",
+                    "Look up the status and details of a specific order by its order number. Returns order status, items, dates, and total amount."),
+    
+                AIFunctionFactory.Create(
+                    async () =>
+                        await _agentTools.GetUserOrdersSummaryAsync(userId),
+                    "get_user_orders",
+                    "Get a summary list of all orders for the current user. Use this when the user asks about their orders without specifying an order number."),
+    
+                AIFunctionFactory.Create(
+                    async (
+                        [Description("The order ID number")] int orderId,
+                        [Description("Optional: Specific order item IDs to return (comma-separated, e.g. '123,456'). Leave empty to return all items.")] string orderItemIds = "",
+                        [Description("Optional: Quantities for each item (comma-separated, e.g. '1,2'). Must match orderItemIds count. Leave empty to return full quantity.")] string quantities = "",
+                        [Description("Optional: Reason for return")] string reason = "Customer requested return via AI support agent") =>
+                        await _agentTools.ProcessReturnAsync(orderId, userId, orderItemIds, quantities, reason),
+                    "process_return",
+                    "Process a return for specific items from a delivered order. Can return all items, specific items by ID, or specific quantities of items. Accepts comma-separated item IDs and quantities. Works for orders with Delivered, PartialReturn, or Returned status."),
 
-                    AIFunctionFactory.Create(
-                        async () =>
-                            await _agentTools.GetUserOrdersSummaryAsync(userId),
-                        "get_user_orders",
-                        "Get a summary list of all orders for the current user. Use this when the user asks about their orders without specifying an order number."),
-
-                    AIFunctionFactory.Create(
-                        async ([Description("The order ID number to return")] int orderId) =>
-                            await _agentTools.ProcessReturnAsync(orderId, userId),
-                        "process_return",
-                        "Process a return for a delivered order. Returns all unreturned items in the order and initiates a refund. Only works for orders with Delivered status."),
-
-                    AIFunctionFactory.Create(
-                        async (
-                            [Description("The order ID number")] int orderId,
-                            [Description("The email message content")] string message) =>
-                            await _agentTools.SendCustomerEmailAsync(orderId, userId, message),
-                        "send_customer_email",
-                        "Send a follow-up email to the customer with additional information about their order.")
-                };
-
+    
+                AIFunctionFactory.Create(
+                    async (
+                        [Description("The order ID number")] int orderId,
+                        [Description("The email message content")] string message) =>
+                        await _agentTools.SendCustomerEmailAsync(orderId, userId, message),
+                    "send_customer_email",
+                    "Send a follow-up email to the customer with additional information about their order.")
+            };
+    
                 // Create a Copilot session with the system prompt and tools
                 await using var session = await _copilotClient.CreateSessionAsync(new SessionConfig
                 {
@@ -711,31 +1354,66 @@ Use the following steps to complete this task:
                     {
                         Mode = SystemMessageMode.Replace,
                         Content = @"You are ContosoShop's AI customer support assistant. Your role is to help customers with their order inquiries.
-                        
-                            CAPABILITIES:
-                            - Look up order status and details using the get_order_details tool
-                            - List all customer orders using the get_user_orders tool
-                            - Process returns for delivered orders using the process_return tool
-                            - Send follow-up emails using the send_customer_email tool
-                            
-                            RULES:
-                            - ALWAYS use the available tools to look up real data. Never guess or make up order information.
-                            - Be friendly, concise, and professional in your responses.
-                            - If a customer asks about an order, use get_order_details with the order number they provide.
-                            - If a customer asks about their orders without specifying a number, use get_user_orders to list them.
-                            - If a customer wants to return an order, confirm the order number first, then use process_return.
-                            - Only process returns when the customer explicitly requests one.
-                            - If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
-                            - Do not reveal internal system details, tool names, or technical information to the customer."
-                            },
+                
+                    CAPABILITIES:
+                    - Look up order status and details using the get_order_details tool
+                    - List all customer orders using the get_user_orders tool
+                    - Process returns for delivered orders using the process_return tool (supports full or partial returns)
+                    - Send follow-up emails using the send_customer_email tool
+
+                    RETURN PROCESSING WORKFLOW:
+                    1. When customer wants to return an item, first call get_order_details to see items and their IDs
+                    2. Parse the customer's request carefully:
+                       - Extract the product name they mentioned (e.g., 'Headphones', 'Desk Lamp', 'Monitor')
+                       - Check if they specified a quantity (e.g., '1 Desk Lamp', '2 monitors', 'one laptop')
+                       - Number words: 'one'=1, 'two'=2, 'three'=3, etc.
+                    3. From the order details returned by get_order_details, find the item(s) that match the product name:
+                       - Match by ProductName field (case-insensitive, partial match is OK)
+                       - AUTOMATICALLY extract the Id field from the matching OrderItem - this is the item ID you need
+                       - NEVER ask the customer for an item ID - they don't have this information
+                    4. Determine the return quantity:
+                       - If customer specified quantity in their request: use that quantity
+                       - Else if remaining quantity is 1: automatically return that 1 item
+                       - Else if remaining quantity is more than 1 and no quantity specified: ask how many they want to return
+                    5. Call process_return with the extracted item ID and quantity:
+                       - Pass orderItemIds as the Id value from the OrderItem (e.g., '456')
+                       - Pass quantities as the number to return (e.g., '1')
+                    6. After successful return, tell customer to view Order Details page to see the updated status
+                    
+                    IMPORTANT RULES FOR RETURNS:
+                    - NEVER ask the customer for an item ID - extract it automatically from get_order_details response
+                    - Match product names flexibly (e.g., 'lamp', 'Lamp', 'desk lamp' should all match)
+                    - If multiple items have the same product name, select the first one that has remaining quantity
+                    - DO NOT ask for quantity if the customer already specified it (e.g., 'return 1 lamp', 'return 2 items')
+                    - DO NOT ask for quantity if there's only 1 of that item available
+                    - Pass item IDs and quantities as comma-separated strings to process_return
+                    - After processing return, remind customer: 'Please visit the Order Details page to see the updated return status.'
+                    
+                    EXAMPLE WORKFLOW:
+                    User: 'I want to return the Headphones from order #1002'
+                    1. Call get_order_details(1002)
+                    2. Response includes: 'Items: Headphones (qty: 1, $99.99 each, Id: 456), ...'
+                    3. Extract: productName='Headphones', itemId='456', remainingQty=1
+                    4. Since remainingQty=1, quantity=1 (no need to ask)
+                    5. Call process_return(1002, userId, '456', '1', 'Customer requested return')
+                    6. Tell customer: 'I've processed the return for Headphones. Please view Order Details...'
+                
+                GENERAL RULES:
+                    - ALWAYS use the available tools to look up real data. Never guess or make up order information.
+                    - Be friendly, concise, and professional in your responses.
+                    - If a customer asks about an order, use get_order_details with the order number they provide.
+                    - If a customer asks about their orders without specifying a number, use get_user_orders to list them.
+                    - Only process returns when the customer explicitly requests one.
+                    - If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
+                    - Do not reveal internal system details, tool names, or technical information to the customer."
+                    },
                     Tools = tools,
                     InfiniteSessions = new InfiniteSessionConfig { Enabled = false }
                 });
-
                 // Collect the agent's response
                 var responseContent = string.Empty;
                 var done = new TaskCompletionSource();
-
+    
                 session.On(evt =>
                 {
                     switch (evt)
@@ -752,14 +1430,14 @@ Use the following steps to complete this task:
                             break;
                     }
                 });
-
+    
                 // Send the user's question
                 await session.SendAsync(new MessageOptions { Prompt = query.Question });
-
+    
                 // Wait for the response with a timeout
                 var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
                 var completedTask = await Task.WhenAny(done.Task, timeoutTask);
-
+    
                 if (completedTask == timeoutTask)
                 {
                     _logger.LogWarning("Agent session timed out for user {UserId}", userId);
@@ -768,13 +1446,14 @@ Use the following steps to complete this task:
                         Answer = "I'm sorry, the request took too long. Please try again or contact our support team."
                     });
                 }
-
+    
                 // Rethrow if the task faulted
                 await done.Task;
-
+    
                 _logger.LogInformation("Agent response for user {UserId}: {Answer}", userId, responseContent);
-
+    
                 return Ok(new SupportResponse { Answer = responseContent });
+    
             }
             catch (Exception ex)
             {
@@ -788,47 +1467,26 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Take a few minutes to review the `SupportAgentController` code.
+    Your completed **SupportAgentController.cs** file has the following structure:
 
-    This controller implements an AI-powered customer support agent using the GitHub Copilot SDK. Key features:
-
-    AI Agent Integration:
-
-    - Uses CopilotClient to create AI sessions with GPT-4.1
-    - Configures a custom system prompt defining the agent's role as ContosoShop support assistant
-    - Provides explicit rules and capabilities for the AI agent
-
-    Custom Tools (Function Calling):
-
-    - get_order_details - Looks up specific orders by ID
-    - get_user_orders - Lists all orders for the current user
-    - process_return - Automates return processing for delivered orders
-    - send_customer_email - Sends follow-up emails to customers
-
-    Security & User Context:
-
-    - Requires [Authorize] - only authenticated users can access
-    - Extracts userId from claims to ensure user-scoped operations
-    - All tool calls are bound to the authenticated user's ID
-
-    Session Management:
-
-    - Creates event-driven sessions with the Copilot SDK
-    - Handles AssistantMessageEvent, SessionIdleEvent, and SessionErrorEvent
-    - 30-second timeout protection for long-running requests
-    - Comprehensive error handling and logging
-
-    API Design:
-
-    - Single endpoint: POST /api/supportagent/ask
-    - Accepts SupportQuery, returns SupportResponse
-    - Returns friendly error messages on failures
-
-    This enables conversational AI support where customers can ask natural language questions and the agent autonomously decides which tools to invoke to help them.
+    - The `using` statements and namespace at the top
+    - The `SupportAgentController` class with `[ApiController]`, `[Route]`, and `[Authorize]` attributes
+    - A constructor injecting `CopilotClient`, `SupportAgentTools`, and `ILogger`
+    - A single `AskQuestion` action method (`[HttpPost("ask")]`) that:
+      - Validates the input and extracts the user ID
+      - Defines four AI tools using `AIFunctionFactory.Create`
+      - Creates a Copilot session with a system prompt and tools
+      - Registers event handlers for response, idle, and error events
+      - Sends the question and awaits the response with a 30-second timeout
+      - Returns the response or appropriate error messages
 
 1. Open the **ContosoShop.Server/Program.cs** file.
 
-1. Verify that the CORS configuration section allows the `GET` and `POST` methods required by the API endpoint you just created.
+1. Locate the code that configures CORS policies.
+
+    You can search for the following code comment: `// Configure CORS`.
+
+1. Notice that the CORS configuration section allows the `GET` and `POST` methods required by the API endpoint you just created.
 
    The existing configuration allows `GET` and `POST` methods, which is sufficient.
 
@@ -844,7 +1502,7 @@ Use the following steps to complete this task:
 
     The build should succeed without errors. If you see errors related to `GitHub.Copilot.SDK` types, verify that the NuGet package was installed correctly.
 
-## Task 4: Update the Blazor frontend to interact with the agent
+## Update the Blazor frontend to interact with the agent
 
 In this task, you create a client-side service to call the agent API and update the Support.razor page with an interactive chat interface.
 
@@ -929,12 +1587,6 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoShop.Client/Program.cs** file.
 
-1. Add the following `using` statement at the top of the file:
-
-    ```csharp
-    using ContosoShop.Client.Services;
-    ```
-
 1. Locate the service registration section (near the existing `builder.Services.AddScoped...` lines). Add the following line:
 
     ```csharp
@@ -942,13 +1594,19 @@ Use the following steps to complete this task:
         new SupportAgentService(sp.GetRequiredService<HttpClient>()));
     ```
 
-1. Save the file.
+    This code registers the `SupportAgentService` as a scoped service in Blazor's dependency injection container, allowing it to be injected into components. The `HttpClient` is injected into the service constructor, ensuring proper lifetime management and configuration. The `using ContosoShop.Client.Services;` statement should already be present at the top of the file.
 
-### Step 4.3: Update the Support.razor page with the chat interface
+1. Save the file.
 
 1. Open the **ContosoShop.Client/Pages/Support.razor** file.
 
-1. Replace the entire content of the file with the following code:
+    You'll replace the existing content of this file to create a new support chat interface that interacts with the AI agent.
+
+1. Select and then delete the existing content of the file.
+
+1. To begin the construction of the new file, add the following code:
+
+    > **NOTE**: You'll build the Support.razor file in stages. Don't autoformat (Format Document) the file until you've added all the code snippets.
 
     ```cshtml
     @page "/support"
@@ -1010,61 +1668,90 @@ Use the following steps to complete this task:
                                 </div>
                             }
                         </div>
+    ```
 
-                        <!-- Input Area -->
-                        <div class="input-group">
-                            <input type="text"
-                                   class="form-control"
-                                   placeholder="Type your question..."
-                                   @bind="currentQuestion"
-                                   @bind:event="oninput"
-                                   @onkeydown="HandleKeyDown"
-                                   disabled="@isLoading" />
-                            <button class="btn btn-info text-white"
-                                    @onclick="SubmitQuestion"
-                                    disabled="@(isLoading || string.IsNullOrWhiteSpace(currentQuestion))">
-                                <i class="bi bi-send me-1"></i>Send
-                            </button>
-                        </div>
+    This first section establishes the page structure:
 
-                        @if (!string.IsNullOrEmpty(errorMessage))
-                        {
-                            <div class="alert alert-danger mt-2 mb-0">
-                                <i class="bi bi-exclamation-triangle me-1"></i>@errorMessage
-                            </div>
-                        }
-                    </div>
+    - The `@page "/support"` directive maps this component to the `/support` URL route.
+    - The `@attribute [Authorize]` ensures only authenticated users can access the page.
+    - The `@inject SupportAgentService AgentService` injects the client-side service you created in the previous step, giving the page access to the AI agent API.
+    - The chat messages area is a scrollable `div` (300-500px height) that displays the conversation history. When there are no messages yet, it shows helpful example prompts to guide the user. Each conversation entry shows the user's question with a "You" badge and the agent's response with an "Agent" badge. The `white-space: pre-line` style preserves line breaks in the agent's responses (for example, when listing multiple orders). A "Thinking..." indicator appears while the agent is processing a request.
+
+1. After the chat messages area `</div>`, add the input area and close the AI Chat card. This section provides the text input, send button, and error display:
+
+    ```cshtml
+            <!-- Input Area -->
+            <div class="input-group">
+                <input type="text"
+                        class="form-control"
+                        placeholder="Type your question..."
+                        @bind="currentQuestion"
+                        @bind:event="oninput"
+                        @onkeydown="HandleKeyDown"
+                        disabled="@isLoading" />
+                <button class="btn btn-info text-white"
+                        @onclick="SubmitQuestion"
+                        disabled="@(isLoading || string.IsNullOrWhiteSpace(currentQuestion))">
+                    <i class="bi bi-send me-1"></i>Send
+                </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger mt-2 mb-0">
+                    <i class="bi bi-exclamation-triangle me-1"></i>@errorMessage
                 </div>
+            }
+        </div>
+    </div>
+    ```
 
-                <!-- Contact Information Card -->
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-headset me-2"></i>Get in Touch
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <h6 class="text-muted">Email Support</h6>
-                                <p class="mb-0">
-                                    <i class="bi bi-envelope me-2"></i>
-                                    <a href="mailto:support@contososhop.com">support@contososhop.com</a>
-                                </p>
-                                <small class="text-muted">Response time: 24-48 hours</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <h6 class="text-muted">Phone Support</h6>
-                                <p class="mb-0">
-                                    <i class="bi bi-telephone me-2"></i>
-                                    <a href="tel:1-800-266-8676">1-800-CONTOSO</a>
-                                </p>
-                                <small class="text-muted">Mon-Fri 9AM-5PM EST</small>
-                            </div>
-                        </div>
-                    </div>
+    The input area uses Bootstrap's `input-group` for a clean text field with attached send button. Key interaction details:
+
+    - `@bind="currentQuestion"` with `@bind:event="oninput"` provides real-time two-way binding — the `currentQuestion` variable updates as the user types (not just on blur).
+    - `@onkeydown="HandleKeyDown"` enables the Enter key shortcut for submitting questions.
+    - Both the input and button are disabled while `isLoading` is true, preventing duplicate submissions during agent processing.
+    - The button is also disabled when the input is empty (`string.IsNullOrWhiteSpace(currentQuestion)`).
+    - An error alert conditionally appears below the input when `errorMessage` is set, providing user-friendly feedback if something goes wrong.
+
+1. After the AI Chat card, add the Contact Information card:
+
+    ```cshtml
+    <!-- Contact Information Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-headset me-2"></i>Get in Touch
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted">Email Support</h6>
+                    <p class="mb-0">
+                        <i class="bi bi-envelope me-2"></i>
+                        <a href="mailto:support@contososhop.com">support@contososhop.com</a>
+                    </p>
+                    <small class="text-muted">Response time: 24-48 hours</small>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted">Phone Support</h6>
+                    <p class="mb-0">
+                        <i class="bi bi-telephone me-2"></i>
+                        <a href="tel:1-800-266-8676">1-800-CONTOSO</a>
+                    </p>
+                    <small class="text-muted">Mon-Fri 9AM-5PM EST</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    ```
 
+    This card provides traditional contact methods as a fallback when the AI agent can't fully resolve a customer's issue. The two-column layout (using Bootstrap's grid) shows email and phone support side by side on medium+ screens, each with response time expectations. This is consistent with the system prompt you configured earlier, which tells the AI agent to direct customers to `support@contososhop.com` or `1-800-CONTOSO` for non-order matters.
+
+1. After the Contact Information card, add the Quick Links card and the closing `</div>` tags for the page layout:
+
+    ```cshtml
                 <!-- Quick Links -->
                 <div class="card">
                     <div class="card-header">
@@ -1093,7 +1780,13 @@ Use the following steps to complete this task:
             </div>
         </div>
     </div>
+    ```
 
+    The Quick Links card provides navigation shortcuts to other parts of the application. The "View Your Orders" link navigates to the `/orders` page where customers can see their full order list. The remaining items describe self-service actions available elsewhere in the app. The three closing `</div>` tags close the `col-lg-8`, `row`, and `container` elements that wrap the entire page layout.
+
+1. After all the HTML, add the `@code` block that contains the component's state management and event handling logic:
+
+    ```cshtml
     @code {
         private class ConversationEntry
         {
@@ -1148,49 +1841,19 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Take a few minutes to review the updated `Support.razor` code.
+    The `@code` block contains all of the component's logic:
 
-    This Blazor page provides an AI-powered chat support interface for customers. Key features:
+    - `ConversationEntry` is a simple inner class that pairs each user question with the agent's answer, forming the chat history.
+    - The component state consists of four fields: `conversations` (the full chat history), `currentQuestion` (the text input binding), `isLoading` (prevents duplicate submissions and shows the "Thinking..." indicator), and `errorMessage` (displays errors below the input).
+    - `HandleKeyDown` enables submitting questions by pressing Enter — it checks the same guards as the send button (not loading, not empty).
+    - `SubmitQuestion` orchestrates the full send flow: it clears the error state, captures and clears the input text, adds a new conversation entry immediately (so the user's question appears right away), then calls `AgentService.AskAsync` to get the agent's response. The `StateHasChanged()` calls force Blazor to re-render the UI — once when "Thinking..." appears and again when the response arrives or an error occurs. The `try/finally` pattern ensures `isLoading` is always reset, even if the API call fails.
 
-    Chat Interface:
+1. Verify that your completed **Support.razor** file has the following structure:
 
-    - Real-time conversational UI with message history showing user questions and AI agent responses
-    - Loading indicator ("Thinking...") during agent processing
-    - Auto-scrolling chat area with 300-500px height
-    - Enter key support for quick message submission
-    - Helpful example prompts when chat is empty
-
-    User Interaction:
-
-    - Input field with send button (disabled during loading)
-    - Shows conversation history with badge-labeled messages (You/Agent)
-    - Clears input after submission
-    - Error handling with user-friendly messages
-
-    Additional Support Options:
-
-    - Contact Information Card - Email (support@contososhop.com) and phone number (1-800-CONTOSO) with response time details
-    - Quick Links Card - Links to view orders, return information, and tracking details
-
-    State Management:
-
-    - Maintains conversation history as a list of Q&A pairs
-    - Tracks loading state to prevent duplicate submissions
-    - Preserves chat history during the session
-
-    Security:
-
-    - [Authorize] attribute - requires authentication
-    - Integrates with SupportAgentService for secure backend communication
-
-    UI/UX:
-
-    - Bootstrap styling with info/primary color scheme
-    - Robot icon for AI chat, headset icon for contact info
-    - Responsive layout with centered column on large screens
-    - Pre-formatted text support for multi-line agent responses
-
-    This page serves as the complete customer support hub combining autonomous AI assistance with traditional contact methods.
+    - Page directives (`@page`, `@using`, `@attribute`, `@inject`) at the top
+    - A container layout with a centered column
+    - Three cards: AI Chat Support (with messages area, input area, and error display), Contact Information (email and phone), and Quick Links (navigation shortcuts)
+    - An `@code` block with `ConversationEntry` class, state fields, `HandleKeyDown`, and `SubmitQuestion` methods
 
 1. Open the ContosoShop.Server directory in the terminal, and then enter the following command:
 
@@ -1200,7 +1863,7 @@ Use the following steps to complete this task:
 
     The build should succeed without errors.
 
-## Task 5: Test the end-to-end AI agent experience
+## Test the end-to-end AI agent experience
 
 In this task, you run the application and test the AI agent with various support queries to verify it functions correctly.
 
@@ -1214,6 +1877,8 @@ Use the following steps to complete this task:
 
     Watch the console output for any errors during startup. You should see the application listening on the HTTPS and HTTP ports.
 
+    If you see errors, verify that you completed each step in the previous tasks and that you entered the code correctly.
+
 1. Open a browser and navigate to `http://localhost:5266`.
 
 1. Sign in with the demo credentials.
@@ -1221,6 +1886,8 @@ Use the following steps to complete this task:
     Enter `mateo@contoso.com` for the email and `Password123!` for the password, and then select **Login**.
 
 1. Navigate to the **Contact Support** page.
+
+1. Take a moment to review the page.
 
     You should now see the interactive AI Chat Support interface instead of the "Coming Soon" placeholder. The chat area displays example prompts to help you get started.
 
@@ -1245,12 +1912,28 @@ Use the following steps to complete this task:
 1. To test the agent's ability to **Process a return**, enter the following question:
 
     ```plaintext
-    I want to return order #1005
+    I want to return order #1008
     ```
 
-    The agent should process the return for order #1005 (which has Delivered status) and confirm the refund amount. After the response:
+    The agent should process the return for order #1008 (which was Delivered) and confirm the refund amount.
 
-    - Navigate to the **Orders** page and verify that order #1005 now shows a "Returned" status.
+    After the AI response is displayed:
+
+    - Navigate to the **Orders** page and verify that order #1008 now shows a "Returned" status.
+    - Check the server console output for the email notification log from `EmailServiceDev`.
+
+1. To test the agent's ability to **Process a return for a single item within an order**, enter the following question:
+
+    ```plaintext
+    I want to return 1 Monitor from order #1001
+    ```
+
+    The agent should process the return for the specified item within order #1001 and confirm the refund amount.
+
+    After the AI response is displayed:
+
+    - Navigate to the **Orders** page and verify that order #1001 now shows a "Partially Returned" status.
+    - Open the order details for #1001 and verify that the returned item shows a "Returned" status while the other items still show "Delivered".
     - Check the server console output for the email notification log from `EmailServiceDev`.
 
 1. To test the agent's ability to **Handle an order that can't be returned**, enter the following question:
