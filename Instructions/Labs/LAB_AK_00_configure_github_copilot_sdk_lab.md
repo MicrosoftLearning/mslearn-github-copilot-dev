@@ -6,7 +6,7 @@ lab:
 
 # Configure your GitHub Copilot SDK lab environment
 
-Before you begin the GitHub Copilot SDK lab exercise, you need to ensure that your development environment includes the required tools and resources.
+Before you begin a GitHub Copilot SDK lab exercise, you need to ensure that your development environment includes the required tools and resources.
 
 Your lab environment must include the following resources:
 
@@ -16,11 +16,11 @@ Your lab environment must include the following resources:
 - Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions.
 - GitHub Copilot CLI installed and authenticated with your GitHub account.
 
-The lab application that you'll be working on was built using .NET (ASP.NET Core 8.0 and Blazor). The data access layer of the lab application uses Entity Framework Core and SQLite. The lab application is available in a GitHub repository that you clone to your lab environment during the lab exercise.
-
 ## Install the Git, .NET, Visual Studio Code, and GitHub resources
 
-The "GitHub Copilot SDK" lab exercise uses GitHub Copilot in Visual Studio Code as the primary AI coding assistant. To use GitHub Copilot, you need access to a GitHub account with a GitHub Copilot subscription. GitHub requires Git for version control operations. The lab application that you'll be working on was built using .NET (ASP.NET Core 8.0 and Blazor).
+The GitHub Copilot SDK lab exercises use GitHub Copilot in Visual Studio Code as the primary AI coding assistant. To use GitHub Copilot, you need access to a GitHub account with a GitHub Copilot subscription. GitHub requires Git for version control operations.
+
+The lab application that you'll be working on was built using C# (ASP.NET Core 8.0 and Blazor). The data access layer of the lab application uses Entity Framework Core and SQLite. The lab application is available in a GitHub repository that you clone to your lab environment during the lab exercise.
 
 Complete the following steps to ensure that the required Git, .NET, Visual Studio Code, and GitHub resources are available.
 
@@ -98,7 +98,7 @@ Complete the following steps to ensure that the required Git, .NET, Visual Studi
 
 ## Install the lab application dependencies
 
-The GitHub Copilot SDK uses underlying engine behind GitHub Copilot CLI for AI code generation and chat interactions. To ensure that the lab environment is properly configured for the GitHub Copilot SDK exercises, you need to install and authenticate the GitHub Copilot CLI.
+The GitHub Copilot SDK uses the engine behind GitHub Copilot CLI for AI code generation and chat interactions. To ensure that the lab environment is properly configured for the GitHub Copilot SDK exercises, you need to install and authenticate the GitHub Copilot CLI.
 
 For more information about the GitHub Copilot CLI, see the official documentation: <a href="https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli" target="_blank">About GitHub Copilot CLI</a>.
 
