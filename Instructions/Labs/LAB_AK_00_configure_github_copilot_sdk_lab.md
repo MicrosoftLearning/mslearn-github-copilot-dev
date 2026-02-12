@@ -14,6 +14,7 @@ Your lab environment must include the following resources:
 - The .NET SDK version 8.0 or later.
 - Access to a GitHub account with GitHub Copilot enabled.
 - Visual Studio Code with the C# Dev Kit and GitHub Copilot Chat extensions.
+- GitHub Copilot CLI installed and authenticated with your GitHub account.
 
 The lab application that you'll be working on was built using .NET (ASP.NET Core 8.0 and Blazor). The data access layer of the lab application uses Entity Framework Core and SQLite. The lab application is available in a GitHub repository that you clone to your lab environment during the lab exercise.
 
