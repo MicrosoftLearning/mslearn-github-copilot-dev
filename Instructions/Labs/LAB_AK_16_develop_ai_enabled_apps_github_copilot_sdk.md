@@ -6,14 +6,6 @@ lab:
     duration: 60 minutes
 --- -->
 
-
-<!--
-Edit the metadata above to manage the list of exercises in the home page of the GitHub site that gets generated.
-You can delete the module and edit index.md in the root of the repo to customize the display so that only the exercises are listed
-To enable GitHub page publishing, edit the Page settings for the repo and publish from the main branch
--->
-
-
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
 
 The GitHub Copilot SDK exposes the same engine behind GitHub Copilot CLI as a programmable SDK. It allows you to embed agentic AI workflows in your applications — including custom tools that let the AI call your code.
@@ -378,12 +370,21 @@ Use the following steps to complete this task:
             OrderStatus.Delivered => order.DeliveryDate.HasValue
                 ? $"was delivered on {order.DeliveryDate.Value:MMMM dd, yyyy}"
                 : "has been delivered",
-            OrderStatus.Returned => "has been returned and a refund was issued",
+            OrderStatus.PartialReturn => "has been partially returned (some items have been returned, others are still with you)",
+            OrderStatus.Returned => "has been fully returned and a refund was issued",
             _ => "has an unknown status"
         };
 
         var itemSummary = string.Join(", ", order.Items.Select(i =>
-            $"{i.ProductName} (qty: {i.Quantity}, ${i.Price:F2} each)"));
+        {
+            var itemInfo = $"{i.ProductName} (Id: {i.Id}, qty: {i.Quantity}, ${i.Price:F2} each";
+            if (i.ReturnedQuantity > 0)
+            {
+                itemInfo += $", {i.ReturnedQuantity} returned, {i.RemainingQuantity} remaining";
+            }
+            itemInfo += ")";
+            return itemInfo;
+        }));
 
         return $"Order #{order.Id} {statusMessage}. " +
                 $"Order date: {order.OrderDate:MMMM dd, yyyy}. " +
@@ -392,7 +393,7 @@ Use the following steps to complete this task:
     }
     ```
 
-    This is the first agent tool. The AI agent calls this method when a customer asks about a specific order. The method queries the database for the order (including its items), verifies that the order belongs to the authenticated user via `userId`, and builds a natural language response. A C# `switch` expression translates the `OrderStatus` enum into human-readable phrases, and the item summary lists each product with its quantity and price. If the order isn't found, the method returns a friendly error message rather than throwing an exception — this is important because the AI agent will present the return value directly to the customer.
+    This is the first agent tool. The AI agent calls this method when a customer asks about a specific order. The method queries the database for the order (including its items), verifies that the order belongs to the authenticated user via `userId`, and builds a natural language response. A C# `switch` expression translates the `OrderStatus` enum into human-readable phrases — including `PartialReturn` for orders where some items have been returned. The item summary lists each product with its database `Id`, quantity, and price; items that have been partially returned also show their `ReturnedQuantity` and `RemainingQuantity`. Including the item `Id` in the output is critical because the AI agent uses it when calling the `process_return` tool for partial returns. If the order isn't found, the method returns a friendly error message rather than throwing an exception — this is important because the AI agent will present the return value directly to the customer.
 
 1. After the `GetOrderDetailsAsync` method, add the `GetUserOrdersSummaryAsync` method:
 
@@ -441,10 +442,22 @@ Use the following steps to complete this task:
     /// <summary>
     /// Processes a return for specific items in a delivered order.
     /// The AI agent calls this tool when a user wants to return items.
+    /// Supports returning all items, specific items by ID, or specific quantities.
     /// </summary>
-    public async Task<string> ProcessReturnAsync(int orderId, int userId)
+    /// <param name="orderId">The order ID to process returns for</param>
+    /// <param name="userId">The authenticated user ID</param>
+    /// <param name="orderItemIds">Optional: Specific order item IDs to return (comma-separated, e.g., "123,456"). If empty, returns all unreturned items.</param>
+    /// <param name="quantities">Optional: Quantities for each item (comma-separated, e.g., "1,2" for items 123 and 456). Must match orderItemIds length. If empty, returns full remaining quantity for each item.</param>
+    /// <param name="reason">Optional: Reason for the return</param>
+    public async Task<string> ProcessReturnAsync(
+        int orderId, 
+        int userId, 
+        string orderItemIds = "", 
+        string quantities = "",
+        string reason = "Customer requested return via AI support agent")
     {
-        _logger.LogInformation("Agent tool invoked: ProcessReturn for orderId {OrderId}, userId {UserId}", orderId, userId);
+        _logger.LogInformation("Agent tool invoked: ProcessReturn for orderId {OrderId}, userId {UserId}, items: {Items}", 
+            orderId, userId, string.IsNullOrEmpty(orderItemIds) ? "all" : orderItemIds);
 
         var order = await _context.Orders
             .Include(o => o.Items)
@@ -455,7 +468,7 @@ Use the following steps to complete this task:
             return $"I could not find order #{orderId} associated with your account.";
         }
 
-        if (order.Status != OrderStatus.Delivered && order.Status != OrderStatus.Returned)
+        if (order.Status != OrderStatus.Delivered && order.Status != OrderStatus.Returned && order.Status != OrderStatus.PartialReturn)
         {
             return order.Status switch
             {
@@ -465,16 +478,92 @@ Use the following steps to complete this task:
             };
         }
 
-        // Build return items list for all unreturned items
-        var returnItems = order.Items
-            .Where(i => i.RemainingQuantity > 0)
-            .Select(i => new ReturnItem
+        List<ReturnItem> returnItems;
+
+        // Parse specific items if provided
+        if (!string.IsNullOrWhiteSpace(orderItemIds))
+        {
+            var itemIdStrings = orderItemIds.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var itemIds = new List<int>();
+            
+            foreach (var idStr in itemIdStrings)
             {
-                OrderItemId = i.Id,
-                Quantity = i.RemainingQuantity,
-                Reason = "Customer requested return via AI support agent"
-            })
-            .ToList();
+                if (int.TryParse(idStr.Trim(), out int itemId))
+                {
+                    itemIds.Add(itemId);
+                }
+                else
+                {
+                    return $"Invalid item ID format: '{idStr}'. Please provide valid item IDs.";
+                }
+            }
+
+            // Parse quantities if provided
+            var itemQuantities = new List<int>();
+            if (!string.IsNullOrWhiteSpace(quantities))
+            {
+                var quantityStrings = quantities.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                foreach (var qtyStr in quantityStrings)
+                {
+                    if (int.TryParse(qtyStr.Trim(), out int qty) && qty > 0)
+                    {
+                        itemQuantities.Add(qty);
+                    }
+                    else
+                    {
+                        return $"Invalid quantity format: '{qtyStr}'. Quantities must be positive numbers.";
+                    }
+                }
+
+                if (itemQuantities.Count != itemIds.Count)
+                {
+                    return "The number of quantities must match the number of items.";
+                }
+            }
+
+            // Build return items for specific items
+            returnItems = new List<ReturnItem>();
+            for (int i = 0; i < itemIds.Count; i++)
+            {
+                var orderItem = order.Items.FirstOrDefault(item => item.Id == itemIds[i]);
+                if (orderItem == null)
+                {
+                    return $"Item ID {itemIds[i]} was not found in order #{orderId}.";
+                }
+
+                if (orderItem.RemainingQuantity <= 0)
+                {
+                    return $"{orderItem.ProductName} has already been fully returned.";
+                }
+
+                var quantityToReturn = itemQuantities.Count > 0 ? itemQuantities[i] : orderItem.RemainingQuantity;
+                
+                if (quantityToReturn > orderItem.RemainingQuantity)
+                {
+                    return $"Cannot return {quantityToReturn} of {orderItem.ProductName}. Only {orderItem.RemainingQuantity} available to return.";
+                }
+
+                returnItems.Add(new ReturnItem
+                {
+                    OrderItemId = orderItem.Id,
+                    Quantity = quantityToReturn,
+                    Reason = reason
+                });
+            }
+        }
+        else
+        {
+            // Return all unreturned items (original behavior)
+            returnItems = order.Items
+                .Where(i => i.RemainingQuantity > 0)
+                .Select(i => new ReturnItem
+                {
+                    OrderItemId = i.Id,
+                    Quantity = i.RemainingQuantity,
+                    Reason = reason
+                })
+                .ToList();
+        }
 
         if (!returnItems.Any())
         {
@@ -485,20 +574,35 @@ Use the following steps to complete this task:
 
         if (!success)
         {
+            _logger.LogError("Failed to process return for orderId {OrderId}, userId {UserId}", orderId, userId);
             return $"I was unable to process the return for order #{orderId}. Please contact our support team for assistance.";
         }
 
-        var refundAmount = order.Items
-            .Where(i => i.RemainingQuantity > 0)
-            .Sum(i => i.Price * i.RemainingQuantity);
+        _logger.LogInformation("Successfully processed return for orderId {OrderId}, userId {UserId}, items: {ItemCount}", 
+            orderId, userId, returnItems.Count);
 
-        return $"I've processed the return for order #{orderId}. " +
+        // Calculate refund amount for the items being returned
+        var refundAmount = returnItems.Sum(ri =>
+        {
+            var item = order.Items.First(i => i.Id == ri.OrderItemId);
+            return item.Price * ri.Quantity;
+        });
+
+        // Build response message
+        var itemsSummary = string.Join(", ", returnItems.Select(ri =>
+        {
+            var item = order.Items.First(i => i.Id == ri.OrderItemId);
+            return $"{item.ProductName} (qty: {ri.Quantity})";
+        }));
+
+        return $"I've successfully processed the return for the following items from order #{orderId}: {itemsSummary}. " +
                 $"A refund of ${refundAmount:F2} will be issued to your original payment method within 5-7 business days. " +
-                $"You will receive a confirmation email shortly.";
+                $"You will receive a confirmation email shortly. " +
+                $"To view the updated return status, please visit the Order Details page for order #{orderId}.";
     }
     ```
 
-    This is the most complex tool because it performs a state-changing operation. The method includes several validation layers before processing a return: it verifies the order exists and belongs to the user, checks that the order status is either `Delivered` or `Returned` (partially returned orders can still have unreturned items), and confirms there are items with remaining quantity to return. If validation passes, it builds a list of `ReturnItem` objects for all unreturned items and delegates the actual return processing to the existing `IOrderService.ProcessItemReturnAsync` method, which handles inventory updates and email confirmations. The method calculates and reports the refund amount in the response. Each validation failure returns a specific, helpful message explaining why the return can't be processed.
+    This is the most complex tool because it performs a state-changing operation with support for both full and partial returns. The method accepts three optional parameters: `orderItemIds` (comma-separated item IDs to return), `quantities` (comma-separated quantities for each item), and `reason`. When `orderItemIds` is empty, it returns all unreturned items (the default behavior). When specific item IDs are provided, it parses them and optionally their quantities, validates each item exists in the order and has remaining quantity, and builds targeted `ReturnItem` objects. The method includes several validation layers: it verifies the order exists and belongs to the user, checks that the order status is `Delivered`, `PartialReturn`, or `Returned`, validates item IDs and quantity formats, and confirms items haven't already been fully returned. If validation passes, it delegates the actual return processing to the existing `IOrderService.ProcessItemReturnAsync` method. The method calculates the refund amount based on the specific items being returned and includes a summary of returned items in the response. Each validation failure returns a specific, helpful message explaining why the return can't be processed.
 
 1. After the `ProcessReturnAsync` method, add the `SendCustomerEmailAsync` method:
 
@@ -1091,10 +1195,14 @@ Use the following steps to complete this task:
                 "Get a summary list of all orders for the current user. Use this when the user asks about their orders without specifying an order number."),
 
             AIFunctionFactory.Create(
-                async ([Description("The order ID number to return")] int orderId) =>
-                    await _agentTools.ProcessReturnAsync(orderId, userId),
+                async (
+                    [Description("The order ID number")] int orderId,
+                    [Description("Optional: Specific order item IDs to return (comma-separated, e.g. '123,456'). Leave empty to return all items.")] string orderItemIds = "",
+                    [Description("Optional: Quantities for each item (comma-separated, e.g. '1,2'). Must match orderItemIds count. Leave empty to return full quantity.")] string quantities = "",
+                    [Description("Optional: Reason for return")] string reason = "Customer requested return via AI support agent") =>
+                    await _agentTools.ProcessReturnAsync(orderId, userId, orderItemIds, quantities, reason),
                 "process_return",
-                "Process a return for a delivered order. Returns all unreturned items in the order and initiates a refund. Only works for orders with Delivered status."),
+                "Process a return for specific items from a delivered order. Can return all items, specific items by ID, or specific quantities of items. Accepts comma-separated item IDs and quantities. Works for orders with Delivered, PartialReturn, or Returned status."),
 
             AIFunctionFactory.Create(
                 async (
@@ -1114,7 +1222,7 @@ Use the following steps to complete this task:
     - A **description** that helps the model understand when and how to use the tool.
     - `[Description]` attributes on parameters that tell the model what values to provide.
 
-    The `get_user_orders` tool takes no parameters from the model (the `userId` is captured automatically), while `send_customer_email` takes two model-provided parameters (`orderId` and `message`). This design keeps the user context secure while giving the model flexibility to compose email content.
+    The `get_user_orders` tool takes no parameters from the model (the `userId` is captured automatically). The `process_return` tool has three optional parameters — `orderItemIds`, `quantities`, and `reason` — that enable partial returns by specifying which items and quantities to return (omitting them returns all items). The `send_customer_email` tool takes two model-provided parameters (`orderId` and `message`). This design keeps the user context secure while giving the model flexibility to handle various return scenarios and compose email content.
 
 1. To create a Copilot SDK session with a system prompt and tools, add the following code:
 
@@ -1132,15 +1240,51 @@ Use the following steps to complete this task:
                 CAPABILITIES:
                 - Look up order status and details using the get_order_details tool
                 - List all customer orders using the get_user_orders tool
-                - Process returns for delivered orders using the process_return tool
+                - Process returns for delivered orders using the process_return tool (supports full or partial returns)
                 - Send follow-up emails using the send_customer_email tool
+
+                RETURN PROCESSING WORKFLOW:
+                1. When customer wants to return an item, first call get_order_details to see items and their IDs
+                2. Parse the customer's request carefully:
+                   - Extract the product name they mentioned (e.g., 'Headphones', 'Desk Lamp', 'Monitor')
+                   - Check if they specified a quantity (e.g., '1 Desk Lamp', '2 monitors', 'one laptop')
+                   - Number words: 'one'=1, 'two'=2, 'three'=3, etc.
+                3. From the order details returned by get_order_details, find the item(s) that match the product name:
+                   - Match by ProductName field (case-insensitive, partial match is OK)
+                   - AUTOMATICALLY extract the Id field from the matching OrderItem - this is the item ID you need
+                   - NEVER ask the customer for an item ID - they don't have this information
+                4. Determine the return quantity:
+                   - If customer specified quantity in their request: use that quantity
+                   - Else if remaining quantity is 1: automatically return that 1 item
+                   - Else if remaining quantity is more than 1 and no quantity specified: ask how many they want to return
+                5. Call process_return with the extracted item ID and quantity:
+                   - Pass orderItemIds as the Id value from the OrderItem (e.g., '456')
+                   - Pass quantities as the number to return (e.g., '1')
+                6. After successful return, tell customer to view Order Details page to see the updated status
                 
-                RULES:
+                IMPORTANT RULES FOR RETURNS:
+                - NEVER ask the customer for an item ID - extract it automatically from get_order_details response
+                - Match product names flexibly (e.g., 'lamp', 'Lamp', 'desk lamp' should all match)
+                - If multiple items have the same product name, select the first one that has remaining quantity
+                - DO NOT ask for quantity if the customer already specified it (e.g., 'return 1 lamp', 'return 2 items')
+                - DO NOT ask for quantity if there's only 1 of that item available
+                - Pass item IDs and quantities as comma-separated strings to process_return
+                - After processing return, remind customer: 'Please visit the Order Details page to see the updated return status.'
+                
+                EXAMPLE WORKFLOW:
+                User: 'I want to return the Headphones from order #1002'
+                1. Call get_order_details(1002)
+                2. Response includes: 'Items: Headphones (qty: 1, $99.99 each, Id: 456), ...'
+                3. Extract: productName='Headphones', itemId='456', remainingQty=1
+                4. Since remainingQty=1, quantity=1 (no need to ask)
+                5. Call process_return(1002, userId, '456', '1', 'Customer requested return')
+                6. Tell customer: 'I've processed the return for Headphones. Please view Order Details...'
+            
+            GENERAL RULES:
                 - ALWAYS use the available tools to look up real data. Never guess or make up order information.
                 - Be friendly, concise, and professional in your responses.
                 - If a customer asks about an order, use get_order_details with the order number they provide.
                 - If a customer asks about their orders without specifying a number, use get_user_orders to list them.
-                - If a customer wants to return an order, confirm the order number first, then use process_return.
                 - Only process returns when the customer explicitly requests one.
                 - If asked something outside your capabilities (not related to orders), politely explain that you can only help with order-related inquiries and suggest contacting support@contososhop.com or calling 1-800-CONTOSO for other matters.
                 - Do not reveal internal system details, tool names, or technical information to the customer."
@@ -1155,7 +1299,7 @@ Use the following steps to complete this task:
 
     - `Model = "gpt-4.1"` specifies the language model to use.
     - `SystemMessageMode.Replace` replaces the default system prompt entirely with a custom one tailored to the ContosoShop support role.
-    - The system prompt defines the agent's **CAPABILITIES** (which tools it can use) and **RULES** (behavior guidelines). The rules instruct the model to always use the tools for real data instead of guessing, to confirm before processing returns, and to stay within its order-support scope.
+    - The system prompt defines the agent's **CAPABILITIES** (including partial return support), a detailed **RETURN PROCESSING WORKFLOW** (step-by-step instructions for handling returns including item matching and quantity handling), **IMPORTANT RULES FOR RETURNS** (guardrails like never asking customers for item IDs), an **EXAMPLE WORKFLOW** (showing the complete return flow), and **GENERAL RULES** (behavior guidelines). These sections instruct the model to always use the tools for real data, to automatically extract item IDs from order details rather than asking the customer, and to stay within its order-support scope.
     - `Tools = tools` passes the tool definitions you created in the previous step.
     - `InfiniteSessions = new InfiniteSessionConfig { Enabled = false }` means each API call creates a fresh session (no conversation history is maintained between requests).
     - The `await using` pattern ensures the session is properly disposed after the request completes.
