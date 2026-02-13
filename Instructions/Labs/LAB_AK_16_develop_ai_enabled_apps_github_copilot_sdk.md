@@ -45,7 +45,7 @@ This exercise includes the following tasks:
 1. Review features of the ContosoShop application.
 1. Install the GitHub Copilot SDK components.
 1. Create the agent tools service.
-1. Configure the Copilot SDK agent and expose an API endpoint.
+1. Configure the GitHub Copilot SDK and implement the AI support agent API.
 1. Update the Blazor frontend to interact with the agent.
 1. Test the end-to-end AI agent experience.
 
@@ -1007,7 +1007,7 @@ Use the following steps to complete this task:
 
     The build should succeed. If there are errors, ensure that your code matches the example code shown above. Review the SupportAgentTools.cs file to ensure all `using` statements and references are correct. Keep in mind that the GitHub Copilot SDK is in a Technical Preview phase that include periodic updates. If necessary, you can point GitHub Copilot to the GitHub Copilot SDK repository (`https://github.com/github/copilot-sdk`) and ask the AI assistant to help you debug the issues.
 
-## Configure the Copilot SDK agent and expose an API endpoint
+## Configure the GitHub Copilot SDK and implement the AI support agent API
 
 In this task, you create a `CopilotClient` singleton, register it in dependency injection, and create a new API controller that accepts user questions and returns the AI agent's responses.
 
