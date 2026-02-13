@@ -8,9 +8,9 @@ lab:
 
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
 
-The GitHub Copilot SDK exposes the same engine behind GitHub Copilot CLI as a programmable SDK. It allows you to embed agentic AI workflows in your applications — including custom tools that let the AI call your code.
+The GitHub Copilot SDK exposes the same engine behind GitHub Copilot CLI as a programmable SDK. It allows you to embed agentic AI workflows in your applications, including custom tools that let the AI call your code.
 
-In this exercise, you integrate an AI-powered customer support agent into the ContosoShop E-commerce Support Portal. By the end, the "Contact Support" page will allow a user to ask questions (for example, "Where is my order?" or "I need to return an item") and receive helpful, automated answers from an AI agent. The agent uses backend tools (like checking order status or initiating a return) to resolve queries.
+In this exercise, you integrate an AI-powered customer support agent into the ContosoShop E-commerce Support Portal. By the end, the "Contact Support" page allows a user to ask questions (for example, "Where is my order?" or "I need to return an item") and receive helpful, automated answers from an AI agent. The agent uses backend tools (like checking order status or initiating a return) to resolve queries.
 
 This exercise should take approximately **60** minutes to complete.
 
@@ -30,7 +30,7 @@ For help with configuring your lab environment, open the following link in a bro
 
 ## Exercise scenario
 
-You're a software developer working for a consulting firm. The firm developed the ContosoShop E-commerce Support Portal (a Blazor WebAssembly application with an ASP.NET Core backend) for a client. Application features enable a user to (manually) review their order history, track shipments, examine order details, and return items. The client has asked you to add an AI-powered customer support agent to the "Contact Support" page. The agent needs to provide automated assistance for the customer, such as looking up order details and initiating returns. You decide to use the GitHub Copilot SDK to build a custom AI agent that can handle customer queries and perform actions on their behalf.
+You're a software developer working for a consulting firm. The firm developed the ContosoShop E-commerce Support Portal (a Blazor WebAssembly application with an ASP.NET Core backend) for a client. Application features enable a user to (manually) review their order history, track shipments, examine order details, and return items. The client asks you to add an AI-powered customer support agent to the "Contact Support" page. The agent needs to provide automated assistance for the customer, such as looking up order details and initiating returns. You decide to use the GitHub Copilot SDK to build a custom AI agent that can handle customer queries and perform actions on their behalf.
 
 The ContosoShop E-commerce Support Portal application uses a three-project architecture:
 
@@ -45,7 +45,7 @@ This exercise includes the following tasks:
 1. Review features of the ContosoShop application.
 1. Install the GitHub Copilot SDK components.
 1. Create the agent tools service.
-1. Configure the GitHub Copilot SDK and implement the AI support agent API.
+1. Configure the GitHub Copilot SDK agent and expose an API endpoint.
 1. Update the Blazor frontend to interact with the agent.
 1. Test the end-to-end AI agent experience.
 
@@ -157,15 +157,15 @@ Use the following steps to complete this task:
     - ASP.NET Core Identity for authentication with cookie-based sessions
     - Service registrations for `IEmailService`, `IInventoryService`, and `IOrderService`
     - Database seeding via `DbInitializer.InitializeAsync` at startup
-    - CORS, rate limiting, CSRF protection, and security headers middleware
+    - CORS, rate limiting, cross-site request forgery (CSRF) protection, and security headers middleware
 
 1. Open the **ContosoShop.Server/Controllers/OrdersController.cs** file and note the existing API endpoints.
 
     The orders controller provides the following endpoints for managing orders:
 
-    - `GetOrders` — Gets all orders for the authenticated user
-    - `GetOrder` — Gets a specific order with items (verifies ownership)
-    - `ReturnOrderItems` — Processes item-level returns for a delivered order
+    - `GetOrders`: Gets all orders for the authenticated user
+    - `GetOrder`: Gets a specific order with items (verifies ownership)
+    - `ReturnOrderItems`: Processes item-level returns for a delivered order
 
 1. Open the **ContosoShop.Server/Services/OrderService.cs** file and review the `ProcessItemReturnAsync` method.
 
@@ -221,17 +221,17 @@ Use the following steps to complete this task:
 
 1. In the **Return** column, select the checkbox for the **Monitor** item, and then enter **1** in the corresponding **Return Qty** field.
 
-    This indicates that you want to return one monitor item from the order.
+    This selection indicates that you want to return one monitor item from the order.
 
 1. Select the **Submit Return (1 item)** button.
 
-    The application should process the return request, display a success message, and update the order status to "Partial Return". The order details for the monitor item should show a "Returned 1 of 3" badge, and a Returned column should show that 1 monitor item was returned.
+    The application should process the return request, display a success message, and update the order status to "Partial Return". The order details for the monitor item should show a "Returned 1 of 3" badge, and a Returned column should show that one monitor item was returned.
 
 1. To open a page that displays Contoso's product inventory, select **View Inventory** on the navigation menu.
 
     > **NOTE**: The Inventory Management page is included for lab purposes only, so that you can verify that a return has been processed correctly. The page should display a list of products with their available stock.
 
-1. Verify that the stock for the Monitor product has been replenished by 1 unit after processing the return in the previous steps.
+1. Verify that the stock for the Monitor product has been replenished by one unit after processing the return in the previous steps.
 
     The **Returned** column for the  **Monitor** product (Item Number: ITM-003) should show that one item has been returned. When an item is returned, the stock is replenished by the returned quantity.
 
@@ -239,9 +239,9 @@ Use the following steps to complete this task:
 
     You should see contact information and a message that states "Interactive AI Chat Support Coming Soon". You'll update this Customer Support page in upcoming tasks. The corresponding project file is: **ContosoShop.Client/Pages/Support.razor**.
 
-1. To logout from the application, select **Logout** on the navigation menu.
+1. To log out from the application, select **Logout** on the navigation menu.
 
-    The application should log you out and navigate back to the login page.
+    The application should log you out and navigate back to the Login page.
 
 1. To stop the application, return to the Visual Studio Code integrated terminal where the server is running, and then press **Ctrl+C**.
 
@@ -293,7 +293,7 @@ Use the following steps to complete this task:
 
 ## Create the agent tools service
 
-In this task, you create a new service class in the server project that implements the tools the AI agent will use to look up orders and process returns. This service will be registered in dependency injection and called by the AI agent when handling user queries.
+In this task, you create a new service class in the server project that implements the tools the AI agent uses to look up orders and process returns. This service will be registered in dependency injection and called by the AI agent when handling user queries.
 
 Use the following steps to complete this task:
 
@@ -352,12 +352,12 @@ Use the following steps to complete this task:
 
     This code sets up the class skeleton with dependency injection. The constructor receives four dependencies:
 
-    - `ContosoContext` — the Entity Framework Core database context for querying orders and users directly.
-    - `IOrderService` — the existing service that handles return processing logic, inventory updates, and email confirmations.
-    - `IEmailService` — the service used to send follow-up emails to customers.
-    - `ILogger<SupportAgentTools>` — a logger for recording each tool invocation, which is useful for debugging and monitoring agent behavior.
+    - `ContosoContext`: the Entity Framework Core database context for querying orders and users directly.
+    - `IOrderService`: the existing service that handles return processing logic, inventory updates, and email confirmations.
+    - `IEmailService`: the service used to send follow-up emails to customers.
+    - `ILogger<SupportAgentTools>`: a logger for recording each tool invocation, which is useful for debugging and monitoring agent behavior.
 
-    These dependencies allow the tools to access real data and leverage existing business logic rather than duplicating it.
+    These dependencies allow the tools to access real data and use existing business logic rather than duplicating it.
 
 1. Inside the SupportAgentTools class (after the constructor's closing brace), add the following GetOrderDetailsAsync method:
 
@@ -413,7 +413,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the GetOrderDetailsAsync method.
 
-    This is the first agent tool. The AI agent calls this method when a customer asks about a specific order. The method queries the database for the order (including its items), verifies that the order belongs to the authenticated user via `userId`, and builds a natural language response. A C# `switch` expression translates the `OrderStatus` enum into human-readable phrases — including `PartialReturn` for orders where some items have been returned. The item summary lists each product with its database `Id`, quantity, and price; items that have been partially returned also show their `ReturnedQuantity` and `RemainingQuantity`. Including the item `Id` in the output is critical because the AI agent uses it when calling the `process_return` tool for partial returns. If the order isn't found, the method returns a friendly error message rather than throwing an exception — this is important because the AI agent will present the return value directly to the customer.
+    This code snippet is the first agent tool. The AI agent calls this method when a customer asks about a specific order. The method queries the database for the order (including its items), verifies that the order belongs to the authenticated user via `userId`, and builds a natural language response. A C# `switch` expression translates the `OrderStatus` enum into human-readable phrases, including `PartialReturn` for orders where some items have been returned. The item summary lists each product with its database `Id`, quantity, and price; items that have been partially returned also show their `ReturnedQuantity` and `RemainingQuantity`. Including the item `Id` in the output is critical because the AI agent uses it when calling the `process_return` tool for partial returns. If the order isn't found, the method returns a friendly error message rather than throwing an exception, which is important because the AI agent presents the return value directly to the customer.
 
 1. On a code line below the GetOrderDetailsAsync method, add the following GetUserOrdersSummaryAsync method:
 
@@ -627,7 +627,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the ProcessReturnAsync method.
 
-    This is the most complex tool because it performs a state-changing operation with support for both full and partial returns. The method accepts three optional parameters: `orderItemIds` (comma-separated item IDs to return), `quantities` (comma-separated quantities for each item), and `reason`. When `orderItemIds` is empty, it returns all unreturned items (the default behavior). When specific item IDs are provided, it parses them and optionally their quantities, validates each item exists in the order and has remaining quantity, and builds targeted `ReturnItem` objects. The method includes several validation layers: it verifies the order exists and belongs to the user, checks that the order status is `Delivered`, `PartialReturn`, or `Returned`, validates item IDs and quantity formats, and confirms items haven't already been fully returned. If validation passes, it delegates the actual return processing to the existing `IOrderService.ProcessItemReturnAsync` method. The method calculates the refund amount based on the specific items being returned and includes a summary of returned items in the response. Each validation failure returns a specific, helpful message explaining why the return can't be processed.
+    This code snippet is the most complex tool because it performs a state-changing operation with support for both full and partial returns. The method accepts three optional parameters: `orderItemIds` (comma-separated item IDs to return), `quantities` (comma-separated quantities for each item), and `reason`. When `orderItemIds` is empty, it returns all unreturned items (the default behavior). When specific item IDs are provided, it parses them and optionally their quantities, validates each item exists in the order and has remaining quantity, and builds targeted `ReturnItem` objects. The method includes several validation layers: it verifies the order exists and belongs to the user, checks that the order status is `Delivered`, `PartialReturn`, or `Returned`, validates item IDs and quantity formats, and confirms items haven't already been fully returned. If validation passes, it delegates the actual return processing to the existing `IOrderService.ProcessItemReturnAsync` method. The method calculates the refund amount based on the specific items being returned and includes a summary of returned items in the response. Each validation failure returns a specific, helpful message explaining why the return can't be processed.
 
 1. On a code line below the ProcessReturnAsync method, add the following SendCustomerEmailAsync method:
 
@@ -658,7 +658,7 @@ Use the following steps to complete this task:
     }
     ```
 
-    This tool enables the AI agent to send follow-up emails to customers. The method verifies that the order exists and belongs to the user, retrieves the user's email address from the Identity system, and sends the email using `IEmailService`. The `message` parameter is generated by the AI agent itself, allowing it to compose context-appropriate email content based on the conversation. A fallback email address is provided in case the user's email cannot be retrieved.
+    This tool enables the AI agent to send follow-up emails to customers. The method verifies that the order exists and belongs to the user, retrieves the user's email address from the Identity system, and sends the email using `IEmailService`. The `message` parameter is generated by the AI agent itself, allowing it to compose context-appropriate email content based on the conversation. A fallback email address is provided in case the user's email can't be retrieved.
 
 1. Your completed SupportAgentTools.cs file should look similar to the following code:
 
@@ -1005,9 +1005,9 @@ Use the following steps to complete this task:
     dotnet build
     ```
 
-    The build should succeed. If there are errors, ensure that your code matches the example code shown above. Review the SupportAgentTools.cs file to ensure all `using` statements and references are correct. Keep in mind that the GitHub Copilot SDK is in a Technical Preview phase that include periodic updates. If necessary, you can point GitHub Copilot to the GitHub Copilot SDK repository (`https://github.com/github/copilot-sdk`) and ask the AI assistant to help you debug the issues.
+    The build should succeed. If there are errors, ensure that your code matches the example code shown above. Review the SupportAgentTools.cs file to ensure all `using` statements and references are correct. Keep in mind that the GitHub Copilot SDK is in a Technical Preview phase that includes periodic updates. If necessary, you can point GitHub Copilot to the GitHub Copilot SDK repository (`https://github.com/github/copilot-sdk`) and ask the AI assistant to help you debug the issues.
 
-## Configure the GitHub Copilot SDK and implement the AI support agent API
+## Configure the GitHub Copilot SDK agent and expose an API endpoint
 
 In this task, you create a `CopilotClient` singleton, register it in dependency injection, and create a new API controller that accepts user questions and returns the AI agent's responses.
 
@@ -1029,7 +1029,7 @@ Use the following steps to complete this task:
 
 1. Create a blank line after the code used to register the SupportAgentTools service.
 
-    This is where you'll add the code to register the `CopilotClient` singleton.
+    This location is where you'll add the code to register the `CopilotClient` singleton.
 
 1. To create and register a CopilotClient singleton, add the following code:
 
@@ -1120,7 +1120,7 @@ Use the following steps to complete this task:
     - Contains an Answer property with the agent's reply
     - Used as the response payload from server to client
 
-    These are lightweight DTOs for the support chat interface, enabling structured communication between the Blazor client and the AI-powered support endpoint. The simple design focuses on text-based question-and-answer exchanges with basic input validation.
+    These models are lightweight DTOs for the support chat interface, enabling structured communication between the Blazor client and the AI-powered support endpoint. The simple design focuses on text-based question-and-answer exchanges with basic input validation.
 
 1. In Visual Studio Code's EXPLORER view, right-click the **ContosoShop.Server/Controllers** folder, and then select **New File**.
 
@@ -1196,7 +1196,7 @@ Use the following steps to complete this task:
     - The `[Authorize]` attribute ensures only authenticated users can reach the endpoint, which is critical since the agent accesses user-specific order data.
     - The `[ApiController]` and `[Route("api/[controller]")]` attributes configure the endpoint at `POST /api/supportagent/ask`.
     - The constructor injects three dependencies: `CopilotClient` (the SDK client for creating AI sessions), `SupportAgentTools` (the tools service you created earlier), and `ILogger` for diagnostics.
-    - The method starts by validating the input and extracting the authenticated user's ID from the claims. The `userId` is extracted once and then passed to each tool call — this ensures the agent can only access the current user's data, preventing cross-user data leaks.
+    - The method starts by validating the input and extracting the authenticated user's ID from the claims. The `userId` is extracted once and then passed to each tool call. This process ensures the agent can only access the current user's data, preventing cross-user data leaks.
 
 1. Inside the `AskQuestion` method, after the logging statement, add the following code:
 
@@ -1244,14 +1244,14 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the tool definitions that you just added.
 
-    This is where the AI agent's capabilities are defined. The code uses `AIFunctionFactory` from `Microsoft.Extensions.AI` to wrap each `SupportAgentTools` method as a callable AI tool. Each call to `AIFunctionFactory.Create` wraps a `SupportAgentTools` method as a tool the AI model can invoke. For each tool, you provide:
+    This code snippet is where the AI agent's capabilities are defined. The code uses `AIFunctionFactory` from `Microsoft.Extensions.AI` to wrap each `SupportAgentTools` method as a callable AI tool. Each call to `AIFunctionFactory.Create` wraps a `SupportAgentTools` method as a tool the AI model can invoke. For each tool, you provide:
 
-    - A **lambda delegate** that calls the corresponding method — notice that `userId` is captured from the outer scope so the AI model never needs to know or guess the user's identity.
+    - A **lambda delegate** that calls the corresponding method. Notice that `userId` is captured from the outer scope so the AI model never needs to know or guess the user's identity.
     - A **tool name** (like `"get_order_details"`) that the model uses when deciding which tool to call.
     - A **description** that helps the model understand when and how to use the tool.
     - `[Description]` attributes on parameters that tell the model what values to provide.
 
-    The `get_user_orders` tool takes no parameters from the model (the `userId` is captured automatically). The `process_return` tool has three optional parameters — `orderItemIds`, `quantities`, and `reason` — that enable partial returns by specifying which items and quantities to return (omitting them returns all items). The `send_customer_email` tool takes two model-provided parameters (`orderId` and `message`). This design keeps the user context secure while giving the model flexibility to handle various return scenarios and compose email content.
+    The `get_user_orders` tool takes no parameters from the model (the `userId` is captured automatically). The `process_return` tool has three optional parameters (`orderItemIds`, `quantities`, and `reason`) that enable partial returns by specifying which items and quantities to return (omitting them returns all items). The `send_customer_email` tool takes two model-provided parameters (`orderId` and `message`). This design keeps the user context secure while giving the model flexibility to handle various return scenarios and compose email content.
 
 1. Just below the tool definitions, to create a Copilot SDK session with a system prompt and tools, add the following code:
 
@@ -1330,7 +1330,7 @@ Use the following steps to complete this task:
 
     - `Model = "gpt-4.1"` specifies the language model to use.
     - `SystemMessageMode.Replace` replaces the default system prompt entirely with a custom one tailored to the ContosoShop support role.
-    - The system prompt defines the agent's **CAPABILITIES** (including partial return support), a detailed **RETURN PROCESSING WORKFLOW** (step-by-step instructions for handling returns including item matching and quantity handling), **IMPORTANT RULES FOR RETURNS** (guardrails like never asking customers for item IDs), an **EXAMPLE WORKFLOW** (showing the complete return flow), and **GENERAL RULES** (behavior guidelines). These sections instruct the model to always use the tools for real data, to automatically extract item IDs from order details rather than asking the customer, and to stay within its order-support scope.
+    - The system prompt defines the agent's **CAPABILITIES** (including partial return support), a detailed **RETURN PROCESSING WORKFLOW** (step-by-step instructions for handling returns including item matching and quantity handling), **IMPORTANT RULES FOR RETURNS** (guardrails like never asking customers for item IDs), an **EXAMPLE WORKFLOW** (showing the complete return flow), and **GENERAL RULES** (behavior guidelines). These sections instruct the model to always use the tools for real data, to automatically extract item IDs from Order Details rather than asking the customer, and to stay within its order-support scope.
     - `Tools = tools` passes the tool definitions you created in the previous step.
     - `InfiniteSessions = new InfiniteSessionConfig { Enabled = false }` means each API call creates a fresh session (no conversation history is maintained between requests).
     - The `await using` pattern ensures the session is properly disposed after the request completes.
@@ -1366,9 +1366,9 @@ Use the following steps to complete this task:
 
     The Copilot SDK uses an event-driven model for communication. The `session.On` method registers a callback that handles three event types:
 
-    - `AssistantMessageEvent` — fired when the AI model produces a response. The message content is captured in `responseContent`.
-    - `SessionIdleEvent` — fired when the session has finished processing (including any tool calls). This signals that the response is complete by resolving the `TaskCompletionSource`.
-    - `SessionErrorEvent` — fired if something goes wrong during the session. The error is logged and propagated as an exception via `done.TrySetException`.
+    - `AssistantMessageEvent`: Fired when the AI model produces a response. The message content is captured in `responseContent`.
+    - `SessionIdleEvent`: Fired when the session is finished processing (including any tool calls). This signals that the response is complete by resolving the `TaskCompletionSource`.
+    - `SessionErrorEvent`: Fired if something goes wrong during the session. The error is logged and propagated as an exception via `done.TrySetException`.
 
     The `TaskCompletionSource` pattern converts the event-driven flow into an awaitable task, allowing the controller to wait for the agent to finish before returning the HTTP response.
 
@@ -1406,8 +1406,8 @@ Use the following steps to complete this task:
     This code sends the customer's question and handles the asynchronous response:
 
     - `session.SendAsync` dispatches the user's question to the AI model, which may invoke zero or more tools before composing a final response.
-    - A **30-second timeout** protects against long-running requests. If the agent takes too long (perhaps due to multiple tool calls or network delays), the user gets a friendly timeout message rather than the request hanging indefinitely.
-    - `Task.WhenAny` races the agent's completion against the timeout. If the `done.Task` completes first, `await done.Task` is called again to propagate any exception that may have been set by `SessionErrorEvent`.
+    - A **30-second timeout** protects against long-running requests. If the agent takes too long (for example, due to multiple tool calls or network delays), the user gets a friendly timeout message rather than the request hanging indefinitely.
+    - `Task.WhenAny` races the agent's completion against the timeout. If the `done.Task` completes first, `await done.Task` is called again to propagate any exception that might have been set by `SessionErrorEvent`.
     - The successful response is wrapped in a `SupportResponse` DTO and returned as HTTP 200.
 
 1. Just below the code that manages communication with the AI agent, to complete the `try-catch` block, add the following code:
@@ -1429,7 +1429,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the error handling code in the `catch` block.
 
-    The `catch` block provides a safety net for any unhandled exceptions — including errors from the Copilot SDK, tool execution failures, or network issues. Rather than exposing a raw error to the customer, it logs the full exception for debugging and returns a friendly error message with a fallback contact option. This ensures the API always returns a valid `SupportResponse` regardless of what goes wrong internally.
+    The `catch` block provides a safety net for any unhandled exceptions—including errors from the Copilot SDK, tool execution failures, or network issues. Rather than exposing a raw error to the customer, it logs the full exception for debugging and returns a friendly error message with a fallback contact option. This error handling ensures the API always returns a valid `SupportResponse` regardless of what goes wrong internally.
 
 1. Your completed **SupportAgentController.cs** file should look like the following code:
 
@@ -1739,7 +1739,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the `SupportAgentService` code.
 
-    This is a client-side HTTP service that interfaces with the AI support agent backend. Key features:
+    This code snippet is a client-side HTTP service that interfaces with the AI support agent backend. Key features:
 
     Simple API Wrapper:
 
@@ -1755,7 +1755,7 @@ Use the following steps to complete this task:
     Error Management:
 
     - Checks HTTP status codes for failures
-    - Throws HttpRequestException with detailed error information on non-success responses
+    - Throws HttpRequestException with detailed error information on nonsuccess responses
     - Provides fallback message if response parsing fails
 
     Design Pattern:
@@ -1788,7 +1788,7 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoShop.Client/Pages/Support.razor** file.
 
-    You'll replace the existing content of this file to create a new support chat interface that interacts with the AI agent.
+    You replace the existing content of this file to create a new support chat interface that interacts with the AI agent.
 
 1. Select and then delete the existing content of the file.
 
@@ -1946,7 +1946,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the Contact Information card code that you just added.
 
-    This card provides traditional contact methods as a fallback when the AI agent can't fully resolve a customer's issue. The two-column layout (using Bootstrap's grid) shows email and phone support side by side on medium+ screens, each with response time expectations. This is consistent with the system prompt you configured earlier, which tells the AI agent to direct customers to `support@contososhop.com` or `1-800-CONTOSO` for non-order matters.
+    This card provides traditional contact methods as a fallback when the AI agent can't fully resolve a customer's issue. The two-column layout (using Bootstrap's grid) shows email and phone support side by side on medium+ screens, each with response time expectations. This is consistent with the system prompt you configured earlier, which tells the AI agent to direct customers to `support@contososhop.com` or `1-800-CONTOSO` for nonorder matters.
 
 1. After the Contact Information card, to add the Quick Links card and the closing `</div>` tags for the page layout, enter the following code:
 
@@ -2051,8 +2051,8 @@ Use the following steps to complete this task:
 
     - `ConversationEntry` is a simple inner class that pairs each user question with the agent's answer, forming the chat history.
     - The component state consists of four fields: `conversations` (the full chat history), `currentQuestion` (the text input binding), `isLoading` (prevents duplicate submissions and shows the "Thinking..." indicator), and `errorMessage` (displays errors below the input).
-    - `HandleKeyDown` enables submitting questions by pressing Enter — it checks the same guards as the send button (not loading, not empty).
-    - `SubmitQuestion` orchestrates the full send flow: it clears the error state, captures and clears the input text, adds a new conversation entry immediately (so the user's question appears right away), then calls `AgentService.AskAsync` to get the agent's response. The `StateHasChanged()` calls force Blazor to re-render the UI — once when "Thinking..." appears and again when the response arrives or an error occurs. The `try/finally` pattern ensures `isLoading` is always reset, even if the API call fails.
+    - `HandleKeyDown` enables submitting questions by pressing Enter—it checks the same guards as the send button (not loading, not empty).
+    - `SubmitQuestion` orchestrates the full send flow: it clears the error state, captures and clears the input text, adds a new conversation entry immediately (so the user's question appears right away), then calls `AgentService.AskAsync` to get the agent's response. The `StateHasChanged()` calls force Blazor to re-render the UI—once when "Thinking..." appears and again when the response arrives or an error occurs. The `try/finally` pattern ensures `isLoading` is always reset, even if the API call fails.
 
 1. Verify that your completed **Support.razor** file has the following structure:
 
@@ -2148,7 +2148,7 @@ Use the following steps to complete this task:
     I want to return order #1010.
     ```
 
-    Order #1010 has "Processing" status and cannot be returned. The agent should explain that the order must be delivered before it can be returned.
+    Order #1010 has "Processing" status and can't be returned. The agent should explain that the order must be delivered before it can be returned.
 
 1. To test the agent's ability to **Handle a non-existent order**, enter the following prompt:
 
@@ -2156,7 +2156,7 @@ Use the following steps to complete this task:
     Where is my order #9999?
     ```
 
-    The agent should respond that it could not find order #9999 associated with the user's account.
+    The agent should respond that it couldn't find order #9999 associated with the user's account.
 
 1. To test the agent's ability to **Handle an off-topic question**, enter the following prompt:
 
@@ -2166,19 +2166,19 @@ Use the following steps to complete this task:
 
     The agent should politely explain that it can only help with order-related inquiries and suggest contacting support through other channels.
 
-1. When you are done testing, return to the terminal and press **Ctrl+C** to stop the application.
+1. When you're done testing, return to the terminal and press **Ctrl+C** to stop the application.
 
 ## Summary
 
 In this exercise, you successfully integrated an AI-powered customer support agent into the ContosoShop E-commerce Support Portal using the GitHub Copilot SDK. You:
 
-- **Created backend tools** (`SupportAgentTools`) that the AI agent can invoke to look up orders and process returns, leveraging the existing application services.
+- **Created backend tools** (`SupportAgentTools`) that the AI agent can invoke to look up orders and process returns, using the existing application services.
 - **Configured the Copilot SDK** with a `CopilotClient` singleton and created sessions with a custom system prompt and tool definitions using `AIFunctionFactory.Create`.
 - **Built an API endpoint** (`SupportAgentController`) that accepts user questions, creates agent sessions, and returns AI-generated responses.
 - **Updated the Blazor frontend** with an interactive chat interface on the Support page.
 - **Tested the integration** with real-world scenarios including order lookups, returns, error handling, and off-topic deflection.
 
-This pattern — defining business logic as tools, registering them with an AI agent runtime, and exposing the agent via an API — is applicable to many domains beyond e-commerce support. You can apply the same approach to IT helpdesk automation, CRM assistants, or any scenario where an AI agent needs to take actions on behalf of users.
+This pattern—defining business logic as tools, registering them with an AI agent runtime, and exposing the agent via an API—is applicable to many domains beyond e-commerce support. You can apply the same approach to IT helpdesk automation, CRM assistants, or any scenario where an AI agent needs to take actions on behalf of users.
 
 ## Clean up
 
