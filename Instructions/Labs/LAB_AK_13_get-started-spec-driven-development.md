@@ -159,6 +159,8 @@ Use the following steps to complete this task:
 
         If prompted to sign in to GitHub, follow the sign-in process to authenticate your GitHub account.
 
+        > **IMPORTANT**: If you're using the GitHub Copilot Free plan, you should publish to a **Public** repository to ensure that you have access to GitHub Copilot features. If you have a Pro, Pro+, Business, or Enterprise subscription, you can publish to a **Private** repository.
+
 1. Verify that the repository was created successfully.
 
     For example:

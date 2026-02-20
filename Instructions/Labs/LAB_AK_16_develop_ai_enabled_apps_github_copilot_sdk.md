@@ -81,11 +81,11 @@ Use the following steps to complete this task:
 
 1. To create a private repository, select **Private**, and then select **Begin import**.
 
-    GitHub uses the import process to create the new repository in your account.
+    GitHub uses the import process to create the new repository in your account. It can take a minute or two for the import process to finish. Wait for the import process to complete.
 
-    > **NOTE**: It can take a minute or two for the import process to finish. Wait for the import process to complete.
+    > **IMPORTANT**: If you're using the GitHub Copilot Free plan, you should create the repository as **Public** to ensure that you have access to GitHub Copilot features. If you have a Pro, Pro+, Business, or Enterprise subscription, you can create the repository as **Private**.
 
-    GitHub displays a progress indicator and notify you when the import is complete.
+    GitHub displays a progress indicator and notifies you when the import is complete.
 
 1. Once the import is complete, open your new repository.
 

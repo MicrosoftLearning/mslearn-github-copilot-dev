@@ -98,9 +98,15 @@ Use the following steps to complete this task:
 
 1. Under the **Your new repository details** section, in the **Owner** dropdown, select your GitHub username.
 
-1. In the **Repository name** field, enter **ResolveGitHubIssues** and then select **Begin import**.
+1. In the **Repository name** field, enter **ResolveGitHubIssues**.
 
-    GitHub creates the new repository in your account with the ContosoShopEasy project files.
+1. To create a private repository, select **Private**, and then select **Begin import**.
+
+    GitHub uses the import process to create the new repository in your account. It can take a minute or two for the import process to finish. Wait for the import process to complete.
+
+    > **IMPORTANT**: If you're using the GitHub Copilot Free plan, you should create the repository as **Public** to ensure that you have access to GitHub Copilot features. If you have a Pro, Pro+, Business, or Enterprise subscription, you can create the repository as **Private**.
+
+    GitHub displays a progress indicator and notifies you when the import is complete.
 
 1. Wait for the import process to complete, and then open your new repository.
 
