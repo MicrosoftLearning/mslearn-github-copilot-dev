@@ -1,12 +1,12 @@
 ---
 lab:
-    title: 'Exercise - Configure and customize GitHub Copilot in Visual Studio Code'
+    title: 'Exercise - Configure GitHub Copilot instructions and create custom agents'
     description: 'Learn how to configure a C# project to use custom GitHub Copilot instructions and create custom agents that collaborate through handoffs.'
     level: 300
     duration: 50 minutes
 ---
 
-# Configure and customize GitHub Copilot in Visual Studio Code
+# Configure GitHub Copilot instructions and create custom agents
 
 GitHub Copilot provides powerful AI-assisted coding right out of the box, but its true potential emerges when you customize it to match your team's specific workflows and project requirements. By providing custom instructions and creating specialized agents, you can transform GitHub Copilot from a general-purpose assistant into a set of tailored AI collaborators that understand your codebase, follow your conventions, and handle multi-step development tasks.
 
