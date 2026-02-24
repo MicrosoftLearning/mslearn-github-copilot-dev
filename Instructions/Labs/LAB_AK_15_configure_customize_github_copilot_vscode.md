@@ -1,7 +1,7 @@
 ---
 lab:
     title: 'Exercise - Configure GitHub Copilot instructions and create custom agents'
-    description: 'Learn how to configure a C# project to use custom GitHub Copilot instructions and create custom agents that collaborate through handoffs.'
+    description: 'Learn how to configure a C# project to use custom GitHub Copilot instructions and create custom agents that collaborate through handoffs to complete multi-step development tasks.'
     level: 300
     duration: 50 minutes
 ---
