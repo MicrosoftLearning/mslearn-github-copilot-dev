@@ -38,7 +38,7 @@ You plan to use GitHub Copilot's customization features to accelerate developmen
 This exercise includes the following tasks:
 
 1. Review features of the ContosoInventory application.
-1. Create repository-level custom instructions to enforce coding standards.
+1. Create repository-level custom instructions that enforce coding standards.
 1. Create path-specific instruction files for targeted guidance.
 1. Create a reusable prompt file for a common task.
 1. Define a "Planner" custom agent with read-only tools.
@@ -129,7 +129,7 @@ Use the following steps to complete this task:
 
 1. Take a moment to review the project structure.
 
-    Expand the project folders. You should see a folder structure similar to the following:
+    Expand the project folders. You should see a folder structure similar to the following example:
 
     ```plaintext
     ContosoInventory/
@@ -192,7 +192,7 @@ Use the following steps to complete this task:
     - ASP.NET Core Identity for authentication with cookie-based sessions and account lockout
     - Service registrations for `ICategoryService`
     - Database seeding via `DbInitializer.InitializeAsync` at startup
-    - CORS, rate limiting, CSRF protection, and security headers middleware
+    - CORS, rate limiting, Cross-Site Request Forgery (CSRF) protection, and security headers middleware
 
 1. Open the **ContosoInventory.Server/Controllers/CategoriesController.cs** file and note the existing API endpoints.
 
@@ -207,7 +207,7 @@ Use the following steps to complete this task:
 
 1. Open the **ContosoInventory.Server/Services/CategoryService.cs** file and review the service implementation.
 
-    Notice the patterns used: async/await for all database operations, DTO mapping, structured logging, input validation, and error handling with try-catch blocks. The GitHub Copilot agents will reference these patterns when creating a Product feature later in the exercise.
+    Notice the patterns used: async/await for all database operations, DTO mapping, structured logging, input validation, and error handling with try-catch blocks. The GitHub Copilot agents reference these patterns when creating a Product feature later in the exercise.
 
 1. Open a terminal in Visual Studio Code and build the solution.
 
@@ -232,7 +232,7 @@ Use the following steps to complete this task:
 
     A login page should be displayed when the app opens.
 
-    Just below the **Sign in** button, you'll see a **Lab Exercise — Test Accounts** information card that displays credentials for two test users.
+    Just below the **Sign in** button, you see a **Lab Exercise — Test Accounts** information card that displays credentials for two test users.
 
     For the purposes of this lab exercise, you can test the application using the two test user accounts (Mateo Gomez and Megan Bowen):
 
@@ -243,7 +243,7 @@ Use the following steps to complete this task:
 
 1. Verify that the Home page displays category statistics.
 
-    You should see a welcome message and statistics showing 9 total categories, 9 active, and 0 inactive.
+    You should see a welcome message and statistics showing nine total categories, nine active, and zero inactive.
 
 1. Navigate to the **Categories** page and verify that all 9 categories are listed.
 
@@ -251,7 +251,7 @@ Use the following steps to complete this task:
 
 1. Log out, and then sign in using the Viewer credentials (Megan Bowen).
 
-1. Navigate to the **Categories** page and verify that Admin-only action buttons (Add Category, Edit, Deactivate/Activate, Delete) are not visible.
+1. Navigate to the **Categories** page and verify that Admin-only action buttons (Add Category, Edit, Deactivate/Activate, Delete) aren't visible.
 
     When the app user is in a Viewer role, the user can see the category list but can't modify data.
 
@@ -261,7 +261,7 @@ Use the following steps to complete this task:
 
     > **NOTE**: You can leave the terminal open for the next task.
 
-## Create repository-level custom instructions to enforce coding standards
+## Create repository-level custom instructions that enforce coding standards
 
 In this task, you create a `.github/copilot-instructions.md` file that provides GitHub Copilot with always-on guidelines for the project. These instructions are automatically included in every GitHub Copilot Chat request within the workspace.
 
@@ -273,7 +273,7 @@ Use the following steps to complete this task:
 
 1. Open GitHub Copilot's Chat view by selecting the **Toggle Chat** icon at the top of the Visual Studio Code window, or by pressing **Ctrl+Alt+I**.
 
-    Verify that GitHub Copilot Chat opens successfully. You'll use GitHub Copilot Chat throughout this exercise.
+    Verify that GitHub Copilot Chat opens successfully. You use GitHub Copilot Chat throughout this exercise.
 
 1. To see the custom instructions that GitHub Copilot generates automatically, enter the following command in the GitHub Copilot Chat view:
 
@@ -289,7 +289,7 @@ Use the following steps to complete this task:
 
     Examine the copilot-instructions.md file. Notice that GitHub Copilot infers general best practices for the detected technology stack, but it doesn't know about the client's specific coding standards, such as the underscore prefix for private fields, the repository pattern requirement, or the xUnit testing conventions.
 
-    The `/init` command generates a useful starting point, but you're going to replace the auto-generated content with manually crafted instructions that reflect the client's exact requirements.
+    The `/init` command generates a useful starting point, but you're going to replace the autogenerated content with manually crafted instructions that reflect the client's exact requirements.
 
 1. Delete the generated file so you can create one from scratch.
 
@@ -338,9 +338,9 @@ Use the following steps to complete this task:
 
 1. Ensure that the file contents are left justified, and then save the file.
 
-1. Open VS Code Settings
+1. Open Visual Studio Code Settings
 
-    You can use the keyboard shortcut **Ctrl** + **,** to open settings, or you can click on the gear icon in the lower-left corner and select **Settings** from the menu.
+    You can use the keyboard shortcut **Ctrl** + **,** to open settings, or you can select the gear icon in the lower-left corner and select **Settings** from the menu.
 
 1. In the **search settings** field, enter **Use Instruction Files**.
 
@@ -404,7 +404,7 @@ Use the following steps to complete this task:
     - Inject services through the constructor, not directly in action methods.
     ```
 
-    Notice the `applyTo` field in the frontmatter. This field specifies a glob pattern that determines which files these instructions apply to. In this case, the instructions apply only to C# files within any Controllers folder. When you ask GitHub Copilot for guidance while working in a controller file, it will prioritize these instructions in addition to the repository-level instructions.
+    Notice the `applyTo` field in the frontmatter. This field specifies a glob pattern that determines which files these instructions apply to. In this case, the instructions apply only to C# files within any Controllers folder. When you ask GitHub Copilot for guidance while working in a controller file, it prioritizes these instructions in addition to the repository-level instructions.
 
 1. Ensure that the file contents are left justified, and then save the file.
 
@@ -428,7 +428,7 @@ Use the following steps to complete this task:
     - Log significant operations using ILogger<T> with structured logging parameters.
     ```
 
-    Notice that the `applyTo` pattern targets C# files within any Services folder. When you ask GitHub Copilot for guidance while working in a service file, it will prioritize these instructions along with the repository-level instructions.
+    Notice that the `applyTo` pattern targets C# files within any Services folder. When you ask GitHub Copilot for guidance while working in a service file, it prioritizes these instructions along with the repository-level instructions.
 
 1. Ensure that the file contents are left justified, and then save the file.
 
@@ -438,7 +438,7 @@ Use the following steps to complete this task:
 
 1. Take a minute to review the Chat Customization Diagnostics report.
 
-    The "Instructions" section lists every instruction file found in your workspace's instructions, copilot-instructions.md, etc. — regardless of whether they are currently being applied. Under the "Instructions" section, the report should display "3 files loaded", meaning that GitHub Copilot has discovered and loaded 3 instruction files into its registry.
+    The "Instructions" section lists every instruction file found in your workspace's instructions, copilot-instructions.md, etc. — regardless of whether they're currently being applied. Under the "Instructions" section, the report should display "3 files loaded", meaning that GitHub Copilot has discovered and loaded three instruction files into its registry.
 
     > **NOTE**: Path-specific instructions are automatically merged with repository-wide instructions when GitHub Copilot works with files that match the `applyTo` pattern. The `description` field is also used for semantic matching, so GitHub Copilot may include these instructions when you ask about controllers or services even if a matching file isn't open.
 
@@ -478,11 +478,11 @@ Use the following steps to complete this task:
 
     The frontmatter at the top of the prompt file defines metadata about the prompt. In this case, the frontmatter includes three fields: `description`, `agent`, and `tools`.
 
-    The `description` field provides a human-readable explanation of what the prompt does, which is displayed in GitHub Copilot Chat when you view or execute the prompt. This helps users understand the purpose of the prompt and when to use it.
+    The `description` field provides a human-readable explanation of what the prompt does, which is displayed in GitHub Copilot Chat when you view or execute the prompt. This description helps users understand the purpose of the prompt and when to use it.
 
-    The `agent` field in the frontmatter specifies which agent handles the prompt when the slash command is invoked. Here it's set to `copilot` (the default agent), but you could set it to a custom agent name—for example, after creating the **reviewer** agent later in this exercise, you could change this to `agent: 'reviewer'` to have documentation generated through the **reviewer**'s lens. The frontmatter also supports an optional `model` field for specifying a preferred AI model.
+    The `agent` field in the frontmatter specifies which agent handles the prompt when the slash command is invoked. Here it's set to `copilot` (the default agent), but you could set it to a custom agent name—for example, after creating the **reviewer** agent later in this exercise, you could change this field to `agent: 'reviewer'` to have documentation generated through the **reviewer**'s lens. The frontmatter also supports an optional `model` field for specifying a preferred AI model.
 
-    The `tools` field specifies which tools the agent can use when executing the prompt. In this case, the prompt allows the agent to use "search" and "read" tools to gather context from the codebase. 
+    The `tools` field specifies which tools the agent can use when executing the prompt. In this case, the prompt allows the agent to use "search" and "read" tools to gather context from the codebase.
 
     The prompt section provides the actual instructions that are sent to the AI model when the prompt is executed. The `${file}` variable is a placeholder that resolves to the contents of the currently active file in the editor. This means that when you run this prompt while having a controller file open, GitHub Copilot will receive the full contents of that controller file as context, allowing it to generate accurate and relevant API documentation based on the specific code in that file.
 
@@ -643,7 +643,7 @@ Use the following steps to complete this task:
 
 1. Ensure that the file contents are left justified, and then save the file.
 
-1. Verify that the **implementer**agent appears in the agents dropdown.
+1. Verify that the **implementer** agent appears in the agents dropdown.
 
     Open the GitHub Copilot Chat agents dropdown. You should now see both **planner** and **implementer** listed.
 
@@ -710,15 +710,15 @@ Use the following steps to complete this task:
     - **implementer** → (Review Code) → **reviewer**: After the **implementer** writes code, you can hand off to the **reviewer** to check the code quality.
     - **reviewer** → (Fix Issues) → **implementer**: If the **reviewer** finds issues, you can hand off back to the **implementer** to apply fixes.
 
-    Each handoff uses `send: false`, which means the prompt is pre-filled for you to review and edit before submitting. This keeps you in control at every step of the workflow.
+    Each handoff uses `send: false`, which means the prompt is prefilled for you to review and edit before submitting. This behavior keeps you in control at every step of the workflow.
 
-    The `send` field controls whether the handoff prompt is submitted automatically. When set to `false` (the default), the prompt is pre-filled in the chat input for you to review and optionally edit before sending. When set to `true`, the prompt is submitted immediately and the target agent begins working right away without waiting for your approval. All handoffs in this exercise use `send: false` to keep you in control at each transition. In fully automated pipelines where you trust the agent chain to operate without supervision, `send: true` can streamline the workflow—but it removes the human-in-the-loop checkpoint.
+    The `send` field controls whether the handoff prompt is submitted automatically. When set to `false` (the default), the prompt is prefilled in the chat input for you to review and optionally edit before sending. When set to `true`, the prompt is submitted immediately and the target agent begins working right away without waiting for your approval. All handoffs in this exercise use `send: false` to keep you in control at each transition. In fully automated pipelines where you trust the agent chain to operate without supervision, `send: true` can streamline the workflow—but it removes the human-in-the-loop checkpoint.
 
     > **NOTE**: By default, custom agents run on the client (inside Visual Studio Code). For long-running tasks—such as building an entire feature or running a comprehensive test suite—you can set `target: cloud` in the agent's YAML frontmatter to run the agent remotely. Cloud agents free your local Visual Studio Code instance while the agent processes in the background. Background agents are a related concept: they run independently without blocking the chat interface, allowing you to continue working while the agent completes its task. The available execution environments depend on your GitHub Copilot subscription.
 
 ## Run the chained agents workflow to complete a development task end-to-end
 
-In this task, you run the full Planning → Implementation → Review workflow using your custom agents to add a new inventory management feature to the project. This demonstrates how chaining agents creates a structured, multi-step development process.
+In this task, you run the full Planning → Implementation → Review workflow using your custom agents to add a new inventory management feature to the project. This task demonstrates how chaining agents creates a structured, multi-step development process.
 
 Use the following steps to complete this task:
 
@@ -760,11 +760,11 @@ Use the following steps to complete this task:
 
     - Switches to the **implementer** agent.
     - Carries over the conversation history, including the full plan.
-    - Pre-fills the prompt text: "Implement the plan outlined above..."
+    - Prefills the prompt text: "Implement your suggested plan ..."
 
     > **NOTE**: The "Write Tests First" button is available if you prefer a test-driven development approach. It sends a different prompt to the Implementer that focuses on creating unit tests before production code. For this exercise, you'll use "Start Implementation" to proceed with the main workflow.
 
-1. Review the pre-filled prompt and select **Send** (or press **Enter**) to submit it.
+1. Review the prefilled prompt and select **Send** (or press **Enter**) to submit it.
 
     The **implementer** agent begins writing the code based on the planner's plan. It creates the models, DTOs, service interface, service implementation, and controller.
 
@@ -776,7 +776,7 @@ Use the following steps to complete this task:
 
 1. After the implementer agent finishes, review the summary of files created.
 
-    The implementer should have created files similar to the following (exact names and locations may vary based on the plan):
+    The implementer should have created files similar to the following (exact names and locations might vary based on the plan):
 
     - **ContosoInventory.Server/Models/Product.cs**: The product entity with CategoryId foreign key.
     - **ContosoInventory.Shared/DTOs/ProductResponseDto.cs** (or similar): Response DTO.
@@ -813,9 +813,9 @@ Use the following steps to complete this task:
 
 1. Select the **Review Code** handoff button to switch to the **reviewer** agent.
 
-    The **reviewer** agent receives the full conversation context, including the plan and the implementation. The pre-filled prompt asks it to review the code changes.
+    The **reviewer** agent receives the full conversation context, including the plan and the implementation. The prefilled prompt asks it to review the code changes.
 
-1. Review the pre-filled prompt and select **Send** to submit it.
+1. Review the prefilled prompt and select **Send** to submit it.
 
     The **reviewer** agent examines all the created files, checking for bugs, security issues, naming convention violations, and compliance with the project's coding standards. It presents findings grouped by severity.
 
@@ -866,7 +866,7 @@ Use the following steps to complete this task:
 
     1. To test the Product endpoints, try the following operations:
 
-        - **POST /api/products**: Create a new product with a JSON body. Use a valid `CategoryId` from the existing categories (e.g., 1 for "Laptops & Desktops").
+        - **POST /api/products**: Create a new product with a JSON body. Use a valid `CategoryId` from the existing categories (for example, 1 for "Laptops & Desktops").
         - **GET /api/products**: List all products (try filtering by CategoryId if supported).
         - **GET /api/products/{id}**: Get a specific product.
         - **PUT /api/products/{id}**: Update a product.
@@ -880,7 +880,7 @@ Use the following steps to complete this task:
 In this exercise, you successfully configured and customized GitHub Copilot in Visual Studio Code for the ContosoInventory C# Web API project. You:
 
 - **Imported and reviewed the ContosoInventory starter application** to understand the existing three-project architecture (Server, Client, Shared), Category feature implementation, and security configuration with role-based authorization.
-- **Explored the `/init` shortcut** to auto-generate a starter instruction file, then **created repository-level custom instructions** (`.github/copilot-instructions.md`) with the client's specific coding standards—naming conventions, architecture patterns, error handling, and documentation requirements—embedded into every GitHub Copilot Chat interaction.
+- **Explored the `/init` shortcut** to autogenerate a starter instruction file, then **created repository-level custom instructions** (`.github/copilot-instructions.md`) with the client's specific coding standards—naming conventions, architecture patterns, error handling, and documentation requirements—embedded into every GitHub Copilot Chat interaction.
 - **Created path-specific instruction files** (`.github/instructions/*.instructions.md`) that provide targeted guidance for controllers and services, using `applyTo` glob patterns to match specific file locations.
 - **Created a reusable prompt file** (`.github/prompts/generate-api-docs.prompt.md`) that standardizes API documentation generation as a slash command, using the `${file}` variable to pass the active editor file as context, and tested it against the existing CategoriesController.
 - **Defined three custom agents** (Planner, Implementer, and Reviewer) with tailored instructions, tool permissions, and behavioral guidelines for each development role.
