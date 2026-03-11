@@ -1,9 +1,14 @@
 ---
 lab:
-    title: 'Exercise - Integrate an AI Agent into existing apps using GitHub Copilot SDK'
-    description: 'Learn how to integrate an AI Agent into existing applications using GitHub Copilot SDK to automate tasks and enhance functionality.'
-    level: 300
-    duration: 60 minutes
+  title: Exercise - Integrate an AI Agent into existing apps using GitHub Copilot
+    SDK
+  description: Learn how to integrate an AI Agent into existing applications using
+    GitHub Copilot SDK to automate tasks and enhance functionality.
+  level: 300
+  duration: 60 minutes
+  islab: true
+  primarytopics:
+  - GitHub
 ---
 
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
