@@ -2,9 +2,9 @@
 lab:
   title: Prepare - Enable GitHub Copilot in Visual Studio Code
   description: Complete the steps required to enable GitHub Copilot in Visual Studio Code.
-  duration: 24 minutes
+  duration: 10 minutes
   level: 100
-  islab: true
+  islab: false
   primarytopics:
     - GitHub
     - Visual Studio
