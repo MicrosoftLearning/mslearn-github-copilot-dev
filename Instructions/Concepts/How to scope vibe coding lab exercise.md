@@ -4,7 +4,6 @@ lab:
   description: Vibe coding lab exercises should be scoped to focus on specific tasks and outcomes, ensuring that participants can effectively learn and apply the concepts within a limited timeframe.
   duration: 5 minutes
   level: 100
-  islab: false
 ---
 
 # How to scope vibe coding lab exercise
