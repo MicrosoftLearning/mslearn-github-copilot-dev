@@ -1,7 +1,15 @@
 ---
 lab:
-    title: 'Exercise - Analyze and document code using GitHub Copilot (Python)'
-    description: 'Learn how to analyze new or unfamiliar code and how to generate documentation using GitHub Copilot in Visual Studio Code.'
+  title: Exercise - Analyze and document code using GitHub Copilot (Python)
+  description: Learn how to analyze new or unfamiliar code and how to generate documentation
+    using GitHub Copilot in Visual Studio Code.
+  duration: 20 minutes
+  level: 100
+  islab: true
+  primarytopics:
+  - GitHub
+  - Visual Studio
+  - Visual Studio Code
 ---
 
 # Analyze and document code using GitHub Copilot
