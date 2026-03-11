@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Consolidate duplicate code using GitHub Copilot
