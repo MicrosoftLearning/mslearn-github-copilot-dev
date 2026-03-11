@@ -1,7 +1,12 @@
 ---
 lab:
-    title: 'Exercise - Refactor large functions using GitHub Copilot'
-    description: 'Learn how to analyze complex code and refactor large functions into smaller, more focused methods using GitHub Copilot tools.'
+  title: Exercise - Refactor large functions using GitHub Copilot
+  description: Learn how to analyze complex code and refactor large functions into smaller, more focused methods using GitHub Copilot tools.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - GitHub
 ---
 
 # Refactor large functions using GitHub Copilot
