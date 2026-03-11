@@ -3,7 +3,7 @@ lab:
   title: Prepare - Configure your lab environment for GitHub Copilot exercises
   description: Review lab requirements and configure resources before starting GitHub Copilot exercises.
   duration: 15 minutes
-  level: 100
+  level: 200
   primarytopics:
     - GitHub
     - Visual Studio Code
