@@ -1,7 +1,12 @@
 ---
 lab:
-    title: 'Exercise - Simplify complex conditionals using GitHub Copilot'
-    description: 'Learn how to refactor complex conditional logic in C# codebases using GitHub Copilot tools.'
+  title: Exercise - Simplify complex conditionals using GitHub Copilot
+  description: Learn how to refactor complex conditional logic in C# codebases using GitHub Copilot tools.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - GitHub
 ---
 
 # Simplify complex conditionals using GitHub Copilot
