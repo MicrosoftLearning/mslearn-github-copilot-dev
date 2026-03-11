@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Implement performance profiling using GitHub Copilot
