@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Consolidate duplicate code using GitHub Copilot'
-    description: 'Learn how to analyze a complex codebase and consolidate duplicated code logic using GitHub Copilot tools.'
+  title: Exercise - Consolidate duplicate code using GitHub Copilot
+  description: Learn how to analyze a complex codebase and consolidate duplicated
+    code logic using GitHub Copilot tools.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+  - GitHub
 ---
 
 # Consolidate duplicate code using GitHub Copilot
