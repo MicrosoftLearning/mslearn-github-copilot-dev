@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Develop a greenfield application using GitHub Spec Kit'
-    description: 'Learn how to install GitHub Spec Kit and how to use GitHub Spec Kit workflows to implement the spec-driven development methodology for a greenfield application.'
+  title: Exercise - Develop a greenfield application using GitHub Spec Kit
+  description: Learn how to install GitHub Spec Kit and how to use GitHub Spec Kit workflows to implement the spec-driven development methodology for a greenfield application.
+  duration: 60 minutes
+  level: 300
+  islab: true
+  primarytopics:
+    - GitHub
+    - Visual Studio Code
 ---
 
 # Develop a greenfield application using GitHub Spec Kit
