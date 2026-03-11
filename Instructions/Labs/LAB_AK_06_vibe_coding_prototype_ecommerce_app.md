@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Get started with vibe coding using GitHub Copilot Agent
