@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Configure GitHub Copilot instructions and create custom agents
