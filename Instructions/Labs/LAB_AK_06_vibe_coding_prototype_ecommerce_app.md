@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Get started with vibe coding using GitHub Copilot Agent'
-    description: 'Learn how to create a prototype app using a vibe coding process and GitHub Copilot Agent.'
+  title: Exercise - Get started with vibe coding using GitHub Copilot Agent
+  description: Learn how to create a prototype app using a vibe coding process and
+    GitHub Copilot Agent.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+  - GitHub
 ---
 
 # Get started with vibe coding using GitHub Copilot Agent
