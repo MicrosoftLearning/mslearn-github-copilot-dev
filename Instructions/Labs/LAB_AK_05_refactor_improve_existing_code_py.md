@@ -3,11 +3,10 @@ lab:
   title: Exercise - Refactor existing code using GitHub Copilot (Python)
   description: Learn how to refactor and improve existing code sections using GitHub Copilot in Visual Studio Code.
   duration: 30 minutes
-  level: 100
+  level: 200
   islab: true
   primarytopics:
     - GitHub
-    - Visual Studio
     - Visual Studio Code
 ---
 
