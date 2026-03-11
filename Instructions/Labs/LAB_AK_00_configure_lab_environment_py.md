@@ -4,9 +4,9 @@ lab:
   description: Review lab requirements and configure resources before starting GitHub Copilot exercises.
   duration: 20 minutes
   level: 100
-  islab: false
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Configure your lab environment for GitHub Copilot exercises
