@@ -3,10 +3,11 @@ lab:
   title: Exercise - Resolve GitHub secret scanning alerts using GitHub Copilot
   description: Learn how to manage GitHub secret scanning alerts and how to use GitHub Copilot’s Ask and Agent modes to remediate hard-coded secrets.
   duration: 40 minutes
-  level: 400
+  level: 300
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Resolve GitHub secret scanning alerts using GitHub Copilot
