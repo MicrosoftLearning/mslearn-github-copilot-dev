@@ -3,7 +3,7 @@ lab:
   title: Prepare - Configure your GitHub Spec Kit lab environment
   description: Review the lab requirements and configure resources for the GitHub Spec Kit exercises.
   duration: 40 minutes
-  level: 300
+  level: 200
   primarytopics:
     - GitHub
     - Visual Studio Code
