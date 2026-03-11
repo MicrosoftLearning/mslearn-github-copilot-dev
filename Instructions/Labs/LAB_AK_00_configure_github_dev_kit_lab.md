@@ -4,9 +4,9 @@ lab:
   description: Review the lab requirements and configure resources for the GitHub Spec Kit exercises.
   duration: 40 minutes
   level: 300
-  islab: false
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Configure your GitHub Spec Kit lab environment
