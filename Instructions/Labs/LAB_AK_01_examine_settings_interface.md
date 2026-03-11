@@ -1,7 +1,15 @@
 ---
 lab:
-    title: 'Exercise - Examine GitHub Copilot settings and user interface features'
-    description: 'Learn how to configure GitHub Copilot settings and how to access GitHub Copilot features in Visual Studio Code.'
+  title: Exercise - Examine GitHub Copilot settings and user interface features
+  description: Learn how to configure GitHub Copilot settings and how to access GitHub
+    Copilot features in Visual Studio Code.
+  duration: 25 minutes
+  level: 200
+  islab: true
+  primarytopics:
+  - GitHub
+  - Visual Studio
+  - Visual Studio Code
 ---
 
 # Examine GitHub Copilot settings and user interface features
