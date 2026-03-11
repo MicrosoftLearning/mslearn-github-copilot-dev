@@ -3,11 +3,10 @@ lab:
   title: Exercise - Develop unit tests using GitHub Copilot (Python)
   description: Learn how to accelerate the development of unit tests using GitHub in Visual Studio Code.
   duration: 25 minutes
-  level: 100
+  level: 200
   islab: true
   primarytopics:
     - GitHub
-    - Visual Studio
     - Visual Studio Code
 ---
 
