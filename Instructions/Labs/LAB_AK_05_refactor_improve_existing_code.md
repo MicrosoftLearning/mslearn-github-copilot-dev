@@ -7,7 +7,6 @@ lab:
   islab: true
   primarytopics:
     - GitHub
-    - Visual Studio
     - Visual Studio Code
 ---
 
