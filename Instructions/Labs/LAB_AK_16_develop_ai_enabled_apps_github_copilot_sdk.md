@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Integrate an AI Agent into existing apps using GitHub Copilot SDK
