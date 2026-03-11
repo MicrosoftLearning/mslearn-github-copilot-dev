@@ -1,7 +1,15 @@
 ---
 lab:
-    title: 'Exercise - Resolve GitHub issues using GitHub Copilot'
-    description: 'Learn how to identify and resolve code security vulnerabilities using GitHub Copilot in Visual Studio Code.'
+  title: Exercise - Resolve GitHub issues using GitHub Copilot
+  description: Learn how to identify and resolve code security vulnerabilities using
+    GitHub Copilot in Visual Studio Code.
+  duration: 40 minutes
+  level: 400
+  islab: true
+  primarytopics:
+  - GitHub
+  - Visual Studio
+  - Visual Studio Code
 ---
 
 # Resolve GitHub issues using GitHub Copilot
