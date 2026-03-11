@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Implement performance profiling using GitHub Copilot'
-    description: 'Learn how to identify and address performance bottlenecks and code inefficiencies using GitHub Copilot tools.'
+  title: Exercise - Implement performance profiling using GitHub Copilot
+  description: Learn how to identify and address performance bottlenecks and code
+    inefficiencies using GitHub Copilot tools.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+  - GitHub
 ---
 
 # Implement performance profiling using GitHub Copilot
