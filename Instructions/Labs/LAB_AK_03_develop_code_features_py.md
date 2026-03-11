@@ -1,7 +1,14 @@
 ---
 lab:
-    title: 'Exercise - Develop new code features using GitHub Copilot (Python)'
-    description: 'Learn how to accelerate the development of new code features using GitHub Copilot in Visual Studio Code.'
+  title: Exercise - Develop new code features using GitHub Copilot (Python)
+  description: Learn how to accelerate the development of new code features using GitHub Copilot in Visual Studio Code.
+  duration: 30 minutes
+  level: 100
+  islab: true
+  primarytopics:
+    - GitHub
+    - Visual Studio
+    - Visual Studio Code
 ---
 
 # Develop new code features using GitHub Copilot
