@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Prepare - Configure your lab environment for GitHub Copilot exercises (Python)'
-    description: 'Review lab requirements and configure resources before starting GitHub Copilot exercises.'
+  title: Prepare - Configure your lab environment for GitHub Copilot exercises (Python)
+  description: Review lab requirements and configure resources before starting GitHub
+    Copilot exercises.
+  duration: 18 minutes
+  level: 100
+  islab: true
+  primarytopics:
+  - GitHub
 ---
 
 # Configure your lab environment for GitHub Copilot exercises
