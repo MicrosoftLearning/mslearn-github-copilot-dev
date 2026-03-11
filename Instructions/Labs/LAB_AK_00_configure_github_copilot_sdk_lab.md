@@ -2,9 +2,9 @@
 lab:
   title: Prepare - Configure your GitHub Copilot SDK lab environment
   description: Review the lab requirements and configure resources for the GitHub Copilot SDK exercises.
-  duration: 32 minutes
+  duration: 30 minutes
   level: 300
-  islab: true
+  islab: false
   primarytopics:
     - GitHub
 ---
