@@ -7,6 +7,7 @@ lab:
   islab: true
   primarytopics:
     - GitHub
+    - Visual Studio Code
 ---
 
 # Simplify complex conditionals using GitHub Copilot
