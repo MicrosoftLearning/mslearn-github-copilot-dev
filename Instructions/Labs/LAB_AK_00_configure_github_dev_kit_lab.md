@@ -1,7 +1,12 @@
 ---
 lab:
-    title: 'Prepare - Configure your GitHub Spec Kit lab environment'
-    description: 'Review the lab requirements and configure resources for the GitHub Spec Kit exercises.'
+  title: Prepare - Configure your GitHub Spec Kit lab environment
+  description: Review the lab requirements and configure resources for the GitHub Spec Kit exercises.
+  duration: 60 minutes
+  level: 300
+  islab: true
+  primarytopics:
+    - GitHub
 ---
 
 # Configure your GitHub Spec Kit lab environment
