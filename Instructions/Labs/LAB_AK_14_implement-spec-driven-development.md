@@ -1,7 +1,14 @@
 ---
 lab:
-    title: 'Exercise - Implement a product feature using GitHub Spec Kit'
-    description: 'Learn how to add new features to existing applications using GitHub Spec Kit workflows, Visual Studio Code, and GitHub Copilot.'
+  title: Exercise - Implement a product feature using GitHub Spec Kit
+  description: Learn how to add new features to existing applications using GitHub Spec Kit workflows, Visual Studio Code, and GitHub Copilot.
+  duration: 75 minutes
+  level: 500
+  islab: true
+  primarytopics:
+    - GitHub
+    - Visual Studio
+    - Visual Studio Code
 ---
 
 # Implement a product feature using GitHub Spec Kit
