@@ -538,7 +538,13 @@ Use the following steps to complete this section of the exercise:
 
 1. Open the **console_app.py** in VSCode, select the **search_books** method.
 
-1. Open the Chat view and then enter the following prompt:
+1. Open the Chat view, set the chat mode to **Ask**, and select the **GPT-4o** model.
+
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+
+    > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
+
+1. In the Chat view, enter the following prompt:
 
     ```plaintext
     @workspace Update selection to obtain a book title. Prompt the user to "Enter a book title to search for". Read the user input and ensure the book title isn't null.

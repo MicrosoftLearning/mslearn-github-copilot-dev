@@ -93,13 +93,15 @@ Use the following steps to complete this section of the exercise:
 
     You can disable inline suggestions globally or for the current file's language. You can also use the **Snooze** button to temporarily pause inline suggestions for five-minute increments, and then select **Cancel Snooze** to resume them.
 
-1. To open the Chat menu, select the More Actions dropdown to the right of the Chat button in the title bar.
+1. To open the Chat menu, select the **More Actions** dropdown to the right of the Chat button in the title bar.
 
      The Chat menu includes options to open the Chat view, Quick Chat, and Inline Chat interfaces, as well as options to manage settings for each of those interfaces.
 
 1. On the Chat menu, select **Configure Inline Suggestions**.
 
-1. Notice that the Configure Inline Suggestions menu provides an option to **Disable Inline Suggestions**.
+1. Notice that the Configure Inline Suggestions menu includes an option to **Edit Settings**
+
+    Selecting the Edit Settings option opens the Visual Studio Code settings editor i na view that's filtered for GitHub Copilot. This provides a comprehensive interface for managing GitHub Copilot settings.
 
 1. To open Visual Studio Code's Extensions view, select the Extensions icon on the left menu bar.
 
@@ -121,9 +123,9 @@ Use the following steps to complete this section of the exercise:
 
 1. On Visual Studio Code's top menu bar, open the Chat menu (next to the Chat button in the title bar).
 
-    The Chat menu includes a **Configure Code Completions** option that provides the option to **Edit Settings** associated with GitHub Copilot.
+    The Chat menu includes a **Configure Inline Suggestions** option that provides the option to **Edit Settings** associated with GitHub Copilot.
 
-1. On the Chat menu, select **Configure Code Completions**, and then select **Edit Settings**.
+1. On the Chat menu, select **Configure Inline Suggestions**, and then select **Edit Settings**.
 
 1. Take a moment to review how the GitHub Copilot settings are organized.
 
@@ -191,21 +193,21 @@ Use the following steps to complete this section of the exercise:
 
     - Chat response area: The Chat response area is the space below the Chat view toolbar where GitHub Copilot displays responses. Responses include code suggestions, explanations, interactive elements, and other information related to your prompt.
 
-    - Ask Copilot: The Ask Copilot text box is where you enter your prompts. You can use the Ask Copilot text box to ask GitHub Copilot questions about your codebase, request code suggestions, or ask for help with specific tasks.
+    - Prompt textbox: The prompt textbox is where you enter your prompts. You can use this text box to ask GitHub Copilot questions about your codebase, request code suggestions, or ask for help with specific tasks.
 
     - Add Context button: The Add Context button is located in bottom section of the Chat view. You can use this button search for resources that add context to Chat session. The resources can be anything from internal project files to public repositories on GitHub that are external to your organization.
 
-    - Start Voice Chat button: The microphone button in the Chat input area starts a voice chat session with GitHub Copilot. Voice Chat requires the **VS Code Speech** extension to be installed (the microphone icon does not appear if the VS Code Speech extension isn't installed). When a voice session is active, your spoken input is transcribed and submitted as a chat prompt.
-
-    - Chat Mode menu: The Chat Mode dropdown menu is located to the right of the Start Voice Chat button. Based on your specific needs, you can choose between different modes of chat:
+    - Set Agent menu: The Set Agent dropdown menu is located to the right of the Start Voice Chat button. Based on your specific needs, you can choose between different modes of chat:
 
         - **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can use Ask mode to explain code, suggest changes, or provide information about the codebase.
         - **Plan**: Use this mode to plan code changes in your workspace before implementing them. When you select the Plan mode, GitHub Copilot provides a structured response that breaks down the task into smaller steps, helping you understand the overall approach before any code changes are made. The Plan mode is usually reserved for highly complex tasks.
         - **Agent**: Use this mode to run GitHub Copilot as an agent. You can use GitHub Copilot to run commands, execute code, or perform other tasks in your workspace.
 
-    - Pick Model menu: The Pick Model menu is located to the right of the Chat Mode menu. You can use this button to select the model that GitHub Copilot uses to generate responses. The default model is currently GPT-4.1, but newer models are available. Model selections may be limited based on your GitHub Copilot subscription, your GitHub Copilot settings, and the models available in your region.
+    - Pick Model menu: The Pick Model menu is located to the right of the Chat Mode menu. You can use this button to select the model that GitHub Copilot uses to generate responses. The default model is currently GPT-4o, but newer models are available. Model selections may be limited based on your GitHub Copilot subscription, your GitHub Copilot settings, and the models available in your region.
 
     - Configure Tools button: The Configure Tools button is located to the right of the Pick Model menu. You can use this button to manage tools that GitHub Copilot can use in Agent mode. For example, you can use the Configure Tools menu to connect GitHub Copilot to your codebase, terminal, or other resources that an agent might need to access when performing a task.
+
+    - Start Voice Chat button: The microphone button in the Chat input area starts a voice chat session with GitHub Copilot. Voice Chat requires the **VS Code Speech** extension to be installed (the microphone icon does not appear if the VS Code Speech extension isn't installed). When a voice session is active, your spoken input is transcribed and submitted as a chat prompt.
 
     - Send button: The Send button is located to the right of the Pick Model menu. You can use this button to submit your prompt to GitHub Copilot and receive a response. The menu includes several options for how your prompt is submitted.
 
@@ -213,7 +215,13 @@ Use the following steps to complete this section of the exercise:
 
     - Set Permissions button: The Set Permissions button is located to the right of the Delegate Session button. You can use this button to manage permissions for the current chat session. For example, you can use this menu to allow or restrict GitHub Copilot's access to your codebase, terminal, or other resources.
 
-1. Use the Ask Copilot textbox to enter the following prompt, and then submit the prompt:
+1. In the Chat view, select the **Ask** agent and set the model to **GPT-4o**.
+
+    The Ask agent is designed for asking questions and generating code suggestions. You can use the Ask agent to explain code, suggest changes, or provide information about your codebase.
+
+    The GPT-4o model is the default model for GitHub Copilot and it's available with the GitHub Copilot Free plan. It provides a balance between speed and accuracy, and it can handle a wide range of coding tasks.
+
+1. Use the Prompt textbox to enter the following prompt, and then submit the prompt:
 
     **For C#:**
 
@@ -281,7 +289,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Take a moment to review the response.
 
-    As long as you haven't opened the Program.cs file in the editor or added it to the Quick Chat context, GitHub Copilot is unable to provide specific information about the file. It should ask you to add the file to the context.
+    As long as you haven't opened the Program.cs file in the editor or added it to the Quick Chat context, GitHub Copilot is unable to provide specific information about the file. It may ask you to add the file to the context.
 
 1. To add your Program.cs file to the Quick Chat context, drag-and-drop the Program.cs file from the Explorer view to the very top of the Quick Chat window.
 
@@ -307,7 +315,7 @@ Use the following steps to complete this section of the exercise:
 
 ### Review the Inline Chat features
 
-Inline Chat lets you interact with GitHub Copilot directly in the code editor without switching to the Chat view. Press **Ctrl+I** to open a chat prompt at your cursor position, describe a change, and Copilot suggests edits in place.
+Inline Chat lets you interact with GitHub Copilot directly in the code editor without switching to the Chat view. When you have a file open in the editor, you can press **Ctrl+I** to open a chat prompt at your cursor position, describe a change, and Copilot suggests edits in place.
 
 The Inline Chat V2 experience (enabled by the `inlineChat.enableV2` setting) uses the same editing logic as the Chat view's Agent mode under the hood, which means it has access to the same context and produces higher-quality edits. Inline Chat V2 also supports a lightweight mode: when the `inlineChat.hideOnRequest` setting is enabled, the inline chat input hides as soon as you submit a prompt, and the changes appear through the standard chat-editing overlay with **Keep** and **Undo** controls.
 
@@ -485,24 +493,9 @@ Use the following steps to complete this section of the exercise:
 
     Notice that the Explain smart action constructs a prompt that's based on the code selection and submits the prompt in the Chat view.
 
-    The explanation includes a detailed description of the selected code, and may include suggested updates.
+    The explanation includes a detailed description of the selected code, and may include suggested updates. For example, the explanation may include a suggestion to update the use of the `Random` class.
 
-    For example, the explanation may include a suggestion to update the use of the `Random` class to use  rather than creating a new instance in each loop iteration.
-
-    ```csharp
-
-    // ...existing code...
-    Random random = new Random();
-    for (int i = 0; i < 5; i++)
-    {
-        int position1 = random.Next(1, 100);
-        int position2 = random.Next(1, 100);
-        // ...existing code...
-    }
-
-    ```
-
-    The Explain smart action isn't designed as a code review tool. You could make updates based on its suggestions, but there is another option. The Review smart action.
+    The Explain smart action isn't designed as a code review tool. You could make updates based on its suggestions, but there is another option. The **Review** smart action.
 
 1. Right-click the selected code again, and then select **Review**.
 
@@ -512,11 +505,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Review the suggested updates provided by the Review smart action.
 
-    The Review smart action should recommend a single instance of the `Random` class that's reused across loop iterations, which is a best practice for generating random numbers in .NET. It may also suggest improved variable names that replace `position1` and `position2`, since the current names might not be descriptive inthe current context.
-
-1. Select the apply options to implement the suggested changes.
-
-    Use the **Apply and Go To Next** button for initial suggestion and the **Apply** button for the final suggestion that you want to keep. There are also options to reject suggestions if you don't want to apply them.
+    The Review smart action should recommend a single instance of the `Random` class that's reused across loop iterations, which is a best practice for generating random numbers in .NET. It may also suggest improved variable names that replace `position1` and `position2`, since the current names might not be descriptive in the current context.
 
 ## Summary
 

@@ -177,6 +177,12 @@ Use the following steps to complete this section of the exercise:
 
     The current Chat mode is displayed near the bottom-right corner of the Chat view. Chat responses are displayed in the Chat view when you're working in **Ask** mode.
 
+1. Use the Pick Model menu to select the **GPT-4o** model.
+
+    The Pick Model menu is in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+
+    > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
+
 1. Review and then submit the following prompt:
 
     ```plaintext

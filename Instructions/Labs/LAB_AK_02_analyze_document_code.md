@@ -102,7 +102,7 @@ Use the following steps to set up the library application:
 
     For example, in the SOLUTION EXPLORER view, right-click **AccelerateDevGHCopilot**, and then select **Build**.
 
-    You may see some Warnings, but there shouldn't be any Errors.
+    You may see some Warnings, but there shouldn't be any Errors reported.
 
 ## Use GitHub Copilot to explain the library application codebase
 
@@ -125,6 +125,12 @@ Use the following steps to complete this section of the exercise:
     To open the Chat view, select the **Toggle Chat** button at the top of the Visual Studio Code window.
 
     You can also open the Chat view using the **Ctrl+Alt+I** keyboard shortcut.
+
+1. Set the chat mode to **Ask** and select the **GPT-4o** model.
+
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+
+    > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
 
 1. In the Chat view, enter a prompt that uses the **#codebase** chat variable to include the full context of the codebase when generating a description of your code.
 
@@ -193,7 +199,7 @@ Use the following steps to complete this section of the exercise:
 
     GitHub Copilot uses the Chat context to understand the code files that are relevant to your prompt. You can add files to the Chat context using drag-and-drop operations, or you can use the **Add Context** button in the Chat view.
 
-    Instead of adding individual files manually, you can let Copilot find the right files from your codebase. This approach can be useful when you don't know which files are relevant to your question, but it does slow down the response time.    To let Copilot find the right files automatically, add #codebase in your prompt.
+    Instead of adding individual files manually, you can let Copilot find the right files from your codebase. This approach can be useful when you don't know which files are relevant to your question, but it does slow down the response time. To let Copilot find the right files automatically, add #codebase in your prompt.
 
 1. Enter a prompt in the Chat view that generates an explanation of the data access classes.
 
@@ -221,9 +227,9 @@ Running the application helps you understand the user interface, key features of
 
 Use the following steps to complete this section of the exercise:
 
-1. Ensure that you have the **Solution Explorer** view open.
+1. Ensure that you have **SOLUTION EXPLORER** open in the Explorer view.
 
-    The Solution Explorer is a dedicated view added to Visual Studio Code's primary sidebar by the C# Dev Kit extension. It provides a structured, solution-centric view of your .NET application that's similar to the Solution Explorer in the Visual Studio IDE. It's more informative and organized than the plain folder/file tree that the built-in Explorer view.
+    The SOLUTION EXPLORER is a dedicated view added to Visual Studio Code's primary sidebar by the C# Dev Kit extension. It provides a structured, solution-centric view of your .NET application that's similar to the Solution Explorer in the Visual Studio IDE. It's more informative and organized than the plain folder/file tree that the built-in Explorer view.
 
 1. To run the application, right-click **Library.Console**, select **Debug**, and then select **Start New Instance**.
 

@@ -129,9 +129,9 @@ Use the following steps to complete this task:
 
     If the Chat view isn't already open, you can open it by selecting the **Chat** icon at the top of the Visual Studio Code window, just to the right of the Search textbox.
 
-1. In the Chat view, ensure that the chat mode is set to **Ask** and the model is set to **GPT-4.1**.
+1. In the Chat view, ensure that the chat mode is set to **Ask** and the model is set to **GPT-4o**.
 
-    These settings are available in the bottom-left corner of the Chat view. GitHub Copilot's **Ask** mode is used to ask general coding questions and to generate code related explanations. The **GPT-4.1** model, which is included with the GitHub Copilot Free plan, is a good choice for code analysis, explanations, and guidance related to code refactoring.
+    These settings are available in the bottom-left corner of the Chat view. GitHub Copilot's **Ask** mode is used to ask general coding questions and to generate code related explanations. The **GPT-4o** model, which is included with the GitHub Copilot Free plan, is a good choice for code analysis, explanations, and guidance related to code refactoring.
 
     You'll use GitHub Copilot's **Agent** mode later in this exercise, but for now you'll use **Ask** mode for code analysis and explanations.
 
@@ -287,7 +287,7 @@ In this task, you'll use GitHub Copilot to identify specific refactoring opportu
 
 Use the following steps to complete this task:
 
-1. Ensure you have the GitHub Copilot Chat view open with **Ask** mode and the **GPT-4.1** model selected.
+1. Ensure you have the GitHub Copilot Chat view open with **Ask** mode and the **GPT-4o** model selected.
 
 1. Add the **ECommercePricingDemo.cs** file to the Chat context using drag-and-drop operation.
 

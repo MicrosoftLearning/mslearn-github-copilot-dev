@@ -104,7 +104,7 @@ Use the following steps to set up the library application:
 
     For example, in the SOLUTION EXPLORER view, right-click **AccelerateDevGHCopilot**, and then select **Build**.
 
-    You'll see some Warnings, but there shouldn't be any Errors.
+    You'll see some Warnings, but there shouldn't be any Errors reported.
 
 ## Examine the approach to unit testing implemented by the UnitTests project
 
@@ -135,6 +135,12 @@ Use the following steps to complete this section of the exercise:
 
 1. Open the Chat view.
 
+1. Set the chat mode to **Ask** and select the **GPT-4o** model.
+
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+
+    > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
+
 1. Add the following files to the Chat context:
 
     (under the Library.ApplicationCore project)
@@ -153,10 +159,10 @@ Use the following steps to complete this section of the exercise:
 1. To learn about the existing unit test project, enter the following prompt:
 
     ```plaintext
-    @workspace Explain the approach to unit testing that's been implemented in this workspace.
+    #codebase Explain the approach to unit testing that's been implemented in this workspace.
     ```
 
-    This prompt asks GitHub Copilot to explain the approach to unit testing in the context of the workspace. Adding relevant files to the Chat context improves the response.
+    This prompt asks GitHub Copilot to explain the approach to unit testing in the context of the codebase. Adding relevant files to the Chat context improves the response.
 
 1. Take a minute to review GitHub Copilot's response.
 
@@ -220,7 +226,7 @@ Use the following steps to complete this section of the exercise:
 1. To analyze the benefits of the current approach, enter the following prompt:
 
     ```plaintext
-    @workspace What are the benefits of this approach to unit testing?
+    #codebase What are the benefits of this approach to unit testing?
     ```
 
 1. Take a minute to review GitHub Copilot's response.
@@ -249,7 +255,7 @@ Use the following steps to complete this section of the exercise:
 1. To ask GitHub Copilot for help extending the UnitTests project, enter the following prompt:
 
     ```plaintext
-    @workspace How can I extend the `UnitTests` project to begin testing methods in the `Library.Infrastructure` project? Provide a process overview.
+    #codebase How can I extend the `UnitTests` project to begin testing methods in the `Library.Infrastructure` project? Provide a process overview.
     ```
 
     This prompt asks GitHub Copilot to provide a process overview for extending the UnitTests project to begin testing methods in the Library.Infrastructure project. Several files are included in the prompt to provide context for the response.
@@ -298,8 +304,6 @@ The **Library.Infrastructure** project contains data access classes that interac
 
 You can use the Chat view's Agent mode when you have a specific task in mind and want to enable Copilot to autonomously edit your code. For example, you can use Agent mode to create and edit files, or to invoke tools to accomplish tasks. In Agent mode, GitHub Copilot can autonomously plan the work needed and determine the relevant files and context. It then makes edits to your codebase and invokes tools to accomplish the request you made.
 
-> **NOTE**: The Agent mode is only available in Visual Studio Code. If you're using GitHub Copilot in a different environment, you can use the Chat mode to accomplish similar tasks.
-
 In this section of the exercise, you use GitHub Copilot's Agent mode to create a new test class for the GetLoan method of the JsonLoanRepository class.
 
 Use the following steps to complete this section of the exercise:
@@ -325,31 +329,23 @@ Use the following steps to complete this section of the exercise:
 
     The prompt also asks GitHub Copilot to add a reference to the Library.Infrastructure project inside the UnitTests.csproj file.
 
+1. If prompted with a request for permission, select **Allow in this Session**.
+
+    The **Set Permissions** menu in the Chat view provides options for **Default Approvals** and **Bypass Approvals**. The **Default Approvals** option allows GitHub Copilot to request permission for each action it takes. The **Bypass Approvals** option allows GitHub Copilot to take actions without requesting permission. For this exercise, use **Default Approvals**.
+
 1. Take a minute to review the response from GitHub Copilot.
 
-    Notice the following updates in the Chat view and code editor:
+    The agent displays status messages in the Chat view as it completes the requested tasks. Notice the following updates in the code editor:
 
-    - The agent displays status messages as it completes the requested tasks. The first task will be to create the folder structure in the UnitTests project. The agent may pause and ask you for confirmation before creating the folder structure.
-
-        ![Screenshot showing the Chat view in Agent mode.](./Media/m04-github-copilot-agent-mode-terminal-command-mkdir.png)
-
-    - The UnitTests.csproj file is open in the code editor with edits similar to the following update:
-
-        ![Screenshot showing updates to the UnitTests.csproj file in the code editor.](./Media/m04-github-copilot-agent-mode-code-editor-update.png)
-
-1. If the agent pauses the task and asks you for permission to run a make directory command in the terminal, select **Continue**.
-
-    When you select **Continue**, GitHub Copilot completes the following actions:
-
-    - Runs the mkdir command in the terminal to create the **Infrastructure\JsonLoanRepository** folders in the UnitTests project.
-    - Creates a new file named **GetLoan.cs** in the **JsonLoanRepository** folder.
+    - The agent creates the folder structure in the UnitTests project for the GetLoan.cs file.
+    - The UnitTests.csproj file is updated to include a reference to the Library.Infrastructure project.
 
 1. Take a moment to review the updates.
 
     You should see the following updates in the editor:
 
-    - The **UnitTests** project now includes a reference to **Library.Infrastructure.csproj**.
     - The **GetLoan.cs** file is created in the **Infrastructure\JsonLoanRepository** folder.
+    - The **UnitTests** project now includes a reference to **Library.Infrastructure.csproj**.
 
 1. In the Chat view, to accept all changes, select **Keep**.
 
@@ -362,15 +358,11 @@ Use the following steps to complete this section of the exercise:
         - JsonLoanRepository\
           - GetLoan.cs
 
-### Use the Edit mode to create unit tests for the GetLoan method
+### Use the Agent mode to create unit tests for the GetLoan method
 
-In this section of the exercise, you use GitHub Copilot's Edit mode to create unit tests for the **GetLoan** method in the **JsonLoanRepository** class.
+In this section of the exercise, you use GitHub Copilot's Agent mode to create unit tests for the **GetLoan** method in the **JsonLoanRepository** class.
 
 Use the following steps to complete this section of the exercise:
-
-1. In the Chat view, select the **Set Mode** button, and then select **Edit**.
-
-    Use the Edit mode to update selected files. Responses are displayed as code suggestions in the code editor.
 
 1. Open the **JsonLoanRepository.cs** file.
 
@@ -566,6 +558,9 @@ Use the following steps to complete this section of the exercise:
     (under the Library.ApplicationCore project)
 
     - LoanService.cs
+
+    (under the Library.ApplicationCore project)
+
     - Loans.json.
 
     (under the Library.Infrastructure project)
@@ -581,7 +576,7 @@ Use the following steps to complete this section of the exercise:
 1. Select the contents of the **GetLoan.cs** file, and then enter the following prompt in the Chat view:
 
     ```plaintext
-    @workspace Update the selection to include a unit test for the `JsonLoanRepository.GetLoan` method. The unit test should test the case where a loan ID is found in the data. Use `_mockLoanRepository` to arrange the expected return loan. Use `_jsonLoanRepository` to return an actual loan. Asserts should verify that the return loan ID matches the expected loan ID. Use a loan ID that exists in the `Loans.json` file.
+    #codebase Update the selection to include a unit test for the `JsonLoanRepository.GetLoan` method. The unit test should test the case where a loan ID is found in the data. Use `_mockLoanRepository` to arrange the expected return loan. Use `_jsonLoanRepository` to return an actual loan. Asserts should verify that the return loan ID matches the expected loan ID. Use a loan ID that exists in the `Loans.json` file.
     ```
 
     This prompt asks GitHub Copilot to suggest a unit test for the **JsonLoanRepository.GetLoan** method. The unit test should test the case where a loan ID is found in the data. The test should use **_mockLoanRepository** to arrange the expected return loan, **_jsonLoanRepository** to return an actual loan, and asserts to verify that the return loan ID matches the expected loan ID. The loan ID should exist in the **Loans.json** file.
@@ -642,13 +637,15 @@ Use the following steps to complete this section of the exercise:
     }
     ```
 
+    > **NOTE**: Ensure that the BookItemId and PatronId values are valid.
+
 1. In the Chat view, to accept all updates, select **Keep**.
 
     If the **Loan** class isn't recognized in your code, ensure that you have a **using Library.ApplicationCore.Entities;** statement at the top of the GetLoan.cs file. The **Loan** class is located in the **Library.ApplicationCore.Entities** namespace.
 
 1. Build the **AccelerateDevGitHubCopilot** solution to ensure there are no errors.
 
-1. Use GitHub Copilot's autocompletion feature to create a test for the case where the loan ID isn't found.
+1. Use GitHub Copilot's ghost text suggestion feature to create a test for the case where the loan ID isn't found.
 
     Create a blank line after the **GetLoan_ReturnsLoanWhenLoanIdIsFound** method.
 

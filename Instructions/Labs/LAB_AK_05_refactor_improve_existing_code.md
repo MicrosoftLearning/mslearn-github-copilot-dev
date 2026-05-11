@@ -114,7 +114,7 @@ Use the following steps to set up the library application:
 
     For example, in the SOLUTION EXPLORER view, right-click **AccelerateDevGHCopilot**, and then select **Build**.
 
-    You'll see some Warnings, but there shouldn't be any Errors.
+    You'll see some Warnings, but there shouldn't be any Errors reported.
 
 ## Analyze and refactor code using the Chat view in Ask and Edit mode
 
@@ -127,11 +127,11 @@ You need to:
 
 ### Analyze the EnumHelper class using the Chat view in Ask mode
 
-GitHub Copilot's Chat view has three modes: **Ask**, **Edit**, and **Agent**. Each mode is designed for different types of interactions with GitHub Copilot.
+GitHub Copilot's Chat view has three modes: **Ask**, **Plan**, and **Agent**. Each mode is designed for different types of interactions with GitHub Copilot.
 
-- **Ask**: Use this mode to ask GitHub Copilot questions about your codebase. You can ask GitHub Copilot to explain code, suggest changes, or provide information about the codebase.
-- **Edit**: Use this mode to edit selected code files. You can use GitHub Copilot to refactor code, add comments, or make other changes to your code.
-- **Agent**: Use this mode to run GitHub Copilot as an agent. You can use GitHub Copilot to run commands, execute code, or perform other tasks in your workspace.
+- Ask: The Ask mode works best for answering questions about your codebase, coding, and general technology concepts. Use Ask mode when you want to understand how something works, explore ideas, or get help with coding tasks.
+- Plan: The Plan mode is optimized for creating a structured implementation plan for a coding task. Use the plan agent when you want to break down a complex feature or change into smaller, manageable steps before implementation.
+- Agent: The Agent mode is optimized for complex coding tasks based on high-level requirements that might require running terminal commands and tools. The AI operates autonomously, determining the relevant context and files to edit, planning the work needed, and iterating to resolve problems as they arise.
 
 In this section of the exercise, you use the Chat view in Ask mode to analyze your coding assignment.
 
@@ -171,26 +171,28 @@ Use the following steps to complete this section of the exercise:
     }
     ```
 
-1. Open the GitHub Copilot Chat view.
+1. Open GitHub Copilot's Chat view.
 
     The Chat view provides a managed conversational interface for interacting with GitHub Copilot.
 
-    You can toggle the Chat view between open and closed using the **Toggle Chat** button, which is located at the top of the Visual Studio Code window, just to the right of the search textbox.
+    You can toggle the Chat view between open and closed using the **Toggle Chat** button, which is located at the top of the Visual Studio Code window, just to the right of the search textbox. You can also use the keyboard shortcut **Ctrl+Alt+I** to toggle the Chat view.
 
-    ![Screenshot showing the Copilot Toggle Chat button.](./Media/m01-github-copilot-toggle-chat.png)
+1. Ensure that the **Ask** mode is selected in the Set Agent dropdown menu.
 
-    You can also use the keyboard shortcut **Ctrl+Alt+I** to toggle the Chat view.
+    The Set Agent dropdown menu is displayed near the bottom-right corner of the Chat view.
 
-1. Notice that the Chat view opens in **Ask** mode by default.
+1. Use the Pick Model menu to select the **GPT-4o** model.
 
-    The current Chat mode is displayed near the bottom-right corner of the Chat view. Chat responses are displayed in the Chat view when you're working in **Ask** mode.
+    The Pick Model menu is in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+
+    > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
 
 1. Select the code in the EnumHelper.cs file.
 
 1. Review and then submit the following prompt:
 
     ```plaintext
-    @workspace Explain how the GetDescription method uses reflection to assign the return value.
+    #codebase Explain how the GetDescription method uses reflection to assign the return value.
     ```
 
 1. Take a minute to review the response.
@@ -202,7 +204,7 @@ Use the following steps to complete this section of the exercise:
 1. Review and then submit the following prompt:
 
     ```plaintext
-    @workspace Which files in this workspace are used to store the enum values passed to the GetDescription method?
+    #codebase Which files in this workspace are used to store the enum values passed to the GetDescription method?
     ```
 
     The response should tell you to check the Enums folder. The enum values are defined in the **LoanExtensionStatus**, **LoanReturnStatus**, and **MembershipRenewalStatus** files.
@@ -222,7 +224,7 @@ Use the following steps to complete this section of the exercise:
 
     ```plaintext
 
-    @workspace I need to refactor the `EnumHelper` class and remove any code that uses reflection. Use static dictionaries to supply enum description attributes. Use a separate dictionary for each enum. The dictionaries should use values from the `LoanExtensionStatus.cs`, `LoanReturnStatus.cs`, and `MembershipRenewalStatus.cs` files. Explain how to update the EnumHelper class using dictionaries and show me the updated code.
+    #codebase I need to refactor the `EnumHelper` class and remove any code that uses reflection. Use static dictionaries to supply enum description attributes. Use a separate dictionary for each enum. The dictionaries should use values from the `LoanExtensionStatus.cs`, `LoanReturnStatus.cs`, and `MembershipRenewalStatus.cs` files. Explain how to update the EnumHelper class using dictionaries and show me the updated code.
 
     ```
 
@@ -317,19 +319,17 @@ Use the following steps to complete this section of the exercise:
 
 1. Hover the mouse pointer over each of the buttons to see a tooltip that describes the action.
 
-    The first two buttons copies code into the editor. The third button copies code to the clipboard.
+    The first two buttons copy code into the editor. The third button copies code to the clipboard.
 
-> **NOTE**: You could use the Ask mode to update the **EnumHelper** class. However, the Edit mode refactors your code directly within the code editor and provides more options for accepting updates.
+> **NOTE**: You could use the Ask mode to update the **EnumHelper** class. However, the Agent mode refactors your code directly within the code editor and provides more options for accepting updates.
 
-### Refactor the EnumHelper class using the Chat view in Edit mode
+### Refactor the EnumHelper class using the Chat view in Agent mode
 
-The Chat view's Edit mode is designed for editing code in your workspace. You can use the Edit mode to refactor code, add comments, or make other changes to your code.
+The Chat view's Agent mode is designed for editing code in your workspace. You can use the Agent mode to refactor code, add comments, or make other changes to your code.
 
-1. In the Chat view, select **Set Mode**, and then select **Edit**.
+1. In the Chat view, use the **Set Agent** dropdown menu to select **Agent** mode.
 
-    When prompted to start a new session in the Edit mode, select **Yes**.
-
-    In **Edit** mode, GitHub Copilot displays responses as code update suggestions in code editor. The Edit mode is generally used when implementing a new feature, fixing a bug, or refactoring code.
+    In **Agent** mode, GitHub Copilot works in both the Chat view and the code editor. The Chat view is used to keep track of the conversation and provide context, while the code editor is used to make direct changes to your code. The Agent mode is generally used when implementing a new feature, fixing a bug, or refactoring code.
 
 1. Add the following files to the Chat context:
 
@@ -342,7 +342,7 @@ The Chat view's Edit mode is designed for editing code in your workspace. You ca
 
     ```plaintext
 
-    #codebase I need to refactor the `EnumHelper` class and remove any code that uses reflection. Use static dictionaries to supply enum description attributes. Use a separate dictionary for each enum. The dictionaries should use values from the `LoanExtensionStatus.cs`, `LoanReturnStatus.cs`, and `MembershipRenewalStatus.cs` files.
+    #codebase I need to refactor the `GetDescription` method in the `EnumHelper` class and remove any code that uses reflection. Use static dictionaries to supply enum description attributes. Use a separate dictionary for each enum. The dictionaries should use values from the `LoanExtensionStatus.cs`, `LoanReturnStatus.cs`, and `MembershipRenewalStatus.cs` files. I want a single GetDescription method that uses pattern matching to determine the type of the enum and retrieve the description from the appropriate dictionary.
 
     ```
 
@@ -450,21 +450,19 @@ The Chat view's Edit mode is designed for editing code in your workspace. You ca
 
     You'll see the same warnings that you saw at the start of this exercise, but there shouldn't be any error messages.
 
-## Refactor code using inline chat and the Chat view in Edit and Agent modes
+## Refactor code using the Chat view in Agent mode
 
 LINQ is a powerful feature in C# that allows you to query collections, databases, and XML documents in a uniform way. LINQ provides a more concise and readable way to query data compared to traditional foreach loops.
 
-This section of the exercise includes the following tasks:
+This section of the exercise includes using the Agent mode to refactor the JsonData, JsonLoanRepository, and JsonPatronRepository classes to use LINQ instead of foreach loops.
 
-- Refactor the JsonData class using inline chat.
-- Refactor the JsonLoanRepository class using the Chat view in Edit mode.
-- Refactor the JsonPatronRepository class using the Chat view in Agent mode.
-
-### Refactor the JsonData class using inline chat
+### Refactor the JsonData class using Agent mode
 
 The JsonData class includes the following data access methods: GetPopulatedPatron, GetPopulatedLoan, GetPopulatedBookItem, GetPopulatedBook. These methods use foreach loops to iterate over collections and populate objects. You can refactor these methods to use LINQ to improve code readability and maintainability.
 
 Use the following steps to complete this section of the exercise:
+
+1. Ensure that the Chat view is open and that the **Agent** mode is selected in the Set Agent dropdown menu.
 
 1. In the SOLUTION EXPLORER view, expand the **Library.Infrastructure** project, and then expand the **Data** folder.
 
@@ -503,7 +501,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-1. Open an inline chat, and then enter a prompt that refactors the method using LINQ.
+1. In the Chat view, enter a prompt that refactors the method using LINQ.
 
     ```plaintext
     #selection refactor selection to `return new Patron` using LINQ
@@ -547,7 +545,7 @@ Use the following steps to complete this section of the exercise:
 
     - **.ToList()**: Converts the result to a **List\<Loan\>**.
 
-1. To accept the suggested update, select **Accept**.
+1. To accept the suggested update, select **Keep**.
 
     You're going to use this same approach to refactor three other methods.
 
@@ -629,9 +627,9 @@ Use the following steps to complete this section of the exercise:
     }
     ```
 
-1. Use the **Explain** smart action to see an explanation of the LINQ queries.
+1. Use the **Explain** smart action to display an explanation of the LINQ queries.
 
-    To open the **Explain** smart action, select code in the editor, right-click the selected code, select Copilot, and then select **Explain**. The **Explain** smart action provides a detailed explanation of the selected code. In this case, th LINQ queries used in the code.
+    To open the **Explain** smart action, select code in the editor, right-click the selected code, and then select **Explain**. The **Explain** smart action provides a detailed explanation of the selected code. In this case, th LINQ queries used in the code.
 
     For example, you can use the **Explain** smart action on the **GetPopulatedBook** method to see an explanation of the LINQ query used to populate the **Author** property of the **Book** object.
 
@@ -662,7 +660,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Build your solution to ensure that there are no errors.
 
-### Refactor the JsonLoanRepository class using the Chat view in Edit mode
+### Refactor the JsonLoanRepository class using the Chat view in Agent mode
 
 The JsonLoanRepository class includes the **GetLoan** and **UpdateLoan** data access methods. You'll refactor these two methods, replacing foreach loops with LINQ to improve code readability and maintainability.
 
@@ -691,10 +689,6 @@ Use the following steps to complete this section of the exercise:
         return null;
     }
     ```
-
-1. Ensure that the Chat view is open in **Edit** mode.
-
-    If the Chat view isn't open, select **Toggle Chat** set the mode to **Edit**.
 
 1. Enter a prompt that refactors the method using LINQ.
 
@@ -860,7 +854,7 @@ Use the following steps to complete this section of the exercise:
 
     You'll see warnings. You can ignore them for now.
 
-### Refactor the JsonPatronRepository class using the Chat view in Agent mode
+### Refactor the JsonPatronRepository class using Agent mode
 
 The **JsonPatronRepository** class includes the following three methods:
 
@@ -963,17 +957,9 @@ Use the following steps to complete this section of the exercise:
 
     Notice that the **UpdatePatron** method uses a foreach loop to iterate over the patrons and find a match based on the **id** parameter. The method then updates the existing patron with the new data and saves the updated patrons collection.
 
-1. In the Chat view, change the mode to **Agent**
+1. Take a minute to consider a prompt that will refactor the **JsonPatronRepository** class using LINQ.
 
-    Agent mode is designed for running GitHub Copilot as an agent. You can use natural language to specify a high-level task. The agent will evaluate the assigned task, plan the work needed, and apply the changes to your codebase.
-
-    Agent mode uses a combination of code editing and tool invocation to accomplish the task you specified. As it processes your request, it monitors the outcome of edits and tools, and iterates to resolve any issues that arise. If the agent is unable to resolve an issue, it will ask you to intervene. For example, if the agent uses several iterations working to resolve the same issue, it will pause the process and ask you to provide additional context to clarify your request or cancel the process.
-
-    > **IMPORTANT**: When you use the Chat view in agent mode, GitHub Copilot may make multiple premium requests to complete a single task. Premium requests can be used by user-initiated prompts and follow-up actions Copilot takes on your behalf. The total number of premium requests used is based on the complexity of the task, the number of steps involved, and the model selected.
-
-1. Take a minute to consider the task that you need to assign to the agent.
-
-    The task is to refactor the **JsonPatronRepository** class. The goal is to replace the foreach loops with LINQ queries that produce the same result as the original foreach code.
+    The goal is to replace the foreach loops with LINQ queries that produce the same result as the original foreach code.
 
     You can use your experience with the **JsonData** and **JsonLoanRepository** classes to help you write the task for the agent. The LINQ queries should use **Where**, **Select**, and **FirstOrDefault** to find matching patrons. The LINQ queries should also use **OrderBy** to preserve sorting in the original foreach code.
 
