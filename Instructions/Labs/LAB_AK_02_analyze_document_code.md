@@ -126,9 +126,9 @@ Use the following steps to complete this section of the exercise:
 
     You can also open the Chat view using the **Ctrl+Alt+I** keyboard shortcut.
 
-1. Set the chat mode to **Ask** and select the **GPT-4o** model.
+1. Set the chat mode to **Ask** and select the **Auto** model.
 
-    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view. **GPT-4o** is included with the GitHub Copilot Free plan and is a good fit for the analysis and code-generation tasks in this lab.
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view.
 
     > **NOTE**: You can use a different model if your plan allows it, but responses may differ from those shown in this exercise. Free-plan users have a limited number of monthly chat requests, so each prompt counts against your quota.
 

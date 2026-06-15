@@ -203,7 +203,7 @@ Use the following steps to complete this section of the exercise:
         - **Plan**: Use this mode to plan code changes in your workspace before implementing them. When you select the Plan mode, GitHub Copilot provides a structured response that breaks down the task into smaller steps, helping you understand the overall approach before any code changes are made. The Plan mode is usually reserved for highly complex tasks.
         - **Agent**: Use this mode to run GitHub Copilot as an agent. You can use GitHub Copilot to run commands, execute code, or perform other tasks in your workspace.
 
-    - Pick Model menu: The Pick Model menu is located to the right of the Chat Mode menu. You can use this button to select the model that GitHub Copilot uses to generate responses. The default model is currently GPT-4o, but newer models are available. Model selections may be limited based on your GitHub Copilot subscription, your GitHub Copilot settings, and the models available in your region.
+    - Pick Model menu: The Pick Model menu is located to the right of the Chat Mode menu. You can use this button to select the model that GitHub Copilot uses to generate responses. Model selections may be limited based on your GitHub Copilot subscription, your GitHub Copilot settings, and the models available in your region.
 
     - Configure Tools button: The Configure Tools button is located to the right of the Pick Model menu. You can use this button to manage tools that GitHub Copilot can use in Agent mode. For example, you can use the Configure Tools menu to connect GitHub Copilot to your codebase, terminal, or other resources that an agent might need to access when performing a task.
 
@@ -215,11 +215,9 @@ Use the following steps to complete this section of the exercise:
 
     - Set Permissions button: The Set Permissions button is located to the right of the Delegate Session button. You can use this button to manage permissions for the current chat session. For example, you can use this menu to allow or restrict GitHub Copilot's access to your codebase, terminal, or other resources.
 
-1. In the Chat view, select the **Ask** agent and set the model to **GPT-4o**.
+1. In the Chat view, select the **Ask** agent and set the model to **Auto**.
 
     The Ask agent is designed for asking questions and generating code suggestions. You can use the Ask agent to explain code, suggest changes, or provide information about your codebase.
-
-    The GPT-4o model is the default model for GitHub Copilot and it's available with the GitHub Copilot Free plan. It provides a balance between speed and accuracy, and it can handle a wide range of coding tasks.
 
 1. Use the Prompt textbox to enter the following prompt, and then submit the prompt:
 

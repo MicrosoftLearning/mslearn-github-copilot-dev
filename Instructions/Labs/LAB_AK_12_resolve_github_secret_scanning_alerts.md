@@ -442,9 +442,7 @@ Use the following steps to complete this task:
 
     If you analyzed or updated the codebase in the current Chat session, you might want to start fresh. Select the **New Chat** button (the **+** icon at the top of the Chat panel) to begin a new conversation. A new Chat session ensures that GitHub Copilot has no prior context that could influence its analysis.
 
-1. Use the Set Agent button to select **Ask** mode, and then use the Pick Model button to select the **GPT-4o** model.
-
-    > **NOTE**: The **GPT-4o** model is included with the GitHub Copilot Free plan. This model provides excellent code analysis capabilities. Choosing a different model might yield different results.
+1. Use the Set Agent button to select **Ask** mode, and then use the Pick Model button to select the **Auto** model.
 
 1. Open the **Services/PaymentService.cs** file in the code editor.
 

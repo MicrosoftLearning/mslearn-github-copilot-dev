@@ -83,7 +83,7 @@ Use the following steps to complete this section of the exercise:
 
     The Chat view can be opened by selecting the GitHub Copilot icon located near the top-center of the Visual Studio Code window, just to the right of the search textbox.
 
-1. Ensure that the chat mode is set to **Ask** and the **GPT-4o** model is selected.
+1. Ensure that the chat mode is set to **Ask** and the **Auto** model is selected.
 
     The *Set Mode* and *Pick Model* dropdown menus are located in the bottom-left corner of the Chat view.
 
@@ -93,9 +93,7 @@ Use the following steps to complete this section of the exercise:
     - **Edit**: Use this mode to edit specific code files in your workspace. You can use Edit mode to refactor code, add comments, implement tests, or add new features to your apps.
     - **Agent**: Use this mode to run GitHub Copilot as an agent. You can use Agent mode to perform coding tasks autonomously.
 
-    **Supported Models**: GitHub Copilot supports multiple models, each with different strengths. Some models prioritize speed and cost-efficiency, while others are optimized for accuracy, reasoning, or working with multimodal inputs (like images and code together). GitHub Copilot's free plan currently includes GPT-4o and Claude Sonnet 3.5. The GPT-4o model is a good choice for this exercise because it generates fast, accurate code completions and explanations, supports visual input, and handles complex tasks effectively.
-
-    > **NOTE**: Choosing a different model will affect the responses that you receive from GitHub Copilot. The GPT-4o model is recommended for this exercise, but you can repeat the exercise using other models if you want to see how they respond to your prompts.
+    **Supported Models**: GitHub Copilot supports multiple models, each with different strengths. Some models prioritize speed and cost-efficiency, while others are optimized for accuracy, reasoning, or working with multimodal inputs (like images and code together).
 
 1. In the Chat view, enter the following prompt:
 

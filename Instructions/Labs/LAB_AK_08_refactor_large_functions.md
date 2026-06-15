@@ -135,9 +135,9 @@ Use the following steps to complete this task:
 
     If the Chat view isn't already open, you can open it by selecting the **Chat** icon at the top of the Visual Studio Code window.
 
-1. In the Chat view, ensure that the chat mode is set to **Ask** and the model is set to **GPT-4o**.
+1. Set the chat mode to **Ask** and select the **Auto** model.
 
-    These settings are available in the bottom-left corner of the Chat view. GitHub Copilot's **Ask** mode is used to ask general coding questions and generate code-related explanations. The **GPT-4o** model, which is included with the GitHub Copilot Free plan, is a good choice for code analysis and refactoring guidance.
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view.
 
     You'll be using GitHub Copilot's **Agent** mode later in this exercise, but for now you should use **Ask** mode for code analysis and explanations.
 
@@ -202,7 +202,7 @@ In this task, you use GitHub Copilot to evaluate the ProcessOrder method and ide
 
 Use the following steps to complete this task:
 
-1. Ensure that you have the GitHub Copilot Chat view open with **Ask** mode and the **GPT-4o** model selected.
+1. Ensure that you have the GitHub Copilot Chat view open with **Ask** mode and the **Auto** model selected.
 
 1. If you opened any files other than OrderProcessor.cs, close them now.
 

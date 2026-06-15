@@ -217,11 +217,9 @@ In this task, you use GitHub Copilot to systematically analyze the ContosoOnline
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view, and then configure **Ask** mode and the **GPT-4o** model.
+1. Open the GitHub Copilot Chat view, and then configure **Ask** mode and the **Auto** model.
 
     To open the Chat view, select the **Toggle Chat** icon at the top of the Visual Studio Code window.
-
-    > **NOTE**: The GPT-4o model provides excellent code analysis capabilities and is included with the GitHub Copilot Free plan. Choosing a different model may yield different results.
 
 1. Close any files that you have open in the editor.
 

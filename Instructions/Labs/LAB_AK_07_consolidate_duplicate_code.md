@@ -171,11 +171,11 @@ In this task, you use GitHub Copilot to systematically identify the various type
 
 Use the following steps to complete this task:
 
-1. Open the GitHub Copilot Chat view, and then configure Ask mode and the GPT-4o model.
+1. Set the chat mode to **Ask** and select the **Auto** model.
 
-    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window. Ensure that the chat mode is set to **Ask** and you're using the **GPT-4o** model.
+    The Set Mode and Pick Model menus are in the bottom-left corner of the Chat view.
 
-    The GPT-4o model is available with the GitHub Copilot Free plan, is designed to handle complex tasks, and provides intelligent code analysis/suggestions.
+    If the Chat view isn't already open, select the **Chat** icon at the top of the Visual Studio Code window.
 
 1. Close any files that are open in the editor.
 
