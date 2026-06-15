@@ -101,7 +101,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Notice that the Configure Inline Suggestions menu includes an option to **Edit Settings**
 
-    Selecting the Edit Settings option opens the Visual Studio Code settings editor i na view that's filtered for GitHub Copilot. This provides a comprehensive interface for managing GitHub Copilot settings.
+    Selecting the Edit Settings option opens the Visual Studio Code settings editor in a view that's filtered for GitHub Copilot. This provides a comprehensive interface for managing GitHub Copilot settings.
 
 1. To open Visual Studio Code's Extensions view, select the Extensions icon on the left menu bar.
 
