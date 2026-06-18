@@ -74,7 +74,7 @@ Use the following steps to complete this task:
 1. To initialize GitHub Spec Kit in the current directory, enter the following command:
 
     ```powershell
-    specify init --here --ai copilot --script ps
+    specify init --here --integration copilot --script ps
     ```
 
     > **NOTE:** If you're using macOS or Linux with bash/zsh, replace `--script ps` with `--script sh`.
@@ -82,7 +82,7 @@ Use the following steps to complete this task:
     This command specifies the following parameters:
 
     - `--here` - Initializes GitHub Spec Kit in the current directory (your existing RSSFeedReader project).
-    - `--ai copilot` - Configures the project to use GitHub Copilot as the AI assistant.
+    - `--integration copilot` - Configures the project to use GitHub Copilot as the AI assistant.
     - `--script ps` - Specifies that PowerShell scripts will be used.
 
     The `specify init` command completes the following actions:
@@ -121,6 +121,8 @@ Use the following steps to complete this task:
     │   ├── agents/                 (GitHub Spec Kit executable workflows that can be triggered via commands)
     │   └── prompts/                (GitHub Spec Kit prompt files that provide detailed instructions for each of the agent workflows)
     ├── .specify/                   (GitHub Spec Kit configuration)
+    │   ├── extensions/             (GitHub Spec Kit stores installed extension packages and their resources - commands, templates, hooks, and config - that add optional capabilities beyond the core Specify workflow.)
+    │   ├── integrations/           (GitHub Spec Kit stores the project’s active AI-agent integration state and manifests so Specify can install, switch, upgrade, or uninstall agent-specific command wiring safely.)
     │   ├── memory/                 (GitHub Spec Kit stores the project constitution defining core principles and governance rules that all features must follow)
     │   ├── scripts/powershell/     (GitHub Spec Kit uses automation utilities (scripts) for creating features, setting up plans, and managing the specification workflow)
     │   └── templates/              (GitHub Spec Kit provides standardized markdown formats for specs, plans, tasks, and checklists to ensure consistent documentation across all features)
@@ -129,11 +131,11 @@ Use the following steps to complete this task:
 
 1. Ensure that GitHub Copilot's Chat view is open.
 
-    GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --ai copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
+    GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --integration copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
 
 1. In the Chat view, to verify that GitHub Spec Kit commands are available, type **/speckit**
 
-    You should see autocomplete suggestions that show the available commands:
+    You should see autocomplete suggestions that show the available commands. For example:
 
     - `/speckit.analyze` - Audit implementation plans.
     - `/speckit.checklist` - Validate specification completeness.

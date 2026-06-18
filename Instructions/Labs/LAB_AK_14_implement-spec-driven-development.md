@@ -128,13 +128,13 @@ Use the following steps to complete this task:
 1. To initialize GitHub Spec Kit within your existing project, enter the following command:
 
     ```powershell
-    specify init --here --ai copilot --script ps
+    specify init --here --integration copilot --script ps
     ```
 
     The command uses the following components:
 
     - `--here` - Initializes GitHub Spec Kit in the current directory (your existing ContosoDashboard project).
-    - `--ai copilot` - Configures the project for GitHub Copilot.
+    - `--integration copilot` - Configures the project for GitHub Copilot.
     - `--script ps` - Uses PowerShell scripts (use `--script sh` for bash/zsh on macOS/Linux).
 
     If you're using macOS or Linux, replace `--script ps` with `--script sh`.
@@ -155,7 +155,7 @@ Use the following steps to complete this task:
 
 ## Review the ContosoDashboard project and GitHub Spec Kit files
 
-GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --ai copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
+GitHub Spec Kit works with GitHub Copilot through Visual Studio Code's chat interface. When you run "specify init --integration copilot" in your project directory, the toolkit configures your workspace to recognize "/speckit.*" commands.
 
 In this task, you explore the ContosoDashboard project files in Visual Studio Code, verify that GitHub Spec Kit is properly initialized, and then *push* the updated files to your GitHub repository.
 
@@ -183,6 +183,8 @@ Use the following steps to complete this task:
     │   ├── agents/                 (GitHub Spec Kit executable workflows that can be triggered via commands)
     │   └── prompts/                (GitHub Spec Kit prompt files that provide detailed instructions for each of the agent workflows)
     ├── .specify/                   (GitHub Spec Kit configuration)
+    │   ├── extensions/             (GitHub Spec Kit stores installed extension packages and their resources - commands, templates, hooks, and config - that add optional capabilities beyond the core Specify workflow.)
+    │   ├── integrations/           (GitHub Spec Kit stores the project’s active AI-agent integration state and manifests so Specify can install, switch, upgrade, or uninstall agent-specific command wiring safely.)
     │   ├── memory/                 (GitHub Spec Kit stores the project constitution defining core principles and governance rules that all features must follow)
     │   ├── scripts/powershell/     (GitHub Spec Kit uses automation utilities (scripts) for creating features, setting up plans, and managing the specification workflow)
     │   └── templates/              (GitHub Spec Kit provides standardized markdown formats for specs, plans, tasks, and checklists to ensure consistent documentation across all features)
@@ -201,11 +203,11 @@ Use the following steps to complete this task:
 
 1. Ensure that GitHub Copilot's Chat view is open.
 
-    Using one of the newer language models might improve the quality of responses. This lab exercise was tested using the GPT-5 and Claude Sonnet 4.5 models. Results were comparable between the two models.
+    Using one of the newer language models might improve the quality of responses. This lab exercise was originally tested using the GPT-5 and Claude Sonnet 4.5 models. Results were comparable between the two models.
 
 1. In the Chat view, to verify that GitHub Spec Kit commands are available, type **/speckit**
 
-    You should see autocomplete suggestions that show the available commands:
+    You should see autocomplete suggestions that show the available commands. For example:
 
     - `/speckit.analyze` - Audit implementation plans.
     - `/speckit.checklist` - Validate specification completeness.
