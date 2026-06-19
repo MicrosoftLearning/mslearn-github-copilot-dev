@@ -937,7 +937,7 @@ Use the following steps to complete this section of the exercise:
 
 ## Summary
 
-In this exercise, you learned how to use GitHub Copilot to develop a new code feature for a C# application. You developed the feature in a new branch using GitHub Copilot's inline chat and Chat view, tested your code, and then merged your changes into the main branch of the repository. You also used GitHub Copilot to generate a commit message and a pull request summary.
+In this exercise, you learned how to use GitHub Copilot to develop a new code feature for a C# application. You published the project to a private GitHub repository from within Visual Studio Code, created a feature branch, and used inline chat, Ask mode, and Agent mode to implement the "book availability" feature. You tested your changes, then used GitHub Copilot to generate a commit message and a pull request summary before merging the feature branch into main.
 
 ## Clean up
 

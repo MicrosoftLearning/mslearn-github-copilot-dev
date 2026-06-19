@@ -757,7 +757,7 @@ Use the following steps to complete this section of the exercise:
 
 ## Summary
 
-In this exercise, you learned how to use GitHub Copilot to accelerate the development of unit tests in a C# application. You used GitHub Copilot's Chat view in Ask mode, Agent mode, and Edit mode. You used Ask mode to examine the existing unit testing approach, Agent mode to create project folders and a new test class, and Edit mode to create unit tests. You also used GitHub Copilot's code completion feature to create a unit test.
+In this exercise, you learned how to use GitHub Copilot to accelerate the development of unit tests in a C# application. You used GitHub Copilot's Chat view in Ask mode and Agent mode. You used Ask mode to examine the existing unit testing approach and plan how to extend it. You used Agent mode to create project folders, a new test class, and unit tests for the GetLoan method. You also used GitHub Copilot's code completion feature to create an additional unit test.
 
 ## Clean up
 

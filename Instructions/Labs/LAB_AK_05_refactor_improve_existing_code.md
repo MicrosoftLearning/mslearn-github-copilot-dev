@@ -63,8 +63,7 @@ The following updates are assigned to you:
 This exercise includes the following tasks:
 
 1. Set up the library application in Visual Studio Code.
-1. Analyze and refactor code using the Chat view in Ask and Edit modes.
-1. Refactor code using inline chat and the Chat view in Edit and Agent modes.
+1. Analyze and refactor code using the Chat view in Ask and Agent modes.
 
 ## Set up the library application in Visual Studio Code
 
@@ -116,7 +115,7 @@ Use the following steps to set up the library application:
 
     You'll see some Warnings, but there shouldn't be any Errors reported.
 
-## Analyze and refactor code using the Chat view in Ask and Edit mode
+## Analyze and refactor code using the Chat view in Ask and Agent modes
 
 Reflection is a powerful coding feature that allows you to inspect and manipulate objects at runtime. However, reflection can be slow and there are potential security risks associated with reflection that should be considered.
 
@@ -1088,7 +1087,7 @@ Now that you've refactored the code, it's time to build and run the application 
 
 ## Summary
 
-In this exercise, you learned how to refactor code using GitHub Copilot. You used the Chat view in Edit mode to refactor the **EnumHelper** class, replacing reflection with static dictionaries. You also used the inline chat and Edit mode to refactor the **JsonData** and **JsonLoanRepository** classes, replacing foreach loops with LINQ queries. Finally, you used the Agent mode to refactor the **JsonPatronRepository** class, replacing foreach loops with LINQ queries.
+In this exercise, you learned how to refactor code using GitHub Copilot. You used the Chat view in Ask mode to analyze the **EnumHelper** class and explore how to replace reflection with static dictionaries. You then used Agent mode to apply the refactoring. You also used the Chat view in Agent mode to refactor the **JsonData** and **JsonLoanRepository** classes, replacing foreach loops with LINQ queries. Finally, you used Agent mode to refactor the **JsonPatronRepository** class, replacing foreach loops with LINQ queries.
 
 ## Clean up
 

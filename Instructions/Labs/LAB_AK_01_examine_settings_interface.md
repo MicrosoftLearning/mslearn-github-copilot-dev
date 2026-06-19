@@ -313,11 +313,11 @@ Use the following steps to complete this section of the exercise:
 
 ### Review the Inline Chat features
 
-Inline Chat lets you interact with GitHub Copilot directly in the code editor without switching to the Chat view. When you have a file open in the editor, you can press **Ctrl+I** to open a chat prompt at your cursor position, describe a change, and Copilot suggests edits in place.
+Inline Chat lets you interact with GitHub Copilot directly in the code editor without switching to the Chat view. When you have a file open in the editor, you can press **Ctrl+I** to open a chat prompt at your cursor position, describe a change, and VS Code shows the suggested edits as a diff inline in the editor. Use the **Keep** or **Undo** controls to accept or reject the changes.
 
-The Inline Chat V2 experience (enabled by the `inlineChat.enableV2` setting) uses the same editing logic as the Chat view's Agent mode under the hood, which means it has access to the same context and produces higher-quality edits. Inline Chat V2 also supports a lightweight mode: when the `inlineChat.hideOnRequest` setting is enabled, the inline chat input hides as soon as you submit a prompt, and the changes appear through the standard chat-editing overlay with **Keep** and **Undo** controls.
+When a file belongs to an active chat editing session, pressing **Ctrl+I** opens "Ask in Chat" in the Chat view instead of regular inline chat. The editor context menu also shows **Ask in Chat** instead of **Open Inline Chat** for these files. This routes your prompt into the existing session so it can use the full conversation context. You can disable this behavior by setting `inlineChat.askInChat` to `false`.
 
-When a file belongs to an active agent session, pressing **Ctrl+I** opens "Ask in Chat" in the Chat view instead of regular inline chat. This routes your prompt into the existing session so it can use the full conversation context. You can disable this behavior by setting `inlineChat.askInChat` to `false`.
+To configure the default model for inline chat, use the `inlineChat.defaultModel` setting. An experimental `inlineChat.affordance` setting controls whether a visual hint appears in the editor when you select text, providing quick access to inline chat for the selection.
 
 You can also add a code selection or file to an existing Chat session without opening Inline Chat. Right-click selected code in the editor and choose **Add Selection to Chat**, or right-click a file in the Explorer and choose **Add File to Chat**. This attaches the code or file as context in the Chat view, so you can ask questions or request edits that reference it.
 

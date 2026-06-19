@@ -322,7 +322,7 @@ Use the following steps to complete this section of the exercise:
 
 ## Summary
 
-In this exercise, you learned how to use GitHub Copilot to analyze and document a codebase. You used GitHub Copilot to generate explanations for the project structure, key classes, and data access classes. You also used GitHub Copilot to create a README.md file for the project.
+In this exercise, you learned how to use GitHub Copilot to analyze and document a codebase. Using the Chat view in Ask mode, you used chat participants, chat variables, and slash commands to generate explanations for the project structure, key classes, and data access classes. You improved response relevance by adding files to the Chat context using drag-and-drop. You also ran the application to understand its behavior, and used GitHub Copilot to generate content for a README.md file.
 
 ## Clean up
 
