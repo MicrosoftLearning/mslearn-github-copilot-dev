@@ -165,7 +165,7 @@ Use the following steps to complete this section of the exercise:
     For example, enter the following prompt in the Chat view:
 
     ```plaintext
-    /explain #codebase Explain the Program.cs file
+    /explain #Program.cs
     ```
 
     Use slash commands, such as **/explain**, to specify the intent of your prompt. Communicating your intent helps GitHub Copilot understand the type of response that it needs to generate. The list of available slash commands may vary depending on your environment and the context of your chat.
