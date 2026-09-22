@@ -12,9 +12,13 @@ var configuration = new ConfigurationBuilder()
 
 services.AddSingleton<IConfiguration>(configuration);
 
+// Set up the patron data access class for dependency injection.
 services.AddScoped<IPatronRepository, JsonPatronRepository>();
+// Set up the loan data access class for dependency injection.
 services.AddScoped<ILoanRepository, JsonLoanRepository>();
+// Set up the loan business logic class for dependency injection.
 services.AddScoped<ILoanService, LoanService>();
+// Set up the patron business logic class for dependency injection.
 services.AddScoped<IPatronService, PatronService>();
 
 services.AddSingleton<JsonData>();
