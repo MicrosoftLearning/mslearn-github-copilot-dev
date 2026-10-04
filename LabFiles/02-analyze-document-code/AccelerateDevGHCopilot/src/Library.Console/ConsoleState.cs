@@ -6,5 +6,6 @@ public enum ConsoleState
     PatronSearchResults,
     PatronDetails,
     LoanDetails,
+    BookSearch,
     Quit
 }
