@@ -47,21 +47,17 @@ public class JsonData
 
     public async Task SaveLoans(IEnumerable<Loan> loans)
     {
-        List<Loan> loanList = new List<Loan>();
-        foreach (var l in loans)
+        List<Loan> loanList = loans.Select(l => new Loan
         {
-            Loan loan = new Loan
-            {
-                // making sure only a subset of properties is set and saved
-                Id = l.Id,
-                BookItemId = l.BookItemId,
-                PatronId = l.PatronId,
-                LoanDate = l.LoanDate,
-                DueDate = l.DueDate,
-                ReturnDate = l.ReturnDate
-            };
-            loanList.Add(loan);
-        }
+            // making sure only a subset of properties is set and saved
+            Id = l.Id,
+            BookItemId = l.BookItemId,
+            PatronId = l.PatronId,
+            LoanDate = l.LoanDate,
+            DueDate = l.DueDate,
+            ReturnDate = l.ReturnDate
+        }).ToList();
+
         await SaveJson(_loansPath, loanList);
     }
 
@@ -87,12 +83,7 @@ public class JsonData
 
     public List<Patron> GetPopulatedPatrons(IEnumerable<Patron> patrons)
     {
-        List<Patron> populated = new List<Patron>();
-        foreach (Patron patron in patrons)
-        {
-            populated.Add(GetPopulatedPatron(patron));
-        }
-        return populated;
+        return patrons.Select(GetPopulatedPatron).ToList();
     }
 
     public Patron GetPopulatedPatron(Patron p)
@@ -104,16 +95,11 @@ public class JsonData
             ImageName = p.ImageName,
             MembershipStart = p.MembershipStart,
             MembershipEnd = p.MembershipEnd,
-            Loans = new List<Loan>()
+            Loans = Loans!
+                .Where(loan => loan.PatronId == p.Id)
+                .Select(GetPopulatedLoan)
+                .ToList()
         };
-
-        foreach (Loan loan in Loans!)
-        {
-            if (loan.PatronId == p.Id)
-            {
-                populated.Loans.Add(GetPopulatedLoan(loan));
-            }
-        }
 
         return populated;
     }
@@ -130,23 +116,13 @@ public class JsonData
             ReturnDate = l.ReturnDate
         };
 
-        foreach (BookItem bi in BookItems!)
-        {
-            if (bi.Id == l.BookItemId)
-            {
-                populated.BookItem = GetPopulatedBookItem(bi);
-                break;
-            }
-        }
+        populated.BookItem = BookItems!
+            .Where(bi => bi.Id == l.BookItemId)
+            .Select(GetPopulatedBookItem)
+            .FirstOrDefault();
 
-        foreach (Patron p in Patrons!)
-        {
-            if (p.Id == l.PatronId)
-            {
-                populated.Patron = p;
-                break;
-            }
-        }
+        populated.Patron = Patrons!
+            .FirstOrDefault(p => p.Id == l.PatronId);
 
         return populated;
     }
@@ -161,14 +137,10 @@ public class JsonData
             Condition = bi.Condition
         };
 
-        foreach (Book b in Books!)
-        {
-            if (b.Id == bi.BookId)
-            {
-                populated.Book = GetPopulatedBook(b);
-                break;
-            }
-        }
+        populated.Book = Books!
+            .Where(b => b.Id == bi.BookId)
+            .Select(GetPopulatedBook)
+            .FirstOrDefault();
 
         return populated;
     }
@@ -185,18 +157,14 @@ public class JsonData
             ImageName = b.ImageName
         };
 
-        foreach (Author a in Authors!)
-        {
-            if (a.Id == b.AuthorId)
+        populated.Author = Authors!
+            .Where(a => a.Id == b.AuthorId)
+            .Select(a => new Author
             {
-                populated.Author = new Author
-                {
-                    Id = a.Id,
-                    Name = a.Name
-                };
-                break;
-            }
-        }
+                Id = a.Id,
+                Name = a.Name
+            })
+            .FirstOrDefault();
 
         return populated;
     }
