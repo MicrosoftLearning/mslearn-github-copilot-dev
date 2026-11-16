@@ -16,5 +16,7 @@ Any MCT (Microsoft Certified Trainer) can submit a pull request to the code or c
 
 ##Skills
 https://docs.github.com/en/copilot/concepts/customizations/agent-skills
+
 https://github.com/github/awesome-copilot
+
 https://github.com/anthropics/skills
