@@ -20,9 +20,15 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
-
+ <ItemGroup>
+     <None Include="..\..\src\Library.Console\Json\**\*">
+         <Link>Json\%(RecursiveDir)%(FileName)%(Extension)</Link>
+         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+ </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Library.ApplicationCore\Library.ApplicationCore.csproj" />
+    <ProjectReference Include="..\..\src\Library.Infrastructure\Library.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
